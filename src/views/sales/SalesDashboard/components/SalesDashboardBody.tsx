@@ -67,12 +67,7 @@ const SalesDashboardBody = () => {
     if (userLogged && userLogged.uid) {
       setOpenWelcomeModal(!validateUserData(userLogged))
 
-      if (
-        ![
-          'JpdntP2OQzNSBi3IylyMfSEqqSD2',
-          '7iRezG7E6vRq7OQywQN3WawSa872',
-        ].includes(userLogged.uid)
-      )
+      if (!userLogged.is_admin)
         if (!isModal && !openWelcomeModal) setIsOpenModal(true)
     }
   }, [userLogged.uid])
@@ -166,31 +161,30 @@ const SalesDashboardBody = () => {
     <Loading /* loading={loading} */>
       <SocialMediaRedirection />
       <div
-          className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
-          role="presentation"
-        >
+        className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
+        role="presentation"
+      >
         <img src="/img/dashboard/WelcomeBanner.jpg" className="w-full" />
       </div>
       <Rank />
       <div
-          className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
-          role="presentation"
-        >
+        className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
+        role="presentation"
+      >
         <img src="/img/dashboard/ServicesBanner.jpg" className="w-full" />
       </div>
       <Charts />
-      <Events />
-      <div className="flex flex-col space-x-0 space-y-4 xl:space-y-0 xl:flex-row xl:space-x-4">
+      {/*<Events />*/}
+      <div className="grid grid-cols-1 md:grid-cols-[25%_50%_25%] gap-x-4 gap-y-4">
         <Summary />
         <Links />
-        <Goals />
       </div>
 
       <Dialog
         isOpen={openWelcomeModal}
         width={1000}
-        onClose={closeModal}
         closable={true}
+        onClose={closeModal}
       >
         <WelcomeForm
           data={userLogged}

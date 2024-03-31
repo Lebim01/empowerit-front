@@ -25,15 +25,12 @@ const Billing = () => {
   const user = useAppSelector((state) => state.auth.user)
   const [data, setData] = useState({
     wallet_bitcoin: user.wallet_bitcoin,
-    wallet_ripple: user.wallet_ripple,
-    wallet_ripple_tag: user.wallet_ripple_tag,
     wallet_litecoin: user.wallet_litecoin,
   })
   const [isAuthenticating, setIsAuthenticating] = useState(false)
   const [isUnlocking, setIsUnlocking] = useState(false)
   const [isValidCode, setIsValidCode] = useState(false)
   const [isValidWallet, setIsValidWallet] = useState(false)
-  const [isValidWalletRipple, setIsValidWalletRipple] = useState(false)
   const [isValidWalletLitecoin, setIsValidWalletLitecoin] = useState(false)
   const [authCode, setAuthCode] = useState('')
   const dispatch = useAppDispatch()
@@ -41,8 +38,6 @@ const Billing = () => {
   useEffect(() => {
     setData({
       wallet_bitcoin: user.wallet_bitcoin,
-      wallet_ripple: user.wallet_ripple,
-      wallet_ripple_tag: user.wallet_ripple_tag,
       wallet_litecoin: user.wallet_litecoin,
     })
   }, [user])
@@ -116,8 +111,8 @@ const Billing = () => {
       validateWallet(wallet, blockchain)
         .then(async (res) => {
           if (blockchain == 'bitcoin') setIsValidWallet(res.isValid || false)
-          if (blockchain == 'xrp') setIsValidWalletRipple(res.isValid || false)
-          if (blockchain == 'litecoin') setIsValidWalletLitecoin(res.isValid || false)
+          if (blockchain == 'litecoin')
+            setIsValidWalletLitecoin(res.isValid || false)
 
           if (res.isValid) {
             if (blockchain == 'bitcoin') {
@@ -127,7 +122,6 @@ const Billing = () => {
               updateUser(user.uid!, sendData)
             }
 
-
             if (blockchain == 'xrp') {
               const sendData = {
                 wallet_ripple: wallet,
@@ -135,7 +129,6 @@ const Billing = () => {
               }
               updateUser(user.uid!, sendData)
             }
-
 
             if (blockchain == 'litecoin') {
               const sendData = {
@@ -253,49 +246,6 @@ const Billing = () => {
                   color="primary"
                   onClick={() =>
                     onVerifyWallet(values.wallet_litecoin, 'litecoin')
-                  }
-                  hidden={!isValidCode}
-                >
-                  Verificar
-                </Button>
-              </FormRow>
-              <FormRow
-                name="wallet_ripple"
-                label="Dirección Wallet Ripple"
-                {...validatorProps}
-              >
-                <Field
-                  type="text"
-                  autoComplete="off"
-                  name="wallet_ripple"
-                  placeholder="Wallet Address"
-                  component={Input}
-                  readOnly={!isValidCode || isValidWalletRipple}
-                  disabled={!isValidCode || isValidWalletRipple}
-                />
-                <Field
-                  type="text"
-                  autoComplete="off"
-                  name="wallet_ripple_tag"
-                  placeholder="Wallet Tag"
-                  component={Input}
-                  readOnly={!isValidCode || isValidWalletRipple}
-                  disabled={!isValidCode || isValidWalletRipple}
-                />
-                <span>Coloca tu tag si tu wallet es centralizada (bitso). <b>RECOMENDADA</b></span>
-                <br />
-                <span>Si no es centralizada no necesita tag (coinomi)</span>
-                <Button
-                  className="mt-2 ltr:mr-2 rtl:ml-2"
-                  type="button"
-                  variant="default"
-                  color="primary"
-                  onClick={() =>
-                    onVerifyWallet(
-                      values.wallet_ripple,
-                      'xrp',
-                      values.wallet_ripple_tag
-                    )
                   }
                   hidden={!isValidCode}
                 >

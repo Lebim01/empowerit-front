@@ -12,11 +12,14 @@ import {
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '@/store'
 import { db } from '@/configs/firebaseConfig'
-import { FaPeopleArrows } from 'react-icons/fa'
+import { FaPeopleArrows, FaCar } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { Dialog, Spinner } from '@/components/ui'
 import dayjs from 'dayjs'
 import useUserModalStore from '@/zustand/userModal'
+
+import { FaRegMoneyBill1, FaNetworkWired, FaPeopleLine } from 'react-icons/fa6'
+import { RiPresentationFill } from "react-icons/ri";
 
 const bonus = {
   direct: [
@@ -24,19 +27,8 @@ const bonus = {
     'bond_direct_level_2',
     'bond_direct_starter_level_1',
   ],
-  residual: ['bond_residual_level_1', 'bond_residual_level_2'],
-  supreme: [
-    'bond_supreme_level_1',
-    'bond_supreme_level_2',
-    'bond_supreme_level_3',
-  ],
-  scholarship: [
-    'bond_scholarship_level_1',
-    'bond_scholarship_level_2',
-    'bond_scholarship_level_3',
-  ],
-  toprice_xpert: ['bond_toprice_xpert_level_1', 'bond_toprice_xpert_level_2'],
-  crypto_elite: ['bond_crypto_elite_level_1', 'bond_crypto_elite_level_2'],
+  binary: [],
+  mentor: [],
 }
 
 const Rank = () => {
@@ -66,7 +58,7 @@ const Rank = () => {
   }, [user.uid])
 
   useEffect(() => {
-    displayTopDollars();
+    displayTopDollars()
   }, [data])
 
   useEffect(() => {
@@ -166,8 +158,8 @@ const Rank = () => {
 
   const displayTopDollars = () => {
     const userCreatedAt = data.created_at?.toDate()
-    const validTopDollarsDate = new Date('2023-12-05T00:00:00');
-    setIsTopDollarsDisplayed(userCreatedAt >= validTopDollarsDate);
+    const validTopDollarsDate = new Date('2023-12-05T00:00:00')
+    setIsTopDollarsDisplayed(userCreatedAt >= validTopDollarsDate)
   }
 
   const openDetails = (
@@ -219,7 +211,7 @@ const Rank = () => {
           className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400 card-border cursor-pointer user-select-none"
           role="presentation"
         >
-          <div className="flex p-4 justify-between bg-slate-100 rounded-[10px]">
+          <div className="flex p-4 justify-between bg-slate-100 rounded-[10px] h-full">
             <div className="flex flex-col">
               <p>Ganancias obtenidas</p>
               <p className="text-[24px] font-bold">
@@ -237,7 +229,7 @@ const Rank = () => {
           className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400 card-border cursor-pointer user-select-none"
           role="presentation"
         >
-          <div className="flex p-4 justify-between bg-slate-100 rounded-[10px]">
+          <div className="flex p-4 justify-between bg-slate-100 rounded-[10px] h-full">
             <div className="flex flex-col">
               <p>Miembros Directos</p>
               <p className="text-[24px] font-bold">
@@ -255,7 +247,7 @@ const Rank = () => {
           className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400 card-border cursor-pointer user-select-none"
           role="presentation"
         >
-          <div className="flex p-4 justify-between bg-slate-100 rounded-[10px]">
+          <div className="flex p-4 justify-between bg-slate-100 rounded-[10px] h-full">
             <div className="flex flex-col">
               <p>Miembros organización</p>
               <p className="text-[24px] font-bold">
@@ -272,148 +264,74 @@ const Rank = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4">
         <Card onClick={() => openDetails('direct')}>
-          <span className="text-lg font-medium">Bonos Directos</span>
-          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2">
-            <span className="font-bold text-right">
-              $ {data?.bond_direct} USD
-            </span>
-            <span>(primer nivel)</span>
-
-            <span className="font-bold text-right">
-              $ {data?.bond_direct_second_level} USD
-            </span>
-            <span>(segundo nivel)</span>
-
-            <span className="font-bold text-right">
-              $ {data?.bond_direct_starter_level_1} USD
-            </span>
-            <span>(starter primer nivel)</span>
-          </div>
-        </Card>
-
-        <Card onClick={() => openDetails('residual')}>
-          <span className="text-lg font-medium">Bonos Residuales</span>
-          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-4">
-            <span className="font-bold text-right">
-              $ {data?.bond_residual_level_1} USD
-            </span>
-            <span>(primer nivel)</span>
-
-            <span className="font-bold text-right">
-              $ {data?.bond_residual_level_2} USD
-            </span>
-            <span>(segundo nivel)</span>
-          </div>
-        </Card>
-
-        <Card onClick={() => openDetails('supreme')}>
-          <span className="text-lg font-medium">Bonos Supreme</span>
-          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-4">
-            <span className="font-bold text-right">
-              $ {data?.bond_supreme_level_1} USD
-            </span>
-            <span>(primer nivel)</span>
-
-            <span className="font-bold text-right">
-              $ {data?.bond_supreme_level_2} USD
-            </span>
-            <span>(segundo nivel)</span>
-
-            <span className="font-bold text-right">
-              $ {data?.bond_supreme_level_3} USD
-            </span>
-            <span>(tercer nivel)</span>
-
-            <span className="font-bold text-right">
-              #{(data.supreme_sequence || 0) + 1}
-            </span>
-            <span>Siguiente bono</span>
-          </div>
-        </Card>
-
-        <Card onClick={() => openDetails('scholarship')}>
-          <span className="text-lg font-medium">Bonos Beca</span>
-          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-4">
-            <span className="font-bold text-right">
-              $ {data?.bond_scholarship_level_1} USD
-            </span>
-            <span>(primer nivel)</span>
-
-            <span className="font-bold text-right">
-              $ {data?.bond_scholarship_level_2} USD
-            </span>
-            <span>(segundo nivel)</span>
-
-            <span className="font-bold text-right">
-              $ {data?.bond_scholarship_level_3} USD
-            </span>
-            <span>(tercer nivel)</span>
-          </div>
-        </Card>
-
-        <Card onClick={() => setIsOpenModalBinary(true)}>
-          <span className="text-lg font-medium">Bono Binario</span>
-          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-4">
-            <span className="font-bold text-right">
-              {data?.left_points} pts
-            </span>
-            <span>(izquierda)</span>
-
-            <span className="font-bold text-right">
-              {data?.right_points} pts
-            </span>
-            <span>(derecha)</span>
-
-            <span className="font-bold text-right">
-              {((rank?.binary || 0) * 100).toFixed(0)} %
-            </span>
-            <span></span>
-          </div>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4">
-        <Card onClick={() => openDetails('crypto_elite')}>
-          <span className="text-lg font-medium">Crypto Elite X</span>
-          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2">
-            <span className="font-bold text-right">
-              $ {data?.bond_crypto_elite_level_1 || 0} USD
-            </span>
-            <span>(primer nivel)</span>
-
-            <span className="font-bold text-right">
-              $ {data?.bond_crypto_elite_level_2 || 0} USD
-            </span>
-            <span>(segundo nivel)</span>
-          </div>
-        </Card>
-
-        <Card onClick={() => openDetails('toprice_xpert')}>
-          <span className="text-lg font-medium">Toprice Xpert</span>
-          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2">
-            <span className="font-bold text-right">
-              $ {data?.bond_toprice_xpert_level_1 || 0} USD
-            </span>
-            <span>(primer nivel)</span>
-
-            <span className="font-bold text-right">
-              $ {data?.bond_toprice_xpert_level_2 || 0} USD
-            </span>
-            <span>(segundo nivel)</span>
-          </div>
-        </Card>
-        {isTopDollarsDisplayed &&
-          <Card>
-            <span className="text-lg font-medium">Top Dollars</span>
-            <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2">
-              <span className="font-bold text-right">
-                177 Top Dollars
-              </span>
+          <div className="flex space-x-2 items-center">
+            <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
+              <FaRegMoneyBill1 size={30} className="text-yellow-600" />
             </div>
-          </Card>
-        }
-          
-        
+            <span className="text-lg font-medium">Bono Inicio Rápido</span>
+          </div>
+          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
+            <span className="font-bold text-right">
+              $ <span className="text-3xl">{data?.bond_direct ?? 0}</span> USD
+            </span>
+          </div>
+        </Card>
+
+        <Card onClick={() => openDetails('binary')}>
+          <div className="flex space-x-2 items-center">
+            <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
+              <FaNetworkWired size={30} className="text-gray-700" />
+            </div>
+            <span className="text-lg font-medium">Bono Binario</span>
+          </div>
+          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
+            <span className="font-bold text-right">
+              $ <span className="text-3xl">{data?.bond_binary ?? 0}</span> USD
+            </span>
+          </div>
+        </Card>
+
+        <Card onClick={() => openDetails('mentor')}>
+          <div className="flex space-x-2 items-center">
+            <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
+              <FaPeopleLine size={30} className="text-green-700" />
+            </div>
+            <span className="text-lg font-medium">Bono Mentor</span>
+          </div>
+          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
+            <span className="font-bold text-right">
+              $ <span className="text-3xl">{data?.bond_mentor ?? 0}</span> USD
+            </span>
+          </div>
+        </Card>
+
+        <Card onClick={() => openDetails('mentor')}>
+          <div className="flex space-x-2 items-center">
+            <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
+              <FaCar size={30} className="text-red-500" />
+            </div>
+            <span className="text-lg font-medium">Bono Auto</span>
+          </div>
+          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
+            <span className="font-bold text-right">
+              $ <span className="text-3xl">{data?.bond_car ?? 0}</span> USD
+            </span>
+          </div>
+        </Card>
+
+        <Card onClick={() => openDetails('mentor')}>
+          <div className="flex space-x-2 items-center">
+            <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
+              <RiPresentationFill size={30} className="text-purple-500" />
+            </div>
+            <span className="text-lg font-medium">Bono Presentador</span>
+          </div>
+          <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
+            <span className="font-bold text-right">
+              $ <span className="text-3xl">{data?.bond_car ?? 0}</span> USD
+            </span>
+          </div>
+        </Card>
       </div>
 
       <Dialog

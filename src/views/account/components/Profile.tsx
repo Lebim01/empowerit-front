@@ -33,11 +33,14 @@ import {
   verifyCode,
 } from '@/services/VerificationCodeService'
 import { sendEmail } from '@/services/emailSender'
-import { BsDiscord, BsInstagram, BsTelegram, BsWhatsapp } from 'react-icons/bs'
 import {
-  Countries,
-  States,
-  Cities,
+  BsBank,
+  BsDiscord,
+  BsInstagram,
+  BsTelegram,
+  BsWhatsapp,
+} from 'react-icons/bs'
+import {
   Country,
   State,
   City,
@@ -47,6 +50,7 @@ import {
 import useCountries, { CountriesHook } from '@/hooks/useCountries'
 import useStates, { StatesHook } from '@/hooks/useStates'
 import useCities, { CitiesHook } from '@/hooks/useCities'
+import { FaRegRegistered } from 'react-icons/fa6'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('User Name Required'),
@@ -297,7 +301,7 @@ const Profile = ({ data }: any) => {
                 title="Información"
                 desc="Información básica, como tu nombre y correo que será mostrada en tu perfil"
               />
-              <FormRow name="name" label="Nombre" {...validatorProps}>
+              <FormRow name="name" label="Datos Básicos" {...validatorProps}>
                 <Field
                   type="text"
                   autoComplete="off"
@@ -308,14 +312,9 @@ const Profile = ({ data }: any) => {
                   readOnly={!isValidCode}
                   disabled={!isValidCode}
                 />
-              </FormRow>
 
-              <FormRow
-                name="birthdate"
-                label="Fecha de nacimiento"
-                {...validatorProps}
-              >
                 <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
                   type="date"
                   autoComplete="off"
                   name="birthdate"
@@ -326,6 +325,36 @@ const Profile = ({ data }: any) => {
                   prefix={<HiOutlineCalendar className="text-xl" />}
                 />
               </FormRow>
+
+              <FormRow
+                name="payroll"
+                label="Métodos de pago"
+                {...validatorProps}
+              >
+                <Field
+                  type="text"
+                  autoComplete="off"
+                  name="rfc"
+                  placeholder="RFC"
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                  prefix={<FaRegRegistered className="text-xl" />}
+                />
+
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="bank_account"
+                  placeholder="CLABE Cuenta de Banco"
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                  prefix={<BsBank className="text-xl" />}
+                />
+              </FormRow>
+
               <FormRow name="location" label="Locación" {...validatorProps}>
                 <Field
                   className="mt-2 ltr:mr-2 rtl:ml-2"

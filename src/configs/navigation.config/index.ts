@@ -55,7 +55,7 @@ const navigationConfig: NavigationTree[] = [
     authority: ['USER'],
     subMenu: [],
   },
-  {
+  /*{
     key: 'sanguine-map',
     path: `/report-sanguine-map`,
     title: 'Mapa',
@@ -64,7 +64,7 @@ const navigationConfig: NavigationTree[] = [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
-  },
+  },*/
   {
     key: 'rank',
     path: `/rank`,
@@ -85,7 +85,7 @@ const navigationConfig: NavigationTree[] = [
     authority: ['USER'],
     subMenu: [],
   },
-  {
+  /*{
     key: '8',
     path: `/shop`,
     title: 'Top Shop',
@@ -94,18 +94,7 @@ const navigationConfig: NavigationTree[] = [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
-  },
-  {
-    key: '1',
-    path: `/le`,
-    title: 'Concursos',
-    translateKey: 'nav.order-list',
-    icon: 'trophy',
-    type: NAV_ITEM_TYPE_ITEM,
-    authority: ['USER'],
-    subMenu: [],
-    disabled: true,
-  },
+  },*/
   {
     key: '2',
     path: `/le`,
@@ -117,29 +106,7 @@ const navigationConfig: NavigationTree[] = [
     subMenu: [],
     disabled: true,
   },
-  {
-    key: '3',
-    path: `/le`,
-    title: 'Beneficios Supreme',
-    translateKey: 'nav.order-list',
-    icon: 'supreme',
-    type: NAV_ITEM_TYPE_ITEM,
-    authority: ['USER'],
-    subMenu: [],
-    disabled: true,
-  },
-  {
-    key: '4',
-    path: `/le`,
-    title: 'Herramientas',
-    translateKey: 'nav.order-list',
-    icon: 'tools',
-    type: NAV_ITEM_TYPE_ITEM,
-    authority: ['USER'],
-    subMenu: [],
-    disabled: true,
-  },
-  {
+  /*{
     key: '5',
     path: `/academy-leadership`,
     title: 'Sistema de liderazgo',
@@ -148,29 +115,7 @@ const navigationConfig: NavigationTree[] = [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER', 'STARTER'],
     subMenu: [],
-  },
-  {
-    key: '6',
-    path: `/le`,
-    title: 'Historial',
-    translateKey: 'nav.order-list',
-    icon: 'history',
-    type: NAV_ITEM_TYPE_ITEM,
-    authority: ['USER'],
-    subMenu: [],
-    disabled: true,
-  },
-  {
-    key: '7',
-    path: `/le`,
-    title: 'Retiros',
-    translateKey: 'nav.order-list',
-    icon: 'retiro',
-    type: NAV_ITEM_TYPE_ITEM,
-    authority: ['USER'],
-    subMenu: [],
-    disabled: true,
-  },
+  },*/
   {
     key: 'admin-payroll',
     path: `/admin-payroll`,

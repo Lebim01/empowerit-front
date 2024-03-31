@@ -17,6 +17,7 @@ type MembershipStatus = {
   }
 }
 export type UserState = {
+  is_admin?: boolean
   uid?: string
   avatar?: string
   name?: string
@@ -36,9 +37,9 @@ export type UserState = {
   left?: string
   right?: string
   wallet_bitcoin?: string
-  wallet_ripple?: string
-  wallet_ripple_tag?: string
   wallet_litecoin?: string
+  bank_account?: string
+  rfc?: string
   subscription_expires_at?: { seconds: number } | null
   left_points: number
   right_points: number
@@ -54,7 +55,7 @@ export type UserState = {
   position: 'left' | 'right'
   user_profile?: string
 
-  membership: string | null;
+  membership: string | null
 
   payment_link?: {
     [type: string]: any
@@ -99,6 +100,7 @@ const userSlice = createSlice({
       const payload = action.payload
 
       if (payload) {
+        console.log(payload)
         state.uid = payload.uid
         state.avatar = payload.avatar
         state.email = payload.email
@@ -113,6 +115,7 @@ const userSlice = createSlice({
         state.discord = payload.discord
         state.last_name = payload.last_name
         state.max_rank = payload.max_rank
+        state.is_admin = payload.is_admin
 
         const roles = []
         /**
@@ -146,8 +149,8 @@ const userSlice = createSlice({
         state.right_binary_user_id = payload.right_binary_user_id
         state.right_points = payload.right_points
         state.wallet_bitcoin = payload.wallet_bitcoin
-        state.wallet_ripple = payload.wallet_ripple ?? ''
-        state.wallet_ripple_tag = payload.wallet_ripple_tag ?? ''
+        state.bank_account = payload.bank_account
+        state.rfc = payload.rfc
         state.wallet_litecoin = payload.wallet_litecoin ?? ''
         state.rank = payload.rank
         state.position = payload.position ?? 'right'
