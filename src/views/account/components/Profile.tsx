@@ -1,0 +1,595 @@
+import {
+  Input,
+  Avatar,
+  Upload,
+  Button,
+  Notification,
+  toast,
+  FormContainer,
+  Select,
+} from '@/components/ui'
+import FormDescription from './FormDescription'
+import FormRow from './FormRow'
+import { Field, Form, Formik } from 'formik'
+import {
+  HiOutlineUserCircle,
+  HiOutlineMail,
+  HiOutlineUser,
+  HiOutlineGlobeAlt,
+  HiShieldCheck,
+  HiOutlineCalendar,
+} from 'react-icons/hi'
+import * as Yup from 'yup'
+import { updateUser, updateEmail_Auth } from '@/services/AuthService'
+import { setUser, useAppDispatch } from '@/store'
+import { storageBucket } from '@/configs/firebaseConfig'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { v4 as uuidv4 } from 'uuid'
+import { useState, useEffect, useRef } from 'react'
+import {
+  createVerificationCode,
+  deleteVerificationCode,
+  generateOTP,
+  verifyCode,
+} from '@/services/VerificationCodeService'
+import { sendEmail } from '@/services/emailSender'
+import { BsDiscord, BsInstagram, BsTelegram, BsWhatsapp } from 'react-icons/bs'
+import {
+  Countries,
+  States,
+  Cities,
+  Country,
+  State,
+  City,
+  ILocationValues,
+  ISelectOPT,
+} from '@/@types/profile'
+import useCountries, { CountriesHook } from '@/hooks/useCountries'
+import useStates, { StatesHook } from '@/hooks/useStates'
+import useCities, { CitiesHook } from '@/hooks/useCities'
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required('User Name Required'),
+  email: Yup.string().email('Invalid email').required('Email Required'),
+  title: Yup.string(),
+  avatar: Yup.string(),
+  lang: Yup.string(),
+  timeZone: Yup.string(),
+  syncData: Yup.bool(),
+})
+
+const Profile = ({ data }: any) => {
+  const _id = useRef(uuidv4())
+  const refStorage = ref(storageBucket, 'profile-images/' + _id.current)
+  const dispatch = useAppDispatch()
+  const onSetFormFile = (form: any, field: any, file: any) => {
+    form.setFieldValue('avatar', file[0])
+    form.setFieldValue('avatarPreview', URL.createObjectURL(file[0]))
+  }
+
+  const onFormSubmit = (values: any, setSubmitting: any) => {
+    toast.push(<Notification title={'Perfil actualizado'} type="success" />, {
+      placement: 'top-center',
+    })
+    setSubmitting(false)
+  }
+
+  const onUploadStorage = async (img: any) => {
+    await uploadBytes(refStorage, img)
+    const urlStorage = await getDownloadURL(refStorage)
+    return urlStorage
+  }
+
+  const [isAuthenticating, setIsAuthenticating] = useState(false)
+  const [isValidatingEmail, setIsValidatingEmail] = useState(false)
+  const [isUnlocking, setIsUnlocking] = useState(false)
+  const [isValidEmail, setIsValidEmail] = useState(true)
+  const [authCode, setAuthCode] = useState('')
+  const [isValidCode, setIsValidCode] = useState(false)
+
+  const onRequestVerificationCode = (userId: unknown, userEmail: string) => {
+    setIsUnlocking(true)
+    const otp = generateOTP()
+    createVerificationCode(userId, otp)
+      .then((status) => {
+        if (status) {
+          sendEmail(userEmail, otp).then(() => {
+            setIsAuthenticating(true)
+            setIsUnlocking(false)
+
+            toast.push(
+              <Notification
+                title={'Se envió un código de verificación a tu correo'}
+                type="success"
+              />,
+              {
+                placement: 'top-center',
+              }
+            )
+          })
+        }
+      })
+      .catch((err) => {
+        setIsUnlocking(false)
+        console.log(err)
+      })
+  }
+
+  const onVerifyCode = (userId: unknown, code: string) => {
+    verifyCode(userId, code)
+      .then((isValid) => {
+        toast.push(
+          <Notification
+            title={isValid ? 'Código valido' : 'Código invalido'}
+            type={isValid ? 'success' : 'danger'}
+          />,
+          {
+            placement: 'top-center',
+          }
+        )
+        if (isValid) {
+          setIsAuthenticating(false)
+          setIsValidCode(true)
+          deleteVerificationCode(userId)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const onVerifyEmail = (userId: unknown, userEmail: string) => {
+    const otp = generateOTP()
+    createVerificationCode(userId, otp)
+      .then((status) => {
+        if (status) {
+          sendEmail(userEmail, otp).then(() => {
+            setIsValidatingEmail(true)
+            toast.push(
+              <Notification
+                title={'Se envió un código de verificación a tu correo'}
+                type="success"
+              />,
+              {
+                placement: 'top-center',
+              }
+            )
+          })
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const onVerifyCodeNewEmail = (userId: unknown, code: string) => {
+    verifyCode(userId, code)
+      .then((isValid) => {
+        toast.push(
+          <Notification
+            title={isValid ? 'Código valido' : 'Código invalido'}
+            type={isValid ? 'success' : 'danger'}
+          />,
+          {
+            placement: 'top-center',
+          }
+        )
+        if (isValid) {
+          setIsValidEmail(true)
+          setIsValidatingEmail(false)
+          deleteVerificationCode(userId)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const emptySelectValue: ISelectOPT = {
+    label: '',
+    value: '',
+  }
+
+  const [vCountry, setVCountry] = useState<Country | null>(null)
+  const [vState, setVState] = useState<State | null>(null)
+  const [vCity, setVCity] = useState<City | null>(null)
+  const countries: CountriesHook = useCountries()
+  const states: StatesHook = useStates(vCountry ?? emptySelectValue)
+  const cities: CitiesHook = useCities(vState ?? emptySelectValue)
+
+  const getLocationValues = (data: ILocationValues) => {
+    if (data?.country?.value && !vCountry) {
+      setVCountry(data.country)
+    }
+    if (data?.state?.value && !vState) {
+      setVState(data.state)
+    }
+    if (data?.city?.value && !vCity) {
+      setVCity(data.city)
+    }
+  }
+
+  useEffect(() => {
+    getLocationValues(data)
+  }, [data])
+
+  return (
+    <Formik
+      initialValues={{ ...data, avatarPreview: data.avatar }}
+      enableReinitialize={true}
+      validationSchema={validationSchema}
+      onSubmit={async (values, { setSubmitting }) => {
+        if (
+          !isValidCode ||
+          !isValidEmail ||
+          isValidatingEmail ||
+          isAuthenticating
+        ) {
+          return false
+        }
+        setSubmitting(true)
+        try {
+          const {
+            birthdate,
+            whatsapp,
+            telegram,
+            instagram,
+            discord,
+            avatar,
+            email,
+            name,
+          } = values
+
+          const infBirthdate = {
+            birthdate: birthdate || '',
+          }
+          const infContact = {
+            whatsapp: whatsapp || '',
+            telegram: telegram || '',
+            instagram: instagram?.trim() || '',
+            discord: discord?.toLowerCase().trim() || '',
+          }
+
+          const sendData: any = {
+            ...infBirthdate,
+            ...infContact,
+            email: email?.trim(),
+            name: name?.trim(),
+          }
+          let img = ''
+
+          if (typeof avatar === 'object') {
+            img = await onUploadStorage(avatar)
+            sendData.avatar = img
+          }
+
+          if (email?.trim() != data.email) {
+            await updateEmail_Auth(email?.trim())
+          }
+          await updateUser(values.uid, sendData)
+          dispatch(
+            setUser({
+              ...values,
+              avatar: typeof values.avatar === 'object' ? img : values.avatar,
+            })
+          )
+          setTimeout(() => {
+            onFormSubmit(values, setSubmitting)
+          }, 1000)
+        } catch (e) {
+          console.log(e)
+          toast.push(
+            <Notification title={'Ha ocurrio un error'} type="danger" />,
+            {
+              placement: 'top-center',
+            }
+          )
+        }
+      }}
+    >
+      {({ values, touched, errors, isSubmitting, resetForm }) => {
+        const validatorProps = { touched, errors }
+
+        return (
+          <Form>
+            <FormContainer>
+              <FormDescription
+                title="Información"
+                desc="Información básica, como tu nombre y correo que será mostrada en tu perfil"
+              />
+              <FormRow name="name" label="Nombre" {...validatorProps}>
+                <Field
+                  type="text"
+                  autoComplete="off"
+                  name="name"
+                  placeholder="Nombre"
+                  component={Input}
+                  prefix={<HiOutlineUserCircle className="text-xl" />}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                />
+              </FormRow>
+
+              <FormRow
+                name="birthdate"
+                label="Fecha de nacimiento"
+                {...validatorProps}
+              >
+                <Field
+                  type="date"
+                  autoComplete="off"
+                  name="birthdate"
+                  placeholder="Fecha de nacimiento"
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                  prefix={<HiOutlineCalendar className="text-xl" />}
+                />
+              </FormRow>
+              <FormRow name="location" label="Locación" {...validatorProps}>
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  name="country"
+                  placeholder="País"
+                  component={Select}
+                  value={vCountry}
+                  options={countries[0]}
+                  isDisabled={!isValidCode}
+                  // prefix={<HiOutlineGlobe className="text-xl" />}
+                  onChange={(e: Country) => {
+                    setVCountry(e)
+                    setVState(null)
+                    setVCity(null)
+                  }}
+                />
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  name="state"
+                  placeholder="Estado"
+                  options={states[0]}
+                  value={vState}
+                  component={Select}
+                  isDisabled={!isValidCode}
+                  // prefix={<HiOutlineMap className="text-xl" />}
+                  onChange={(e: State) => {
+                    setVState(e)
+                    setVCity(null)
+                  }}
+                />
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  name="city"
+                  placeholder="Ciudad"
+                  component={Select}
+                  options={cities[0]}
+                  value={vCity}
+                  isDisabled={!isValidCode}
+                  // prefix={<HiOutlineOfficeBuilding className="text-xl" />}
+                  onChange={(e: City) => {
+                    setVCity(e)
+                  }}
+                />
+              </FormRow>
+              <FormRow name="contact" label="Contacto" {...validatorProps}>
+                <Field
+                  type="number"
+                  autoComplete="off"
+                  name="whatsapp"
+                  placeholder="Whatsapp"
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                  prefix={<BsWhatsapp className="text-xl" />}
+                />
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="instagram"
+                  placeholder="Instagram"
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                  prefix={<BsInstagram className="text-xl" />}
+                />
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="discord"
+                  placeholder="Discord"
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                  prefix={<BsDiscord className="text-xl" />}
+                />
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="number"
+                  autoComplete="off"
+                  name="telegram"
+                  placeholder="Telegram"
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                  prefix={<BsTelegram className="text-xl" />}
+                />
+              </FormRow>
+              <FormRow name="email" label="Email" {...validatorProps}>
+                <Field
+                  type="email"
+                  autoComplete="off"
+                  name="email"
+                  placeholder="Email"
+                  component={Input}
+                  prefix={<HiOutlineMail className="text-xl" />}
+                  readOnly={!isValidCode || isValidEmail || isValidatingEmail}
+                  disabled={!isValidCode || isValidEmail || isValidatingEmail}
+                />
+                <Button
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="button"
+                  variant="default"
+                  color="primary"
+                  hidden={!isValidCode || !isValidEmail}
+                  onClick={() => {
+                    setIsValidEmail(false)
+                  }}
+                >
+                  Cambiar
+                </Button>
+                <Button
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="button"
+                  variant="default"
+                  color="primary"
+                  hidden={!isValidCode || isValidEmail}
+                  disabled={isValidatingEmail}
+                  onClick={() => {
+                    onVerifyEmail(data?.uid, values.email)
+                  }}
+                >
+                  Validar
+                </Button>
+              </FormRow>
+
+              {isValidatingEmail && (
+                <FormRow name="code" label="Código" {...validatorProps}>
+                  <Field
+                    type="text"
+                    autoComplete="off"
+                    name="code"
+                    placeholder="Código de verificación"
+                    component={Input}
+                    prefix={<HiShieldCheck className="text-xl" />}
+                    onChange={(e: any) => {
+                      setAuthCode(e.currentTarget.value)
+                    }}
+                  />
+                  <Button
+                    className="mt-2 ltr:mr-2 rtl:ml-2 "
+                    type="button"
+                    variant="default"
+                    color="primary"
+                    onClick={() => onVerifyCodeNewEmail(data?.uid, authCode)}
+                  >
+                    Verificar
+                  </Button>
+                </FormRow>
+              )}
+
+              <FormRow name="avatar" label="Avatar" {...validatorProps}>
+                <Field name="avatar">
+                  {({ field, form }: any) => {
+                    const avatarProps = form.values.avatarPreview
+                      ? { src: form.values.avatarPreview }
+                      : {}
+                    return (
+                      <Upload
+                        className={
+                          isValidCode ? 'cursor-pointer' : 'cursor-not-allowed'
+                        }
+                        onChange={(files: any) =>
+                          onSetFormFile(form, field, files)
+                        }
+                        onFileRemove={(files: any) =>
+                          onSetFormFile(form, field, files)
+                        }
+                        showList={false}
+                        uploadLimit={1}
+                        disabled={!isValidCode}
+                      >
+                        <Avatar
+                          className="border-2 border-white dark:border-gray-800 shadow-lg"
+                          size={60}
+                          shape="circle"
+                          icon={<HiOutlineUser />}
+                          {...avatarProps}
+                        />
+                      </Upload>
+                    )
+                  }}
+                </Field>
+              </FormRow>
+
+              <FormRow name="sponsor" label="Patrocinador" {...validatorProps}>
+                <Field
+                  type="text"
+                  autoComplete="off"
+                  name="sponsor"
+                  placeholder="Sponsor"
+                  component={Input}
+                  prefix={<HiOutlineGlobeAlt className="text-xl" />}
+                  readOnly
+                  disabled
+                />
+              </FormRow>
+              {isAuthenticating && (
+                <FormRow name="code" label="Código" {...validatorProps}>
+                  <Field
+                    type="text"
+                    autoComplete="off"
+                    name="code"
+                    placeholder="Código de verificación"
+                    component={Input}
+                    prefix={<HiShieldCheck className="text-xl" />}
+                    onChange={(e: any) => {
+                      setAuthCode(e.currentTarget.value)
+                    }}
+                  />
+                  <Button
+                    className="mt-2 ltr:mr-2 rtl:ml-2 "
+                    type="button"
+                    variant="default"
+                    color="primary"
+                    onClick={() => onVerifyCode(data?.uid, authCode)}
+                  >
+                    Verificar
+                  </Button>
+                </FormRow>
+              )}
+
+              <div className="mt-4 ltr:text-right">
+                <Button
+                  className="ltr:mr-2 rtl:ml-2"
+                  type="button"
+                  onClick={() => resetForm}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  variant="solid"
+                  loading={isSubmitting}
+                  type="submit"
+                  hidden={
+                    isAuthenticating ||
+                    isValidatingEmail ||
+                    !isValidCode ||
+                    !isValidEmail
+                  }
+                >
+                  {isSubmitting ? 'Actualizando' : 'Actualizar'}
+                </Button>
+                <Button
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="button"
+                  variant="solid"
+                  hidden={isAuthenticating || isValidatingEmail || isValidCode}
+                  disabled={isAuthenticating}
+                  loading={isUnlocking}
+                  onClick={() =>
+                    onRequestVerificationCode(data?.uid, data?.email)
+                  }
+                >
+                  Desbloquear
+                </Button>
+              </div>
+            </FormContainer>
+          </Form>
+        )
+      }}
+    </Formik>
+  )
+}
+
+export default Profile

@@ -1,0 +1,79 @@
+import { auth, db } from '@/configs/firebaseConfig'
+import { getDoc, doc, setDoc, updateDoc } from 'firebase/firestore'
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  getAuth,
+  updateEmail,
+} from 'firebase/auth'
+import type { SignInCredential, SignUpCredential, UserDoc } from '@/@types/auth'
+
+export async function apiSignIn(data: SignInCredential) {
+  const { email, password } = data
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    )
+    return { status: 'success', data: userCredential }
+  } catch (e) {
+    return { status: 'failed', e }
+  }
+}
+
+export async function apiSignUp(data: SignUpCredential) {
+  const {
+    email,
+    password,
+    name,
+    sponsor,
+    sponsor_id,
+    position,
+    subscription_expires_at = null,
+  } = data
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    )
+    await setDoc(doc(db, 'users/' + userCredential.user.uid), {
+      is_admin: false,
+      avatar: '',
+      name: name,
+      email: email,
+      position,
+      sponsor: sponsor || '',
+      sponsor_id: sponsor_id,
+      subscription_expires_at,
+      action: data.action || '',
+    })
+    return { status: 'success', data: userCredential }
+  } catch (e) {
+    console.error(e)
+    return { status: 'error', message: e }
+  }
+}
+
+export async function getUser(uid: string): Promise<any | null> {
+  return getDoc(doc(db, 'users/' + uid)).then((r) => {
+    const _data = r.data()
+    if (!_data) {
+      return null
+    }
+    return {
+      id: r.id,
+      ..._data,
+    }
+  })
+}
+
+export async function updateUser(uid: string, data: any): Promise<void> {
+  return updateDoc(doc(db, 'users/', uid), data)
+}
+
+export const updateEmail_Auth = async (newEmail: string) => {
+  const aut = getAuth().currentUser
+  return updateEmail(aut, newEmail)
+}
