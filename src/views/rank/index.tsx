@@ -8,6 +8,17 @@ import utc from 'dayjs/plugin/utc'
 import weekday from 'dayjs/plugin/weekday'
 import { getDocs, query, collection, orderBy } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
+import classNames from 'classnames'
+
+const dayweeks = [
+  'Lunes',
+  'Martes',
+  'Miercoles',
+  'Jueves',
+  'Viernes',
+  'Sabado',
+  'Domingo',
+]
 
 dayjs.extend(utc)
 dayjs.extend(weekday)
@@ -51,7 +62,6 @@ const Rank = () => {
   const [rank, setRank] = useState<any>('Sin rango')
   const [rankKey, setRankKey] = useState<any>('Sin rango')
   const [socios, setSocios] = useState<any>({})
-  const [gananciasMaximas, setGananciasMaximas] = useState<any>({})
   const [ganancias, setGanancias] = useState<any>({})
   const [firmas, setFirmas] = useState<any>({})
   const [loading, setLoading] = useState<boolean>(false)
@@ -307,10 +317,11 @@ const Rank = () => {
           orderBy('created_at', 'desc')
         )
       ).then((snap) => {
-        if (!snap.empty) setPayrollDetails((data) => [
-          ...data,
-          ...snap.docs.map((d) => d.data()),
-        ])
+        if (!snap.empty)
+          setPayrollDetails((data) => [
+            ...data,
+            ...snap.docs.map((d) => d.data()),
+          ])
       })
     }
   }, [user.uid])
@@ -318,25 +329,12 @@ const Rank = () => {
   const getRank = async (id: string) => {
     setLoading(true)
     try {
-      if (id == 'Q9QFKIvGaEZcpUjaIJ7PmMcljwG3') {
+      if (user.is_admin) {
         setRank({
-          rank_key: 'top_legend',
-          rank_next_key: 'top_legend',
-          rank: {
-            display: 'Top Legend',
-            binary: 0,
-            key: 'top_legend',
-            order: 2,
-          },
-          rank_missing: {
-            display: 'Top Legend',
-            binary: 0,
-            key: 'top_legend',
-            order: 2,
-          },
+          display: 'Top Legend',
+          key: 'top_legend',
           next_rank: {
             display: 'Rango sin desbloquear',
-            binary: 0.05,
             key: '?',
             order: 3,
           },
@@ -344,8 +342,8 @@ const Rank = () => {
             totalUSD: 78650,
             total_week: [25000, 18500, 19600, 15500],
           },
-          user_id: 'Q9QFKIvGaEZcpUjaIJ7PmMcljwG3',
-          user: 'Q9QFKIvGaEZcpUjaIJ7PmMcljwG3',
+          user_id: user.id,
+          user: user.id,
           left_week: [6, 7, 7, 5],
           right_week: [6, 8, 7, 6],
           interna: [80, 90, 89, 85],
@@ -381,92 +379,111 @@ const Rank = () => {
   }
 
   const parseFirebaseDate = (date: any, format: string) => {
-    return dayjs(
-      date.seconds * 1000 + date.nanoseconds /  1000000
-    ).format(format)
+    return dayjs(date.seconds * 1000 + date.nanoseconds / 1000000).format(
+      format
+    )
   }
 
   function getWeekNumber(date: dayjs.Dayjs): number {
-    const firstDayOfYear = date.startOf('year');
-    const pastDaysOfYear = date.diff(firstDayOfYear, 'day');
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.day() + 1) / 7);
-}
+    const firstDayOfYear = date.startOf('year')
+    const pastDaysOfYear = date.diff(firstDayOfYear, 'day')
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.day() + 1) / 7)
+  }
 
-  const cleanGananciasMaximas = (rankHistory: Array<IProfitsHistory>): Array<IProfitsHistory> => {
-    const summedByDate = rankHistory?.map((element: IProfitsHistory) => {
-      const fecha = dayjs.unix(element.date.seconds).add(element.date.nanoseconds / 1e9, 'second');
-      return {
-        date: parseFirebaseDate(element.date, 'DD/MM/YY'),
-        total: element.total,
-        week: getWeekNumber(fecha)
-      }
-    })
-    .filter((value, index, self) =>
-    index === self.findIndex((t) => (
-        t.date === value.date && t.total === value.total
-    )))
-    .reduce<Array<IProfitsHistory>>((acc, current) => {
-      const existingDate = acc.find(item => item.week === current.week);
-      if (existingDate) {
-          existingDate.total += current.total;
-          existingDate.date.push(current.date);
-      } else {
-          acc.push({ date: [current.date], total: current.total, week: current.week });
-      }
-      return acc;
-    }, [])
-    .map((element: IProfitsHistory) => {
-      return {
-        date: element.date.sort()[0],
-        total: element.total,
-        week: element.week
-      }
-    });
-  return summedByDate;
+  const cleanGananciasMaximas = (
+    rankHistory: Array<IProfitsHistory>
+  ): Array<IProfitsHistory> => {
+    const summedByDate = rankHistory
+      ?.map((element: IProfitsHistory) => {
+        const fecha = dayjs
+          .unix(element.date.seconds)
+          .add(element.date.nanoseconds / 1e9, 'second')
+        return {
+          date: parseFirebaseDate(element.date, 'DD/MM/YY'),
+          total: element.total,
+          week: getWeekNumber(fecha),
+        }
+      })
+      .filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) => t.date === value.date && t.total === value.total
+          )
+      )
+      .reduce<Array<IProfitsHistory>>((acc, current) => {
+        const existingDate = acc.find((item) => item.week === current.week)
+        if (existingDate) {
+          existingDate.total += current.total
+          existingDate.date.push(current.date)
+        } else {
+          acc.push({
+            date: [current.date],
+            total: current.total,
+            week: current.week,
+          })
+        }
+        return acc
+      }, [])
+      .map((element: IProfitsHistory) => {
+        return {
+          date: element.date.sort()[0],
+          total: element.total,
+          week: element.week,
+        }
+      })
+    return summedByDate
   }
 
   const getGananciasMaximas = (rankHistory: Array<IProfitsHistory>) => {
     const profitsHistory = payrollDetails.map((payrollElement) => {
       return {
         date: payrollElement.created_at,
-        total: payrollElement.total
+        total: payrollElement.total,
       }
     })
-    let maxSum = 0;
-    let maxSumElements: any = [];
+    let maxSum = 0
+    let maxSumElements: any = []
     const cleanRankHistory = cleanGananciasMaximas(profitsHistory)
-    const sortedData = cleanRankHistory?.sort((a, b) => a.date - b.date);
+    const sortedData = cleanRankHistory?.sort((a, b) => a.date - b.date)
 
     for (let i = 0; i <= sortedData?.length - 4; i++) {
-      const currentElements = sortedData.slice(i, i + 4);
-      const sum = currentElements.reduce((acc, item) => acc + item.total, 0);
+      const currentElements = sortedData.slice(i, i + 4)
+      const sum = currentElements.reduce((acc, item) => acc + item.total, 0)
 
       if (sum > maxSum) {
-        maxSum = sum;
-        maxSumElements = currentElements;
+        maxSum = sum
+        maxSumElements = currentElements
       }
     }
 
-    const sortedDateRange = maxSumElements?.sort((a: any, b: any) => a.week - b.week);
+    const sortedDateRange = maxSumElements?.sort(
+      (a: any, b: any) => a.week - b.week
+    )
     return (
       <div>
         <p className="text-[13px] font-bold">
           Ganancias Máximas 4 semanas consecutivas
         </p>
         <p className="text-[13px]">
-          {`De la semana del ${sortedDateRange[0]?.date} a la semana del ${sortedDateRange[sortedDateRange.length - 1]?.date} ganaste un total de: `}
+          {`De la semana del ${sortedDateRange[0]?.date} a la semana del ${
+            sortedDateRange[sortedDateRange.length - 1]?.date
+          } ganaste un total de: `}
         </p>
-        <p className="text-[22px] font-bold">
-          {`$ ${maxSum.toFixed(2)} USD`}
-        </p>
+        <p className="text-[22px] font-bold">{`$ ${maxSum.toFixed(2)} USD`}</p>
       </div>
     )
   }
 
+  const endMonth = dayjs().endOf('month')
+
   return (
     <div className="flex flex-col w-full h-full space-y-10">
       <div className="flex w-full justify-between">
-        <div>Corte semanal: Domingo 11:59 PM (CDMX)</div>
+        <div>
+          Corte: {dayweeks[endMonth.weekday()]} {endMonth.date()}{' '}
+          {endMonth.format('MMMM')} 11:59 PM (CDMX)
+        </div>
         <div>
           <a
             href="/img/ranks/calificacion_rangos.pdf"
@@ -495,6 +512,7 @@ const Rank = () => {
             <div className="flex flex-col justify-center">
               <img
                 src={`/img/insignias/${rankKey?.key}.png`}
+                className={classNames(rankKey?.key == 'none' && "hidden")}
                 width={40}
                 height={40}
               />
@@ -513,13 +531,14 @@ const Rank = () => {
                 <Spinner className={`select-loading-indicatior`} size={40} />
               ) : (
                 <p className="text-[24px] font-bold">
-                  {rank.rank_missing?.display}
+                  {rank.display}
                 </p>
               )}
             </div>
             <div className="flex flex-col justify-center">
               <img
-                src={`/img/insignias/${rank.rank_missing?.key}.png`}
+                src={`/img/insignias/${rank?.key}.png`}
+                className={classNames(rank?.key == 'none' && "hidden")}
                 width={40}
                 height={40}
               />
@@ -533,7 +552,7 @@ const Rank = () => {
         >
           <div className="flex p-4 justify-between bg-slate-100 rounded-[10px] h-full">
             <div className="flex flex-col">
-              <p>Rango al que puedes llegar</p>
+              <p>Siguiente rango al que puedes llegar</p>
               {loading ? (
                 <Spinner className={`select-loading-indicatior`} size={40} />
               ) : (
@@ -562,7 +581,7 @@ const Rank = () => {
         </div>
 
         <div
-          className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400 card-border cursor-pointer user-select-none"
+          className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400 card-border cursor-pointer user-select-none hidden"
           role="presentation"
         >
           <div className="flex p-4 justify-between bg-slate-100 rounded-[10px] h-full">
@@ -583,7 +602,6 @@ const Rank = () => {
         <p>
           Pierna externa: {user?.position == 'right' ? 'Derecha' : 'Izquierda'}
         </p>
-        <p>NA: Semana que no aplica para tu rango</p>
       </div>
       <div className="flex flex-col-reverse lg:flex-row">
         <div className="flex flex-col gap-4 w-full lg:w-[500px] lg:min-w-[500px] xl:w-[600px] xl:min-w-[600px] 2xl:w-[800px] 2xl:min-w-[800px] h-full">
