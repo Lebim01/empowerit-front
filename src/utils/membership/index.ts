@@ -1,33 +1,29 @@
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 
 export type MembershipStatus = {
-  
-  pro: boolean;
-  ibo: boolean;
-  supreme: boolean;
-  starter: boolean;
-  crypto_elite: boolean;
-  toprice_xpert: boolean;
-};
+  pro: boolean
+  ibo: boolean
+  supreme: boolean
+  starter: boolean
+  crypto_elite: boolean
+  toprice_xpert: boolean
+}
 
 export const getRestDaysMembership = (
-  subscription_expires_at?: null | { seconds: number }
+  subscription_expires_at?: Dayjs | null
 ): number => {
   if (subscription_expires_at) {
-    return dayjs(subscription_expires_at.seconds * 1000).diff(dayjs(), 'days')
+    return dayjs(subscription_expires_at).diff(dayjs(), 'days')
   }
   return 0
 }
 
 export const getRestHoursMembership = (
   restDays: number,
-  subscription_expires_at?: null | { seconds: number }
+  subscription_expires_at?: Dayjs
 ): number => {
   if (subscription_expires_at && restDays >= 0) {
-    return (
-      dayjs(subscription_expires_at.seconds * 1000).diff(dayjs(), 'hours') -
-      restDays * 24
-    )
+    return dayjs(subscription_expires_at).diff(dayjs(), 'hours') - restDays * 24
   }
   return 0
 }

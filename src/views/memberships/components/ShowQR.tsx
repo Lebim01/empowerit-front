@@ -19,19 +19,17 @@ const ShowQR = ({
   const user = useAppSelector((state) => state.auth.user)
 
   // Obtener fecha de expiración
-  const expires_at =
-    user?.subscription &&
-    user?.subscription[type] &&
-    user?.subscription[type]?.expires_at
-  const expiredDate = dayjs((expires_at?.seconds || 0) * 1000)
+  const expires_at = user?.membership_expires_at
+  const expiredDate = expires_at ? dayjs(expires_at) : null
   // Obtener fecha de mañana
   const tomorrowDate = dayjs().add(1, 'days')
 
   // Sí la fecha de expiración es el siguiente día
   if (
     expires_at &&
+    expiredDate &&
     expiredDate.isBefore(tomorrowDate.toDate()) &&
-    !user.subscription[type]?.payment_link
+    !user.payment_link
   )
     return (
       <GenerateQR
@@ -42,12 +40,7 @@ const ShowQR = ({
     )
 
   // Sí el pago sigue pendiente
-  if (
-    user.subscription &&
-    user.subscription[type] &&
-    user.subscription[type]?.payment_link &&
-    user.subscription[type]?.payment_link?.status == 'pending'
-  )
+  if (user.payment_link && user.payment_link?.status == 'pending')
     return (
       <FormPay
         type={type}
@@ -57,24 +50,14 @@ const ShowQR = ({
     )
 
   // Sí el pago fue completado
-  if (
-    user.subscription &&
-    user.subscription[type] &&
-    user.subscription[type]?.payment_link &&
-    user.subscription[type]?.payment_link?.status == 'confirming'
-  )
+  if (user.payment_link && user.payment_link?.status == 'confirming')
     return <ConfirmMessage />
 
   // Sí el pago se completo...
-  if (
-    user.subscription &&
-    user.subscription[type] &&
-    user.subscription[type]?.status == 'paid'
-  )
-    return null
+  if (user.membership_status == 'paid') return null
 
   // Sí no se a creado la dirección de pago...
-  if (user.subscription && !user.subscription[type]?.payment_link)
+  if (!user.payment_link)
     return (
       <GenerateQR
         type={type}

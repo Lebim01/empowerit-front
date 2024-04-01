@@ -1,38 +1,75 @@
-import Supreme from './supreme'
-import Pro from './pro'
-import IBO from './ibo'
-import PackProSupreme from './pack_pro_supreme'
-import Starter from './starter'
-import { useAppSelector } from '@/store'
-import CryptoElite from './crypto-elite'
-import TopriceXpert from './toprice-xpert'
+import Membership from './membership'
 
 const PayMembership = () => {
-  const user = useAppSelector((state) => state.auth.user)
-
-  const is_active_toprice_xpert =
-    user?.subscription?.toprice_xpert &&
-    user?.subscription?.toprice_xpert.status == 'paid'
-
-  const is_active_crypto_elite =
-    user?.subscription?.crypto_elite &&
-    user?.subscription?.crypto_elite.status == 'paid'
-
-  const high_ticket = is_active_crypto_elite || is_active_toprice_xpert
-
   return (
     <div className="flex flex-col gap-4 h-full">
-      <h3>Tus membresias</h3>
-      <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-5">
-        {user.is_new && <Starter />}
-        {!high_ticket && <Pro />}
-        {!high_ticket && <Supreme />}
-        <IBO />
-        <CryptoElite />
-        <TopriceXpert />
+      <h3>
+        <span className="bg-gradient-to-r from-blue-600 via-red-500 to-green-400 inline-block text-transparent bg-clip-text">
+          EMPOWERIT UP
+        </span>
+      </h3>
+      <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
+        <Membership
+          image="/membership/pro.PNG"
+          name={'alive-pack'}
+          display_name="Alive Pack"
+          month_price={129}
+        />
+        <Membership
+          image="/membership/supreme.PNG"
+          name="freedom-pack"
+          display_name="Freedom Pack"
+          month_price={479}
+        />
+        <Membership
+          image="/membership/supreme.PNG"
+          name="business-pack"
+          display_name="Business Pack"
+          month_price={1289}
+        />
       </div>
 
-      {!high_ticket && <PackProSupreme />}
+      <h3>
+        <span className="bg-gradient-to-r from-green-600 to-yellow-500 inline-block text-transparent bg-clip-text">
+          TOP BUSINESS
+        </span>
+      </h3>
+      <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
+        <Membership
+          image="/membership/pro.PNG"
+          name="pro"
+          display_name="PRO"
+          month_price={99}
+          year_price={999}
+        />
+        <Membership
+          image="/membership/supreme.PNG"
+          name="supreme"
+          display_name="SUPREME"
+          month_price={199}
+          year_price={1999}
+        />
+      </div>
+
+      <h3>
+        <span className="bg-gradient-to-r from-blue-600 via-green-500 to-yellow-600 inline-block text-transparent bg-clip-text">
+          HEALTH AND DIGITAL BUSINESS PACKAGE
+        </span>
+      </h3>
+      <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
+        <Membership
+          image="/membership/pro.PNG"
+          name="elite-pack"
+          display_name="Paquete Elite"
+          month_price={228}
+        />
+        <Membership
+          image="/membership/supreme.PNG"
+          name="vip-pack"
+          display_name="Paquete VIP"
+          month_price={678}
+        />
+      </div>
     </div>
   )
 }

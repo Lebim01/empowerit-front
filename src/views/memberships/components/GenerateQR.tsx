@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui'
 import { Coins, Memberships } from '../methods'
 import { useState } from 'react'
+import { SiCashapp } from 'react-icons/si'
 
 const GenerateQR = ({
   type,
@@ -25,6 +26,16 @@ const GenerateQR = ({
     }
   }
 
+  const _createOpenPay = (coin: 'MXN') => {
+    try {
+      setDisabled(true)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setDisabled
+    }
+  }
+
   const selectCoin = () => {
     setShowCoin(true)
   }
@@ -35,16 +46,11 @@ const GenerateQR = ({
         <Button
           className="h-max"
           disabled={disabled}
-          onClick={() => _create('BTC')}
+          onClick={() => _createOpenPay('MXN')}
         >
           <div className="flex flex-col items-center space-y-4">
-            <img
-              src="/img/btc-logo.png"
-              height={50}
-              width={50}
-              className="h-[50px] w-[50px]"
-            />
-            <span>Bitcoin (BTC)</span>
+            <SiCashapp height={50} width={50} className="h-[50px] w-[50px]" />
+            <span>Fiat (MXN)</span>
           </div>
         </Button>
         <Button

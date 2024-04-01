@@ -18,8 +18,7 @@ const Card: React.FC<CardProps> = ({ children }: CardProps) => {
 
 const Charts = () => {
   const user = store.getState().auth.user
-  const proSubscription = user?.subscription?.pro
-  const hasProMembership = proSubscription && proSubscription.status === 'paid'
+  const hasProMembership = user.membership_status === 'paid' || user.is_admin 
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full">

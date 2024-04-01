@@ -1,18 +1,21 @@
 export type Memberships =
-  | 'ibo'
   | 'pro'
   | 'supreme'
-  | 'starter'
-  | 'crypto_elite'
-  | 'toprice_xpert'
-export type Coins = 'BTC' | 'LTC' | 'XRP'
+  | 'alive-pack'
+  | 'freedom-pack'
+  | 'business-pack'
+  | 'elite-pack'
+  | 'vip-pack'
+export type Coins = 'BTC' | 'LTC'
 
 export enum PAYMENT_LINK_TYPE {
-  IBO = 'ibo',
   PRO = 'pro',
   SUPREME = 'supreme',
-  STARTER = 'starter',
-  PRO_SUPREME = 'pro+supreme',
+  ALIVE_PACK = 'alive-pack',
+  FREEDOM_PACK = 'freedom-pack',
+  BUSINESS_PACK = 'business-pack',
+  ELITE_PACK = 'elite-pack',
+  VIP_PACK = 'vip-pack',
 }
 
 export const createPaymentLink = async (
@@ -26,32 +29,6 @@ export const createPaymentLink = async (
       `${
         import.meta.env.VITE_API_URL
       }/subscriptions/createPaymentAddress/${type}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user_id,
-          type,
-          coin,
-        }),
-      }
-    )
-  } catch (err) {
-    console.error(err)
-  }
-}
-
-export const createPackagePaymentLink = async (
-  user_id: string,
-  type: PAYMENT_LINK_TYPE,
-  coin: Coins
-) => {
-  try {
-    // Crear dirección de pago
-    await fetch(
-      `${import.meta.env.VITE_API_URL}/subscriptions/createPaymentAddressPack`,
       {
         method: 'POST',
         headers: {

@@ -1,21 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { SLICE_BASE_NAME } from './constants'
 import { Coins } from '@/views/memberships/methods'
+import dayjs from 'dayjs'
 
-type MembershipStatus = {
-  start_at: { seconds: number } | null
-  expires_at: { seconds: number } | null
-  status: null | 'paid' | 'expired'
-
-  payment_link?: {
-    amount: string
-    expires_at: { seconds: number }
-    qr: string
-    currency: Coins
-    status: 'pending' | 'confirming'
-    address: string
-  }
-}
 export type UserState = {
   is_admin?: boolean
   uid?: string
@@ -40,25 +27,27 @@ export type UserState = {
   wallet_litecoin?: string
   bank_account?: string
   rfc?: string
-  subscription_expires_at?: { seconds: number } | null
   left_points: number
   right_points: number
   left_binary_user_id: string | null
   right_binary_user_id: string | null
   rank: string
-  max_rank?: {
-    key: string
-    order: number
-    display: string
-  }
+  max_rank?: string | null
   is_new: boolean
   position: 'left' | 'right'
   user_profile?: string
 
   membership: string | null
+  membership_status: 'paid' | 'expired' | null
+  membership_expires_at: string | null
 
   payment_link?: {
-    [type: string]: any
+    amount: string
+    expires_at: { seconds: number }
+    qr: string
+    currency: Coins
+    status: 'pending' | 'confirming'
+    address: string
   }
   is_pending_complete_personal_info: boolean
 }
@@ -80,7 +69,6 @@ const initialState: UserState = {
   sponsor_id: '',
   left: '',
   right: '',
-  subscription_expires_at: null,
   left_points: 0,
   right_points: 0,
   left_binary_user_id: null,
@@ -89,6 +77,8 @@ const initialState: UserState = {
   is_new: false,
   position: 'left',
   membership: null,
+  membership_expires_at: null,
+  membership_status: null,
   is_pending_complete_personal_info: true,
 }
 
@@ -100,7 +90,6 @@ const userSlice = createSlice({
       const payload = action.payload
 
       if (payload) {
-        console.log(payload)
         state.uid = payload.uid
         state.avatar = payload.avatar
         state.email = payload.email
@@ -118,30 +107,15 @@ const userSlice = createSlice({
         state.is_admin = payload.is_admin
 
         const roles = []
-        /**
-         * Asigna roles al usuario basado en su membresía y perfil de administrador.
-         * Si el usuario es administrador, se le asignaran los roles ADMIN y USER
-         * Si el usuario es educador, se le asignará el rol de EDUCATOR
-         * Si el usuario tiene membresía PRO activa, se le asignará el rol de USER.
-         *    En caso de que el usuario tenga una membresía STARTER y PRO activas a la vez, se le dará prioridad a la membresía PRO.
-         */
         if (payload.is_admin) {
           roles.push('ADMIN', 'USER')
-        } else if (
-          payload.subscription?.starter?.status === 'paid' &&
-          payload.subscription?.pro?.status !== 'paid'
-        ) {
-          roles.push('STARTER')
         } else {
-          roles.push(payload.user_profile === 'educator' ? 'EDUCATOR' : 'USER')
+          roles.push('USER')
         }
 
         state.authority = roles
         state.sponsor = payload.sponsor
         state.sponsor_id = payload.sponsor_id
-        state.subscription_expires_at = payload.subscription_expires_at
-          ? { seconds: payload.subscription_expires_at.seconds }
-          : null
         state.left = payload.left
         state.left_binary_user_id = payload.left_binary_user_id
         state.left_points = payload.left_points
@@ -156,7 +130,12 @@ const userSlice = createSlice({
         state.position = payload.position ?? 'right'
         state.is_new = payload.is_new ?? false
         state.payment_link = payload.payment_link
+
+        state.membership_status = payload.membership_status
         state.membership = payload.membership
+        state.membership_expires_at = payload.membership_expires_at
+          ? dayjs(payload.membership_expires_at.seconds * 1000).toISOString()
+          : null
       }
     },
   },
