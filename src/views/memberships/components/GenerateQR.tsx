@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui'
+import { Button, Select } from '@/components/ui'
 import { Coins, Memberships } from '../methods'
 import { useState } from 'react'
 import { SiCashapp } from 'react-icons/si'
@@ -7,18 +7,21 @@ const GenerateQR = ({
   type,
   loading,
   createPaymentLink,
+  options,
 }: {
   type: Memberships
   loading: boolean
-  createPaymentLink: (type: Memberships, coin: Coins) => void
+  createPaymentLink: (type: Memberships, coin: Coins, period: string) => void
+  options: { value: string; label: string }[]
 }) => {
+  const [period, setPeriod] = useState<string>('monthly')
   const [showCoin, setShowCoin] = useState(false)
   const [disabled, setDisabled] = useState(false)
 
   const _create = (coin: Coins) => {
     try {
       setDisabled(true)
-      createPaymentLink(type, coin)
+      createPaymentLink(type, coin, period)
     } catch (err) {
       console.error(err)
     } finally {
@@ -42,32 +45,41 @@ const GenerateQR = ({
 
   if (showCoin) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4">
-        <Button
-          className="h-max"
-          disabled={disabled}
-          onClick={() => _createOpenPay('MXN')}
-        >
-          <div className="flex flex-col items-center space-y-4">
-            <SiCashapp height={50} width={50} className="h-[50px] w-[50px]" />
-            <span>Fiat (MXN)</span>
-          </div>
-        </Button>
-        <Button
-          className="h-max"
-          disabled={disabled}
-          onClick={() => _create('LTC')}
-        >
-          <div className="flex flex-col items-center space-y-4">
-            <img
-              src="/img/ltc-logo.svg"
-              height={50}
-              width={50}
-              className="h-[50px] w-[50px]"
-            />
-            <span>Litecoin (LTC)</span>
-          </div>
-        </Button>
+      <div className="flex flex-col space-y-2">
+        {showCoin && (
+          <Select
+            options={options}
+            value={options.find((r) => r.value == period)}
+            onChange={(option) => setPeriod(option?.value || 'montly')}
+          />
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+          <Button
+            className="h-max"
+            disabled={disabled}
+            onClick={() => _createOpenPay('MXN')}
+          >
+            <div className="flex flex-col items-center space-y-4">
+              <SiCashapp height={50} width={50} className="h-[50px] w-[50px]" />
+              <span>Fiat (MXN)</span>
+            </div>
+          </Button>
+          <Button
+            className="h-max"
+            disabled={disabled}
+            onClick={() => _create('LTC')}
+          >
+            <div className="flex flex-col items-center space-y-4">
+              <img
+                src="/img/ltc-logo.svg"
+                height={50}
+                width={50}
+                className="h-[50px] w-[50px]"
+              />
+              <span>Litecoin (LTC)</span>
+            </div>
+          </Button>
+        </div>
       </div>
     )
   }

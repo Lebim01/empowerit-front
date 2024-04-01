@@ -11,6 +11,9 @@ import ShowQR from './components/ShowQR'
 import { formatNumberWithCommas } from '@/utils/format'
 
 type Props = {
+  days?: number
+  days_label?: string
+
   month_price: number
   year_price?: number
 
@@ -19,7 +22,11 @@ type Props = {
   image: string
 }
 
-const Membership: FC<Props> = (props) => {
+const Membership: FC<Props> = ({
+  days_label = 'Mensual',
+  days = 30,
+  ...props
+}) => {
   const [loading, setLoading] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
 
@@ -85,7 +92,7 @@ const Membership: FC<Props> = (props) => {
         <div className="grid grid-cols-[min-content_1fr] lg:grid-cols-4 gap-x-2 w-full">
           <>
             <span className="text-center font-bold text-xl col-span-2">
-              Mensual
+              {days_label}
             </span>
 
             <span className="text-center font-bold text-xl col-span-2">
@@ -93,7 +100,7 @@ const Membership: FC<Props> = (props) => {
             </span>
 
             <span className="text-right">Duración:</span>
-            <span className="font-bold">30 días</span>
+            <span className="font-bold">{days} días</span>
 
             {!props.year_price ? (
               <span className="col-span-2"></span>
@@ -127,6 +134,14 @@ const Membership: FC<Props> = (props) => {
         type={props.name}
         loading={loading}
         createPaymentLink={_createPaymentLink}
+        options={
+          props.year_price
+            ? [
+                { label: days_label, value: 'monthly' },
+                { label: 'Anual', value: 'yearly' },
+              ]
+            : [{ label: days_label, value: 'monthly' }]
+        }
       />
     </div>
   )

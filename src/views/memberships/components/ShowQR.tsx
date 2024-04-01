@@ -10,10 +10,12 @@ const ShowQR = ({
   type,
   loading,
   createPaymentLink,
+  options,
 }: {
   type: Memberships
   loading: boolean
-  createPaymentLink: (type: Memberships, coin: Coins) => void
+  createPaymentLink: (type: Memberships, coin: Coins, period: string) => void
+  options: { value: string; label: string }[]
 }) => {
   // Se obtiene el usuario
   const user = useAppSelector((state) => state.auth.user)
@@ -32,15 +34,22 @@ const ShowQR = ({
     !user.payment_link
   )
     return (
-      <GenerateQR
-        type={type}
-        loading={loading}
-        createPaymentLink={createPaymentLink}
-      />
+      <>
+        <GenerateQR
+          type={type}
+          loading={loading}
+          createPaymentLink={createPaymentLink}
+          options={options}
+        />
+      </>
     )
 
   // Sí el pago sigue pendiente
-  if (user.payment_link && user.payment_link?.status == 'pending')
+  if (
+    user.payment_link &&
+    user.payment_link[type] &&
+    user.payment_link[type].status == 'pending'
+  )
     return (
       <FormPay
         type={type}
@@ -50,20 +59,27 @@ const ShowQR = ({
     )
 
   // Sí el pago fue completado
-  if (user.payment_link && user.payment_link?.status == 'confirming')
+  if (
+    user.payment_link &&
+    user.payment_link[type] &&
+    user.payment_link[type].status == 'confirming'
+  )
     return <ConfirmMessage />
 
   // Sí el pago se completo...
   if (user.membership_status == 'paid') return null
 
   // Sí no se a creado la dirección de pago...
-  if (!user.payment_link)
+  if (!user.payment_link || !user.payment_link[type])
     return (
-      <GenerateQR
-        type={type}
-        loading={loading}
-        createPaymentLink={createPaymentLink}
-      />
+      <>
+        <GenerateQR
+          type={type}
+          loading={loading}
+          createPaymentLink={createPaymentLink}
+          options={options}
+        />
+      </>
     )
 
   return <Spinner />

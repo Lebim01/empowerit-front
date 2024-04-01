@@ -18,18 +18,28 @@ const FormPay = ({
   loading,
 }: {
   type: Memberships
-  createPaymentLink: (type: Memberships, coin: Coins) => void
+  createPaymentLink: (type: Memberships, coin: Coins, period: string) => void
   loading: boolean
 }) => {
   const user = useAppSelector((state) => state.auth.user)
-  const address = user.subscription[type]?.payment_link?.address
-  const amountcrypto = user.subscription[type]?.payment_link?.amount
-  const expires_at = user.subscription[type]?.payment_link!.expires_at
-  const qr = user.subscription[type]?.payment_link?.qr
+  const { copy } = useClipboard()
   const [amount, setAmount] = useState(0)
   const [amountChanged, setAmountChanged] = useState(false)
 
-  const { copy } = useClipboard()
+  const address =
+    user.payment_link &&
+    user.payment_link[type] &&
+    user.payment_link[type]?.address
+  const amountcrypto =
+    user.payment_link &&
+    user.payment_link[type] &&
+    user.payment_link[type]?.amount
+  const expires_at =
+    user.payment_link &&
+    user.payment_link[type] &&
+    user.payment_link[type]?.expires_at
+  const qr =
+    user.payment_link && user.payment_link[type] && user.payment_link[type]?.qr
 
   const isExpired = dayjs(
     expires_at?.seconds ? expires_at?.seconds * 1000 : null
@@ -40,7 +50,7 @@ const FormPay = ({
    */
   const calculatePenfindAmount = async () => {
     // Obtener el monto total
-    const totalAmount = Number(user.subscription[type]?.payment_link?.amount)
+    const totalAmount = Number(user.payment_link![type].amount)
 
     try {
       // Obtener el monto ya pagado
@@ -78,20 +88,16 @@ const FormPay = ({
   }, [user.uid])
 
   useEffect(() => {
-    if (
-      address &&
-      user.subscription &&
-      user.subscription[type] &&
-      user.subscription[type]?.payment_link
-    ) {
-      setAmount(Number(user.subscription[type]?.payment_link?.amount) || 0)
+    if (address && user.payment_link && user.payment_link[type]) {
+      setAmount(Number(user.payment_link[type].amount) || 0)
     }
   }, [address, amountcrypto])
 
   // Obtener tiempo que se ocupa
   const timer = useTimer(
-    user.subscription[type] &&
-      user.subscription[type]!.payment_link &&
+    user.payment_link &&
+      user.payment_link[type] &&
+      user.payment_link[type].expires_at &&
       expires_at &&
       !amountChanged
       ? expires_at.seconds * 1000
@@ -135,15 +141,11 @@ const FormPay = ({
           ) : null}
           <Input
             readOnly
-            prefix={
-              currencyIcon[
-                user.subscription[type]?.payment_link?.currency || 'BTC'
-              ]
-            }
+            prefix={currencyIcon[user.payment_link![type].currency || 'BTC']}
             value={isExpired && !amountChanged ? '' : amount.toFixed(8)}
             suffix={
               <div className="flex items-center space-x-2">
-                <span>{user.subscription[type]?.payment_link?.currency}</span>{' '}
+                <span>{user.payment_link![type].currency}</span>{' '}
                 <div
                   className="bg-gray-200 p-2 rounded-lg hover:cursor-pointer hover:bg-gray-300"
                   onClick={() => copy(amount.toFixed(8) || '')}
@@ -156,14 +158,14 @@ const FormPay = ({
         </div>
 
         <div className="w-full flex justify-end">
-          {user.subscription[type]!.payment_link!.currency != 'BTC' && (
+          {user.payment_link![type].currency != 'BTC' && (
             <ButtonSwapCurrency
               currency="BTC"
               createPaymentLink={createPaymentLink}
               type={type}
             />
           )}
-          {user.subscription[type]!.payment_link!.currency != 'LTC' && (
+          {user.payment_link![type].currency != 'LTC' && (
             <ButtonSwapCurrency
               currency="LTC"
               createPaymentLink={createPaymentLink}
@@ -205,7 +207,8 @@ const FormPay = ({
             onClick={() =>
               createPaymentLink(
                 type,
-                user.subscription[type]!.payment_link!.currency
+                user.payment_link![type].currency,
+                'monthly'
               )
             }
           >
@@ -213,7 +216,7 @@ const FormPay = ({
           </Button>
         </div>
       ) : null}
-      {user.subscription[type] && expires_at && (
+      {user.payment_link![type] && expires_at && (
         <span className="text-xs text-gray-300">
           Tu membresia expiró el:{' '}
           {dayjs(expires_at!.seconds * 1000).format('YYYY-MM-DD HH:mm:ss')}

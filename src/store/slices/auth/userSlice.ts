@@ -42,12 +42,14 @@ export type UserState = {
   membership_expires_at: string | null
 
   payment_link?: {
-    amount: string
-    expires_at: { seconds: number }
-    qr: string
-    currency: Coins
-    status: 'pending' | 'confirming'
-    address: string
+    [type: string]: {
+      amount: string
+      expires_at: { seconds: number }
+      qr: string
+      currency: Coins
+      status: 'pending' | 'confirming'
+      address: string
+    }
   }
   is_pending_complete_personal_info: boolean
 }

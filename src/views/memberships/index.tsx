@@ -25,6 +25,8 @@ const PayMembership = () => {
           image="/membership/supreme.PNG"
           name="business-pack"
           display_name="Business Pack"
+          days_label='Trimestral'
+          days={90}
           month_price={1289}
         />
       </div>
