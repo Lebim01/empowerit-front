@@ -236,15 +236,6 @@ export const protectedRoutes = [
     component: lazy(() => import('@/views/account')),
     authority: ['USER'],
   },
-  
-  
-  
-  
-  
-  
-  
-  
-  
 ]
 
 export const payRoute = [

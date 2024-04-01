@@ -16,7 +16,7 @@ const OrdersTable = () => {
         <Tr>
           <Th>Nombre</Th>
           <Th>Email</Th>
-          <Th>Estatus Membresia</Th>
+          <Th>Membresia</Th>
           <Th>Lado</Th>
           <Th>Fecha de inicio</Th>
         </Tr>
@@ -28,18 +28,8 @@ const OrdersTable = () => {
             <Td>{row.email}</Td>
             <Td>
               <span>
-                {row.payment_link?.status ? (
-                  row.payment_link?.status == 'pending' ? (
-                    'Pendiente de pago'
-                  ) : (
-                    'Confirmando pago'
-                  )
-                ) : row.subscription?.pro?.expires_at ? (
-                  <span className="text-green-500">
-                    {dayjs(
-                      row.subscription?.pro?.expires_at.seconds * 1000
-                    ).format('DD/MM/YYYY HH:mm:ss')}
-                  </span>
+                {row.membership && row.membership_status == 'paid' ? (
+                  <span>{row.membership}</span>
                 ) : (
                   <span className="text-red-500">Expirado</span>
                 )}
