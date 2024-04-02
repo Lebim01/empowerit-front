@@ -2,6 +2,7 @@ import { Button, Select } from '@/components/ui'
 import { Coins, Memberships } from '../methods'
 import { useState } from 'react'
 import { SiCashapp } from 'react-icons/si'
+import { Periods } from '../membership'
 
 const GenerateQR = ({
   type,
@@ -11,10 +12,10 @@ const GenerateQR = ({
 }: {
   type: Memberships
   loading: boolean
-  createPaymentLink: (type: Memberships, coin: Coins, period: string) => void
-  options: { value: string; label: string }[]
+  createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
+  options: { value: Periods; label: string }[]
 }) => {
-  const [period, setPeriod] = useState<string>('monthly')
+  const [period, setPeriod] = useState<Periods>('monthly')
   const [showCoin, setShowCoin] = useState(false)
   const [disabled, setDisabled] = useState(false)
 

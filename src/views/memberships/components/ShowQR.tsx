@@ -5,6 +5,7 @@ import { Spinner } from '@/components/ui'
 import GenerateQR from './GenerateQR'
 import ConfirmMessage from './ConfirmMessage'
 import FormPay from './FormPay'
+import { Periods } from '../membership'
 
 const ShowQR = ({
   type,
@@ -14,8 +15,8 @@ const ShowQR = ({
 }: {
   type: Memberships
   loading: boolean
-  createPaymentLink: (type: Memberships, coin: Coins, period: string) => void
-  options: { value: string; label: string }[]
+  createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
+  options: { value: Periods; label: string }[]
 }) => {
   // Se obtiene el usuario
   const user = useAppSelector((state) => state.auth.user)

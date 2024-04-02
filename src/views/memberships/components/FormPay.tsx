@@ -11,6 +11,7 @@ import useClipboard from '@/utils/hooks/useClipboard'
 import { getPaidAmount } from '@/services/Memberships'
 import { db } from '@/configs/firebaseConfig'
 import ButtonSwapCurrency, { currencyIcon } from './ButtonSwapCurrency'
+import { Periods } from '../membership'
 
 const FormPay = ({
   type,
@@ -18,7 +19,7 @@ const FormPay = ({
   loading,
 }: {
   type: Memberships
-  createPaymentLink: (type: Memberships, coin: Coins, period: string) => void
+  createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
   loading: boolean
 }) => {
   const user = useAppSelector((state) => state.auth.user)

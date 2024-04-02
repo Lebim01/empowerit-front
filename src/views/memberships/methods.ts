@@ -1,3 +1,5 @@
+import { Periods } from './membership'
+
 export type Memberships =
   | 'pro'
   | 'supreme'
@@ -21,7 +23,8 @@ export enum PAYMENT_LINK_TYPE {
 export const createPaymentLink = async (
   user_id: string,
   type: Memberships,
-  coin: Coins
+  coin: Coins,
+  period: Periods
 ) => {
   try {
     // Crear dirección de pago
@@ -38,6 +41,7 @@ export const createPaymentLink = async (
           userId: user_id,
           type,
           coin,
+          period,
         }),
       }
     )

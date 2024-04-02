@@ -22,6 +22,8 @@ type Props = {
   image: string
 }
 
+export type Periods = 'monthly' | 'yearly'
+
 const Membership: FC<Props> = ({
   days_label = 'Mensual',
   days = 30,
@@ -30,11 +32,15 @@ const Membership: FC<Props> = ({
   const [loading, setLoading] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
 
-  const _createPaymentLink = async (type: Memberships, currency: Coins) => {
+  const _createPaymentLink = async (
+    type: Memberships,
+    currency: Coins,
+    period: Periods
+  ) => {
     try {
       if (loading) return
       setLoading(true)
-      await createPaymentLink(user.uid!, type, currency)
+      await createPaymentLink(user.uid!, type, currency, period)
     } catch (err) {
       console.error(err)
     } finally {
