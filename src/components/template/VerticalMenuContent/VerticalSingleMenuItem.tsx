@@ -24,6 +24,7 @@ interface DefaultItemProps {
   sideCollapsed?: boolean
   userAuthority: string[]
   disabled?: boolean
+  href?: string
 }
 
 interface VerticalMenuItemProps extends CollapsedItemProps, DefaultItemProps {}
@@ -47,16 +48,22 @@ const CollapsedItem = ({
 }
 
 const DefaultItem = (props: DefaultItemProps) => {
-  const { nav, onLinkClick, sideCollapsed, userAuthority, disabled } = props
+  const { nav, onLinkClick, sideCollapsed, userAuthority, disabled, href } =
+    props
 
   return (
     <AuthorityCheck userAuthority={userAuthority} authority={nav.authority}>
-      <MenuItem key={nav.key} eventKey={nav.key} className="mb-2" disabled={disabled}>
+      <MenuItem
+        key={nav.key}
+        eventKey={nav.key}
+        className="mb-2"
+        disabled={disabled}
+      >
         <ConditionalWrapper
           condition={!disabled}
           wrapper={(children: ReactElement) => (
             <Link
-              to={nav.path}
+              to={nav.href ?? nav.path}
               className="flex items-center h-full w-full"
               onClick={() =>
                 onLinkClick?.({
@@ -88,7 +95,7 @@ const VerticalSingleMenuItem = ({
   sideCollapsed,
   userAuthority,
   direction,
-  disabled
+  disabled,
 }: Omit<VerticalMenuItemProps, 'title' | 'translateKey'>) => {
   return (
     <AuthorityCheck userAuthority={userAuthority} authority={nav.authority}>

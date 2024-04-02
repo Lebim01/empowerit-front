@@ -164,7 +164,7 @@ const SalesDashboardBody = () => {
         className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
         role="presentation"
       >
-        <img src="/img/dashboard/WelcomeBanner.jpg" className="w-full" />
+        <img src="/img/dashboard/banner-1-empowerit-top.jpg" className="w-full" />
       </div>
       <Rank />
       <div

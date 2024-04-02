@@ -8,7 +8,7 @@ export type Memberships =
   | 'business-pack'
   | 'elite-pack'
   | 'vip-pack'
-export type Coins = 'BTC' | 'LTC'
+export type Coins = 'MXN' | 'LTC'
 
 export enum PAYMENT_LINK_TYPE {
   PRO = 'pro',

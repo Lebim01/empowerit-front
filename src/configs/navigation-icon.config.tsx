@@ -17,6 +17,7 @@ import {
   BsTrophy,
   BsPeople,
 } from 'react-icons/bs'
+import { TbBinaryTree } from 'react-icons/tb'
 import {
   FaCrown,
   FaHistory,
@@ -27,6 +28,7 @@ import {
   FaMedal,
   FaRegMap,
 } from 'react-icons/fa'
+import { FaNetworkWired } from 'react-icons/fa6'
 import { PiPackage } from 'react-icons/pi'
 
 export type NavigationIcons = Record<string, JSX.Element>
@@ -40,9 +42,9 @@ const navigationIcon: NavigationIcons = {
   sales: <AiOutlineDashboard />,
   academy: <HiOutlineAcademicCap />,
   pencil: <HiOutlinePencil />,
-  'direct-people': <FaPeopleArrows fontSize={18} />,
+  'direct-people': <FaNetworkWired fontSize={18} />,
   memberships: <PiPackage />,
-  binary: <BsBezier />,
+  binary: <TbBinaryTree />,
   trophy: <BsFillAwardFill />,
   marketplace: <FaStore />,
   retiro: <BsAirplane />,

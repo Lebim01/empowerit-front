@@ -4,7 +4,6 @@ import useTimer from '@/hooks/useTimer'
 import dayjs from 'dayjs'
 import { onSnapshot, collection } from 'firebase/firestore'
 import { BsClock, BsWallet } from 'react-icons/bs'
-import { FaBitcoin } from 'react-icons/fa'
 import { FiCopy } from 'react-icons/fi'
 import { useAppSelector } from '@/store'
 import useClipboard from '@/utils/hooks/useClipboard'
@@ -126,7 +125,7 @@ const FormPayPack = ({
         {isSetted && <span>{user.email}</span>}
 
         {isExpired && !amountChanged ? null : (
-          <img src={qr} className="h-[150px] w-[150px]" />
+          <img src={qr || undefined} className="h-[150px] w-[150px]" />
         )}
 
         {isSetted && (
@@ -178,14 +177,14 @@ const FormPayPack = ({
         <div className="w-full flex justify-end">
           {user.payment_link &&
             user.payment_link[type] &&
-            user.payment_link[type].currency != 'BTC' && (
+            user.payment_link[type].currency != 'MXN' && (
               <ButtonSwapCurrency
-                currency="BTC"
+                currency="MXN"
                 createPaymentLink={createPaymentLink}
                 type={type}
               />
             )}
-            {user.payment_link &&
+          {user.payment_link &&
             user.payment_link[type] &&
             user.payment_link[type].currency != 'LTC' && (
               <ButtonSwapCurrency

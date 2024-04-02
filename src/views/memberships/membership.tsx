@@ -31,6 +31,7 @@ const Membership: FC<Props> = ({
 }) => {
   const [loading, setLoading] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
+  const [period, setPeriod] = useState<Periods>('monthly')
 
   const _createPaymentLink = async (
     type: Memberships,
@@ -40,6 +41,7 @@ const Membership: FC<Props> = ({
     try {
       if (loading) return
       setLoading(true)
+      setPeriod(period)
       await createPaymentLink(user.uid!, type, currency, period)
     } catch (err) {
       console.error(err)
@@ -140,6 +142,7 @@ const Membership: FC<Props> = ({
         type={props.name}
         loading={loading}
         createPaymentLink={_createPaymentLink}
+        period={period}
         options={
           props.year_price
             ? [

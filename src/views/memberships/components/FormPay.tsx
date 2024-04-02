@@ -17,10 +17,12 @@ const FormPay = ({
   type,
   createPaymentLink,
   loading,
+  period,
 }: {
   type: Memberships
   createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
   loading: boolean
+  period: Periods
 }) => {
   const user = useAppSelector((state) => state.auth.user)
   const { copy } = useClipboard()
@@ -159,9 +161,9 @@ const FormPay = ({
         </div>
 
         <div className="w-full flex justify-end">
-          {user.payment_link![type].currency != 'BTC' && (
+          {user.payment_link![type].currency != 'MXN' && (
             <ButtonSwapCurrency
-              currency="BTC"
+              currency="MXN"
               createPaymentLink={createPaymentLink}
               type={type}
             />
@@ -206,11 +208,7 @@ const FormPay = ({
             loading={loading}
             disabled={!isExpired}
             onClick={() =>
-              createPaymentLink(
-                type,
-                user.payment_link![type].currency,
-                'monthly'
-              )
+              createPaymentLink(type, user.payment_link![type].currency, period)
             }
           >
             Calcular de nuevo

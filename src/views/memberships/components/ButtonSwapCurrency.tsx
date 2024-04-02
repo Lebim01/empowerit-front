@@ -1,6 +1,7 @@
 import { GoArrowSwitch } from 'react-icons/go'
 import { Coins } from '../methods'
 import { FaBitcoin } from 'react-icons/fa'
+import { SiCashapp } from 'react-icons/si'
 
 export const currencyIcon = {
   BTC: <FaBitcoin />,
@@ -11,7 +12,8 @@ export const currencyIcon = {
       width={12}
       className="h-[12px] w-[12px]"
     />
-  )
+  ),
+  MXN: <SiCashapp />,
 }
 
 const ButtonSwapCurrency = ({

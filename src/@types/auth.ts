@@ -50,47 +50,5 @@ export type UserDoc = {
   subscription_expires_at?: {
     seconds: number
   }
-  has_scholarship: boolean;
-  subscription: {
-    pro?: {
-      created_at: { seconds: number } | null
-      expires_at: { seconds: number } | null
-      status: null | 'paid' | 'expired'
-
-      payment_link?: {
-        amount: string
-        expires_at: { seconds: number }
-        qr: string
-        status: 'pending' | 'confirming'
-        address: string
-      }
-    }
-    ibo?: {
-      created_at: { seconds: number } | null
-      expires_at: { seconds: number } | null
-      status: null | 'paid' | 'expired'
-
-      payment_link?: {
-        amount: string
-        expires_at: { seconds: number }
-        qr: string
-        status: 'pending' | 'confirming'
-        address: string
-      }
-    }
-    supreme?: {
-      created_at: { seconds: number } | null
-      expires_at: { seconds: number } | null
-      status: null | 'paid' | 'expired'
-
-      payment_link?: {
-        amount: string
-        expires_at: { seconds: number }
-        qr: string
-        status: 'pending' | 'confirming'
-        address: string
-      }
-    }
-  },
   rank?: string
 }

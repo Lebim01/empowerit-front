@@ -104,7 +104,7 @@ const navigationConfig: NavigationTree[] = [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
-    disabled: true,
+    href: 'https://www.empoweritup.com/',
   },
   /*{
     key: '5',

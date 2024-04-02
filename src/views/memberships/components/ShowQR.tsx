@@ -12,11 +12,13 @@ const ShowQR = ({
   loading,
   createPaymentLink,
   options,
+  period,
 }: {
   type: Memberships
   loading: boolean
   createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
   options: { value: Periods; label: string }[]
+  period: Periods
 }) => {
   // Se obtiene el usuario
   const user = useAppSelector((state) => state.auth.user)
@@ -56,6 +58,7 @@ const ShowQR = ({
         type={type}
         loading={loading}
         createPaymentLink={createPaymentLink}
+        period={period}
       />
     )
 

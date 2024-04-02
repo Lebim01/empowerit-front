@@ -19,7 +19,7 @@ import dayjs from 'dayjs'
 import useUserModalStore from '@/zustand/userModal'
 
 import { FaRegMoneyBill1, FaNetworkWired, FaPeopleLine } from 'react-icons/fa6'
-import { RiPresentationFill } from "react-icons/ri";
+import { RiPresentationFill } from 'react-icons/ri'
 
 const bonus = {
   direct: [
