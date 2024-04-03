@@ -128,7 +128,9 @@ const NodeAvatar = forwardRef(
                 <span className="text-xl font-bold whitespace-nowrap line-clamp-1">
                   {name}
                 </span>
-                <span>Socio EMPOWERIT TOP</span>
+                <span>
+                  Socio <span className="nowrap">EMPOWERIT TOP</span>
+                </span>
               </span>
             </div>
           )}
