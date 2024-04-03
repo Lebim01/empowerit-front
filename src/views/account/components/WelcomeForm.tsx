@@ -197,6 +197,15 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
           }
 
           await updateUser(values.uid, sendData)
+
+          if (
+            ['alive-pack', 'freedom-pack', 'business-pack'].includes(
+              data.membership
+            )
+          ) {
+            // send first pack
+          }
+
           dispatch(
             setUser({
               ...values,

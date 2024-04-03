@@ -143,7 +143,10 @@ const SalesDashboardBody = () => {
         className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
         role="presentation"
       >
-        <img src="/img/dashboard/ServicesBanner.jpg" className="w-full" />
+        <img
+          src="/img/dashboard/banner-horizontal-emp-top-2.jpg"
+          className="w-full"
+        />
       </div>
       <Charts />
       {/*<Events />*/}
