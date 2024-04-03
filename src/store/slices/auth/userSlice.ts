@@ -40,6 +40,8 @@ export type UserState = {
   membership: string | null
   membership_status: 'paid' | 'expired' | null
   membership_expires_at: string | null
+  zip?: string
+  address?: string
 
   payment_link?: {
     [type: string]: {
@@ -107,6 +109,8 @@ const userSlice = createSlice({
         state.last_name = payload.last_name
         state.max_rank = payload.max_rank
         state.is_admin = payload.is_admin
+        state.address = payload.address
+        state.zip = payload.zip
 
         const roles = []
         if (payload.is_admin) {
