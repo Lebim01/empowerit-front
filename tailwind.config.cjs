@@ -55,11 +55,18 @@ module.exports = {
       xl: '1280px',
       '2xl': '1536px',
       '3xl': '1800px',
-      '4xl': '2200px'
+      '4xl': '2200px',
     },
     extend: {
       colors: {
         'color-1': '#000000',
+        supreme: '#f59701',
+        pro: '#021d6d',
+        'alive-pack': '#00b000',
+        'freedom-pack': '#c00005',
+        'business-pack': '#6822a3',
+        'elite-pack': '#959595',
+        'vip-pack': '#bd9c3a',
       },
       typography: (theme) => ({
         DEFAULT: {

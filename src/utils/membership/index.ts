@@ -27,3 +27,13 @@ export const getRestHoursMembership = (
   }
   return 0
 }
+
+export const MEMBERSHIP_COLORS = {
+  supreme: '#f59701',
+  pro: '#021d6d',
+  'alive-pack': '#00b000',
+  'freedom-pack': '#c00005',
+  'business-pack': '#6822a3',
+  'elite-pack': '#959595',
+  'vip-pack': '#bd9c3a',
+}

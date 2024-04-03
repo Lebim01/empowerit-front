@@ -32,10 +32,7 @@ const AllRoutes = (props: AllRoutesProps) => {
   const userAuthority = useAppSelector((state) => state.auth.user.authority)
 
   const expires = useAppSelector(
-    (state) =>
-      state.auth.user.subscription?.pro?.expires_at ||
-      state.auth.user.subscription?.starter?.expires_at ||
-      null
+    (state) => state.auth.user.membership_expires_at || null
   )
 
   const isAdmin = useAppSelector((state) =>
@@ -46,7 +43,7 @@ const AllRoutes = (props: AllRoutesProps) => {
 
   useEffect(() => {
     if (!isAdmin) {
-      if (!expires || dayjs().isAfter(dayjs(expires.seconds * 1000))) {
+      if (!expires || dayjs().isAfter(dayjs(expires))) {
         // ya vencio la membresia
         setRedirectToPay(true)
       } else {

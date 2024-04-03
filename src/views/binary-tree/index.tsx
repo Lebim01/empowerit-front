@@ -82,10 +82,21 @@ const getTreeNode = (node: any): any => {
 
 const NodeAvatar = forwardRef(
   (
-    { id, name, email, avatar, x, y, size, onClick, subscription }: any,
+    {
+      id,
+      name,
+      email,
+      avatar,
+      x,
+      y,
+      size,
+      onClick,
+      membership_expires_at,
+      membership,
+    }: any,
     ref: any
   ) => {
-    const days = getRestDaysMembership(subscription?.pro?.expires_at)
+    const days = getRestDaysMembership(membership_expires_at)
     return (
       <div
         className={classNames(`absolute border rounded-lg h-[180px] py-4`, {
@@ -94,15 +105,28 @@ const NodeAvatar = forwardRef(
           'hover:bg-gray-100 hover:cursor-pointer border-solid shadow-md border-gray-400':
             Boolean(name),
           'border-dashed border-gray-300': !name,
+          'shadow-supreme/50': membership == 'supreme',
+          'shadow-pro/60': membership == 'pro',
+          'shadow-vip-pack/80': membership == 'vip-pack',
+          'shadow-elite-pack/60': membership == 'elite-pack',
+          'shadow-alive-pack/60': membership == 'alive-pack',
+          'shadow-freedom-pack/60': membership == 'freedom-pack',
+          'shadow-business-pack/60': membership == 'business-pack',
         })}
-        style={{ left: x, top: y }}
+        style={{
+          left: x,
+          top: y,
+          boxShadow: ['vip-pack', 'elite-pack'].includes(membership)
+            ? 'var(--tw-shadow-color) 0px -50px 36px -28px inset'
+            : 'var(--tw-shadow-color) 0px 15px 20px -10px',
+        }}
         id={id}
         ref={ref}
         onClick={onClick}
       >
         <img
-          src="/img/logo2/logo-dark-streamline.png"
-          className="absolute left-1/2 top-1/2 -translate-y-1/2 w-2/3 -translate-x-1/2 opacity-5"
+          src="/img/logo3/logo-dark-streamline.png"
+          className="absolute left-1/2 top-1/2 -translate-y-1/2 w-full -translate-x-1/2 opacity-5"
         />
         <div className="relative flex flex-col items-center space-y-4">
           <div className="relative">
