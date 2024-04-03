@@ -115,38 +115,6 @@ const SignUpForm = (props: SignUpFormProps) => {
     }
   }
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (uid && uid !== previousUid) {
-        try {
-          const user = await getUser(uid)
-          setDataUser(user)
-          setPreviousUid(uid)
-          setLoading(false)
-
-          const is_active_ibo =
-            user?.subscription?.ibo && user?.subscription?.ibo?.status == 'paid'
-
-          const force_derrame = !(user?.has_scholarship ?? false)
-          const derrame_position = user?.position
-          let invalid_side = false
-
-          if (force_derrame) {
-            const link_position = position == user?.left ? 'left' : 'right'
-            if (derrame_position != link_position) {
-              invalid_side = true
-            }
-          }
-
-          setInvalidLink(!is_active_ibo || invalid_side)
-        } catch (e) {
-          console.log(e)
-        }
-      }
-    }
-    fetchUser()
-  }, [uid])
-
   return (
     <>
       {loading ? (
