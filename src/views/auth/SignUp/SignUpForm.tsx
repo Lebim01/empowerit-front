@@ -29,6 +29,8 @@ type SignUpFormSchema = {
   email_confirm: string
   sponsor: string
   sponsor_id: string
+  presenter_1: string
+  presenter_2: string | null
 }
 
 const validationSchema = Yup.object().shape({
@@ -45,6 +47,8 @@ const validationSchema = Yup.object().shape({
     [Yup.ref('password')],
     'Tu contraseña no coincide'
   ),
+  presenter_1: Yup.string().required('Presentardor es requerido'),
+  presenter_2: Yup.string(),
 })
 
 const SignUpForm = (props: SignUpFormProps) => {
@@ -52,6 +56,12 @@ const SignUpForm = (props: SignUpFormProps) => {
   const { uid, position } = useParams<{ uid: string; position: string }>()
   const [previousUid, setPreviousUid] = useState<string | null>(null)
   const [dataUser, setDataUser] = useState<UserDoc | undefined | null>(
+    undefined
+  )
+  const [presenter1, setPresenter1] = useState<UserDoc | undefined | null>(
+    undefined
+  )
+  const [presenter2, setPresenter2] = useState<UserDoc | undefined | null>(
     undefined
   )
   const { signUp } = useAuth()
@@ -154,6 +164,8 @@ const SignUpForm = (props: SignUpFormProps) => {
                   email_confirm: '',
                   sponsor: dataUser?.name || '',
                   sponsor_id: uid,
+                  presenter_1: '',
+                  presenter_2: null,
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
@@ -242,6 +254,30 @@ const SignUpForm = (props: SignUpFormProps) => {
                           placeholder={dataUser?.name}
                           component={Input}
                           disabled={true}
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Presentador 1"
+                        errorMessage={errors.presenter_1}
+                      >
+                        <Field
+                          autoComplete="off"
+                          name="presenter_1"
+                          placeholder={'Código de presentador'}
+                          component={Input}
+                          value={presenter1?.name}
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Presentador 2"
+                        errorMessage={errors.presenter_2}
+                      >
+                        <Field
+                          autoComplete="off"
+                          name="presenter_2"
+                          placeholder={'Opcional'}
+                          component={Input}
+                          value={presenter2?.name}
                         />
                       </FormItem>
                       <Button

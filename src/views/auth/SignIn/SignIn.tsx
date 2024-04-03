@@ -5,7 +5,7 @@ const SignIn = () => {
     <>
       <div className="mb-8">
         <div className="flex justify-center mb-8 md:hidden">
-          <img src="/img/logo3/logo-light-full.png" className="w-[300px]" />
+          <img src="/img/welcome.png" className="w-full h-full object-cover" />
         </div>
         <h3 className="mb-1">¡Bienvenido!</h3>
         <p>Por favor, escribe tu correo y contraseña para iniciar sesión</p>
