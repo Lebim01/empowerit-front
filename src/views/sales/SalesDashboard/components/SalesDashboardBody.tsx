@@ -11,10 +11,11 @@ import { Dialog, Notification, toast } from '@/components/ui'
 import SocialMediaRedirection from './components/SocialMediaRedirection'
 import WelcomeForm from '@/views/account/components/WelcomeForm'
 
-import { useAppSelector } from '@/store'
+import { UserState, useAppSelector } from '@/store'
 import { db } from '@/configs/firebaseConfig'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { getRestDaysMembership } from '@/utils/membership'
+import dayjs from 'dayjs'
 
 const modalName = 'modal-1'
 
@@ -33,6 +34,12 @@ const SalesDashboardBody = () => {
       'state',
       'city',
       'birthdate',
+      'whatsapp',
+      'address',
+      'rfc',
+      'zip',
+      'bank_account',
+      'wallet_litecoin',
     ]
 
     for (const field of requiredFields) {
@@ -90,12 +97,9 @@ const SalesDashboardBody = () => {
     setOpenWelcomeModal(false)
   }
 
-  const checkSubscription = (user: any, type: string) => {
-    const isActive =
-      user?.subscription?.[type] && user.subscription[type].status === 'paid'
-    const restDays = getRestDaysMembership(
-      user?.subscription?.[type]?.expires_at
-    )
+  const checkSubscription = (user: UserState) => {
+    const isActive = user?.membership_status === 'paid'
+    const restDays = getRestDaysMembership(dayjs(user?.membership_expires_at))
     return { isActive, restDays }
   }
 
@@ -107,54 +111,19 @@ const SalesDashboardBody = () => {
 
   const checkProSubscription = () => {
     if (
-      checkSubscription(user, 'pro').isActive &&
-      checkSubscription(user, 'pro').restDays <= 5
+      checkSubscription(user).isActive &&
+      checkSubscription(user).restDays <= 5
     ) {
       const title = `Su membresía de tipo Pro está por vencer. ${
-        checkSubscription(user, 'pro').restDays
+        checkSubscription(user).restDays
       } días restantes`
-      const type =
-        checkSubscription(user, 'pro').restDays > 3 ? 'warning' : 'danger'
-      createNotification(title, type, 600000)
-    }
-  }
-
-  const checkSupremeSubscription = () => {
-    if (
-      checkSubscription(user, 'supreme').isActive &&
-      checkSubscription(user, 'supreme').restDays <= 5
-    ) {
-      const title = `Su membresía de tipo Supreme está por vencer. ${
-        checkSubscription(user, 'supreme').restDays
-      } días restantes`
-      const type =
-        checkSubscription(user, 'supreme').restDays > 3 ? 'warning' : 'danger'
-      createNotification(title, type, 600000)
-    }
-  }
-
-  const checkIboSubscription = () => {
-    if (
-      checkSubscription(user, 'ibo').isActive &&
-      checkSubscription(user, 'ibo').restDays <= 5
-    ) {
-      const title = `Su membresía de tipo IBO está por vencer. ${
-        checkSubscription(user, 'ibo').restDays
-      } días restantes`
-      const type =
-        checkSubscription(user, 'ibo').restDays > 3 ? 'warning' : 'danger'
+      const type = checkSubscription(user).restDays > 3 ? 'warning' : 'danger'
       createNotification(title, type, 600000)
     }
   }
 
   const verifyMembershipExpiration = () => {
     checkProSubscription()
-    setTimeout(() => {
-      checkSupremeSubscription()
-    }, 1500)
-    setTimeout(() => {
-      checkIboSubscription()
-    }, 2000)
   }
 
   return (
@@ -164,7 +133,10 @@ const SalesDashboardBody = () => {
         className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
         role="presentation"
       >
-        <img src="/img/dashboard/banner-1-empowerit-top.jpg" className="w-full" />
+        <img
+          src="/img/dashboard/banner-1-empowerit-top.jpg"
+          className="w-full"
+        />
       </div>
       <Rank />
       <div

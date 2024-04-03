@@ -88,8 +88,9 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
     city: Yup.object().shape({
       value: Yup.string().required('City is required'),
     }),
-    // discord: Yup.string().required('Discord Required'),
-    // whatsapp: Yup.string().required('WhatsApp Required'),
+    whatsapp: Yup.string().required('Phone Required'),
+    zip: Yup.string().required('Zip Required'),
+    address: Yup.string().required('Address Required'),
     title: Yup.string(),
     lang: Yup.string(),
     timeZone: Yup.string(),
@@ -148,6 +149,8 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
             country: vCountry,
             state: vState,
             city: vCity,
+            address: values.address,
+            zip: values.zip,
           }
 
           const infBirthdate = {
@@ -192,8 +195,6 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
               await updateEmail_Auth(email?.trim())
             }
           }
-
-          console.log(values, sendData)
 
           await updateUser(values.uid, sendData)
           dispatch(
@@ -343,6 +344,30 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                 {errors?.city && (
                   <span className="text-red-500">Ciudad es obligatorio</span>
                 )}
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="address"
+                  placeholder="Dirección"
+                  component={Input}
+                />
+                {errors?.address && (
+                  <span className="text-red-500">Dirección es obligatorio</span>
+                )}
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="number"
+                  autoComplete="off"
+                  name="zip"
+                  placeholder="Código Postal"
+                  component={Input}
+                />
+                {errors?.zip && (
+                  <span className="text-red-500">
+                    Código postal es obligatorio
+                  </span>
+                )}
               </FormRow>
               <FormRow name="contact" label="Contacto" {...validatorProps}>
                 <Field
@@ -353,6 +378,9 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                   component={Input}
                   prefix={<BsWhatsapp className="text-xl" />}
                 />
+                {errors?.whatsapp && (
+                  <span className="text-red-500">Whatsapp es obligatorio</span>
+                )}
                 <Field
                   className="mt-2 ltr:mr-2 rtl:ml-2"
                   type="text"
