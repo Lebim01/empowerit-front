@@ -51,7 +51,7 @@ const GenerateQR = ({
           <Select
             options={options}
             value={options.find((r) => r.value == period)}
-            onChange={(option) => setPeriod(option?.value || 'montly')}
+            onChange={(option) => setPeriod(option?.value || 'monthly')}
           />
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
