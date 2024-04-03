@@ -42,27 +42,7 @@ const SalesDashboardBody = () => {
       'wallet_litecoin',
     ]
 
-    for (const field of requiredFields) {
-      const value = userData[field]
-
-      if (typeof value === 'string' && value.trim() === '') {
-        return false
-      }
-
-      if (typeof value === 'number' && isNaN(value)) {
-        return false
-      }
-
-      if (value instanceof Date && isNaN(value.getTime())) {
-        return false
-      }
-
-      if (value === null || value === undefined) {
-        return false
-      }
-    }
-
-    return true
+    return requiredFields.every((field) => Boolean(userData[field]))
   }
 
   const [openWelcomeModal, setOpenWelcomeModal] = useState(
