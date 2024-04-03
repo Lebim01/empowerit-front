@@ -115,6 +115,22 @@ const SignUpForm = (props: SignUpFormProps) => {
     }
   }
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (uid && uid !== previousUid) {
+        try {
+          const user = await getUser(uid)
+          setDataUser(user)
+          setPreviousUid(uid)
+          setLoading(false)
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    }
+    fetchUser()
+  }, [uid])
+
   return (
     <>
       {loading ? (
