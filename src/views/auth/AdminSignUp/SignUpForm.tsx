@@ -12,9 +12,10 @@ import { useState } from 'react'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
 import AsyncSelect from 'react-select/async'
-import { Notification, Radio, toast } from '@/components/ui'
+import { Notification, Radio, Select, toast } from '@/components/ui'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 interface SignUpFormProps extends CommonProps {
   disableSubmit?: boolean
@@ -28,11 +29,13 @@ type SignUpFormSchema = {
   email: string
   sponsor: string
   sponsor_id: string
+  membership: string
 }
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Por favor ingrese su nombre'),
-  email: Yup.string().trim()
+  email: Yup.string()
+    .trim()
     .email('Email invalido')
     .required('Por favor ingrese su email'),
   password: Yup.string().required('Por favor ingrese su contraseña'),
@@ -40,12 +43,13 @@ const validationSchema = Yup.object().shape({
     [Yup.ref('password')],
     'Las contraseñas no coinciden'
   ),
+  membership: Yup.string().required('Membresia requerida'),
 })
 
 const SignUpForm = (props: SignUpFormProps) => {
   const { disableSubmit = false, className } = props
   const navigate = useNavigate()
-  const [position, setPosition] = useState<'left' | 'right'>('left')
+  const [position, setPosition] = useState<'left' | 'right'>('right')
   const [message, setMessage] = useTimeOutMessage()
   const [users, setUsers] = useState<
     { label: string; value: string; name: string }[]
@@ -66,22 +70,32 @@ const SignUpForm = (props: SignUpFormProps) => {
     }
 
     try {
-      const { name, password, email } = values
+      const { name, password, email, membership } = values
       setSubmitting(true)
-      const result = await apiSignUp({
-        name,
-        password,
-        email: email.trim(),
-        sponsor: sponsor.name,
-        sponsor_id: sponsor.value,
-        position,
-        subscription_expires_at: dayjs().add(28, 'days').toDate(),
-        action: 'calc_binary',
-      })
-      //
+      const result = await fetch(
+        `${import.meta.env.VITE_API_URL}/subscriptions/activeWithoutVolumen`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name,
+            password,
+            email: email.trim(),
+            sponsor: sponsor.name,
+            sponsor_id: sponsor.value,
+            side: position,
+            days: 30,
+            membership,
+          }),
+          method: 'POST',
+        }
+      ).then((r) => r.json())
 
-      if (result?.status === 'error') {
-        setMessage(result.message as string)
+      if (result?.statusCode === 500) {
+        toast.push(<Notification title={'Algo salio mal'} type="danger" />, {
+          placement: 'top-center',
+        })
       } else {
         toast.push(
           <Notification title={'Registrado correctamente'} type="success" />,
@@ -89,7 +103,9 @@ const SignUpForm = (props: SignUpFormProps) => {
             placement: 'top-center',
           }
         )
-        navigate('/order-list')
+        setTimeout(() => {
+          window.location.reload()
+        }, 200)
       }
 
       setSubmitting(false)
@@ -141,6 +157,8 @@ const SignUpForm = (props: SignUpFormProps) => {
             email: '',
             sponsor: '',
             sponsor_id: '',
+            membership: 'supreme',
+            position: 'right',
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
@@ -211,6 +229,15 @@ const SignUpForm = (props: SignUpFormProps) => {
                     onChange={(value: any) => setSponsor(value)}
                     defaultOptions
                     name="sponsor_id"
+                  />
+                </FormItem>
+                <FormItem label="Membresia" errorMessage={errors.sponsor}>
+                  <Select
+                    name="membership"
+                    options={[
+                      { value: 'supreme', label: 'Supreme' },
+                      { value: 'pro', label: 'Pro' },
+                    ]}
                   />
                 </FormItem>
                 <FormItem label="Lado" errorMessage={errors.sponsor}>
