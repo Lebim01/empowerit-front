@@ -151,23 +151,11 @@ const AdminPayroll = () => {
                     />
                   </Td>
                   <Td>{user.name}</Td>
-                  <Td>{user?.direct || 0} USD</Td>
-                  <Td>{user?.direct_second_level || 0} USD</Td>
-                  <Td>{user?.bond_direct_starter_level_1 || 0} USD</Td>
-                  <Td>{user?.residual || 0} USD</Td>
-                  <Td>{user?.residual_second_level || 0} USD</Td>
-                  <Td>{user?.residual_third_level || 0} USD</Td>
-                  <Td>{user?.scholarship || 0} USD</Td>
-                  <Td>{user?.scholarship_second_level || 0} USD</Td>
-                  <Td>{user?.scholarship_third_level || 0} USD</Td>
-                  <Td>{user?.supreme || 0} USD</Td>
-                  <Td>{user?.supreme_second_level || 0} USD</Td>
-                  <Td>{user?.supreme_third_level || 0} USD</Td>
-                  <Td>{user?.bond_crypto_elite_level_1 || 0} USD</Td>
-                  <Td>{user?.bond_crypto_elite_level_2 || 0} USD</Td>
-                  <Td>{user?.bond_toprice_xpert_level_1 || 0} USD</Td>
-                  <Td>{user?.bond_toprice_zpert_elite_level_1 || 0} USD</Td>
-                  <Td>{user?.binary || 0} USD</Td>
+                  <Td>{user?.bond_direct_sale || 0} USD</Td>
+                  <Td>{user?.bond_mentor || 0} USD</Td>
+                  <Td>{user?.bond_presenter || 0} USD</Td>
+                  <Td>{user?.bond_car || 0} USD</Td>
+                  <Td>{user?.bond_binary || 0} USD</Td>
                   <Td>-{user?.fee || 0} USD</Td>
                   <Td>{user?.total || 0} USD</Td>
                   <Td>

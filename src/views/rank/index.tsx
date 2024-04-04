@@ -512,7 +512,7 @@ const Rank = () => {
             <div className="flex flex-col justify-center">
               <img
                 src={`/img/insignias/${rankKey?.key}.png`}
-                className={classNames(rankKey?.key == 'none' && "hidden")}
+                className={classNames(rankKey?.key == 'none' && 'hidden')}
                 width={40}
                 height={40}
               />
@@ -530,15 +530,13 @@ const Rank = () => {
               {loading ? (
                 <Spinner className={`select-loading-indicatior`} size={40} />
               ) : (
-                <p className="text-[24px] font-bold">
-                  {rank.display}
-                </p>
+                <p className="text-[24px] font-bold">{rank.display}</p>
               )}
             </div>
             <div className="flex flex-col justify-center">
               <img
                 src={`/img/insignias/${rank?.key}.png`}
-                className={classNames(rank?.key == 'none' && "hidden")}
+                className={classNames(rank?.key == 'none' && 'hidden')}
                 width={40}
                 height={40}
               />
@@ -626,12 +624,6 @@ const Rank = () => {
               <ReactECharts option={firmas} />
             </p>
           )}
-        </div>
-        <div className="pb-4">
-          <img
-            src="/img/ranks/calificacion.jpg"
-            className="w-full lg:max-h-[70%] object-contain"
-          />
         </div>
       </div>
     </div>
