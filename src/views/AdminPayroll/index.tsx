@@ -88,22 +88,10 @@ const AdminPayroll = () => {
                 <Checkbox />
               </Th>
               <Th>Socio</Th>
-              <Th>Bono Directo</Th>
-              <Th>Bono Directo Segundo nivel </Th>
-              <Th>Bono Starter Primer nivel </Th>
-              <Th>Bono Residual</Th>
-              <Th>Bono Residual Segundo nivel </Th>
-              <Th>Bono Residual Tercer nivel </Th>
-              <Th>Bono Beca</Th>
-              <Th>Bono beca Segundo nivel </Th>
-              <Th>Bono beca Tercer nivel </Th>
-              <Th>Bono Supreme</Th>
-              <Th>Bono Supreme Segundo nivel </Th>
-              <Th>Bono Supreme Tercer nivel </Th>
-              <Th>Bono Crypto Elite Segundo nivel </Th>
-              <Th>Bono Crypto Elite Primer nivel </Th>
-              <Th>Bono Toprice Xpert Primer nivel </Th>
-              <Th>Bono Toprice Xpert Segundo nivel </Th>
+              <Th>Bono Inicio Rapido</Th>
+              <Th>Bono Mentor </Th>
+              <Th>Bono Presentador </Th>
+              <Th>Bono Auto</Th>
               <Th>Bono Binario</Th>
               <Th>5% fee</Th>
               <Th>Total (D+B-F)</Th>
