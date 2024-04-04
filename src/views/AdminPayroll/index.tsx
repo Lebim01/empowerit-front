@@ -106,128 +106,27 @@ const AdminPayroll = () => {
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.direct || 0, 0)} usd
+                  ${users.reduce((a, b) => a + b?.bond_direct_sale || 0, 0)} usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.direct_second_level || 0, 0)}{' '}
-                  usd
+                  ${users.reduce((a, b) => a + b?.bond_mentor || 0, 0)} usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  $
-                  {users.reduce(
-                    (a, b) => a + b?.bond_direct_starter_level_1 || 0,
-                    0
-                  )}{' '}
-                  usd
+                  ${users.reduce((a, b) => a + b?.bond_presenter || 0, 0)} usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.residual || 0, 0)} usd
+                  ${users.reduce((a, b) => a + b?.bond_car || 0, 0)} usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  $
-                  {users.reduce((a, b) => a + b?.residual_second_level || 0, 0)}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.residual_third_level || 0, 0)}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.scholarship || 0, 0)} usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  $
-                  {users.reduce(
-                    (a, b) => a + b?.scholarship_second_level || 0,
-                    0
-                  )}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  $
-                  {users.reduce(
-                    (a, b) => a + b?.scholarship_third_level || 0,
-                    0
-                  )}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.supreme || 0, 0)} usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.supreme_second_level || 0, 0)}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.supreme_third_level || 0, 0)}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  $
-                  {users.reduce(
-                    (a, b) => a + b?.bond_crypto_elite_level_1 || 0,
-                    0
-                  )}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  $
-                  {users.reduce(
-                    (a, b) => a + b?.bond_crypto_elite_level_2 || 0,
-                    0
-                  )}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  $
-                  {users.reduce(
-                    (a, b) => a + b?.bond_toprice_xpert_level_1 || 0,
-                    0
-                  )}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  $
-                  {users.reduce(
-                    (a, b) => a + b?.bond_toprice_xpert_level_2 || 0,
-                    0
-                  )}{' '}
-                  usd
-                </b>
-              </Td>
-              <Td>
-                <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.binary || 0, 0)} usd
+                  ${users.reduce((a, b) => a + b?.bond_binary || 0, 0)} usd
                 </b>
               </Td>
               <Td>
