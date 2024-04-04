@@ -488,7 +488,7 @@ const Rank = () => {
           <a
             href="/img/ranks/calificacion_rangos.pdf"
             download="download"
-            className="cursor-pointer underline text-blue-400"
+            className="cursor-pointer underline text-blue-400 hidden"
           >
             ¿Guía de clasificación de rangos?
           </a>
