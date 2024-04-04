@@ -27,6 +27,8 @@ export type SignUpCredential = {
   subscription_expires_at?: Date
   action?: string
   rank?: string
+  presenter1: string
+  presenter2?: string | null
 }
 
 export type ForgotPassword = {

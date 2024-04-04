@@ -31,6 +31,8 @@ export async function apiSignUp(data: SignUpCredential) {
     sponsor_id,
     position,
     subscription_expires_at = null,
+    presenter1,
+    presenter2,
   } = data
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -48,6 +50,8 @@ export async function apiSignUp(data: SignUpCredential) {
       sponsor_id: sponsor_id,
       subscription_expires_at,
       action: data.action || '',
+      presenter_1: presenter1,
+      presenter_2: presenter2,
     })
     return { status: 'success', data: userCredential }
   } catch (e) {

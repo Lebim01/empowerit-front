@@ -14,7 +14,14 @@ import { getUser } from '@/services/AuthService'
 import { useEffect, useState } from 'react'
 import { UserDoc } from '@/@types/auth'
 import { db } from '@/configs/firebaseConfig'
-import { doc, getDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore'
 import { Notification, toast } from '@/components/ui'
 
 interface SignUpFormProps extends CommonProps {
@@ -80,6 +87,47 @@ const SignUpForm = (props: SignUpFormProps) => {
       const { name, password, email } = values
       setSubmitting(true)
 
+      const presenter1ref = await getDocs(
+        query(
+          collection(db, 'users'),
+          where('presenter_code', '==', values.presenter_1)
+        )
+      )
+      if (presenter1ref.empty) {
+        toast.push(
+          <Notification type="danger" duration={2000}>
+            Presentador 1 incorrecto
+          </Notification>,
+          {
+            placement: 'top-center',
+          }
+        )
+        return
+      }
+      const presenter1 = presenter1ref.docs[0].id
+      let presenter2 = null
+
+      if (values.presenter_2) {
+        const presenter2ref = await getDocs(
+          query(
+            collection(db, 'users'),
+            where('presenter_code', '==', values.presenter_1)
+          )
+        )
+        if (presenter2ref.empty) {
+          toast.push(
+            <Notification type="danger" duration={2000}>
+              Presentador 2 incorrecto
+            </Notification>,
+            {
+              placement: 'top-center',
+            }
+          )
+          return
+        }
+        presenter2 = presenter2ref.docs[0].id
+      }
+
       const sponsorref = await getDoc(doc(db, 'users/' + uid))
       const sponsor = sponsorref.data()
 
@@ -93,6 +141,8 @@ const SignUpForm = (props: SignUpFormProps) => {
         sponsor: sponsor.name,
         sponsor_id: uid,
         position: position_sponsor,
+        presenter1,
+        presenter2,
       })
 
       // Mensajes de error
@@ -269,13 +319,13 @@ const SignUpForm = (props: SignUpFormProps) => {
                         />
                       </FormItem>
                       <FormItem
-                        label="Presentador 2"
+                        label="Presentador 2 (Opcional)"
                         errorMessage={errors.presenter_2}
                       >
                         <Field
                           autoComplete="off"
                           name="presenter_2"
-                          placeholder={'Opcional'}
+                          placeholder={'Códito de presentador'}
                           component={Input}
                           value={presenter2?.name}
                         />
