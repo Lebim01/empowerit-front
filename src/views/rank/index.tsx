@@ -601,7 +601,10 @@ const Rank = () => {
           Pierna externa: {user?.position == 'right' ? 'Derecha' : 'Izquierda'}
         </p>
       </div>
-      <div className="flex flex-col-reverse lg:flex-row">
+      <div
+        className="flex flex-col-reverse lg:flex-row"
+        style={{ display: 'none !important' }}
+      >
         <div className="flex flex-col gap-4 w-full lg:w-[500px] lg:min-w-[500px] xl:w-[600px] xl:min-w-[600px] 2xl:w-[800px] 2xl:min-w-[800px] h-full">
           {loading ? (
             <Spinner className={`select-loading-indicatior`} size={40} />
