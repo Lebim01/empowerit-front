@@ -7,6 +7,7 @@ interface LogoProps extends CommonProps {
   mode?: 'light' | 'dark'
   imgClass?: string
   logoWidth?: number | string
+  fullWidth?: boolean
 }
 
 const LOGO_SRC_PATH = '/img/logo3/'
@@ -19,11 +20,17 @@ const Logo = (props: LogoProps) => {
     imgClass,
     style,
     logoWidth = 'auto',
+    fullWidth = false,
   } = props
 
   return (
     <div
-      className={classNames('logo', 'flex items-center space-x-2', { "justify-center": props.type == "streamline" }, className)}
+      className={classNames(
+        'logo',
+        'flex items-center space-x-2',
+        { 'justify-center': props.type == 'streamline' },
+        className
+      )}
       style={{
         ...style,
         ...{ width: logoWidth },
@@ -33,10 +40,14 @@ const Logo = (props: LogoProps) => {
         className={imgClass}
         src={`${LOGO_SRC_PATH}logo-${mode}-${type}.png`}
         alt={`${APP_NAME} logo`}
-        height={20}
-        style={{
-          height: 30,
-        }}
+        height={fullWidth ? undefined : 20}
+        style={
+          fullWidth
+            ? {}
+            : {
+                height: 30,
+              }
+        }
       />
     </div>
   )

@@ -77,6 +77,7 @@ const SideNav = () => {
               className={
                 sideNavCollapse ? SIDE_NAV_CONTENT_GUTTER : LOGO_X_GUTTER
               }
+              fullWidth
             />
           </div>
           {sideNavCollapse ? (
