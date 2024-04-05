@@ -3,11 +3,14 @@ import Membership from './membership'
 const PayMembership = () => {
   return (
     <div className="flex flex-col gap-4 h-full">
-      <h3>
-        <span className="bg-gradient-to-r from-green-600 via-red-500 to-purple-600 inline-block text-transparent bg-clip-text">
-          EMPOWERIT UP
-        </span>
-      </h3>
+      <div className="flex items-center space-x-4">
+        <img
+          src="/img/logo3/Logo-Empower-It-Up-Black.png"
+          height={100}
+          className="h-[40px] w-min"
+        />
+        <span>(PRODUCTOS)</span>
+      </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
         <Membership
           image="/img/memberships/alive-pack.png"
@@ -25,17 +28,15 @@ const PayMembership = () => {
           image="/img/memberships/business-pack.png"
           name="business-pack"
           display_name="Business Pack"
-          days_label='Trimestral'
+          days_label="Trimestral"
           days={90}
           month_price={1289}
         />
       </div>
 
-      <h3>
-        <span className="bg-gradient-to-r from-blue-600 to-orange-600 inline-block text-transparent bg-clip-text">
-          TOP BUSINESS
-        </span>
-      </h3>
+      <div className="flex items-center space-x-4">
+        <span className="font-bold text-3xl">ACCESO CON SERVICIO DIGITAL</span>
+      </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
         <Membership
           image="/img/memberships/pro.png"
@@ -53,11 +54,10 @@ const PayMembership = () => {
         />
       </div>
 
-      <h3>
-        <span className="bg-gradient-to-r from-gray-500 to-yellow-500 inline-block text-transparent bg-clip-text">
-          HEALTH AND DIGITAL BUSINESS PACKAGE
-        </span>
-      </h3>
+      <div className="flex items-center space-x-4">
+        <span className="font-bold text-3xl">ACCESO HÍBRIDO</span>
+        <span>(PRODUCTO Y SERVICIO)</span>
+      </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
         <Membership
           image="/img/memberships/elite-pack.png"

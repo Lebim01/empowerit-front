@@ -105,9 +105,9 @@ const navigationConfig: NavigationTree[] = [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
-    href:
-      'https://www.empoweritup.com/?user=' +
-        store?.getState()?.auth?.user?.uid ?? '',
+    href: `https://www.empoweritup.com/?user=${
+      store?.getState()?.auth?.user?.uid ?? ''
+    }&accessToken=`,
   },
   /*{
     key: '5',
