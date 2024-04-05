@@ -140,6 +140,8 @@ const userSlice = createSlice({
 
         state.membership_status = payload.membership_status
         state.membership = payload.membership
+
+        console.log(payload.membership_expires_at)
         state.membership_expires_at = payload.membership_expires_at
           ? typeof payload.membership_expires_at == 'string'
             ? payload.membership_expires_at
