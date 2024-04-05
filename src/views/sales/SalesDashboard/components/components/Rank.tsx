@@ -272,7 +272,8 @@ const Rank = () => {
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
-              $ <span className="text-3xl">{data?.bond_direct ?? 0}</span> USD
+              $ <span className="text-3xl">{data?.bond_quick_start ?? 0}</span>{' '}
+              USD
             </span>
           </div>
         </Card>
@@ -328,7 +329,8 @@ const Rank = () => {
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
-              $ <span className="text-3xl">{data?.bond_car ?? 0}</span> USD
+              $ <span className="text-3xl">{data?.bond_presenter ?? 0}</span>{' '}
+              USD
             </span>
           </div>
         </Card>
