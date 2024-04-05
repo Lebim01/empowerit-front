@@ -43,6 +43,9 @@ export type UserState = {
   address?: string
   customToken: string
 
+  bond_presenter: number;
+  bond_quick_start: number;
+
   payment_link?: {
     [type: string]: {
       amount: string
@@ -85,6 +88,8 @@ const initialState: UserState = {
   membership_status: null,
   is_pending_complete_personal_info: true,
   customToken: '',
+  bond_presenter: 0,
+  bond_quick_start: 0
 }
 
 const userSlice = createSlice({
@@ -140,6 +145,9 @@ const userSlice = createSlice({
 
         state.membership_status = payload.membership_status
         state.membership = payload.membership
+
+        state.bond_quick_start = payload.bond_quick_start
+        state.bond_presenter = payload.bond_presenter
 
         console.log(payload.membership_expires_at)
         state.membership_expires_at = payload.membership_expires_at
