@@ -315,7 +315,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                           name="presenter_1"
                           placeholder={'Código de presentador'}
                           component={Input}
-                          value={presenter1?.name}
+                          //value={presenter1?.name}
                         />
                       </FormItem>
                       <FormItem
@@ -327,7 +327,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                           name="presenter_2"
                           placeholder={'Códito de presentador'}
                           component={Input}
-                          value={presenter2?.name}
+                          //value={presenter2?.name}
                         />
                       </FormItem>
                       <Button
