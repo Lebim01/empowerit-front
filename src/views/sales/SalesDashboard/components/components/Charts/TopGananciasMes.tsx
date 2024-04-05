@@ -83,7 +83,7 @@ const TopGananciasMes = () => {
         collection(db, 'users'),
         where('profits_this_month', '>', 0),
         where('membership_status', '==', 'paid'),
-        where('type', '!=', 'top-lider'),
+        //where('type', '!=', 'top-lider'),
         orderBy('profits_this_month', 'desc'),
         limit(5)
       ),

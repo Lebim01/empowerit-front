@@ -84,7 +84,7 @@ const TopFirmasMes = () => {
         collection(db, 'users'),
         where('count_direct_people_this_month', '>', 0),
         where('membership_status', '==', 'paid'),
-        where('type', '!=', 'top-lider'),
+        //where('type', '!=', 'top-lider'),
         orderBy('count_direct_people_this_month', 'desc'),
         limit(5)
       ),
