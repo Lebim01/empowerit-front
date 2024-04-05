@@ -94,8 +94,6 @@ const userSlice = createSlice({
     setUser(state, action: PayloadAction<UserState & any>) {
       const payload = action.payload
 
-      console.log({ payload })
-
       if (payload) {
         state.uid = payload.uid
         state.avatar = payload.avatar

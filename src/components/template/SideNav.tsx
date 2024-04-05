@@ -50,8 +50,6 @@ const SideNav = () => {
     return `side-nav-${navMode}`
   }
 
-  console.log(userLoged)
-
   const menuContent = (
     <VerticalMenuContent
       navMode={navMode}
