@@ -55,7 +55,7 @@ const validationSchema = Yup.object().shape({
     'Tu contraseña no coincide'
   ),
   presenter_1: Yup.string().required('Presentardor es requerido'),
-  presenter_2: Yup.string(),
+  presenter_2: Yup.string().optional(),
 })
 
 const SignUpForm = (props: SignUpFormProps) => {
@@ -87,13 +87,14 @@ const SignUpForm = (props: SignUpFormProps) => {
       const { name, password, email } = values
       setSubmitting(true)
 
-      const presenter1ref = await getDocs(
+      /*const presenter1ref = await getDocs(
         query(
           collection(db, 'users'),
           where('presenter_code', '==', values.presenter_1)
         )
-      )
-      if (presenter1ref.empty) {
+      )*/
+      const presenter1ref = await getDoc(doc(db, 'users/' + values.presenter_1))
+      if (!presenter1ref.exists()) {
         toast.push(
           <Notification type="danger" duration={2000}>
             Presentador 1 incorrecto
@@ -102,19 +103,24 @@ const SignUpForm = (props: SignUpFormProps) => {
             placement: 'top-center',
           }
         )
+        setSubmitting(false)
         return
       }
-      const presenter1 = presenter1ref.docs[0].id
+      //const presenter1 = presenter1ref.docs[0].id
+      const presenter1 = presenter1ref.id
       let presenter2 = null
 
       if (values.presenter_2) {
-        const presenter2ref = await getDocs(
+        /*const presenter2ref = await getDocs(
           query(
             collection(db, 'users'),
             where('presenter_code', '==', values.presenter_1)
           )
+        )*/
+        const presenter2ref = await getDoc(
+          doc(db, 'users/' + values.presenter_2)
         )
-        if (presenter2ref.empty) {
+        if (!presenter2ref.exists()) {
           toast.push(
             <Notification type="danger" duration={2000}>
               Presentador 2 incorrecto
@@ -123,9 +129,11 @@ const SignUpForm = (props: SignUpFormProps) => {
               placement: 'top-center',
             }
           )
+          setSubmitting(false)
           return
         }
-        presenter2 = presenter2ref.docs[0].id
+        //presenter2 = presenter2ref.docs[0].id
+        presenter2 = presenter2ref.id
       }
 
       const sponsorref = await getDoc(doc(db, 'users/' + uid))
@@ -315,7 +323,6 @@ const SignUpForm = (props: SignUpFormProps) => {
                           name="presenter_1"
                           placeholder={'Código de presentador'}
                           component={Input}
-                          //value={presenter1?.name}
                         />
                       </FormItem>
                       <FormItem
@@ -327,7 +334,6 @@ const SignUpForm = (props: SignUpFormProps) => {
                           name="presenter_2"
                           placeholder={'Códito de presentador'}
                           component={Input}
-                          //value={presenter2?.name}
                         />
                       </FormItem>
                       <Button

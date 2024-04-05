@@ -48,7 +48,6 @@ const validationSchema = Yup.object().shape({
 
 const SignUpForm = (props: SignUpFormProps) => {
   const { disableSubmit = false, className } = props
-  const navigate = useNavigate()
   const [position, setPosition] = useState<'left' | 'right'>('right')
   const [message, setMessage] = useTimeOutMessage()
   const [users, setUsers] = useState<
