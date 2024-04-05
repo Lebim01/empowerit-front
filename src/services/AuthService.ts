@@ -16,11 +16,7 @@ export async function apiSignIn(data: SignInCredential) {
       email,
       password
     )
-    const customToken = await fetch(
-      `${import.meta.env.VITE_API_URL}/users/getCustomToken?user=${
-        userCredential.user.uid
-      }`
-    ).then((r) => r.text())
+    const customToken = await getCustomToken(userCredential.user.uid)
     return { status: 'success', data: { ...userCredential, customToken } }
   } catch (e) {
     return { status: 'failed', e }
@@ -45,11 +41,7 @@ export async function apiSignUp(data: SignUpCredential) {
       email,
       password
     )
-    const customToken = await fetch(
-      `${import.meta.env.VITE_API_URL}/users/getCustomToken?user=${
-        userCredential.user.uid
-      }`
-    ).then((r) => r.text())
+    const customToken = await getCustomToken(userCredential.user.uid)
     await setDoc(doc(db, 'users/' + userCredential.user.uid), {
       is_admin: false,
       avatar: '',
@@ -90,4 +82,13 @@ export async function updateUser(uid: string, data: any): Promise<void> {
 export const updateEmail_Auth = async (newEmail: string) => {
   const aut = getAuth().currentUser
   return updateEmail(aut, newEmail)
+}
+
+export const getCustomToken = async (user_id: string) => {
+  const customToken = await fetch(
+    `${import.meta.env.VITE_API_URL}/users/getCustomToken?user=${
+      user_id
+    }`
+  ).then((r) => r.text())
+  return customToken
 }

@@ -15,6 +15,7 @@ import { payRoute } from '@/configs/routes.config/routes.config'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
 import GlobalComponents from './GlobalComponents'
+import { getCustomToken } from '@/services/AuthService'
 
 interface ViewsProps {
   pageContainerType?: 'default' | 'gutterless' | 'contained'
@@ -58,9 +59,11 @@ const AllRoutes = (props: AllRoutesProps) => {
     if (user.uid) {
       const unsubs = onSnapshot(doc(db, 'users/' + user.uid), (snap) => {
         const data: any = snap.data()
-        dispatch(
-          setUser({ uid: user.uid, customToken: user.customToken, ...data })
-        )
+        getCustomToken(user.uid!).then(customToken => {
+          dispatch(
+            setUser({ uid: user.uid, customToken, ...data })
+          )
+        })
       })
       return () => {
         unsubs()

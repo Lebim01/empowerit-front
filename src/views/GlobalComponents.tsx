@@ -13,7 +13,7 @@ const GlobalComponents = () => {
   const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
-    if (userModal.user_id)
+    if (userModal.user_id) {
       getDoc(doc(db, `users/${userModal.user_id}`))
         .then((r) => {
           setUser({
@@ -22,6 +22,7 @@ const GlobalComponents = () => {
           })
         })
         .catch(console.error)
+      }
   }, [userModal.user_id])
 
   return (
