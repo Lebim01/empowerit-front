@@ -18,6 +18,8 @@ import { Link } from 'react-router-dom'
 import type { NavigationTree } from '@/@types/navigation'
 import type { Direction, NavMode, Mode } from '@/@types/theme'
 import type { CommonProps } from '@/@types/common'
+import useAuth from '@/utils/hooks/useAuth'
+import { useAppSelector } from '@/store'
 
 export type SelectedMenuItem = {
   key?: string
@@ -50,8 +52,13 @@ const StackedSideNavMini = (props: StackedSideNavMiniProps) => {
     direction,
     ...rest
   } = props
+  const userLoged = useAppSelector((state) => state.auth.user)
 
-  const { includedRouteTree } = useMenuActive(navigationConfig, routeKey)
+
+  const { includedRouteTree } = useMenuActive(
+    navigationConfig(userLoged),
+    routeKey
+  )
 
   const logoMode = () => {
     if (navMode === NAV_MODE_THEMED) {
@@ -108,7 +115,7 @@ const StackedSideNavMini = (props: StackedSideNavMiniProps) => {
           variant={navMode}
           defaultActiveKeys={activeKeys || [includedRouteTree.key]}
         >
-          {navigationConfig.map((nav) => (
+          {navigationConfig(userLoged).map((nav) => (
             <AuthorityCheck
               key={nav.key}
               authority={nav.authority}

@@ -58,7 +58,9 @@ const AllRoutes = (props: AllRoutesProps) => {
     if (user.uid) {
       const unsubs = onSnapshot(doc(db, 'users/' + user.uid), (snap) => {
         const data: any = snap.data()
-        dispatch(setUser({ uid: user.uid, ...data }))
+        dispatch(
+          setUser({ uid: user.uid, customToken: user.customToken, ...data })
+        )
       })
       return () => {
         unsubs()

@@ -12,6 +12,7 @@ import navigationConfig from '@/configs/navigation.config'
 import VerticalMenuContent from '@/components/template/VerticalMenuContent'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { useAppSelector } from '@/store'
+import useAuth from '@/utils/hooks/useAuth'
 
 const sideNavStyle = {
   width: SIDE_NAV_WIDTH,
@@ -38,6 +39,7 @@ const SideNav = () => {
     (state) => state.theme.layout.sideNavCollapse
   )
   const userAuthority = useAppSelector((state) => state.auth.user.authority)
+  const userLoged = useAppSelector((state) => state.auth.user)
 
   const { larger } = useResponsive()
 
@@ -48,11 +50,13 @@ const SideNav = () => {
     return `side-nav-${navMode}`
   }
 
+  console.log(userLoged)
+
   const menuContent = (
     <VerticalMenuContent
       navMode={navMode}
       collapsed={sideNavCollapse}
-      navigationTree={navigationConfig}
+      navigationTree={navigationConfig(userLoged)}
       routeKey={currentRouteKey}
       userAuthority={userAuthority as string[]}
       direction={direction}

@@ -15,7 +15,6 @@ import { updateUser, updateEmail_Auth } from '@/services/AuthService'
 import { setUser, useAppDispatch } from '@/store'
 import { useState, useEffect } from 'react'
 import {
-  BsDiscord,
   BsInstagram,
   BsTelegram,
   BsTelephoneFill,
@@ -135,7 +134,6 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
             whatsapp,
             telegram,
             instagram,
-            discord,
             email,
             nombreBeneficiario1,
             telefonoBeneficiario1,
@@ -161,7 +159,6 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
             whatsapp: whatsapp || '',
             telegram: telegram || '',
             instagram: instagram?.trim() || '',
-            discord: discord?.toLowerCase().trim() || '',
           }
           const infPayroll = {
             rfc: values.rfc,
@@ -398,15 +395,6 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                   placeholder="Instagram"
                   component={Input}
                   prefix={<BsInstagram className="text-xl" />}
-                />
-                <Field
-                  className="mt-2 ltr:mr-2 rtl:ml-2"
-                  type="text"
-                  autoComplete="off"
-                  name="discord"
-                  placeholder="Discord"
-                  component={Input}
-                  prefix={<BsDiscord className="text-xl" />}
                 />
                 <Field
                   className="mt-2 ltr:mr-2 rtl:ml-2"

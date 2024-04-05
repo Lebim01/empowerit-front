@@ -15,7 +15,6 @@ export type UserState = {
   whatsapp?: number
   telegram?: number
   instagram?: string
-  discord?: string
   last_name?: string
   email?: string
   authority?: string[]
@@ -42,6 +41,7 @@ export type UserState = {
   membership_expires_at: string | null
   zip?: string
   address?: string
+  customToken: string
 
   payment_link?: {
     [type: string]: {
@@ -84,6 +84,7 @@ const initialState: UserState = {
   membership_expires_at: null,
   membership_status: null,
   is_pending_complete_personal_info: true,
+  customToken: '',
 }
 
 const userSlice = createSlice({
@@ -92,6 +93,8 @@ const userSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<UserState & any>) {
       const payload = action.payload
+
+      console.log({ payload })
 
       if (payload) {
         state.uid = payload.uid
@@ -105,12 +108,12 @@ const userSlice = createSlice({
         state.whatsapp = payload.whatsapp
         state.telegram = payload.telegram
         state.instagram = payload.instagram
-        state.discord = payload.discord
         state.last_name = payload.last_name
         state.max_rank = payload.max_rank
         state.is_admin = payload.is_admin
         state.address = payload.address
         state.zip = payload.zip
+        state.customToken = payload.customToken
 
         const roles = []
         if (payload.is_admin) {

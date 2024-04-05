@@ -35,7 +35,6 @@ import {
 import { sendEmail } from '@/services/emailSender'
 import {
   BsBank,
-  BsDiscord,
   BsInstagram,
   BsTelegram,
   BsWhatsapp,
@@ -238,7 +237,6 @@ const Profile = ({ data }: any) => {
             whatsapp,
             telegram,
             instagram,
-            discord,
             avatar,
             email,
             name,
@@ -251,7 +249,6 @@ const Profile = ({ data }: any) => {
             whatsapp: whatsapp || '',
             telegram: telegram || '',
             instagram: instagram?.trim() || '',
-            discord: discord?.toLowerCase().trim() || '',
           }
 
           const sendData: any = {
@@ -420,17 +417,6 @@ const Profile = ({ data }: any) => {
                   readOnly={!isValidCode}
                   disabled={!isValidCode}
                   prefix={<BsInstagram className="text-xl" />}
-                />
-                <Field
-                  className="mt-2 ltr:mr-2 rtl:ml-2"
-                  type="text"
-                  autoComplete="off"
-                  name="discord"
-                  placeholder="Discord"
-                  component={Input}
-                  readOnly={!isValidCode}
-                  disabled={!isValidCode}
-                  prefix={<BsDiscord className="text-xl" />}
                 />
                 <Field
                   className="mt-2 ltr:mr-2 rtl:ml-2"

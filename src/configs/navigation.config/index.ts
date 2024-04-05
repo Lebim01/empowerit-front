@@ -3,9 +3,9 @@ import {
   NAV_ITEM_TYPE_COLLAPSE,
 } from '@/constants/navigation.constant'
 import type { NavigationTree } from '@/@types/navigation'
-import store from '../../store'
+import { UserState } from '../../store'
 
-const navigationConfig: NavigationTree[] = [
+const navigationConfig = (user: UserState): NavigationTree[] => [
   {
     key: 'home',
     path: '/home',
@@ -86,16 +86,6 @@ const navigationConfig: NavigationTree[] = [
     authority: ['USER'],
     subMenu: [],
   },
-  /*{
-    key: '8',
-    path: `/shop`,
-    title: 'Top Shop',
-    translateKey: 'nav.order-list',
-    icon: 'leader',
-    type: NAV_ITEM_TYPE_ITEM,
-    authority: ['USER'],
-    subMenu: [],
-  },*/
   {
     key: '2',
     path: `/le`,
@@ -105,9 +95,9 @@ const navigationConfig: NavigationTree[] = [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
-    href: `https://www.empoweritup.com/?user=${
-      store?.getState()?.auth?.user?.uid ?? ''
-    }&accessToken=`,
+    href: `https://www.empoweritup.com/?user=${user?.uid ?? ''}&accessToken=${
+      user?.customToken ?? ''
+    }`,
   },
   /*{
     key: '5',

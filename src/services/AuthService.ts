@@ -6,7 +6,7 @@ import {
   getAuth,
   updateEmail,
 } from 'firebase/auth'
-import type { SignInCredential, SignUpCredential, UserDoc } from '@/@types/auth'
+import type { SignInCredential, SignUpCredential } from '@/@types/auth'
 
 export async function apiSignIn(data: SignInCredential) {
   const { email, password } = data
@@ -16,7 +16,12 @@ export async function apiSignIn(data: SignInCredential) {
       email,
       password
     )
-    return { status: 'success', data: userCredential }
+    const customToken = await fetch(
+      `${import.meta.env.VITE_API_URL}/users/getCustomToken?user=${
+        userCredential.user.uid
+      }`
+    ).then((r) => r.text())
+    return { status: 'success', data: { ...userCredential, customToken } }
   } catch (e) {
     return { status: 'failed', e }
   }
@@ -40,6 +45,11 @@ export async function apiSignUp(data: SignUpCredential) {
       email,
       password
     )
+    const customToken = await fetch(
+      `${import.meta.env.VITE_API_URL}/users/getCustomToken?user=${
+        userCredential.user.uid
+      }`
+    ).then((r) => r.text())
     await setDoc(doc(db, 'users/' + userCredential.user.uid), {
       is_admin: false,
       avatar: '',
@@ -53,7 +63,7 @@ export async function apiSignUp(data: SignUpCredential) {
       presenter_1: presenter1,
       presenter_2: presenter2,
     })
-    return { status: 'success', data: userCredential }
+    return { status: 'success', data: { ...userCredential, customToken } }
   } catch (e) {
     console.error(e)
     return { status: 'error', message: e }
