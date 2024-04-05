@@ -141,7 +141,9 @@ const userSlice = createSlice({
         state.membership_status = payload.membership_status
         state.membership = payload.membership
         state.membership_expires_at = payload.membership_expires_at
-          ? dayjs(payload.membership_expires_at.seconds * 1000).toISOString()
+          ? typeof payload.membership_expires_at == 'string'
+            ? payload.membership_expires_at
+            : dayjs(payload.membership_expires_at.seconds * 1000).toISOString()
           : null
       }
     },
