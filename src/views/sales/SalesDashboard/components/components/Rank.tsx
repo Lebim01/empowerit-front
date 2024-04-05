@@ -67,7 +67,7 @@ const Rank = () => {
     } else if (user.max_rank?.key) {
       getRank(user.max_rank?.key)
     } else {
-      getRank('vanguard')
+      getRank('none')
     }
   }, [user.max_rank])
 
