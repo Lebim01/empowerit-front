@@ -37,7 +37,7 @@ type SignUpFormSchema = {
   sponsor: string
   sponsor_id: string
   presenter_1: string
-  presenter_2: string | null
+  presenter_2: string
 }
 
 const validationSchema = Yup.object().shape({
@@ -63,12 +63,6 @@ const SignUpForm = (props: SignUpFormProps) => {
   const { uid, position } = useParams<{ uid: string; position: string }>()
   const [previousUid, setPreviousUid] = useState<string | null>(null)
   const [dataUser, setDataUser] = useState<UserDoc | undefined | null>(
-    undefined
-  )
-  const [presenter1, setPresenter1] = useState<UserDoc | undefined | null>(
-    undefined
-  )
-  const [presenter2, setPresenter2] = useState<UserDoc | undefined | null>(
     undefined
   )
   const { signUp } = useAuth()
@@ -223,7 +217,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                   sponsor: dataUser?.name || '',
                   sponsor_id: uid,
                   presenter_1: '',
-                  presenter_2: null,
+                  presenter_2: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
@@ -234,123 +228,127 @@ const SignUpForm = (props: SignUpFormProps) => {
                   }
                 }}
               >
-                {({ touched, errors, isSubmitting }) => (
-                  <Form>
-                    <FormContainer>
-                      <FormItem
-                        label="Nombre"
-                        invalid={errors.name && touched.name}
-                        errorMessage={errors.name}
-                      >
-                        <Field
-                          type="text"
-                          autoComplete="off"
-                          name="name"
-                          placeholder="Nombre"
-                          component={Input}
-                        />
-                      </FormItem>
-                      <FormItem
-                        label="Email"
-                        invalid={errors.email && touched.email}
-                        errorMessage={errors.email}
-                      >
-                        <Field
-                          type="email"
-                          name="email"
-                          placeholder="Email"
-                          component={Input}
-                        />
-                      </FormItem>
-                      <FormItem
-                        label="Confirmar Email"
-                        invalid={errors.email_confirm && touched.email_confirm}
-                        errorMessage={errors.email_confirm}
-                      >
-                        <Field
-                          disablePaste
-                          type="email"
-                          autoComplete="off"
-                          name="email_confirm"
-                          placeholder="Confirmar Email"
-                          component={Input}
-                        />
-                      </FormItem>
-                      <FormItem
-                        label="Contraseña"
-                        invalid={errors.password && touched.password}
-                        errorMessage={errors.password}
-                      >
-                        <Field
-                          autoComplete="off"
-                          name="password"
-                          placeholder="Password"
-                          component={PasswordInput}
-                        />
-                      </FormItem>
-                      <FormItem
-                        label="Confirmar Contraseña"
-                        invalid={
-                          errors.confirmPassword && touched.confirmPassword
-                        }
-                        errorMessage={errors.confirmPassword}
-                      >
-                        <Field
-                          autoComplete="off"
-                          name="confirmPassword"
-                          placeholder="Confirm Password"
-                          component={PasswordInput}
-                        />
-                      </FormItem>
-                      <FormItem
-                        label="Patrocinador"
-                        errorMessage={errors.sponsor}
-                      >
-                        <Field
-                          autoComplete="off"
-                          name="sponsor"
-                          placeholder={dataUser?.name}
-                          component={Input}
-                          disabled={true}
-                        />
-                      </FormItem>
-                      <FormItem
-                        label="Presentador 1"
-                        errorMessage={errors.presenter_1}
-                      >
-                        <Field
-                          autoComplete="off"
-                          name="presenter_1"
-                          placeholder={'Código de presentador'}
-                          component={Input}
-                        />
-                      </FormItem>
-                      <FormItem
-                        label="Presentador 2 (Opcional)"
-                        errorMessage={errors.presenter_2}
-                      >
-                        <Field
-                          autoComplete="off"
-                          name="presenter_2"
-                          placeholder={'Códito de presentador'}
-                          component={Input}
-                        />
-                      </FormItem>
-                      <Button
-                        block
-                        loading={isSubmitting}
-                        variant="solid"
-                        type="submit"
-                      >
-                        {isSubmitting ? 'Creando cuenta...' : 'Registrarse'}
-                      </Button>
-                      <div className="mt-4 text-center">
-                        <span>¿Ya tienes una cuenta? </span>
-                        <ActionLink to={signInUrl}>Inicia sesión</ActionLink>
-                      </div>
-                    </FormContainer>
-                  </Form>
-                )}
+                {({ touched, errors, isSubmitting }) => {
+                  return (
+                    <Form>
+                      <FormContainer>
+                        <FormItem
+                          label="Nombre"
+                          invalid={errors.name && touched.name}
+                          errorMessage={errors.name}
+                        >
+                          <Field
+                            type="text"
+                            autoComplete="off"
+                            name="name"
+                            placeholder="Nombre"
+                            component={Input}
+                          />
+                        </FormItem>
+                        <FormItem
+                          label="Email"
+                          invalid={errors.email && touched.email}
+                          errorMessage={errors.email}
+                        >
+                          <Field
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            component={Input}
+                          />
+                        </FormItem>
+                        <FormItem
+                          label="Confirmar Email"
+                          invalid={
+                            errors.email_confirm && touched.email_confirm
+                          }
+                          errorMessage={errors.email_confirm}
+                        >
+                          <Field
+                            disablePaste
+                            type="email"
+                            autoComplete="off"
+                            name="email_confirm"
+                            placeholder="Confirmar Email"
+                            component={Input}
+                          />
+                        </FormItem>
+                        <FormItem
+                          label="Contraseña"
+                          invalid={errors.password && touched.password}
+                          errorMessage={errors.password}
+                        >
+                          <Field
+                            autoComplete="off"
+                            name="password"
+                            placeholder="Password"
+                            component={PasswordInput}
+                          />
+                        </FormItem>
+                        <FormItem
+                          label="Confirmar Contraseña"
+                          invalid={
+                            errors.confirmPassword && touched.confirmPassword
+                          }
+                          errorMessage={errors.confirmPassword}
+                        >
+                          <Field
+                            autoComplete="off"
+                            name="confirmPassword"
+                            placeholder="Confirm Password"
+                            component={PasswordInput}
+                          />
+                        </FormItem>
+                        <FormItem
+                          label="Patrocinador"
+                          errorMessage={errors.sponsor}
+                        >
+                          <Field
+                            autoComplete="off"
+                            name="sponsor"
+                            placeholder={dataUser?.name}
+                            component={Input}
+                            disabled={true}
+                          />
+                        </FormItem>
+                        <FormItem
+                          label="Presentador 1"
+                          errorMessage={errors.presenter_1}
+                        >
+                          <Field
+                            autoComplete="off"
+                            name="presenter_1"
+                            placeholder={'Código de presentador'}
+                            component={Input}
+                          />
+                        </FormItem>
+                        <FormItem
+                          label="Presentador 2 (Opcional)"
+                          errorMessage={errors.presenter_2}
+                        >
+                          <Field
+                            autoComplete="off"
+                            name="presenter_2"
+                            placeholder={'Códito de presentador'}
+                            component={Input}
+                          />
+                        </FormItem>
+                        <Button
+                          block
+                          loading={isSubmitting}
+                          variant="solid"
+                          type="submit"
+                        >
+                          {isSubmitting ? 'Creando cuenta...' : 'Registrarse'}
+                        </Button>
+                        <div className="mt-4 text-center">
+                          <span>¿Ya tienes una cuenta? </span>
+                          <ActionLink to={signInUrl}>Inicia sesión</ActionLink>
+                        </div>
+                      </FormContainer>
+                    </Form>
+                  )
+                }}
               </Formik>
             </div>
           ) : (
