@@ -83,7 +83,7 @@ const SignInForm = (props: SignInFormProps) => {
         }}
       >
         {({ touched, errors, isSubmitting }) => (
-          <Form>
+          <Form className='pb-8'>
             <FormContainer>
               <FormItem
                 label="Correo"
