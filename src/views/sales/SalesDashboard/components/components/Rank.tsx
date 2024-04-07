@@ -144,10 +144,8 @@ const Rank = () => {
     setIsTopDollarsDisplayed(userCreatedAt >= validTopDollarsDate)
   }
 
-  console.log({payrollDetails})
-
-  const openDetails = (type: string) => {
-    setModalDetails(payrollDetails.filter((r) => r.type == type))
+  const openDetails = (...types: string[]) => {
+    setModalDetails(payrollDetails.filter((r) => types.includes(r.type)))
     setIsOpenModal(true)
   }
 
@@ -191,7 +189,8 @@ const Rank = () => {
             <div className="flex flex-col">
               <p>Ganancias obtenidas</p>
               <p className="text-[24px] font-bold">
-                ${data?.profits?.toFixed(2) || 0}
+                ${data?.profits?.toFixed(2) || 0}{' '}
+                <span className="text-[20px]">USD</span>
               </p>
             </div>
 
@@ -239,7 +238,7 @@ const Rank = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4">
-        <Card onClick={() => openDetails('bond_quick_start')}>
+        <Card onClick={() => openDetails('bond_quick_start', 'bond_founder')}>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
               <FaRegMoneyBill1 size={30} className="text-yellow-600" />
@@ -248,7 +247,7 @@ const Rank = () => {
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
-              $ <span className="text-3xl">{data?.bond_quick_start ?? 0}</span>{' '}
+              $ <span className="text-3xl">{(data?.bond_quick_start ?? 0) + (data?.bond_founder ?? 0)}</span>{' '}
               USD
             </span>
           </div>
