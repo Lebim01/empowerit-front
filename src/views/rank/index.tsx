@@ -9,6 +9,7 @@ import weekday from 'dayjs/plugin/weekday'
 import { getDocs, query, collection, orderBy } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
 import classNames from 'classnames'
+import { ranksOrder, ranksPoints, ranks_object } from './ranks_object'
 
 const dayweeks = [
   'Lunes',
@@ -61,26 +62,23 @@ const Rank = () => {
   const user: any = useAppSelector((state) => state.auth.user)
   const [rank, setRank] = useState<any>('Sin rango')
   const [rankKey, setRankKey] = useState<any>('Sin rango')
+  const [nextRank, setNextRank] = useState<any>(null)
   const [socios, setSocios] = useState<any>({})
-  const [ganancias, setGanancias] = useState<any>({})
-  const [firmas, setFirmas] = useState<any>({})
   const [loading, setLoading] = useState<boolean>(false)
   const [loadingRank, setLoadingRank] = useState<boolean>(true)
-  const [weeks] = useState(getWeeks())
-  const [payrollDetails, setPayrollDetails] = useState<any[]>([])
 
   useEffect(() => {
     if (user.uid) {
       getRank(user.uid)
-      getRankKey(user.rank)
+      getCurrentRank(user.rank)
     }
   }, [user.uid])
 
-  const getRankKey = async (id: string) => {
+  const getCurrentRank = async (rank_key: string) => {
     setLoadingRank(true)
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/ranks/getRankKey/${id}`,
+        `${import.meta.env.VITE_API_URL}/ranks/getRankKey/${rank_key}`,
         {
           method: 'POST',
           headers: {
@@ -103,228 +101,59 @@ const Rank = () => {
   }
 
   useEffect(() => {
-    setSocios({
-      title: {
-        text: 'Socios',
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: { type: 'cross' },
-        formatter: (params: any, ticket: any) => {
-          const week_name = params[0].name as
-            | 'actual (NA)'
-            | '1ra'
-            | '2da'
-            | '3ra'
-            | '4ta'
-            | '5ta (NA)'
-          if (weeks.object[week_name]) {
-            const week = weeks.object[week_name]
-            const format_start = week[0].format('DD/MM/YY hh:mm A')
-            const format_end = week[1].format('DD/MM/YY hh:mm A')
-            return `
-            Inicio: ${format_start} 
-            <br /> 
-            Fin:${format_end}
-            <br/>
-            <b>${params[0].value} Izquierda</b>
-            <br/>
-            <b>${params[1].value} Derecha</b>`
-          }
-          return undefined
+    if (rankKey.key && nextRank) {
+      const prev_rank_points =
+        rankKey.order > 0
+          ? ranksPoints[ranks_object[ranksOrder[rankKey.order - 1]].key]
+          : null
+      const options = {
+        title: {
+          text: 'Puntos de rango',
         },
-      },
-      xAxis: {
-        type: 'category',
-        data: [
+        xAxis: {
+          type: 'category',
+          data: ['Izquierda', 'Derecha'],
+        },
+        yAxis: {
+          type: 'value',
+          min: rankKey.order > -1 ? prev_rank_points : undefined,
+          max: nextRank.points * 1.2,
+        },
+        series: [
           {
-            name: '5a',
-            value: '5ta (NA)',
-            textStyle: {
-              color: 'red',
-            },
-          },
-          '4ta',
-          '3ra',
-          '2da',
-          '1ra',
-          {
-            name: 'actual',
-            value: 'actual (NA)',
-            textStyle: {
-              color: 'red',
+            data: [rankKey.left_points || 350, rankKey.right_points || 150],
+            type: 'bar',
+            name: 'Puntos',
+            markLine: {
+              data: [
+                {
+                  name: nextRank.key,
+                  yAxis: nextRank.points,
+                  label: {
+                    position: 'middle',
+                    formatter: () => `${nextRank.display}`,
+                    fontWeight: 'bold',
+                  },
+                },
+              ],
             },
           },
         ],
-      },
-      yAxis: {
-        type: 'value',
-      },
-      series: [
-        {
-          data: rank.left_week,
-          type: 'bar',
-          name: 'Izquierda',
-        },
-        {
-          data: rank.right_week,
-          type: 'bar',
-          name: 'Derecha',
-        },
-      ],
-    })
-
-    setGanancias({
-      title: {
-        text: `Ganancias ($${
-          rank.totalUSD?.total_week
-            ?.reduce((a: number, b: number) => a + b, 0)
-            .toFixed(2) || 0
-        } USD)`,
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: { type: 'cross' },
-        formatter: (params: any, ticket: any) => {
-          const week_name = params[0].name as
-            | 'actual (NA)'
-            | '1ra'
-            | '2da'
-            | '3ra'
-            | '4ta'
-            | '5ta (NA)'
-          if (weeks.object[week_name]) {
-            const week = weeks.object[week_name]
-            const format_start = week[0].format('DD/MM/YY hh:mm A')
-            const format_end = week[1].format('DD/MM/YY hh:mm A')
-            return `
-            Inicio: ${format_start} 
-            <br /> 
-            Fin:${format_end}
-            <br/>
-            <b>$${Math.floor(params[0].value * 100) / 100} USD</b>`
-          }
-          return undefined
-        },
-      },
-      xAxis: {
-        type: 'category',
-        data: [
-          {
-            name: '5ta',
-            value: '5ta (NA)',
-            textStyle: {
-              color: 'red',
-            },
-          },
-          '4ta',
-          '3ra',
-          '2da',
-          '1ra',
-          {
-            name: 'actual',
-            value: 'actual (NA)',
-            textStyle: {
-              color: 'red',
-            },
-          },
-        ],
-      },
-      yAxis: {
-        type: 'value',
-      },
-      series: [
-        {
-          data: rank.totalUSD?.total_week,
-          type: 'bar',
-          name: 'Ganancias',
-        },
-      ],
-    })
-
-    setFirmas({
-      title: {
-        text: `Firmas (${
-          rank.firmas_directas?.reduce((a: number, b: number) => a + b, 0) || 0
-        })`,
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: { type: 'cross' },
-        formatter: (params: any, ticket: any) => {
-          const week_name = params[0].name as
-            | 'actual (NA)'
-            | '1ra'
-            | '2da'
-            | '3ra'
-            | '4ta'
-            | '5ta (NA)'
-          if (weeks.object[week_name]) {
-            const week = weeks.object[week_name]
-            const format_start = week[0].format('DD/MM/YY hh:mm A')
-            const format_end = week[1].format('DD/MM/YY hh:mm A')
-            return `
-            Inicio: ${format_start} 
-            <br /> 
-            Fin:${format_end}
-            <br/>
-            <b>${params[0].value} firmas</b>`
-          }
-          return undefined
-        },
-      },
-      xAxis: {
-        type: 'category',
-        data: [
-          {
-            name: '5ta',
-            value: '6ta (NA)',
-            textStyle: {
-              color: 'red',
-            },
-          },
-          '4ta',
-          '3ra',
-          '2da',
-          '1ra',
-          {
-            name: 'actual',
-            value: 'actual (NA)',
-            textStyle: {
-              color: 'red',
-            },
-          },
-        ],
-      },
-      yAxis: {
-        type: 'value',
-      },
-      series: [
-        {
-          data: rank.firmas_directas,
-          type: 'bar',
-          name: 'Firmas',
-        },
-      ],
-    })
-  }, [rank])
+      }
+      setSocios(options)
+    }
+  }, [rankKey, nextRank])
 
   useEffect(() => {
-    if (user.uid) {
-      getDocs(
-        query(
-          collection(db, 'users/' + user.uid + '/payroll'),
-          orderBy('created_at', 'desc')
-        )
-      ).then((snap) => {
-        if (!snap.empty)
-          setPayrollDetails((data) => [
-            ...data,
-            ...snap.docs.map((d) => d.data()),
-          ])
+    if (rankKey.key) {
+      const next_rank = ranks_object[ranksOrder[rankKey.order + 1]]
+      const next_rank_points = ranksPoints[next_rank.key]
+      setNextRank({
+        ...next_rank,
+        points: next_rank_points,
       })
     }
-  }, [user.uid])
+  }, [rankKey])
 
   const getRank = async (id: string) => {
     setLoading(true)
@@ -376,103 +205,6 @@ const Rank = () => {
 
       return { status: 'error', error }
     }
-  }
-
-  const parseFirebaseDate = (date: any, format: string) => {
-    return dayjs(date.seconds * 1000 + date.nanoseconds / 1000000).format(
-      format
-    )
-  }
-
-  function getWeekNumber(date: dayjs.Dayjs): number {
-    const firstDayOfYear = date.startOf('year')
-    const pastDaysOfYear = date.diff(firstDayOfYear, 'day')
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.day() + 1) / 7)
-  }
-
-  const cleanGananciasMaximas = (
-    rankHistory: Array<IProfitsHistory>
-  ): Array<IProfitsHistory> => {
-    const summedByDate = rankHistory
-      ?.map((element: IProfitsHistory) => {
-        const fecha = dayjs
-          .unix(element.date.seconds)
-          .add(element.date.nanoseconds / 1e9, 'second')
-        return {
-          date: parseFirebaseDate(element.date, 'DD/MM/YY'),
-          total: element.total,
-          week: getWeekNumber(fecha),
-        }
-      })
-      .filter(
-        (value, index, self) =>
-          index ===
-          self.findIndex(
-            (t) => t.date === value.date && t.total === value.total
-          )
-      )
-      .reduce<Array<IProfitsHistory>>((acc, current) => {
-        const existingDate = acc.find((item) => item.week === current.week)
-        if (existingDate) {
-          existingDate.total += current.total
-          existingDate.date.push(current.date)
-        } else {
-          acc.push({
-            date: [current.date],
-            total: current.total,
-            week: current.week,
-          })
-        }
-        return acc
-      }, [])
-      .map((element: IProfitsHistory) => {
-        return {
-          date: element.date.sort()[0],
-          total: element.total,
-          week: element.week,
-        }
-      })
-    return summedByDate
-  }
-
-  const getGananciasMaximas = (rankHistory: Array<IProfitsHistory>) => {
-    const profitsHistory = payrollDetails.map((payrollElement) => {
-      return {
-        date: payrollElement.created_at,
-        total: payrollElement.total,
-      }
-    })
-    let maxSum = 0
-    let maxSumElements: any = []
-    const cleanRankHistory = cleanGananciasMaximas(profitsHistory)
-    const sortedData = cleanRankHistory?.sort((a, b) => a.date - b.date)
-
-    for (let i = 0; i <= sortedData?.length - 4; i++) {
-      const currentElements = sortedData.slice(i, i + 4)
-      const sum = currentElements.reduce((acc, item) => acc + item.total, 0)
-
-      if (sum > maxSum) {
-        maxSum = sum
-        maxSumElements = currentElements
-      }
-    }
-
-    const sortedDateRange = maxSumElements?.sort(
-      (a: any, b: any) => a.week - b.week
-    )
-    return (
-      <div>
-        <p className="text-[13px] font-bold">
-          Ganancias Máximas 4 semanas consecutivas
-        </p>
-        <p className="text-[13px]">
-          {`De la semana del ${sortedDateRange[0]?.date} a la semana del ${
-            sortedDateRange[sortedDateRange.length - 1]?.date
-          } ganaste un total de: `}
-        </p>
-        <p className="text-[22px] font-bold">{`$ ${maxSum.toFixed(2)} USD`}</p>
-      </div>
-    )
   }
 
   const endMonth = dayjs().endOf('month')
@@ -577,21 +309,6 @@ const Rank = () => {
             </div>
           </div>
         </div>
-
-        <div
-          className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400 card-border cursor-pointer user-select-none hidden"
-          role="presentation"
-        >
-          <div className="flex p-4 justify-between bg-slate-100 rounded-[10px] h-full">
-            <div className="flex flex-col">
-              {loading ? (
-                <Spinner className={`select-loading-indicatior`} size={40} />
-              ) : (
-                getGananciasMaximas(rank?.rankHistory)
-              )}
-            </div>
-          </div>
-        </div>
       </div>
       <div>
         <p>
@@ -601,7 +318,7 @@ const Rank = () => {
           Pierna externa: {user?.position == 'right' ? 'Derecha' : 'Izquierda'}
         </p>
       </div>
-      <div className="hidden flex-col-reverse lg:flex-row">
+      <div className="flex flex-col-reverse lg:flex-row">
         <div className="flex flex-col gap-4 w-full lg:w-[500px] lg:min-w-[500px] xl:w-[600px] xl:min-w-[600px] 2xl:w-[800px] 2xl:min-w-[800px] h-full">
           {loading ? (
             <Spinner className={`select-loading-indicatior`} size={40} />
@@ -610,20 +327,14 @@ const Rank = () => {
               <ReactECharts option={socios} />
             </p>
           )}
-          {loading ? (
-            <Spinner className={`select-loading-indicatior`} size={40} />
-          ) : (
-            <p className="text-[24px] font-bold">
-              <ReactECharts option={ganancias} />
-            </p>
-          )}
-          {loading ? (
-            <Spinner className={`select-loading-indicatior`} size={40} />
-          ) : (
-            <p className="text-[24px] font-bold">
-              <ReactECharts option={firmas} />
-            </p>
-          )}
+        </div>
+      </div>
+      <div>
+        <h5>Requisitos {nextRank?.display}</h5>
+        <div>
+          <span>Puntos pierna más corta: {nextRank?.points} puntos</span>
+          <br />
+          <span>Binario activo (una persona activa de cada lado)</span>
         </div>
       </div>
     </div>

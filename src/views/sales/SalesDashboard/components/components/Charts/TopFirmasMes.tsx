@@ -58,7 +58,7 @@ const TopFirmasMes = () => {
             index > 9 ? '' : r.count_direct_people_this_month
           ),
           label: {
-            show: false,
+            show: true,
             precision: 1,
             position: 'right',
             valueAnimation: true,

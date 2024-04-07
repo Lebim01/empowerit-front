@@ -95,12 +95,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
-    href: `https://www.empoweritup.com/?user=${user?.uid ?? ''}&accessToken=${
-      user?.customToken ?? ''
-    }`,
-    /*href: `http://localhost:3002/?user=${user?.uid ?? ''}&accessToken=${
-      user?.customToken ?? ''
-    }`,*/
+    href: `https://www.empoweritup.com/?user=${user?.uid ?? ''}`,
   },
   /*{
     key: '5',
