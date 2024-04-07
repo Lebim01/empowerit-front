@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Badge } from '@/components/ui'
 import dayjs from 'dayjs'
-import {
-  useReactTable,
-  getCoreRowModel,
-  flexRender,
-} from '@tanstack/react-table'
 import {
   collection,
   query,
@@ -14,17 +8,10 @@ import {
   limit,
   getDocs,
   QueryDocumentSnapshot,
-  endBefore,
   endAt,
+  where,
 } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
-
-const { Tr, Th, Td, THead, TBody } = Table
-
-const statusColor: Record<string, string> = {
-  paid: 'bg-emerald-500',
-  pending: 'bg-amber-400',
-}
 
 interface RowData {
   id: string
@@ -54,21 +41,24 @@ const History: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
       if (isNextPage && lastVisible) {
         _query = query(
           collection(db, 'users'),
-          orderBy('created_at'),
+          where('membership_status', '==', 'paid'),
+          orderBy('created_at', 'desc'),
           limit(pageSize),
           startAfter(lastVisible)
         )
       } else if (!isNextPage && firstVisible) {
         _query = query(
           collection(db, 'users'),
-          orderBy('created_at'),
+          where('membership_status', '==', 'paid'),
+          orderBy('created_at', 'desc'),
           limit(pageSize),
           endAt(firstVisible)
         )
       } else {
         _query = query(
           collection(db, 'users'),
-          orderBy('created_at'),
+          where('membership_status', '==', 'paid'),
+          orderBy('created_at', 'desc'),
           limit(pageSize)
         )
       }
@@ -86,6 +76,7 @@ const History: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
         sponsor: doc.data().sponsor,
         upline: doc.data().parent_binary_user_id,
         position: doc.data().position,
+        membership: doc.get('membership'),
         pay_status: doc.data().subscription_status,
         pay_status_link: doc.data().payment_link ? doc.data().payment_link : {},
       }))
@@ -117,7 +108,7 @@ const History: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
               Nombre
             </th>
             <th className="py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Status
+              Membresia
             </th>
             <th className="py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
               Correo
@@ -137,22 +128,12 @@ const History: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
           {users.map((item: any, key: number) => {
             return (
               <tr
-              key={key}
+                key={key}
                 className="hover:bg-gray-100 transition-colors text-center"
               >
                 <td className="py-4 whitespace-nowrap">{item.date}</td>
                 <td className="py-4 whitespace-nowrap">{item.name}</td>
-                <td className="py-4 whitespace-nowrap">
-                  {item.pay_status ? (
-                    <span className="text-green-500">Pagado</span>
-                  ) : item.pay_status_link.status === 'pending' ? (
-                    <span className=" text-yellow-500">Pendiente Pago</span>
-                  ) : item.pay_status_link.status === 'confitming' ? (
-                    <span className="text-yellow-500">Confirmando Pago</span>
-                  ) : (
-                    <span className="text-red-500">----------</span>
-                  )}
-                </td>
+                <td className="py-4 whitespace-nowrap">{item.membership}</td>
                 <td className="py-4 whitespace-nowrap">{item.email}</td>
                 <td className="py-4 whitespace-nowrap">{item.sponsor}</td>
                 <td className="py-4 whitespace-nowrap">{item.upline}</td>
