@@ -21,16 +21,6 @@ import useUserModalStore from '@/zustand/userModal'
 import { FaRegMoneyBill1, FaNetworkWired, FaPeopleLine } from 'react-icons/fa6'
 import { RiPresentationFill } from 'react-icons/ri'
 
-const bonus = {
-  direct: [
-    'bond_direct_level_1',
-    'bond_direct_level_2',
-    'bond_direct_starter_level_1',
-  ],
-  binary: [],
-  mentor: [],
-}
-
 const Rank = () => {
   const userModal = useUserModalStore((state) => state)
   const [data, setData] = useState<any>({})
@@ -46,6 +36,7 @@ const Rank = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isOpenModalBinary, setIsOpenModalBinary] = useState(false)
   const [isTopDollarsDisplayed, setIsTopDollarsDisplayed] = useState(false)
+
   useEffect(() => {
     if (user.uid) {
       const unsub1 = onSnapshot(doc(db, 'users/' + user.uid), (snap) => {
@@ -109,24 +100,15 @@ const Rank = () => {
   }, [user.uid])
 
   useEffect(() => {
-    if (lastPayroll) {
+    
       getDocs(
         query(
           collection(db, 'users/' + user.uid + '/profits_details'),
-          where(
-            'created_at',
-            '>=',
-            dayjs(lastPayroll.created_at.seconds * 1000).toDate()
-          ),
           orderBy('created_at', 'asc')
         )
       ).then((snap) => {
-        setPayrollDetails((data) => [
-          ...data,
-          ...snap.docs.map((d) => d.data()),
-        ])
+        setPayrollDetails((data) => snap.docs.map((d) => d.data()))
       })
-    }
   }, [lastPayroll])
 
   const getRank = async (id: string) => {
@@ -162,16 +144,10 @@ const Rank = () => {
     setIsTopDollarsDisplayed(userCreatedAt >= validTopDollarsDate)
   }
 
-  const openDetails = (
-    type:
-      | 'direct'
-      | 'residual'
-      | 'supreme'
-      | 'scholarship'
-      | 'crypto_elite'
-      | 'toprice_xpert'
-  ) => {
-    setModalDetails(payrollDetails.filter((r) => bonus[type].includes(r.type)))
+  console.log({payrollDetails})
+
+  const openDetails = (type: string) => {
+    setModalDetails(payrollDetails.filter((r) => r.type == type))
     setIsOpenModal(true)
   }
 
@@ -263,7 +239,7 @@ const Rank = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4">
-        <Card onClick={() => openDetails('direct')}>
+        <Card onClick={() => openDetails('bond_quick_start')}>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
               <FaRegMoneyBill1 size={30} className="text-yellow-600" />
@@ -278,7 +254,7 @@ const Rank = () => {
           </div>
         </Card>
 
-        <Card onClick={() => openDetails('binary')}>
+        <Card onClick={() => openDetails('bond_binary')}>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
               <FaNetworkWired size={30} className="text-gray-700" />
@@ -292,7 +268,7 @@ const Rank = () => {
           </div>
         </Card>
 
-        <Card onClick={() => openDetails('mentor')}>
+        <Card onClick={() => openDetails('bond_mentor')}>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
               <FaPeopleLine size={30} className="text-green-700" />
@@ -306,7 +282,7 @@ const Rank = () => {
           </div>
         </Card>
 
-        <Card onClick={() => openDetails('mentor')}>
+        <Card onClick={() => openDetails('bond_car')}>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
               <FaCar size={30} className="text-red-500" />
@@ -320,7 +296,7 @@ const Rank = () => {
           </div>
         </Card>
 
-        <Card onClick={() => openDetails('mentor')}>
+        <Card onClick={() => openDetails('bond_presenter')}>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
               <RiPresentationFill size={30} className="text-purple-500" />
