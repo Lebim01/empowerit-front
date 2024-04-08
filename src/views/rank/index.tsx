@@ -101,7 +101,7 @@ const Rank = () => {
   }
 
   useEffect(() => {
-    if (rankKey.key && nextRank) {
+    if (rankKey.key && nextRank && rank) {
       const prev_rank_points =
         rankKey.order > 0
           ? ranksPoints[ranks_object[ranksOrder[rankKey.order - 1]].key]
@@ -121,7 +121,7 @@ const Rank = () => {
         },
         series: [
           {
-            data: [rankKey.left_points, rankKey.right_points],
+            data: [rank.left_points, rank.right_points],
             type: 'bar',
             name: 'Puntos',
             markLine: {
@@ -142,7 +142,7 @@ const Rank = () => {
       }
       setSocios(options)
     }
-  }, [rankKey, nextRank])
+  }, [rankKey, nextRank, rank])
 
   useEffect(() => {
     if (rankKey.key) {
