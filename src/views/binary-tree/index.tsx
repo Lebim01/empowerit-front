@@ -1,14 +1,22 @@
 import { db } from '@/configs/firebaseConfig'
 import { useAppSelector } from '@/store'
-import { collection, getDocs } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  where,
+  query,
+  getDoc,
+  doc,
+} from 'firebase/firestore'
 import { useEffect, useState, forwardRef, useCallback } from 'react'
-import { Avatar, Button } from '@/components/ui'
+import { Avatar, Button, Dialog } from '@/components/ui'
 import { HiOutlineUser } from 'react-icons/hi'
 import classNames from 'classnames'
 import arrowCreate, { DIRECTION } from 'arrows-svg'
 import { getRestDaysMembership } from '@/utils/membership'
 import { FaChevronUp } from 'react-icons/fa'
 import useQuery from '@/utils/hooks/useQuery'
+import dayjs from 'dayjs'
 
 class Node {
   data: any
@@ -166,13 +174,16 @@ const NodeAvatar = forwardRef(
 NodeAvatar.displayName = 'NodeAvatar'
 
 export default function OrgChartTree() {
-  const query = useQuery()
+  const queryParams = useQuery()
   const [tree, setTree] = useState<any>(null)
   const user = useAppSelector((state) => state.auth.user)
   const [rootNodeId, setRootNodeId] = useState(
-    query.get('userID') ? query.get('userID') : user.uid
+    queryParams.get('userID') ? queryParams.get('userID') : user.uid
   )
+  const [leftPoints, setLeftPoints] = useState<any[]>([])
+  const [rightPoints, setRightPoints] = useState<any[]>([])
   const [arrowsSetted, setArrows] = useState(false)
+  const [openModal, setOpenModal] = useState<null | string>(null)
 
   useEffect(() => {
     if (rootNodeId) {
@@ -294,10 +305,98 @@ export default function OrgChartTree() {
     }
   }, [])
 
+  useEffect(() => {
+    getPoints()
+  }, [user.uid])
+
+  const getPoints = async () => {
+    const docs = await getDocs(
+      query(
+        collection(db, `users/${user.uid}/points`),
+        where('created_at', '>=', dayjs().startOf('month').toDate())
+      )
+    )
+    const left = await Promise.all(
+      docs.docs
+        .filter((r) => r.get('side') == 'left')
+        .map(async (r) => ({
+          ...r.data(),
+          created_at: dayjs(r.get('created_at').seconds * 1000).format(
+            'YYYY-MM-DD HH:mm:ss'
+          ),
+          user: await getDoc(doc(db, `users/${r.get('user_id')}`)).then((r) =>
+            r.get('name')
+          ),
+        }))
+    )
+    const right = await Promise.all(
+      docs.docs
+        .filter((r) => r.get('side') == 'right')
+        .map(async (r) => ({
+          ...r.data(),
+          created_at: dayjs(r.get('created_at').seconds * 1000).format(
+            'YYYY-MM-DD HH:mm:ss'
+          ),
+          user: await getDoc(doc(db, `users/${r.get('user_id')}`)).then((r) =>
+            r.get('name')
+          ),
+        }))
+    )
+    setLeftPoints(left)
+    setRightPoints(right)
+  }
+
+  const showLeft = async () => {
+    setOpenModal('left')
+  }
+
+  const showRight = async () => {
+    setOpenModal('right')
+  }
+
+  const closeModal = () => {
+    setOpenModal(null)
+  }
+
   if (!tree) return null
 
   return (
     <div id="treeWrapper" className="w-full h-full overflow-auto">
+      <Dialog
+        isOpen={openModal !== null}
+        width={1000}
+        closable={true}
+        onClose={closeModal}
+      >
+        <table className="w-full">
+          <thead>
+            <tr>
+              <th>Puntos</th>
+              <th>Usuario</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {openModal == 'left' &&
+              leftPoints.map((r, index) => (
+                <tr key={index}>
+                  <td className="text-center">{r.points}</td>
+                  <td className="text-center">{r.user}</td>
+                  <td className="text-center">{r.created_at}</td>
+                </tr>
+              ))}
+            {openModal == 'right' &&
+              rightPoints.map((r, index) => (
+                <tr key={index}>
+                  <td className="text-center">{r.points}</td>
+                  <td className="text-center">{r.user}</td>
+                  <td className="text-center">{r.created_at}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </Dialog>
+
       <div
         className="relative"
         style={{ width: containerWidth, paddingBottom: 40 }}
@@ -323,13 +422,17 @@ export default function OrgChartTree() {
               className="absolute"
               style={{ left: initPosition - 100, top: 10 }}
             >
-              <b>Izq: {tree?.data?.left_points} pts</b>
+              <button onClick={showLeft}>
+                <b>Izq: {tree?.data?.left_points} pts</b>
+              </button>
             </div>
             <div
               className="absolute"
               style={{ left: initPosition + 320, top: 10 }}
             >
-              <b>Der: {tree?.data?.right_points} pts</b>
+              <button onClick={showRight}>
+                <b>Der: {tree?.data?.right_points} pts</b>
+              </button>
             </div>
           </>
         }
