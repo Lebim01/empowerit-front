@@ -13,22 +13,23 @@ const ScrollBar = forwardRef<ScrollbarRef, ScrollbarProps>((props, ref) => {
     const { direction = 'ltr', ...rest } = props
 
     return (
-        <Scrollbars
-            ref={ref}
-            renderView={(props) => (
-                <div
-                    {...props}
-                    style={{
-                        ...props.style,
-                        ...(direction === 'rtl' && {
-                            marginLeft: props.style.marginRight,
-                            marginRight: 0,
-                        }),
-                    }}
-                />
-            )}
-            {...rest}
-        />
+      <Scrollbars
+        ref={ref}
+        renderView={(props) => (
+          <div
+            {...props}
+            style={{
+              ...props.style,
+              ...(direction === 'rtl' && {
+                marginLeft: props.style.marginRight,
+                marginRight: 0,
+              }),
+              paddingBottom: 170,
+            }}
+          />
+        )}
+        {...rest}
+      />
     )
 })
 
