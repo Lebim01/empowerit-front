@@ -121,7 +121,7 @@ const Rank = () => {
         },
         series: [
           {
-            data: [rankKey.left_points || 350, rankKey.right_points || 150],
+            data: [rankKey.left_points, rankKey.right_points],
             type: 'bar',
             name: 'Puntos',
             markLine: {
