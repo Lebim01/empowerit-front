@@ -86,7 +86,7 @@ const TopFirmasMes = () => {
         where('membership_status', '==', 'paid'),
         //where('type', '!=', 'top-lider'),
         orderBy('count_direct_people_this_month', 'desc'),
-        limit(5)
+        limit(10)
       ),
       (snap) => {
         setTopPeople(snap.docs.map((r) => r.data()))
