@@ -6,6 +6,7 @@ import Td from '@/components/ui/Table/Td'
 import Th from '@/components/ui/Table/Th'
 import Tr from '@/components/ui/Table/Tr'
 import { db } from '@/configs/firebaseConfig'
+import { formatNumberWithCommas } from '@/utils/format'
 import useUserModalStore from '@/zustand/userModal'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
@@ -89,27 +90,16 @@ const AdminPayroll = () => {
             <Table>
               <THead>
                 <Tr>
-                  <Th>Binario</Th>
                   <Th>Puntos Binario</Th>
                   <Th>Lado de binario cobrado</Th>
                   <Th>Puntos a la izquierda</Th>
                   <Th>Puntos a la derecha</Th>
-                  <Th>Cantidad BTC</Th>
-                  <Th>Directo</Th>
-                  <Th>Directo segundo nivel</Th>
-                  <Th>Starter primer nivel</Th>
-                  <Th>Residual</Th>
-                  <Th>Residual segundo nivel</Th>
-                  <Th>Beca</Th>
-                  <Th>Beca segundo nivel</Th>
-                  <Th>Beca tercer nivel</Th>
-                  <Th>Supreme</Th>
-                  <Th>Supreme segundo nivel</Th>
-                  <Th>Supreme tercer nivel</Th>
-                  <Th>Supreme crypto elite primer nivel</Th>
-                  <Th>Supreme crypto elite segundo nivel</Th>
-                  <Th>Supreme toprice xpert primer nivel</Th>
-                  <Th>Supreme toprice xpert segundo nivel</Th>
+                  <Th>Cantidad LTC</Th>
+                  <Th>Bono Inicio Rapido</Th>
+                  <Th>Bono Binario</Th>
+                  <Th>Bono Presentador</Th>
+                  <Th>Bono Mentor</Th>
+                  <Th>Bono Carro</Th>
                   <Th>Nombre</Th>
                   <Th>Sub Total</Th>
                   <Th>Comisiones</Th>
@@ -120,27 +110,31 @@ const AdminPayroll = () => {
                 {selectedPayroll &&
                   selectedPayroll?.details.map((detail: any) => (
                     <Tr key={detail?.id}>
-                      <Td>{detail?.binary} USD</Td>
                       <Td>{detail?.binary_points}</Td>
                       <Td>{detail?.binary_side}</Td>
                       <Td>{detail?.left_points}</Td>
                       <Td>{detail?.right_points}</Td>
-                      <Td>{detail?.btc_amount}</Td>
-                      <Td>{detail?.direct} USD</Td>
-                      <Td>{detail?.direct_second_level} USD</Td>
-                      <Td>{detail?.bond_direct_starter_level_1} USD</Td>
-                      <Td>{detail?.residual || 0} USD</Td>
-                      <Td>{detail?.residual_second_level || 0} USD</Td>
-                      <Td>{detail?.scholarship || 0} USD</Td>
-                      <Td>{detail?.scholarship_second_level || 0} USD</Td>
-                      <Td>{detail?.scholarship_third_level || 0} USD</Td>
-                      <Td>{detail?.supreme || 0} USD</Td>
-                      <Td>{detail?.supreme_second_level || 0} USD</Td>
-                      <Td>{detail?.supreme_third_level || 0} USD</Td>
-                      <Td>{detail?.bond_crypto_elite_level_1 || 0} USD</Td>
-                      <Td>{detail?.bond_crypto_elite_level_2 || 0} USD</Td>
-                      <Td>{detail?.bond_toprice_xpert_level_1 || 0} USD</Td>
-                      <Td>{detail?.bond_toprice_xpert_level_2 || 0} USD</Td>
+                      <Td>{detail?.crypto_amount}</Td>
+                      <Td>
+                        {formatNumberWithCommas(
+                          detail?.bond_quick_start + detail?.bond_founder,
+                          2
+                        )}{' '}
+                        USD
+                      </Td>
+                      <Td>
+                        {formatNumberWithCommas(detail?.bond_binary, 2)} USD
+                      </Td>
+                      <Td>
+                        {formatNumberWithCommas(detail?.bond_presenter, 2)} USD
+                      </Td>
+                      <Td>
+                        {formatNumberWithCommas(detail?.bond_mentor || 0, 2)}{' '}
+                        USD
+                      </Td>
+                      <Td>
+                        {formatNumberWithCommas(detail?.bond_car || 0, 2)} USD
+                      </Td>
                       <Td>
                         <span
                           className="underline text-blue-500 hover:cursor-pointer"
@@ -149,9 +143,9 @@ const AdminPayroll = () => {
                           {detail?.name}
                         </span>
                       </Td>
-                      <Td>{detail?.subtotal} USD</Td>
+                      <Td>{formatNumberWithCommas(detail?.subtotal, 2)} USD</Td>
                       <Td>{detail?.fee} USD</Td>
-                      <Td>{detail?.total} USD</Td>
+                      <Td>{formatNumberWithCommas(detail?.total, 2)} USD</Td>
                     </Tr>
                   ))}
               </TBody>

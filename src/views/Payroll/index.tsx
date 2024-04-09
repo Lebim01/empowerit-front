@@ -83,18 +83,11 @@ const AdminPayroll = () => {
               <Th>Lado de binario cobrado</Th>
               <Th>Puntos izquierda</Th>
               <Th>Puntos derecha</Th>
-              <Th>Cantidad BTC</Th>
-              <Th>Directo</Th>
-              <Th>Directo segundo nivel</Th>
-              <Th>Starter primer nivel</Th>
-              <Th>Residual</Th>
-              <Th>Residual segundo nivel</Th>
-              <Th>Beca</Th>
-              <Th>Beca segundo nivel</Th>
-              <Th>Beca tercer nivel</Th>
-              <Th>Supreme</Th>
-              <Th>Supreme segundo nivel</Th>
-              <Th>Supreme tercer nivel</Th>
+              <Th>Cantidad LTC</Th>
+              <Th>Bono Inicio Rapido</Th>
+              <Th>Bono Binario</Th>
+              <Th>Bono Mentor</Th>
+              <Th>Bono Carro</Th>
               <Th>Subtotal USD</Th>
               <Th>Comisión</Th>
               <Th>Total USD</Th>
@@ -122,36 +115,17 @@ const AdminPayroll = () => {
                 <Td className="whitespace-nowrap">
                   {payroll?.btc_amount || 0} BTC
                 </Td>
-                <Td className="whitespace-nowrap">{payroll?.direct} USD</Td>
                 <Td className="whitespace-nowrap">
-                  {payroll?.direct_second_level} USD
+                  {payroll?.bond_quick_start} USD
                 </Td>
                 <Td className="whitespace-nowrap">
-                  {payroll?.bond_direct_starter_level_1} USD
+                  {payroll?.bond_binary} USD
                 </Td>
                 <Td className="whitespace-nowrap">
-                  {payroll?.residual || 0} USD
+                  {payroll?.bond_mentor} USD
                 </Td>
                 <Td className="whitespace-nowrap">
-                  {payroll?.residual_second_level || 0} USD
-                </Td>
-                <Td className="whitespace-nowrap">
-                  {payroll?.scholarship || 0} USD
-                </Td>
-                <Td className="whitespace-nowrap">
-                  {payroll?.scholarship_second_level || 0} USD
-                </Td>
-                <Td className="whitespace-nowrap">
-                  {payroll?.scholarship_third_level || 0} USD
-                </Td>
-                <Td className="whitespace-nowrap">
-                  {payroll?.supreme || 0} USD
-                </Td>
-                <Td className="whitespace-nowrap">
-                  {payroll?.supreme_second_level || 0} USD
-                </Td>
-                <Td className="whitespace-nowrap">
-                  {payroll?.supreme_third_level || 0} USD
+                  {payroll?.bond_car || 0} USD
                 </Td>
                 <Td className="whitespace-nowrap">{payroll?.subtotal} USD</Td>
                 <Td className="whitespace-nowrap">{payroll?.fee} USD</Td>
