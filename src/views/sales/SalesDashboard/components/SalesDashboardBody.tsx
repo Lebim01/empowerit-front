@@ -36,10 +36,7 @@ const SalesDashboardBody = () => {
       'birthdate',
       'whatsapp',
       'address',
-      'rfc',
       'zip',
-      'bank_account',
-      'wallet_litecoin',
     ]
 
     return requiredFields.every((field) => Boolean(userData[field]))
