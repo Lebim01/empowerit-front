@@ -7,6 +7,7 @@ import Th from '@/components/ui/Table/Th'
 import Tr from '@/components/ui/Table/Tr'
 import { formatNumberWithCommas } from '@/utils/format'
 import axios from 'axios'
+import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { FaCheck, FaTimes } from 'react-icons/fa'
 
@@ -182,7 +183,7 @@ const AdminPayroll = () => {
             {users
               .sort((a, b) => b.total - a.total)
               .map((user) => (
-                <Tr key={user.id}>
+                <Tr key={user.id} className={classNames(user.total < 40 && "bg-gray-200")}>
                   <Td>
                     <Checkbox
                       disabled={!user.wallet_bitcoin || user.total < 40}
