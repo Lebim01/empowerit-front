@@ -96,7 +96,8 @@ const AdminPayroll = () => {
               <Th>Bono Binario</Th>
               <Th>5% fee</Th>
               <Th>Total (D+B-F)</Th>
-              <Th>Wallet</Th>
+              <Th>Wallet (LTC)</Th>
+              <Th>Bank</Th>
             </Tr>
           </THead>
           <TBody>
@@ -176,6 +177,7 @@ const AdminPayroll = () => {
                 </b>
               </Td>
               <Td></Td>
+              <Td></Td>
             </Tr>
             {users
               .sort((a, b) => b.total - a.total)
@@ -202,6 +204,24 @@ const AdminPayroll = () => {
                     ) : (
                       <FaTimes className="text-red-400" />
                     )}
+                  </Td>
+                  <Td>
+                    <div className="flex items-center">
+                      <span>Bank: </span>
+                      {user.bank_account ? (
+                        <FaCheck className="text-green-400" />
+                      ) : (
+                        <FaTimes className="text-red-400" />
+                      )}
+                    </div>
+                    <div className="flex items-center">
+                      <span>RFC: </span>
+                      {user.rfc ? (
+                        <FaCheck className="text-green-400" />
+                      ) : (
+                        <FaTimes className="text-red-400" />
+                      )}
+                    </div>
                   </Td>
                 </Tr>
               ))}
