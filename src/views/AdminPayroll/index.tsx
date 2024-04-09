@@ -111,7 +111,11 @@ const AdminPayroll = () => {
                 <b className="whitespace-nowrap">
                   $
                   {formatNumberWithCommas(
-                    users.reduce((a, b) => a + b?.bond_quick_start || 0, 0),
+                    users.reduce(
+                      (a, b) =>
+                        a + (b?.bond_quick_start || 0) + (b?.bond_founder || 0),
+                      0
+                    ),
                     2
                   )}{' '}
                   usd
@@ -183,7 +187,10 @@ const AdminPayroll = () => {
             {users
               .sort((a, b) => b.total - a.total)
               .map((user) => (
-                <Tr key={user.id} className={classNames(user.total < 40 && "bg-gray-200")}>
+                <Tr
+                  key={user.id}
+                  className={classNames(user.total < 40 && 'bg-gray-200')}
+                >
                   <Td>
                     <Checkbox
                       disabled={!user.wallet_bitcoin || user.total < 40}
@@ -191,7 +198,11 @@ const AdminPayroll = () => {
                   </Td>
                   <Td>{user.name}</Td>
                   <Td>
-                    {formatNumberWithCommas(user?.bond_quick_start || 0, 2)} USD
+                    {formatNumberWithCommas(
+                      (user?.bond_quick_start || 0) + (user?.bond_founder || 0),
+                      2
+                    )}{' '}
+                    USD
                   </Td>
                   <Td>{user?.bond_mentor || 0} USD</Td>
                   <Td>{user?.bond_presenter || 0} USD</Td>

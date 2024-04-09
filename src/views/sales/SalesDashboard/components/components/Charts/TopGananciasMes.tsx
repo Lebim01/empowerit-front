@@ -83,12 +83,24 @@ const TopGananciasMes = () => {
         collection(db, 'users'),
         where('profits_this_month', '>', 0),
         where('membership_status', '==', 'paid'),
-        //where('type', '!=', 'top-lider'),
         orderBy('profits_this_month', 'desc'),
-        limit(5)
+        limit(9)
       ),
       (snap) => {
-        setTopPeople(snap.docs.map((r) => ({ id: r.id, ...r.data() })))
+        setTopPeople(
+          snap.docs
+            .filter(
+              (r) =>
+                ![
+                  '9CXMbcJt2sNWG40zqWwQSxH8iki2',
+                  'eN7hWGlS2mVC1O9YnXU3U5xEknz1',
+                  'sVarUBihvSZ7ahMUMgwaAbXcRs03',
+                  'vzzvaofd1GXAdgH890pGswl5A5x1',
+                ].includes(r.id)
+            )
+            .map((r) => ({ id: r.id, ...r.data() }))
+            .slice(0, 5)
+        )
         setLoading(false)
       }
     )
