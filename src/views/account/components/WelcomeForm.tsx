@@ -75,9 +75,9 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
     name: Yup.string().required('User Name Required'),
     birthdate: Yup.date().required('Date Required'),
     //email: Yup.string().email('Invalid email').required('Email Required'),
-    wallet_litecoin: Yup.string().required('Wallet Required'),
-    rfc: Yup.string().required('RFC Required'),
-    bank_account: Yup.string().required('Bank Account Required'),
+    wallet_litecoin: Yup.string().optional(),
+    rfc: Yup.string().optional(),
+    bank_account: Yup.string().optional(),
     country: Yup.object().shape({
       value: Yup.string().required('Country is required'),
     }),
