@@ -84,7 +84,7 @@ const TopGananciasMes = () => {
         where('profits_this_month', '>', 0),
         where('membership_status', '==', 'paid'),
         orderBy('profits_this_month', 'desc'),
-        limit(9)
+        limit(14)
       ),
       (snap) => {
         setTopPeople(
