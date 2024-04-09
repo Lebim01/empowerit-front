@@ -197,7 +197,7 @@ const AdminPayroll = () => {
                   <Td>-{user?.fee || 0} USD</Td>
                   <Td>{formatNumberWithCommas(user?.total || 0, 2)} USD</Td>
                   <Td>
-                    {user.wallet_bitcoin ? (
+                    {user.wallet_litecoin ? (
                       <FaCheck className="text-green-400" />
                     ) : (
                       <FaTimes className="text-red-400" />
