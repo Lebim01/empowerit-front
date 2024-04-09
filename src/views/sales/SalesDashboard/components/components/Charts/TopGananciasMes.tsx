@@ -99,7 +99,7 @@ const TopGananciasMes = () => {
                 ].includes(r.id)
             )
             .map((r) => ({ id: r.id, ...r.data() }))
-            .slice(0, 5)
+            .slice(0, 10)
         )
         setLoading(false)
       }
