@@ -5,6 +5,7 @@ import THead from '@/components/ui/Table/THead'
 import Td from '@/components/ui/Table/Td'
 import Th from '@/components/ui/Table/Th'
 import Tr from '@/components/ui/Table/Tr'
+import { formatNumberWithCommas } from '@/utils/format'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { FaCheck, FaTimes } from 'react-icons/fa'
@@ -106,37 +107,72 @@ const AdminPayroll = () => {
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.bond_direct_sale || 0, 0)} usd
+                  $
+                  {formatNumberWithCommas(
+                    users.reduce((a, b) => a + b?.bond_quick_start || 0, 0),
+                    2
+                  )}{' '}
+                  usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.bond_mentor || 0, 0)} usd
+                  $
+                  {formatNumberWithCommas(
+                    users.reduce((a, b) => a + b?.bond_mentor || 0, 0),
+                    2
+                  )}{' '}
+                  usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.bond_presenter || 0, 0)} usd
+                  $
+                  {formatNumberWithCommas(
+                    users.reduce((a, b) => a + b?.bond_presenter || 0, 0),
+                    2
+                  )}{' '}
+                  usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.bond_car || 0, 0)} usd
+                  $
+                  {formatNumberWithCommas(
+                    users.reduce((a, b) => a + b?.bond_car || 0, 0),
+                    2
+                  )}{' '}
+                  usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.bond_binary || 0, 0)} usd
+                  $
+                  {formatNumberWithCommas(
+                    users.reduce((a, b) => a + b?.bond_binary || 0, 0),
+                    2
+                  )}{' '}
+                  usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.fee || 0, 0)} usd
+                  $
+                  {formatNumberWithCommas(
+                    users.reduce((a, b) => a + b?.fee || 0, 0),
+                    2
+                  )}{' '}
+                  usd
                 </b>
               </Td>
               <Td>
                 <b className="whitespace-nowrap">
-                  ${users.reduce((a, b) => a + b?.total || 0, 0)} usd
+                  $
+                  {formatNumberWithCommas(
+                    users.reduce((a, b) => a + b?.total || 0, 0),
+                    2
+                  )}{' '}
+                  usd
                 </b>
               </Td>
               <Td></Td>
@@ -151,13 +187,15 @@ const AdminPayroll = () => {
                     />
                   </Td>
                   <Td>{user.name}</Td>
-                  <Td>{user?.bond_direct_sale || 0} USD</Td>
+                  <Td>
+                    {formatNumberWithCommas(user?.bond_quick_start || 0, 2)} USD
+                  </Td>
                   <Td>{user?.bond_mentor || 0} USD</Td>
                   <Td>{user?.bond_presenter || 0} USD</Td>
                   <Td>{user?.bond_car || 0} USD</Td>
                   <Td>{user?.bond_binary || 0} USD</Td>
                   <Td>-{user?.fee || 0} USD</Td>
-                  <Td>{user?.total || 0} USD</Td>
+                  <Td>{formatNumberWithCommas(user?.total || 0, 2)} USD</Td>
                   <Td>
                     {user.wallet_bitcoin ? (
                       <FaCheck className="text-green-400" />
