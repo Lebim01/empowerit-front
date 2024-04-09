@@ -329,7 +329,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                           <Field
                             autoComplete="off"
                             name="presenter_2"
-                            placeholder={'Códito de presentador'}
+                            placeholder={'Código de presentador'}
                             component={Input}
                           />
                         </FormItem>

@@ -324,9 +324,6 @@ export default function OrgChartTree() {
           created_at: dayjs(r.get('created_at').seconds * 1000).format(
             'YYYY-MM-DD HH:mm:ss'
           ),
-          user: await getDoc(doc(db, `users/${r.get('user_id')}`)).then((r) =>
-            r.get('name')
-          ),
         }))
     )
     const right = await Promise.all(
@@ -336,9 +333,6 @@ export default function OrgChartTree() {
           ...r.data(),
           created_at: dayjs(r.get('created_at').seconds * 1000).format(
             'YYYY-MM-DD HH:mm:ss'
-          ),
-          user: await getDoc(doc(db, `users/${r.get('user_id')}`)).then((r) =>
-            r.get('name')
           ),
         }))
     )
@@ -373,6 +367,8 @@ export default function OrgChartTree() {
             <tr>
               <th>Puntos</th>
               <th>Usuario</th>
+              <th>Correo</th>
+              <th>Patrocinador</th>
               <th>Fecha</th>
             </tr>
           </thead>
@@ -381,7 +377,9 @@ export default function OrgChartTree() {
               leftPoints.map((r, index) => (
                 <tr key={index}>
                   <td className="text-center">{r.points}</td>
-                  <td className="text-center">{r.user}</td>
+                  <td className="text-center">{r.user_name}</td>
+                  <td className="text-center">{r.user_email}</td>
+                  <td className="text-center">{r.user_sponsor}</td>
                   <td className="text-center">{r.created_at}</td>
                 </tr>
               ))}
@@ -389,7 +387,9 @@ export default function OrgChartTree() {
               rightPoints.map((r, index) => (
                 <tr key={index}>
                   <td className="text-center">{r.points}</td>
-                  <td className="text-center">{r.user}</td>
+                  <td className="text-center">{r.user_name}</td>
+                  <td className="text-center">{r.user_email}</td>
+                  <td className="text-center">{r.user_sponsor}</td>
                   <td className="text-center">{r.created_at}</td>
                 </tr>
               ))}
