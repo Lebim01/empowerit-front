@@ -84,7 +84,7 @@ const TopGananciasMes = () => {
         where('profits_this_month', '>', 0),
         where('membership_status', '==', 'paid'),
         orderBy('profits_this_month', 'desc'),
-        limit(9)
+        limit(14)
       ),
       (snap) => {
         setTopPeople(
@@ -99,7 +99,7 @@ const TopGananciasMes = () => {
                 ].includes(r.id)
             )
             .map((r) => ({ id: r.id, ...r.data() }))
-            .slice(0, 5)
+            .slice(0, 10)
         )
         setLoading(false)
       }
