@@ -60,15 +60,15 @@ const PayMembership = () => {
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
         <Membership
-          image="/img/memberships/elite-pack.png"
-          name="elite-pack"
-          display_name="Paquete Elite"
-          month_price={228}
-        />
-        <Membership
           image="/img/memberships/vip-pack.png"
           name="vip-pack"
           display_name="Paquete VIP"
+          month_price={228}
+        />
+        <Membership
+          image="/img/memberships/elite-pack.png"
+          name="elite-pack"
+          display_name="Paquete Elite"
           month_price={678}
         />
       </div>

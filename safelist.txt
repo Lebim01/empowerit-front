@@ -251,8 +251,8 @@ text-pro
 text-alive-pack
 text-freedom-pack
 text-business-pack
-text-elite-pack
 text-vip-pack
+text-elite-pack
 bg-inherit
 bg-current
 bg-transparent
@@ -506,8 +506,8 @@ bg-pro
 bg-alive-pack
 bg-freedom-pack
 bg-business-pack
-bg-elite-pack
 bg-vip-pack
+bg-elite-pack
 dark:bg-inherit
 dark:bg-current
 dark:bg-transparent
@@ -761,8 +761,8 @@ dark:bg-pro
 dark:bg-alive-pack
 dark:bg-freedom-pack
 dark:bg-business-pack
-dark:bg-elite-pack
 dark:bg-vip-pack
+dark:bg-elite-pack
 dark:hover:bg-inherit
 dark:hover:bg-current
 dark:hover:bg-transparent
@@ -1016,8 +1016,8 @@ dark:hover:bg-pro
 dark:hover:bg-alive-pack
 dark:hover:bg-freedom-pack
 dark:hover:bg-business-pack
-dark:hover:bg-elite-pack
 dark:hover:bg-vip-pack
+dark:hover:bg-elite-pack
 dark:active:bg-inherit
 dark:active:bg-current
 dark:active:bg-transparent
@@ -1271,8 +1271,8 @@ dark:active:bg-pro
 dark:active:bg-alive-pack
 dark:active:bg-freedom-pack
 dark:active:bg-business-pack
-dark:active:bg-elite-pack
 dark:active:bg-vip-pack
+dark:active:bg-elite-pack
 hover:text-inherit
 hover:text-current
 hover:text-transparent
@@ -1526,8 +1526,8 @@ hover:text-pro
 hover:text-alive-pack
 hover:text-freedom-pack
 hover:text-business-pack
-hover:text-elite-pack
 hover:text-vip-pack
+hover:text-elite-pack
 hover:bg-inherit
 hover:bg-current
 hover:bg-transparent
@@ -1781,8 +1781,8 @@ hover:bg-pro
 hover:bg-alive-pack
 hover:bg-freedom-pack
 hover:bg-business-pack
-hover:bg-elite-pack
 hover:bg-vip-pack
+hover:bg-elite-pack
 active:bg-inherit
 active:bg-current
 active:bg-transparent
@@ -2036,8 +2036,8 @@ active:bg-pro
 active:bg-alive-pack
 active:bg-freedom-pack
 active:bg-business-pack
-active:bg-elite-pack
 active:bg-vip-pack
+active:bg-elite-pack
 ring-inherit
 ring-current
 ring-transparent
@@ -2291,8 +2291,8 @@ ring-pro
 ring-alive-pack
 ring-freedom-pack
 ring-business-pack
-ring-elite-pack
 ring-vip-pack
+ring-elite-pack
 hover:ring-inherit
 hover:ring-current
 hover:ring-transparent
@@ -2546,8 +2546,8 @@ hover:ring-pro
 hover:ring-alive-pack
 hover:ring-freedom-pack
 hover:ring-business-pack
-hover:ring-elite-pack
 hover:ring-vip-pack
+hover:ring-elite-pack
 focus:ring-inherit
 focus:ring-current
 focus:ring-transparent
@@ -2801,8 +2801,8 @@ focus:ring-pro
 focus:ring-alive-pack
 focus:ring-freedom-pack
 focus:ring-business-pack
-focus:ring-elite-pack
 focus:ring-vip-pack
+focus:ring-elite-pack
 focus-within:ring-inherit
 focus-within:ring-current
 focus-within:ring-transparent
@@ -3056,8 +3056,8 @@ focus-within:ring-pro
 focus-within:ring-alive-pack
 focus-within:ring-freedom-pack
 focus-within:ring-business-pack
-focus-within:ring-elite-pack
 focus-within:ring-vip-pack
+focus-within:ring-elite-pack
 border-inherit
 border-current
 border-transparent
@@ -3311,8 +3311,8 @@ border-pro
 border-alive-pack
 border-freedom-pack
 border-business-pack
-border-elite-pack
 border-vip-pack
+border-elite-pack
 focus:border-inherit
 focus:border-current
 focus:border-transparent
@@ -3566,8 +3566,8 @@ focus:border-pro
 focus:border-alive-pack
 focus:border-freedom-pack
 focus:border-business-pack
-focus:border-elite-pack
 focus:border-vip-pack
+focus:border-elite-pack
 focus-within:border-inherit
 focus-within:border-current
 focus-within:border-transparent
@@ -3821,8 +3821,8 @@ focus-within:border-pro
 focus-within:border-alive-pack
 focus-within:border-freedom-pack
 focus-within:border-business-pack
-focus-within:border-elite-pack
 focus-within:border-vip-pack
+focus-within:border-elite-pack
 dark:text-inherit
 dark:text-current
 dark:text-transparent
@@ -4076,8 +4076,8 @@ dark:text-pro
 dark:text-alive-pack
 dark:text-freedom-pack
 dark:text-business-pack
-dark:text-elite-pack
 dark:text-vip-pack
+dark:text-elite-pack
 dark:hover:text-inherit
 dark:hover:text-current
 dark:hover:text-transparent
@@ -4331,8 +4331,8 @@ dark:hover:text-pro
 dark:hover:text-alive-pack
 dark:hover:text-freedom-pack
 dark:hover:text-business-pack
-dark:hover:text-elite-pack
 dark:hover:text-vip-pack
+dark:hover:text-elite-pack
 h-0
 h-1
 h-2

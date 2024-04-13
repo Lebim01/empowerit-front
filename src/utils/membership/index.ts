@@ -34,6 +34,6 @@ export const MEMBERSHIP_COLORS = {
   'alive-pack': '#00b000',
   'freedom-pack': '#c00005',
   'business-pack': '#6822a3',
-  'elite-pack': '#959595',
-  'vip-pack': '#bd9c3a',
+  'vip-pack': '#959595',
+  'elite-pack': '#bd9c3a',
 }
