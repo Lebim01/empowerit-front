@@ -1,4 +1,4 @@
-import { Button, Notification, toast } from '@/components/ui'
+import { Button } from '@/components/ui'
 import Table from '@/components/ui/Table'
 import TBody from '@/components/ui/Table/TBody'
 import THead from '@/components/ui/Table/THead'
@@ -24,7 +24,10 @@ const GetUsersPacks = () => {
 
   const getData = async () => {
     const res = await getDocs(
-      query(collectionGroup(db, 'pending-ships'), where('sent', '==', false))
+      query(
+        collectionGroup(db, 'pending-fund-account'),
+        where('sent', '==', false)
+      )
     )
     const data = []
     for (const s_doc of res.docs) {
@@ -35,8 +38,8 @@ const GetUsersPacks = () => {
       data.push({
         ...s_doc.data(),
         ref_path: s_doc.ref.path,
-        user: { ...user.data(), id: user.id },
-        sponsor: { ...sponsor.data(), id: sponsor.id },
+        user: user.data(),
+        sponsor: sponsor.data(),
       })
     }
     setUsers(data)
@@ -57,27 +60,6 @@ const GetUsersPacks = () => {
     setUsers(_data)
   }
 
-  const sendShopify = async (user: any) => {
-    await fetch(`${import.meta.env.VITE_API_URL}/subscriptions/sendPack`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user_id: user.user.id,
-        pack: user.pack,
-      }),
-    })
-    toast.push(
-      <Notification title="Shopify" type="success">
-        Pedido creado en shopify
-      </Notification>,
-      {
-        placement: 'top-center',
-      }
-    )
-  }
-
   return (
     <div className="flex flex-col space-y-8 w-full">
       <Table>
@@ -88,7 +70,7 @@ const GetUsersPacks = () => {
             <Th>Paquete</Th>
             <Th>Patrocinador</Th>
             <Th>Patrocinador Correo</Th>
-            <Th>Fecha de creación de pedido</Th>
+            <Th>Fecha de inscripción</Th>
             <Th></Th>
           </Tr>
         </THead>
@@ -108,9 +90,6 @@ const GetUsersPacks = () => {
               <Td>
                 <Button onClick={() => markSent(user.ref_path, i)}>
                   Macar como enviado
-                </Button>
-                <Button onClick={() => sendShopify(user)}>
-                  Crear en shopify
                 </Button>
               </Td>
             </Tr>

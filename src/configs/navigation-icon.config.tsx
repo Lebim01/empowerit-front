@@ -16,6 +16,7 @@ import {
   BsTools,
   BsTrophy,
   BsPeople,
+  BsShield,
 } from 'react-icons/bs'
 import { TbBinaryTree } from 'react-icons/tb'
 import {
@@ -43,7 +44,7 @@ const navigationIcon: NavigationIcons = {
   academy: <HiOutlineAcademicCap />,
   pencil: <HiOutlinePencil />,
   'direct-people': <FaNetworkWired fontSize={18} />,
-  memberships: <PiPackage />,
+  pack: <PiPackage />,
   binary: <TbBinaryTree />,
   trophy: <BsFillAwardFill />,
   marketplace: <FaStore />,
@@ -58,6 +59,7 @@ const navigationIcon: NavigationIcons = {
   videos: <FaVideo />,
   rank: <FaMedal />,
   map: <FaRegMap />,
+  memberships: <BsShield />,
 }
 
 export default navigationIcon

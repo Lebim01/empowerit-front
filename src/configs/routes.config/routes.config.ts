@@ -254,6 +254,12 @@ export const protectedRoutes = [
     component: lazy(() => import('@/views/admin/get-users-packs-ships')),
     authority: ['ADMIN'],
   },
+  {
+    key: 'admin-pending-fund-account',
+    path: '/admin/pending-fund-account',
+    component: lazy(() => import('@/views/admin/get-users-fund-account')),
+    authority: ['ADMIN'],
+  },
 ]
 
 export const payRoute = [
