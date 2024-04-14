@@ -291,6 +291,27 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
       },
     ],
   },
+  {
+    key: 'users-ships',
+    path: `/users-ships`,
+    title: 'ADMIN: Pedidos',
+    translateKey: 'nav.order-list',
+    icon: 'users',
+    type: NAV_ITEM_TYPE_COLLAPSE,
+    authority: ['ADMIN'],
+    subMenu: [
+      {
+        key: 'pending-ships',
+        path: `/admin/pending-ships`,
+        title: 'Pendientes',
+        translateKey: 'nav.order-list',
+        icon: 'history',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
+    ],
+  },
 ]
 
 export default navigationConfig

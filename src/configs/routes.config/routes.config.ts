@@ -22,14 +22,16 @@ export const protectedRoutes = [
   {
     key: 'academy',
     path: '/:academyType/course/:courseId',
-    component: lazy(() => import('@/views/academies/previews/PreviewAcademy.component')),
+    component: lazy(
+      () => import('@/views/academies/previews/PreviewAcademy.component')
+    ),
     authority: ['USER', 'ADMIN'],
   },
   {
     key: 'academy',
     path: '/:academyType/course/:courseId/lesson/:lessonId',
     component: lazy(() => import('@/views/video')),
-    authority: ['USER','ADMIN'],
+    authority: ['USER', 'ADMIN'],
   },
   {
     key: 'academy',
@@ -94,7 +96,9 @@ export const protectedRoutes = [
   {
     key: 'academy-leadership',
     path: '/academy-leadership',
-    component: lazy(() => import('@/views/academies/AcademyLeadership.component')),
+    component: lazy(
+      () => import('@/views/academies/AcademyLeadership.component')
+    ),
     authority: ['USER', 'STARTER', 'ADMIN'],
   },
   {
@@ -146,13 +150,17 @@ export const protectedRoutes = [
   {
     key: 'admin-academy-course',
     path: '/academy/admin-course',
-    component: lazy(() => import('@/views/academies/admin/AdminAcademy.component')),
+    component: lazy(
+      () => import('@/views/academies/admin/AdminAcademy.component')
+    ),
     authority: ['ADMIN', 'EDUCATOR'],
   },
   {
     key: 'editCourse',
     path: 'academy/admin/edit/:courseId',
-    component: lazy(() => import('@/views/academies/admin/EditCourse.component')),
+    component: lazy(
+      () => import('@/views/academies/admin/EditCourse.component')
+    ),
     authority: ['ADMIN', 'EDUCATOR'],
   },
   // ADMIN: Sistema de liderazgo
@@ -165,13 +173,17 @@ export const protectedRoutes = [
   {
     key: 'admin-academy-leadership-course',
     path: '/academy-leadership/admin-course',
-    component: lazy(() => import('@/views/academies/admin/AdminLeadership.component')),
+    component: lazy(
+      () => import('@/views/academies/admin/AdminLeadership.component')
+    ),
     authority: ['ADMIN', 'EDUCATOR'],
   },
   {
     key: 'edit-courses-leadership',
     path: 'academy-leadership/admin/edit/:courseId',
-    component: lazy(() => import('@/views/academies/admin/EditCourse.component')),
+    component: lazy(
+      () => import('@/views/academies/admin/EditCourse.component')
+    ),
     authority: ['ADMIN', 'EDUCATOR'],
   },
   // ADMIN: Usuarios
@@ -206,10 +218,10 @@ export const protectedRoutes = [
     authority: ['ADMIN'],
   },
   {
-      key: 'search-users',
-      path: '/search-users',
-      component: lazy(() => import('@/views/users/index')),
-      authority: ['ADMIN'],
+    key: 'search-users',
+    path: '/search-users',
+    component: lazy(() => import('@/views/users/index')),
+    authority: ['ADMIN'],
   },
   {
     key: 'enter-as-user',
@@ -235,6 +247,12 @@ export const protectedRoutes = [
     path: '/billing',
     component: lazy(() => import('@/views/account')),
     authority: ['USER'],
+  },
+  {
+    key: 'admin-pending-ships',
+    path: '/admin/pending-ships',
+    component: lazy(() => import('@/views/admin/get-users-packs-ships')),
+    authority: ['ADMIN'],
   },
 ]
 
