@@ -184,59 +184,59 @@ const AdminPayroll = () => {
               <Td></Td>
               <Td></Td>
             </Tr>
-            {users
-              .sort((a, b) => b.total - a.total)
-              .map((user) => (
-                <Tr
-                  key={user.id}
-                  className={classNames(user.total < 40 && 'bg-gray-200')}
-                >
-                  <Td>
-                    <Checkbox
-                      disabled={!user.wallet_bitcoin || user.total < 40}
-                    />
-                  </Td>
-                  <Td>{user.name}</Td>
-                  <Td>
-                    {formatNumberWithCommas(
-                      (user?.bond_quick_start || 0) + (user?.bond_founder || 0),
-                      2
-                    )}{' '}
-                    USD
-                  </Td>
-                  <Td>{user?.bond_mentor || 0} USD</Td>
-                  <Td>{user?.bond_presenter || 0} USD</Td>
-                  <Td>{user?.bond_car || 0} USD</Td>
-                  <Td>{user?.bond_binary || 0} USD</Td>
-                  <Td>-{user?.fee || 0} USD</Td>
-                  <Td>{formatNumberWithCommas(user?.total || 0, 2)} USD</Td>
-                  <Td>
-                    {user.wallet_litecoin ? (
+            {users.map((user) => (
+              <Tr
+                key={user.id}
+                className={classNames(user.total < 40 && 'bg-gray-200')}
+              >
+                <Td>
+                  <Checkbox
+                    disabled={!user.wallet_bitcoin || user.total < 40}
+                  />
+                </Td>
+                <Td>{user.name}</Td>
+                <Td>
+                  {formatNumberWithCommas(
+                    (user?.bond_quick_start || 0) + (user?.bond_founder || 0),
+                    2
+                  )}{' '}
+                  USD
+                </Td>
+                <Td>{formatNumberWithCommas(user?.bond_mentor || 0, 2)} USD</Td>
+                <Td>
+                  {formatNumberWithCommas(user?.bond_presenter || 0, 2)} USD
+                </Td>
+                <Td>{user?.bond_car || 0} USD</Td>
+                <Td>{formatNumberWithCommas(user?.bond_binary || 0, 2)} USD</Td>
+                <Td>-{user?.fee || 0} USD</Td>
+                <Td>{formatNumberWithCommas(user?.total || 0, 2)} USD</Td>
+                <Td>
+                  {user.wallet_litecoin ? (
+                    <FaCheck className="text-green-400" />
+                  ) : (
+                    <FaTimes className="text-red-400" />
+                  )}
+                </Td>
+                <Td>
+                  <div className="flex items-center">
+                    <span>Bank: </span>
+                    {user.bank_account ? (
                       <FaCheck className="text-green-400" />
                     ) : (
                       <FaTimes className="text-red-400" />
                     )}
-                  </Td>
-                  <Td>
-                    <div className="flex items-center">
-                      <span>Bank: </span>
-                      {user.bank_account ? (
-                        <FaCheck className="text-green-400" />
-                      ) : (
-                        <FaTimes className="text-red-400" />
-                      )}
-                    </div>
-                    <div className="flex items-center">
-                      <span>RFC: </span>
-                      {user.rfc ? (
-                        <FaCheck className="text-green-400" />
-                      ) : (
-                        <FaTimes className="text-red-400" />
-                      )}
-                    </div>
-                  </Td>
-                </Tr>
-              ))}
+                  </div>
+                  <div className="flex items-center">
+                    <span>RFC: </span>
+                    {user.rfc ? (
+                      <FaCheck className="text-green-400" />
+                    ) : (
+                      <FaTimes className="text-red-400" />
+                    )}
+                  </div>
+                </Td>
+              </Tr>
+            ))}
           </TBody>
         </Table>
       </div>
