@@ -19,6 +19,7 @@ export async function apiSignIn(data: SignInCredential) {
     const customToken = await getCustomToken(userCredential.user.uid)
     return { status: 'success', data: { ...userCredential, customToken } }
   } catch (e) {
+    console.error(e)
     return { status: 'failed', e }
   }
 }

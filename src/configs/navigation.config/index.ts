@@ -252,7 +252,17 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
       {
         key: 'admin-register',
         path: `/admin-register`,
-        title: 'Form. Registro',
+        title: 'Activar sin volumen',
+        translateKey: 'nav.order-list',
+        icon: 'pencil',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
+      {
+        key: 'admin-volumen-register',
+        path: `/admin-volumen-register`,
+        title: 'Activar con volumen',
         translateKey: 'nav.order-list',
         icon: 'pencil',
         type: NAV_ITEM_TYPE_ITEM,

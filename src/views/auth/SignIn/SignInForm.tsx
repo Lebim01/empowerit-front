@@ -53,6 +53,8 @@ const SignInForm = (props: SignInFormProps) => {
 
     const result = await signIn({ email: name, password })
 
+    console.log(result)
+
     if (result?.status === 'failed') {
       setMessage(result.message)
     }

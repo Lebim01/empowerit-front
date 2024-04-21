@@ -212,6 +212,12 @@ export const protectedRoutes = [
     authority: ['ADMIN'],
   },
   {
+    key: 'admin-volumen-register',
+    path: '/admin-volumen-register',
+    component: lazy(() => import('@/views/admin/active-with-volume')),
+    authority: ['ADMIN'],
+  },
+  {
     key: 'payments-history',
     path: '/payments-history',
     component: lazy(() => import('@/views/payments-history/index')),
