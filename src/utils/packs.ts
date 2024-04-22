@@ -7,18 +7,22 @@ export const OPTIONS = [
     {
       label: 'Supreme',
       value: 'supreme',
+      image: '/img/memberships/supreme.png',
     },
     {
       label: 'Alive Pack',
-      value: "alive-pack"
+      value: "alive-pack",
+      image: '/img/memberships/alive-pack.png',
     },
     {
       label: 'Freedom Pack',
-      value: "freedom-pack"
+      value: "freedom-pack",
+      image: '/img/memberships/freedom-pack.png',
     },
     {
       label: 'Business Pack',
-      value: "business-pack"
+      value: "business-pack",
+      image: '/img/memberships/business-pack.png',
     },
     {
       label: 'Elite Pack',
