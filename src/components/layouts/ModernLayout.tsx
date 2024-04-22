@@ -1,11 +1,11 @@
 import Header from '@/components/template/Header'
-import SidePanel from '@/components/template/SidePanel'
 import UserDropdown from '@/components/template/UserDropdown'
 import SideNavToggle from '@/components/template/SideNavToggle'
 import MobileNav from '@/components/template/MobileNav'
 import SideNav from '@/components/template/SideNav'
 import View from '@/views'
-import Notification from '@/components/template/Notification'
+import { useAppSelector } from '@/store'
+import { OPTIONS } from '@/utils/packs'
 
 const HeaderActionsStart = () => {
     return (
@@ -17,11 +17,18 @@ const HeaderActionsStart = () => {
 }
 
 const HeaderActionsEnd = () => {
+    const user = useAppSelector((state) => state.auth.user)
+    
     return (
-        <>
-            <Notification />
-            <UserDropdown hoverable={false} />
-        </>
+      <>
+        {user?.membership && (
+          <div className='flex items-center'>
+            <img src={OPTIONS.find(r => r.value == user.membership)?.image} className='h-[50px] w-auto' width={80} height={80} />
+            <span>{OPTIONS.find(r => r.value == user.membership)?.label}</span>
+          </div>
+        )}
+        <UserDropdown hoverable={false} />
+      </>
     )
 }
 

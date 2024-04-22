@@ -1,39 +1,10 @@
 import { Button, Input, Notification, Radio, Select, toast } from "@/components/ui"
 import { db } from "@/configs/firebaseConfig"
+import { OPTIONS } from "@/utils/packs"
 import { Memberships } from "@/views/memberships/methods"
 import { collection, getDocs, query, where } from "firebase/firestore"
 import { useState } from "react"
 
-const OPTIONS = [
-    {
-      label: 'Pro',
-      value: 'pro',
-    },
-    {
-      label: 'Supreme',
-      value: 'supreme',
-    },
-    {
-      label: 'Alive Pack',
-      value: "alive-pack"
-    },
-    {
-      label: 'Freedom Pack',
-      value: "freedom-pack"
-    },
-    {
-      label: 'Business Pack',
-      value: "business-pack"
-    },
-    {
-      label: 'Elite Pack',
-      value: 'elite-pack',
-    },
-    {
-      label: 'Vip Pack',
-      value: 'vip-pack',
-    },
-  ]
 
 const ActiveWithVolume = () => {
     const [email, setEmail] = useState("")
