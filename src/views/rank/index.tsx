@@ -84,6 +84,9 @@ const Rank = () => {
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({
+            id_user: user.uid,
+          }),
         }
       )
 
