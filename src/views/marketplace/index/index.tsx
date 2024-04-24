@@ -27,13 +27,21 @@ const Marketplace = () => {
     })
   }
 
+  const pay = async () => {
+    try {
+        await fetch(`${import.meta.env.VITE_API_URL}/`)
+    }catch(err){
+      console.error(err)
+    }
+  }
+
   return (
     <div>
       <img src="/img/empoweritup.png" className="w-[400px]" />
       <p className="text-lg italic my-4">
         Arma tu carrito y pagalo a precio preferencial
       </p>
-      <div className="grid grid-cols-4 gap-x-4 gap-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4">
         {cart.map((p) => (
           <div
             key={p.id.toString()}
@@ -107,7 +115,7 @@ const Marketplace = () => {
             </div>
           </div>
           <div className="w-full mt-2">
-            <button className="bg-black text-white rounded-full w-full p-2" disabled>
+            <button className="bg-black text-white rounded-full w-full p-2" onClick={() => pay()}>
               Pagar con Litecoin
             </button>
           </div>
