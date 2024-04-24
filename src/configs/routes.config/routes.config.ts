@@ -81,6 +81,12 @@ export const protectedRoutes = [
     component: lazy(() => import('@/views/Payroll/')),
     authority: ['USER'],
   },
+  {
+    key: 'marketplace',
+    path: '/marketplace',
+    component: lazy(() => import('@/views/marketplace/index')),
+    authority: ['USER'],
+  },
   // Top Shop
   {
     key: 'shop',

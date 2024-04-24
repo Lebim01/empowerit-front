@@ -87,15 +87,15 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     subMenu: [],
   },
   {
-    key: '2',
-    path: `/le`,
+    key: 'marketplace',
+    path: `/marketplace`,
     title: 'Marketplace',
     translateKey: 'nav.order-list',
     icon: 'marketplace',
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
-    href: `https://www.empoweritup.com/?user=${user?.uid ?? ''}`,
+    //href: `https://www.empoweritup.com/?user=${user?.uid ?? ''}`,
   },
   /*{
     key: '5',
