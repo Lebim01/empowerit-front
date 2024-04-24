@@ -1,13 +1,23 @@
 import { formatNumberWithCommas } from '@/utils/format'
 import products from './products.json'
 import { FaMinus, FaPlus, FaStar } from 'react-icons/fa'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { db } from '@/configs/firebaseConfig'
+import { useAppSelector } from '@/store'
 
 const Marketplace = () => {
+    const user = useAppSelector((state) => state.auth.user)
+    const [paymentLink, setPaymentLink] = useState({
+      address: '',
+      amount: 0,
+      currency: 'LTC',
+    })
+
   const [cart, setCart] = useState(
     products.map((p) => ({
       id: p.id,
-      product_galleries: p.product_galleries,
+      product_galleries: [p.product_galleries[0]],
       name: p.name,
       sale_price: p.sale_price,
       price: p.price,
@@ -27,9 +37,51 @@ const Marketplace = () => {
     })
   }
 
+  useEffect(() => {
+    getCart()  
+  }, [])
+
+  const getCart = async () => {
+    const res = await getDoc(doc(db, `users/${user.uid}/cart/1`))
+    if(res.exists()){
+        try {
+            const _cart = JSON.parse(res.get('json'))
+            setCart(
+              cart.map((r) => ({
+                ...r,
+                quantity: _cart.find((c: any) => c.id == r.id).quantity,
+              }))
+            )
+        }catch(err){
+            console.error(err)
+        }
+    }else{
+        await setDoc(doc(db, `users/${user.uid}/cart/1`), {
+          created_at: new Date(),
+          json: JSON.stringify(cart),
+        })
+    }
+  }
+
   const pay = async () => {
     try {
-        await fetch(`${import.meta.env.VITE_API_URL}/`)
+        await updateDoc(doc(db, `users/${user.uid}/cart/1`), {
+          updated_at: new Date(),
+          json: JSON.stringify(cart),
+        })
+        const paymentLink = await fetch(
+          `${import.meta.env.VITE_API_URL}/cart/pay`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id_user: user.uid,
+            }),
+          }
+        ).then((r) => r.json())
+        setPaymentLink(paymentLink)
     }catch(err){
       console.error(err)
     }
@@ -63,6 +115,9 @@ const Marketplace = () => {
               </span>
             </div>
             <div className="flex justify-start items-center w-full py-2 space-x-2">
+              <span>{Math.ceil(Number(p.sale_price) / 20 / 2)} puntos c/u</span>
+            </div>
+            <div className="flex justify-start items-center w-full pb-4 space-x-2">
               <div className="flex justify-start text-yellow-500 space-x-1">
                 <FaStar />
                 <FaStar />
@@ -97,7 +152,7 @@ const Marketplace = () => {
         ))}
       </div>
       <div className="flex justify-end mt-8 w-full">
-        <div className='w-[300px] text-lg px-4 border-t border-gray-400'>
+        <div className="w-max text-lg px-4 border-t border-gray-400">
           <div className="w-full grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 pt-2">
             <div className="font-bold text-right"># Articulos</div>
             <div>{cart.reduce((a, b) => a + b.quantity, 0)}</div>
@@ -115,7 +170,10 @@ const Marketplace = () => {
             </div>
           </div>
           <div className="w-full mt-2">
-            <button className="bg-black text-white rounded-full w-full p-2" onClick={() => pay()}>
+            <button
+              className="bg-black text-white rounded-full w-full p-2"
+              onClick={() => pay()}
+            >
               Pagar con Litecoin
             </button>
           </div>
