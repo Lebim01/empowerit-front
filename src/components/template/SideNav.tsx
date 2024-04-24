@@ -68,6 +68,7 @@ const SideNav = () => {
           style={sideNavCollapse ? sideNavCollapseStyle : sideNavStyle}
           className={classNames(
             'side-nav',
+            'overflow-auto',
             sideNavColor(),
             !sideNavCollapse && 'side-nav-expand'
           )}
