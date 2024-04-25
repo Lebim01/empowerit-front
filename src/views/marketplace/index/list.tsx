@@ -70,6 +70,8 @@ const MarketplaceList: FC<Props> = (props) => {
     props.onComplete()
   }
 
+  const quantity = cart.reduce((a, b) => a + b.quantity, 0)
+
   return (
     <div>
       <img src="/img/empoweritup.png" className="w-[400px]" />
@@ -138,7 +140,10 @@ const MarketplaceList: FC<Props> = (props) => {
         <div className="w-max text-lg px-4 border-t border-gray-400">
           <div className="w-full grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 pt-2">
             <div className="font-bold text-right"># Articulos</div>
-            <div>{cart.reduce((a, b) => a + b.quantity, 0)}</div>
+            <div>{quantity}</div>
+
+            <div className="font-bold text-right">Envio</div>
+            <div>${formatNumberWithCommas(quantity >= 22 ? 600 : quantity >= 10 ? 300 : 200)} MXN</div>
 
             <div className="font-bold text-right">Total</div>
             <div>
