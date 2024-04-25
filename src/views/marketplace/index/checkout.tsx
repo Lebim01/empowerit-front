@@ -25,15 +25,20 @@ const MarketplaceCheckout = () => {
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, `users/${user.uid}/cart/1`), (snap) => {
-      setPaymentStatus(snap.get('payment_link.status') || '')
+      setPaymentStatus(snap.get('payment_link.status') || 'pending')
     })
-    getLink()
-    getCart()
 
     return () => {
       unsub()
     }
   }, [])
+
+  useEffect(() => {
+    if(paymentStatus == 'pending') {
+      getLink()
+      getCart()
+    }
+  }, [paymentStatus])
 
   const getCart = async () => {
     const res = await getDoc(doc(db, `users/${user.uid}/cart/1`))
