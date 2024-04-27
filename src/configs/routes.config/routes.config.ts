@@ -141,9 +141,9 @@ export const protectedRoutes = [
     authority: ['ADMIN'],
   },
   {
-    key: 'admin-payroll-history',
-    path: '/admin-payroll/history',
-    component: lazy(() => import('@/views/AdminPayroll/history')),
+    key: 'admin-payroll-income',
+    path: '/admin-payroll/income',
+    component: lazy(() => import('@/views/AdminPayroll/income')),
     authority: ['ADMIN'],
   },
   // ADMIN: Academy

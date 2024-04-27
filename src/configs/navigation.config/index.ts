@@ -146,6 +146,16 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         authority: ['ADMIN'],
         subMenu: [],
       },
+      {
+        key: 'admin-payroll.income',
+        path: `/admin-payroll/income`,
+        title: 'Entradas y salidas',
+        translateKey: 'nav.order-list.income',
+        icon: 'payroll',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
     ],
   },
   {
