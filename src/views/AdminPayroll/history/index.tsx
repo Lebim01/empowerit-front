@@ -51,7 +51,7 @@ const AdminPayroll = () => {
                 <Checkbox />
               </Th>
               <Th>Fecha de pago</Th>
-              <Th>Total BTC</Th>
+              <Th>Total LTC</Th>
               <Th>Total USD</Th>
             </Tr>
           </THead>
