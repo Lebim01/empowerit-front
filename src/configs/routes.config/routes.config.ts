@@ -135,6 +135,12 @@ export const protectedRoutes = [
     authority: ['ADMIN'],
   },
   {
+    key: 'user-payroll-history',
+    path: '/admin-payroll/history',
+    component: lazy(() => import('@/views/AdminPayroll/history')),
+    authority: ['ADMIN'],
+  },
+  {
     key: 'admin-payroll-withdraw',
     path: '/admin-payroll/withdraw',
     component: lazy(() => import('@/views/AdminPayroll/withdraw')),
