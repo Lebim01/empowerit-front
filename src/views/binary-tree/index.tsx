@@ -341,11 +341,15 @@ export default function OrgChartTree() {
   }
 
   const showLeft = async () => {
-    setOpenModal('left')
+    if (user.uid == rootNodeId) {
+      setOpenModal('left')
+    }
   }
 
   const showRight = async () => {
-    setOpenModal('right')
+    if (user.uid == rootNodeId) {
+      setOpenModal('right')
+    }
   }
 
   const closeModal = () => {

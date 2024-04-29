@@ -81,6 +81,12 @@ export const protectedRoutes = [
     component: lazy(() => import('@/views/Payroll/')),
     authority: ['USER'],
   },
+  {
+    key: 'marketplace',
+    path: '/marketplace',
+    component: lazy(() => import('@/views/marketplace/index')),
+    authority: ['USER'],
+  },
   // Top Shop
   {
     key: 'shop',
@@ -135,9 +141,9 @@ export const protectedRoutes = [
     authority: ['ADMIN'],
   },
   {
-    key: 'admin-payroll-history',
-    path: '/admin-payroll/history',
-    component: lazy(() => import('@/views/AdminPayroll/history')),
+    key: 'admin-payroll-income',
+    path: '/admin-payroll/income',
+    component: lazy(() => import('@/views/AdminPayroll/income')),
     authority: ['ADMIN'],
   },
   // ADMIN: Academy
@@ -209,6 +215,12 @@ export const protectedRoutes = [
     key: 'admin-register',
     path: '/admin-register',
     component: lazy(() => import('@/views/auth/AdminSignUp')),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'admin-volumen-register',
+    path: '/admin-volumen-register',
+    component: lazy(() => import('@/views/admin/active-with-volume')),
     authority: ['ADMIN'],
   },
   {

@@ -7,7 +7,6 @@ import {
   collection,
   orderBy,
   limit,
-  where,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '@/store'
@@ -121,6 +120,9 @@ const Rank = () => {
           headers: {
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({
+            id_user: user.uid,
+          }),
         }
       )
 
@@ -168,14 +170,14 @@ const Rank = () => {
             </div>
 
             <div className="flex flex-col justify-center">
-              {rank?.key ? (
+              {rank?.key && rank?.key != 'none' ? (
                 <img
                   src={`/img/insignias/${rank?.key}.png`}
                   width={40}
                   height={40}
                 />
               ) : (
-                <BsTrophy />
+                null
               )}
             </div>
           </div>
@@ -247,7 +249,10 @@ const Rank = () => {
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
-              $ <span className="text-3xl">{(data?.bond_quick_start ?? 0) + (data?.bond_founder ?? 0)}</span>{' '}
+              ${' '}
+              <span className="text-3xl">
+                {(data?.bond_quick_start ?? 0) + (data?.bond_founder ?? 0)}
+              </span>{' '}
               USD
             </span>
           </div>
@@ -262,7 +267,7 @@ const Rank = () => {
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
-              $ <span className="text-3xl">{data?.bond_binary ?? 0}</span> USD
+              <span className="text-3xl">{rank?.binary_percent * 100}</span> %
             </span>
           </div>
         </Card>
@@ -276,7 +281,7 @@ const Rank = () => {
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
-              $ <span className="text-3xl">{data?.bond_mentor ?? 0}</span> USD
+              <span className="text-3xl">{rank?.mentor_percent * 100}</span> %
             </span>
           </div>
         </Card>
