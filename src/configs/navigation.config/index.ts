@@ -149,7 +149,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
       {
         key: 'admin-payroll.income',
         path: `/admin-payroll/income`,
-        title: 'Entradas y salidas',
+        title: 'Entradas (LTC)',
         translateKey: 'nav.order-list.income',
         icon: 'payroll',
         type: NAV_ITEM_TYPE_ITEM,
