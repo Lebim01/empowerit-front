@@ -19,6 +19,7 @@ import useUserModalStore from '@/zustand/userModal'
 
 import { FaRegMoneyBill1, FaNetworkWired, FaPeopleLine } from 'react-icons/fa6'
 import { RiPresentationFill } from 'react-icons/ri'
+import { formatNumberWithCommas } from '@/utils/format'
 
 const Rank = () => {
   const userModal = useUserModalStore((state) => state)
@@ -54,8 +55,6 @@ const Rank = () => {
   useEffect(() => {
     if (typeof user.max_rank == 'string') {
       getRank(user.max_rank)
-    } else if (user.max_rank?.key) {
-      getRank(user.max_rank?.key)
     } else {
       getRank('none')
     }
@@ -99,15 +98,14 @@ const Rank = () => {
   }, [user.uid])
 
   useEffect(() => {
-    
-      getDocs(
-        query(
-          collection(db, 'users/' + user.uid + '/profits_details'),
-          orderBy('created_at', 'asc')
-        )
-      ).then((snap) => {
-        setPayrollDetails((data) => snap.docs.map((d) => d.data()))
-      })
+    getDocs(
+      query(
+        collection(db, 'users/' + user.uid + '/profits_details'),
+        orderBy('created_at', 'asc')
+      )
+    ).then((snap) => {
+      setPayrollDetails((data) => snap.docs.map((d) => d.data()))
+    })
   }, [lastPayroll])
 
   const getRank = async (id: string) => {
@@ -176,9 +174,7 @@ const Rank = () => {
                   width={40}
                   height={40}
                 />
-              ) : (
-                null
-              )}
+              ) : null}
             </div>
           </div>
         </div>
@@ -309,7 +305,10 @@ const Rank = () => {
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
-              $ <span className="text-3xl">{data?.bond_presenter ?? 0}</span>{' '}
+              ${' '}
+              <span className="text-3xl">
+                {formatNumberWithCommas(data?.bond_presenter ?? 0, 2)}
+              </span>{' '}
               USD
             </span>
           </div>
