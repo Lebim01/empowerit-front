@@ -104,7 +104,7 @@ const Rank = () => {
   }
 
   useEffect(() => {
-    if (rankKey && nextRank && rank) {
+    if (nextRank && rank) {
       const prev_rank_points =
         rank.order > 0
           ? ranksPoints[ranks_object[ranksOrder[rank.order - 1]].key]
