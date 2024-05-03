@@ -67,8 +67,6 @@ const SalesDashboardBody = () => {
   }, [user.uid])
 
   useEffect(() => {
-    const isModal = window.localStorage.getItem(modalName)
-
     if (userLogged && userLogged.uid) {
       setOpenWelcomeModal(!validateUserData(userLogged))
 
@@ -78,7 +76,7 @@ const SalesDashboardBody = () => {
           '7iRezG7E6vRq7OQywQN3WawSa872',
         ].includes(userLogged.uid)
       )
-        if (!isModal && !openWelcomeModal) setIsOpenModal(true)
+        if (!openWelcomeModal) setIsOpenModal(true)
     }
   }, [userLogged.uid])
 
