@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import Loading from '@/components/shared/Loading'
-import Events from './components/Events'
 import Rank from './components/Rank'
 import Summary from './components/Summary'
 import Links from './components/Links'
-import Goals from './components/Goals'
 import Charts from './components/Charts'
 import { Dialog, Notification, toast } from '@/components/ui'
-import SocialMediaRedirection from './components/SocialMediaRedirection'
 import WelcomeForm from '@/views/account/components/WelcomeForm'
 
 import { UserState, useAppSelector } from '@/store'
@@ -33,9 +30,10 @@ const SalesDashboardBody = () => {
       'country',
       'state',
       'city',
+      'num_ext',
       'birthdate',
       'whatsapp',
-      'address',
+      'street',
       'zip',
     ]
 
@@ -67,6 +65,22 @@ const SalesDashboardBody = () => {
       }
     }
   }, [user.uid])
+
+  useEffect(() => {
+    const isModal = window.localStorage.getItem(modalName)
+
+    if (userLogged && userLogged.uid) {
+      setOpenWelcomeModal(!validateUserData(userLogged))
+
+      if (
+        ![
+          'JpdntP2OQzNSBi3IylyMfSEqqSD2',
+          '7iRezG7E6vRq7OQywQN3WawSa872',
+        ].includes(userLogged.uid)
+      )
+        if (!isModal && !openWelcomeModal) setIsOpenModal(true)
+    }
+  }, [userLogged.uid])
 
   const closeModal = () => {
     window.localStorage.setItem(modalName, '1')
@@ -105,7 +119,9 @@ const SalesDashboardBody = () => {
 
   return (
     <Loading /* loading={loading} */>
-      {/*<SocialMediaRedirection />*/}
+      <Dialog isOpen={isOpenModal} onClose={closeModal}>
+        <img src="/img/retiro.png" />
+      </Dialog>
       <div
         className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
         role="presentation"

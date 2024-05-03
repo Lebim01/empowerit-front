@@ -150,12 +150,11 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
             country: vCountry,
             state: vState,
             city: vCity,
-            address: values.address,
             street: values.street,
             zip: values.zip,
             num_ext: values.num_ext,
-            num_int: values.num_int,
-            reference: values.reference,
+            num_int: values.num_int || '',
+            reference: values.reference || '',
           }
 
           const infBirthdate = {

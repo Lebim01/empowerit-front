@@ -12,6 +12,9 @@ export type UserState = {
   country?: string
   state?: string
   city?: string
+  num_ext: string
+  num_int: string
+  reference: string
   whatsapp?: number
   telegram?: number
   instagram?: string
@@ -40,7 +43,7 @@ export type UserState = {
   membership_status: 'paid' | 'expired' | null
   membership_expires_at: string | null
   zip?: string
-  address?: string
+  street?: string
   customToken: string
 
   bond_presenter: number
@@ -92,6 +95,10 @@ const initialState: UserState = {
   bond_presenter: 0,
   bond_quick_start: 0,
   presenter_code: '',
+  street: '',
+  num_ext: '',
+  num_int: '',
+  reference: '',
 }
 
 const userSlice = createSlice({
@@ -117,7 +124,10 @@ const userSlice = createSlice({
         state.max_rank = payload.max_rank
         state.is_admin = payload.is_admin
         state.presenter_code = payload.presenter_code
-        state.address = payload.address
+        state.street = payload.street
+        state.num_ext = payload.num_ext
+        state.num_int = payload.num_int
+        state.reference = payload.reference
         state.zip = payload.zip
         state.customToken = payload.customToken
 
