@@ -74,8 +74,8 @@ const _UserDropdown = ({ className }: CommonProps) => {
           </Link>
 
           <div className="px-3 flex flex-col">
-            <span className='font-bold'>Código de presentador:</span>
-            <span>{userLogged.uid}</span>
+            <span className="font-bold">Código de presentador:</span>
+            <span>{userLogged.presenter_code}</span>
           </div>
         </Dropdown.Item>
         <Dropdown.Item variant="divider" />
