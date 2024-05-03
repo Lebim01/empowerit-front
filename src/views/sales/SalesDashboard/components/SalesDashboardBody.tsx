@@ -14,7 +14,7 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { getRestDaysMembership } from '@/utils/membership'
 import dayjs from 'dayjs'
 
-const modalName = 'modal-1'
+const modalName = 'modal-2'
 
 const SalesDashboardBody = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
