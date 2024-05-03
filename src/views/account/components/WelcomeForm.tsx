@@ -89,7 +89,10 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
     }),
     whatsapp: Yup.string().required('Phone Required'),
     zip: Yup.string().required('Zip Required'),
-    address: Yup.string().required('Address Required'),
+    num_ext: Yup.string().required('Num_ext Required'),
+    num_int: Yup.string(),
+    reference: Yup.string(),
+    street: Yup.string().required('Address Required'),
     title: Yup.string(),
     lang: Yup.string(),
     timeZone: Yup.string(),
@@ -148,7 +151,11 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
             state: vState,
             city: vCity,
             address: values.address,
+            street: values.street,
             zip: values.zip,
+            num_ext: values.num_ext,
+            num_int: values.num_int,
+            reference: values.reference,
           }
 
           const infBirthdate = {
@@ -350,30 +357,74 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                 {errors?.city && (
                   <span className="text-red-500">Ciudad es obligatorio</span>
                 )}
-                <Field
-                  className="mt-2 ltr:mr-2 rtl:ml-2"
-                  type="text"
-                  autoComplete="off"
-                  name="address"
-                  placeholder="Dirección"
-                  component={Input}
-                />
-                {errors?.address && (
-                  <span className="text-red-500">Dirección es obligatorio</span>
-                )}
-                <Field
-                  className="mt-2 ltr:mr-2 rtl:ml-2"
-                  type="number"
-                  autoComplete="off"
-                  name="zip"
-                  placeholder="Código Postal"
-                  component={Input}
-                />
-                {errors?.zip && (
-                  <span className="text-red-500">
-                    Código postal es obligatorio
-                  </span>
-                )}
+
+                <div className="mt-2 ltr:mr-2 rtl:ml-2">
+                  <label>Calle</label>
+                  <Field
+                    type="text"
+                    autoComplete="off"
+                    name="street"
+                    placeholder="Dirección"
+                    component={Input}
+                  />
+                  {errors?.street && (
+                    <span className="text-red-500">
+                      Dirección es obligatorio
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-2 ltr:mr-2 rtl:ml-2">
+                  <label>Código postal</label>
+                  <Field
+                    type="number"
+                    autoComplete="off"
+                    name="zip"
+                    placeholder="Código Postal"
+                    component={Input}
+                  />
+                  {errors?.zip && (
+                    <span className="text-red-500">
+                      Código postal es obligatorio
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-2 ltr:mr-2 rtl:ml-2">
+                  <label>Número exterior</label>
+                  <Field
+                    type="number"
+                    autoComplete="off"
+                    name="num_ext"
+                    component={Input}
+                  />
+                  {errors?.num_ext && (
+                    <span className="text-red-500">
+                      Número exterior es obligatorio
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-2 ltr:mr-2 rtl:ml-2">
+                  <label>Número interior</label>
+                  <Field
+                    type="number"
+                    autoComplete="off"
+                    name="num_int"
+                    component={Input}
+                  />
+                </div>
+
+                <div className="mt-2 ltr:mr-2 rtl:ml-2">
+                  <label>Referencia</label>
+                  <Field
+                    type="number"
+                    autoComplete="off"
+                    name="reference"
+                    placeholder="Entre calles"
+                    component={Input}
+                  />
+                </div>
               </FormRow>
               <FormRow name="contact" label="Contacto" {...validatorProps}>
                 <Field

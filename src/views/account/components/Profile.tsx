@@ -427,6 +427,63 @@ const Profile = ({ data }: any) => {
                     setVCity(e)
                   }}
                 />
+
+                <br />
+                <label>Código postal</label>
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="cp"
+                  placeholder=""
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                />
+                <label>Calle</label>
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="street"
+                  placeholder="Calle"
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                />
+                <label>Número interior</label>
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="num_int"
+                  placeholder=""
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                />
+                <label>Número exterior</label>
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="num_ext"
+                  placeholder=""
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                />
+                <label>Referencia</label>
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="reference"
+                  placeholder=""
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                />
               </FormRow>
               <FormRow name="contact" label="Contacto" {...validatorProps}>
                 <Field

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import { formatNumberWithCommas } from '@/utils/format'
 import products from './products.json'
 import { FaMinus, FaPlus, FaStar } from 'react-icons/fa'
@@ -11,7 +12,7 @@ type Props = {
 }
 
 const MarketplaceList: FC<Props> = (props) => {
-    const user = useAppSelector((state) => state.auth.user)
+  const user = useAppSelector((state) => state.auth.user)
 
   const [cart, setCart] = useState(
     products.map((p) => ({
@@ -37,28 +38,28 @@ const MarketplaceList: FC<Props> = (props) => {
   }
 
   useEffect(() => {
-    getCart()  
+    getCart()
   }, [])
 
   const getCart = async () => {
     const res = await getDoc(doc(db, `users/${user.uid}/cart/1`))
-    if(res.exists()){
-        try {
-            const _cart = JSON.parse(res.get('json'))
-            setCart(
-              cart.map((r) => ({
-                ...r,
-                quantity: _cart.find((c: any) => c.id == r.id).quantity,
-              }))
-            )
-        }catch(err){
-            console.error(err)
-        }
-    }else{
-        await setDoc(doc(db, `users/${user.uid}/cart/1`), {
-          created_at: new Date(),
-          json: JSON.stringify(cart),
-        })
+    if (res.exists()) {
+      try {
+        const _cart = JSON.parse(res.get('json'))
+        setCart(
+          cart.map((r) => ({
+            ...r,
+            quantity: _cart.find((c: any) => c.id == r.id).quantity,
+          }))
+        )
+      } catch (err) {
+        console.error(err)
+      }
+    } else {
+      await setDoc(doc(db, `users/${user.uid}/cart/1`), {
+        created_at: new Date(),
+        json: JSON.stringify(cart),
+      })
     }
   }
 
@@ -75,6 +76,18 @@ const MarketplaceList: FC<Props> = (props) => {
   return (
     <div>
       <img src="/img/empoweritup.png" className="w-[400px]" />
+      <div>
+        <b>
+          Compra con tarjeta de debito o crédito{' '}
+          <a
+            target="_blank"
+            href="https://www.empoweritup.com/es/theme/paris"
+            className="text-blue-400"
+          >
+            Shopify
+          </a>
+        </b>
+      </div>
       <p className="text-lg italic my-4">
         Arma tu carrito y pagalo a precio preferencial
       </p>
@@ -143,7 +156,13 @@ const MarketplaceList: FC<Props> = (props) => {
             <div>{quantity}</div>
 
             <div className="font-bold text-right">Envio</div>
-            <div>${formatNumberWithCommas(quantity >= 22 ? 600 : quantity >= 10 ? 300 : 200)} MXN</div>
+            <div>
+              $
+              {formatNumberWithCommas(
+                quantity >= 22 ? 600 : quantity >= 10 ? 300 : 200
+              )}{' '}
+              MXN
+            </div>
 
             <div className="font-bold text-right">Total</div>
             <div>
