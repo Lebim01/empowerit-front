@@ -60,8 +60,8 @@ const getWeeks = () => {
 
 const Rank = () => {
   const user: any = useAppSelector((state) => state.auth.user)
-  const [rank, setRank] = useState<any>('Sin rango')
-  const [rankKey, setRankKey] = useState<any>('Sin rango')
+  const [rank, setRank] = useState<any>({})
+  const [rankKey, setRankKey] = useState<any>({})
   const [nextRank, setNextRank] = useState<any>(null)
   const [socios, setSocios] = useState<any>({})
   const [loading, setLoading] = useState<boolean>(false)
@@ -104,7 +104,8 @@ const Rank = () => {
   }
 
   useEffect(() => {
-    if (nextRank && rank) {
+    console.log(nextRank, rank)
+    if (nextRank && rank.rank) {
       const prev_rank_points =
         rank.order > 0
           ? ranksPoints[ranks_object[ranksOrder[rank.order - 1]].key]
@@ -148,7 +149,7 @@ const Rank = () => {
   }, [rankKey, nextRank, rank])
 
   useEffect(() => {
-    if (rank.key) {
+    if (rank.rank) {
       const next_rank = ranks_object[ranksOrder[rank.order + 1]]
       const next_rank_points = ranksPoints[next_rank.key]
       setNextRank({
