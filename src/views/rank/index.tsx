@@ -271,7 +271,9 @@ const Rank = () => {
             <div className="flex flex-col justify-center">
               <img
                 src={`/img/insignias/${rank?.key}.png`}
-                className={classNames(rank?.key == 'none' && 'hidden')}
+                className={classNames(
+                  (rank?.key == undefined || rank?.key == 'none') && 'hidden'
+                )}
                 width={40}
                 height={40}
               />
@@ -296,19 +298,15 @@ const Rank = () => {
             </div>
 
             <div className="flex flex-col justify-center">
-              {rank?.next_rank?.key != '?' ? (
-                <img
-                  src={`/img/insignias/${rank?.next_rank?.key}.png`}
-                  width={40}
-                  height={40}
-                />
-              ) : (
-                <img
-                  src="https://cdn1.iconfinder.com/data/icons/universal-mobile-solid-icons-vol-3/48/129-512.png"
-                  width={40}
-                  height={40}
-                />
-              )}
+              <img
+                src={`/img/insignias/${rank?.next_rank?.key}.png`}
+                className={classNames(
+                  (rank?.next_rank == undefined || rank?.next_rank == 'none') &&
+                    'hidden'
+                )}
+                width={40}
+                height={40}
+              />
             </div>
           </div>
         </div>
