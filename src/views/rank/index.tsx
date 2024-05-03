@@ -104,10 +104,10 @@ const Rank = () => {
   }
 
   useEffect(() => {
-    if (rankKey.key && nextRank && rank) {
+    if (rank.key && nextRank && rank) {
       const prev_rank_points =
-        rankKey.order > 0
-          ? ranksPoints[ranks_object[ranksOrder[rankKey.order - 1]].key]
+        rank.order > -1
+          ? ranksPoints[ranks_object[ranksOrder[rank.order - 1]].key]
           : null
       const options = {
         title: {
