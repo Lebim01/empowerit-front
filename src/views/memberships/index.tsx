@@ -1,3 +1,4 @@
+import FounderMembership from './founder'
 import Membership from './membership'
 
 const PayMembership = () => {
@@ -70,6 +71,18 @@ const PayMembership = () => {
           name="elite-pack"
           display_name="Paquete Elite"
           month_price={678}
+        />
+      </div>
+
+      <div className="flex items-center space-x-4">
+        <span className="font-bold text-3xl">FUNDADOR</span>
+      </div>
+      <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
+        <FounderMembership
+          image="/img/memberships/founder-pack.png"
+          name="founder-pack"
+          display_name="Paquete Fundador"
+          month_price={2950}
         />
       </div>
     </div>

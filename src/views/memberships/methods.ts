@@ -8,6 +8,7 @@ export type Memberships =
   | 'business-pack'
   | 'elite-pack'
   | 'vip-pack'
+  | 'founder-pack'
 export type Coins = 'MXN' | 'LTC'
 
 export enum PAYMENT_LINK_TYPE {
@@ -18,6 +19,7 @@ export enum PAYMENT_LINK_TYPE {
   BUSINESS_PACK = 'business-pack',
   ELITE_PACK = 'elite-pack',
   VIP_PACK = 'vip-pack',
+  FOUNDER_PACK = 'founder-pack',
 }
 
 export const createPaymentLink = async (

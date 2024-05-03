@@ -13,12 +13,14 @@ const ShowQR = ({
   createPaymentLink,
   options,
   period,
+  founder,
 }: {
   type: Memberships
   loading: boolean
   createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
   options: { value: Periods; label: string }[]
   period: Periods
+  founder?: boolean
 }) => {
   // Se obtiene el usuario
   const user = useAppSelector((state) => state.auth.user)
@@ -31,10 +33,11 @@ const ShowQR = ({
 
   // Sí la fecha de expiración es el siguiente día
   if (
-    expires_at &&
-    expiredDate &&
-    expiredDate.isBefore(tomorrowDate.toDate()) &&
-    !user.payment_link
+    (expires_at &&
+      expiredDate &&
+      expiredDate.isBefore(tomorrowDate.toDate()) &&
+      !user.payment_link) ||
+    (founder && !user.founder_pack && !user.payment_link)
   )
     return (
       <>
@@ -43,6 +46,7 @@ const ShowQR = ({
           loading={loading}
           createPaymentLink={createPaymentLink}
           options={options}
+          founder={founder}
         />
       </>
     )
@@ -82,6 +86,7 @@ const ShowQR = ({
           loading={loading}
           createPaymentLink={createPaymentLink}
           options={options}
+          founder={founder}
         />
       </>
     )

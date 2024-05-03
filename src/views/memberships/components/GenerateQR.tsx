@@ -9,11 +9,13 @@ const GenerateQR = ({
   loading,
   createPaymentLink,
   options,
+  founder,
 }: {
   type: Memberships
   loading: boolean
   createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
   options: { value: Periods; label: string }[]
+  founder?: boolean
 }) => {
   const [period, setPeriod] = useState<Periods>('monthly')
   const [showCoin, setShowCoin] = useState(false)
@@ -47,7 +49,7 @@ const GenerateQR = ({
   if (showCoin) {
     return (
       <div className="flex flex-col space-y-2">
-        {showCoin && (
+        {showCoin && !founder && (
           <Select
             options={options}
             value={options.find((r) => r.value == period)}

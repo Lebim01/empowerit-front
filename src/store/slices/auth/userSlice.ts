@@ -61,6 +61,11 @@ export type UserState = {
     }
   }
   is_pending_complete_personal_info: boolean
+  founder_pack?: {
+    status: 'paid'
+    created_at: Date
+    price: number
+  }
 }
 
 const initialState: UserState = {
