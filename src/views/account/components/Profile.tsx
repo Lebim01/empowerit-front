@@ -252,6 +252,7 @@ const Profile = ({ data }: any) => {
           const sendData: any = {
             ...infBirthdate,
             ...infContact,
+            presenter_code,
             email: email?.trim(),
             name: name?.trim(),
           }

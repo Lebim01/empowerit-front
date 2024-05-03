@@ -81,14 +81,13 @@ const SignUpForm = (props: SignUpFormProps) => {
       const { name, password, email } = values
       setSubmitting(true)
 
-      /*const presenter1ref = await getDocs(
+      const presenter1ref = await getDocs(
         query(
           collection(db, 'users'),
           where('presenter_code', '==', values.presenter_1)
         )
-      )*/
-      const presenter1ref = await getDoc(doc(db, 'users/' + values.presenter_1))
-      if (!presenter1ref.exists()) {
+      )
+      if (presenter1ref.empty) {
         toast.push(
           <Notification type="danger" duration={2000}>
             Presentador 1 incorrecto
@@ -100,21 +99,17 @@ const SignUpForm = (props: SignUpFormProps) => {
         setSubmitting(false)
         return
       }
-      //const presenter1 = presenter1ref.docs[0].id
-      const presenter1 = presenter1ref.id
+      const presenter1 = presenter1ref.docs[0].id
       let presenter2 = null
 
       if (values.presenter_2) {
-        /*const presenter2ref = await getDocs(
+        const presenter2ref = await getDocs(
           query(
             collection(db, 'users'),
             where('presenter_code', '==', values.presenter_1)
           )
-        )*/
-        const presenter2ref = await getDoc(
-          doc(db, 'users/' + values.presenter_2)
         )
-        if (!presenter2ref.exists()) {
+        if (presenter2ref.empty) {
           toast.push(
             <Notification type="danger" duration={2000}>
               Presentador 2 incorrecto
@@ -126,8 +121,7 @@ const SignUpForm = (props: SignUpFormProps) => {
           setSubmitting(false)
           return
         }
-        //presenter2 = presenter2ref.docs[0].id
-        presenter2 = presenter2ref.id
+        presenter2 = presenter2ref.docs[0].id
       }
 
       const sponsorref = await getDoc(doc(db, 'users/' + uid))
