@@ -264,6 +264,8 @@ const Rank = () => {
               <p>Rango calificado para el próximo corte</p>
               {loading ? (
                 <Spinner className={`select-loading-indicatior`} size={40} />
+              ) : rank.order == -1 ? (
+                <p className="text-[24px] font-bold">Ninguno</p>
               ) : (
                 <p className="text-[24px] font-bold">{rank.display}</p>
               )}
@@ -290,6 +292,8 @@ const Rank = () => {
               <p>Siguiente rango al que puedes llegar</p>
               {loading ? (
                 <Spinner className={`select-loading-indicatior`} size={40} />
+              ) : rank.order == -1 ? (
+                <p className="text-[24px] font-bold">Initial Builder</p>
               ) : (
                 <p className="text-[24px] font-bold">
                   {rank?.next_rank?.display}
