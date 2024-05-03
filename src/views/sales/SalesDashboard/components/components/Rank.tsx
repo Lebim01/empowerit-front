@@ -7,6 +7,7 @@ import {
   collection,
   orderBy,
   limit,
+  where,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '@/store'
@@ -98,12 +99,17 @@ const Rank = () => {
   }, [user.uid])
 
   useEffect(() => {
-    getDocs(
-      query(
-        collection(db, 'users/' + user.uid + '/profits_details'),
-        orderBy('created_at', 'asc')
-      )
-    ).then((snap) => {
+    const _query = lastPayroll
+      ? query(
+          collection(db, 'users/' + user.uid + '/profits_details'),
+          where('created_at', '>=', lastPayroll.created_at),
+          orderBy('created_at', 'asc')
+        )
+      : query(
+          collection(db, 'users/' + user.uid + '/profits_details'),
+          orderBy('created_at', 'asc')
+        )
+    getDocs(_query).then((snap) => {
       setPayrollDetails((data) => snap.docs.map((d) => d.data()))
     })
   }, [lastPayroll])
