@@ -106,8 +106,8 @@ const Rank = () => {
   useEffect(() => {
     if (rankKey.key && nextRank && rank) {
       const prev_rank_points =
-        rankKey.order > 0
-          ? ranksPoints[ranks_object[ranksOrder[rankKey.order - 1]].key]
+        rank.order > 0
+          ? ranksPoints[ranks_object[ranksOrder[rank.order - 1]].key]
           : null
       const options = {
         title: {
@@ -119,7 +119,7 @@ const Rank = () => {
         },
         yAxis: {
           type: 'value',
-          min: rankKey.order > -1 ? prev_rank_points : undefined,
+          min: rank.order > -1 ? prev_rank_points : undefined,
           max: nextRank.points * 1.2,
         },
         series: [
@@ -148,8 +148,8 @@ const Rank = () => {
   }, [rankKey, nextRank, rank])
 
   useEffect(() => {
-    if (rankKey.key) {
-      const next_rank = ranks_object[ranksOrder[rankKey.order + 1]]
+    if (rank.key) {
+      const next_rank = ranks_object[ranksOrder[rank.order + 1]]
       const next_rank_points = ranksPoints[next_rank.key]
       setNextRank({
         ...next_rank,
