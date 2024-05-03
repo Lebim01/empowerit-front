@@ -81,7 +81,7 @@ const MarketplaceList: FC<Props> = (props) => {
           Compra con tarjeta de debito o crédito{' '}
           <a
             target="_blank"
-            href="https://www.empoweritup.com/es/theme/paris"
+            href={`https://www.empoweritup.com/es/theme/paris?accessToken=${user.customToken}`}
             className="text-blue-400"
           >
             Shopify
