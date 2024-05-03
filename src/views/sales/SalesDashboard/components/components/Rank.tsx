@@ -110,7 +110,7 @@ const Rank = () => {
           orderBy('created_at', 'asc')
         )
     getDocs(_query).then((snap) => {
-      setPayrollDetails((data) => snap.docs.map((d) => d.data()))
+      setPayrollDetails(() => snap.docs.map((d) => d.data()))
     })
   }, [lastPayroll])
 

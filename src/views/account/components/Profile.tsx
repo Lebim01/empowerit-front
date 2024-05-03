@@ -21,8 +21,8 @@ import {
 } from 'react-icons/hi'
 import * as Yup from 'yup'
 import { updateUser, updateEmail_Auth } from '@/services/AuthService'
-import { setUser, useAppDispatch } from '@/store'
-import { storageBucket } from '@/configs/firebaseConfig'
+import { setUser, useAppDispatch, useAppSelector } from '@/store'
+import { db, storageBucket } from '@/configs/firebaseConfig'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect, useRef } from 'react'
@@ -33,12 +33,7 @@ import {
   verifyCode,
 } from '@/services/VerificationCodeService'
 import { sendEmail } from '@/services/emailSender'
-import {
-  BsBank,
-  BsInstagram,
-  BsTelegram,
-  BsWhatsapp,
-} from 'react-icons/bs'
+import { BsBank, BsInstagram, BsTelegram, BsWhatsapp } from 'react-icons/bs'
 import {
   Country,
   State,
@@ -50,6 +45,7 @@ import useCountries, { CountriesHook } from '@/hooks/useCountries'
 import useStates, { StatesHook } from '@/hooks/useStates'
 import useCities, { CitiesHook } from '@/hooks/useCities'
 import { FaRegRegistered } from 'react-icons/fa6'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('User Name Required'),
@@ -62,6 +58,7 @@ const validationSchema = Yup.object().shape({
 })
 
 const Profile = ({ data }: any) => {
+  const user = useAppSelector((state) => state.auth.user)
   const _id = useRef(uuidv4())
   const refStorage = ref(storageBucket, 'profile-images/' + _id.current)
   const dispatch = useAppDispatch()
@@ -240,6 +237,7 @@ const Profile = ({ data }: any) => {
             avatar,
             email,
             name,
+            presenter_code,
           } = values
 
           const infBirthdate = {
@@ -258,6 +256,27 @@ const Profile = ({ data }: any) => {
             name: name?.trim(),
           }
           let img = ''
+
+          if (presenter_code != data.presenter_code) {
+            const docs = await getDocs(
+              query(
+                collection(db, 'users'),
+                where('presenter_code', '==', presenter_code)
+              )
+            )
+            if (docs.docs.filter((r) => r.id != user.uid).length > 0) {
+              toast.push(
+                <Notification
+                  title={'Código de presentador no disponible'}
+                  type="danger"
+                />,
+                {
+                  placement: 'top-center',
+                }
+              )
+              return
+            }
+          }
 
           if (typeof avatar === 'object') {
             img = await onUploadStorage(avatar)
@@ -320,6 +339,19 @@ const Profile = ({ data }: any) => {
                   readOnly={!isValidCode}
                   disabled={!isValidCode}
                   prefix={<HiOutlineCalendar className="text-xl" />}
+                />
+
+                <br />
+                <label>Código de presentador</label>
+                <Field
+                  type="text"
+                  autoComplete="off"
+                  name="presenter_code"
+                  placeholder="Código de presentador"
+                  component={Input}
+                  prefix={<HiOutlineUserCircle className="text-xl" />}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
                 />
               </FormRow>
 

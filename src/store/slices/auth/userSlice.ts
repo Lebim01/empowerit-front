@@ -45,6 +45,7 @@ export type UserState = {
 
   bond_presenter: number
   bond_quick_start: number
+  presenter_code: string
 
   payment_link?: {
     [type: string]: {
@@ -90,6 +91,7 @@ const initialState: UserState = {
   customToken: '',
   bond_presenter: 0,
   bond_quick_start: 0,
+  presenter_code: '',
 }
 
 const userSlice = createSlice({
@@ -114,6 +116,7 @@ const userSlice = createSlice({
         state.last_name = payload.last_name
         state.max_rank = payload.max_rank
         state.is_admin = payload.is_admin
+        state.presenter_code = payload.presenter_code
         state.address = payload.address
         state.zip = payload.zip
         state.customToken = payload.customToken
