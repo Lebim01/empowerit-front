@@ -104,7 +104,6 @@ const Rank = () => {
   }
 
   useEffect(() => {
-    console.log(nextRank, rank)
     if (nextRank && rank.rank) {
       const prev_rank_points =
         rank.order > 0

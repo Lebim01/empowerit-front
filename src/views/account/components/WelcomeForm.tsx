@@ -149,7 +149,10 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
           const infLocation = {
             country: vCountry,
             state: vState,
-            city: vCity,
+            city: {
+              label: values.city,
+              value: values.city,
+            },
             street: values.street,
             zip: values.zip,
             num_ext: values.num_ext,
@@ -342,16 +345,11 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                   <span className="text-red-500">Estado es obligatorio</span>
                 )}
                 <Field
-                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
                   name="city"
                   placeholder="Ciudad"
-                  component={Select}
-                  options={cities[0]}
-                  value={vCity}
-                  onChange={(e: City) => {
-                    setVCity(e)
-                    setFieldValue('city', e)
-                  }}
+                  component={Input}
                 />
                 {errors?.city && (
                   <span className="text-red-500">Ciudad es obligatorio</span>

@@ -215,7 +215,11 @@ const Profile = ({ data }: any) => {
 
   return (
     <Formik
-      initialValues={{ ...data, avatarPreview: data.avatar }}
+      initialValues={{
+        ...data,
+        city: data?.city?.label,
+        avatarPreview: data.avatar,
+      }}
       enableReinitialize={true}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }) => {
@@ -291,6 +295,10 @@ const Profile = ({ data }: any) => {
           dispatch(
             setUser({
               ...values,
+              city: {
+                label: values.city || '',
+                value: values.city || '',
+              },
               avatar: typeof values.avatar === 'object' ? img : values.avatar,
             })
           )
@@ -417,16 +425,13 @@ const Profile = ({ data }: any) => {
                 />
                 <Field
                   className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
                   name="city"
-                  placeholder="Ciudad"
-                  component={Select}
-                  options={cities[0]}
-                  value={vCity}
-                  isDisabled={!isValidCode}
-                  // prefix={<HiOutlineOfficeBuilding className="text-xl" />}
-                  onChange={(e: City) => {
-                    setVCity(e)
-                  }}
+                  placeholder=""
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
                 />
 
                 <br />
