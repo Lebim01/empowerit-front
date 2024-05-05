@@ -58,6 +58,7 @@ export type UserState = {
       currency: Coins
       status: 'pending' | 'confirming'
       address: string
+      redirect_url?: string
     }
   }
   is_pending_complete_personal_info: boolean

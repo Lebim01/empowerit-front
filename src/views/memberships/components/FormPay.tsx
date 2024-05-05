@@ -12,6 +12,7 @@ import { getPaidAmount } from '@/services/Memberships'
 import { db } from '@/configs/firebaseConfig'
 import ButtonSwapCurrency, { currencyIcon } from './ButtonSwapCurrency'
 import { Periods } from '../membership'
+import classNames from 'classnames'
 
 const FormPay = ({
   type,
@@ -19,12 +20,14 @@ const FormPay = ({
   loading,
   period,
   founder,
+  openModal,
 }: {
   type: Memberships
   createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
   loading: boolean
   period: Periods
   founder?: boolean
+  openModal: () => void
 }) => {
   const user = useAppSelector((state) => state.auth.user)
   const { copy } = useClipboard()
@@ -116,7 +119,13 @@ const FormPay = ({
 
         {isExpired && !amountChanged ? null : (
           <div>
-            <img src={qr} className="h-[150px] w-[150px]" />
+            <img
+              src={qr}
+              className={classNames(
+                'h-[150px] w-[150px]',
+                user.payment_link![type].currency == 'MXN' && 'hidden'
+              )}
+            />
           </div>
         )}
 
@@ -124,6 +133,9 @@ const FormPay = ({
           readOnly
           prefix={<BsWallet />}
           value={isExpired && !amountChanged ? '' : address}
+          className={classNames(
+            user.payment_link![type].currency == 'MXN' && 'hidden'
+          )}
           suffix={
             <div
               className="bg-gray-200 p-2 rounded-lg hover:cursor-pointer hover:bg-gray-300"
@@ -162,14 +174,23 @@ const FormPay = ({
           />
         </div>
 
-        {/*<div className="w-full flex justify-end">
-          {user.payment_link![type].currency != 'MXN' && (
+        {!isExpired && user.payment_link![type].currency == 'MXN' && (
+          <button
+            className="bg-green-600 rounded-md px-4 py-2 text-white text-xl hover:bg-green-800"
+            onClick={() => openModal()}
+          >
+            Pagar
+          </button>
+        )}
+
+        <div className="w-full flex justify-end">
+          {/*user.payment_link![type].currency != 'MXN' && (
             <ButtonSwapCurrency
               currency="MXN"
               createPaymentLink={createPaymentLink}
               type={type}
             />
-          )}
+          )*/}
           {user.payment_link![type].currency != 'LTC' && (
             <ButtonSwapCurrency
               currency="LTC"
@@ -177,7 +198,7 @@ const FormPay = ({
               type={type}
             />
           )}
-        </div>*/}
+        </div>
       </div>
       {amountChanged ? (
         <div>

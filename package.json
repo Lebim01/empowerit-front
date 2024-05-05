@@ -79,6 +79,7 @@
     "react-tooltip": "^5.11.1",
     "reactflow": "^11.7.4",
     "redux-persist": "^6.0.0",
+    "sjcl": "^1.0.8",
     "twin.macro": "^3.3.0",
     "uuid": "^9.0.0",
     "yup": "^1.1.1",

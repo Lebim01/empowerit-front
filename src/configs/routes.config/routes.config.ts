@@ -287,4 +287,10 @@ export const payRoute = [
     component: lazy(() => import('@/views/memberships')),
     authority: [],
   },
+  {
+    key: 'marketplace',
+    path: '/marketplace',
+    component: lazy(() => import('@/views/marketplace/index')),
+    authority: [],
+  },
 ]

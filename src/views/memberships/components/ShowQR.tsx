@@ -6,6 +6,8 @@ import GenerateQR from './GenerateQR'
 import ConfirmMessage from './ConfirmMessage'
 import FormPay from './FormPay'
 import { Periods } from '../membership'
+import { useState } from 'react'
+import OpenPayCheckout from '@/components/OpenpayCheckout/Checkout'
 
 const ShowQR = ({
   type,
@@ -58,12 +60,17 @@ const ShowQR = ({
     user.payment_link[type].status == 'pending'
   )
     return (
-      <FormPay
-        type={type}
-        loading={loading}
-        createPaymentLink={createPaymentLink}
-        period={period}
-      />
+      <>
+        <FormPay
+          type={type}
+          loading={loading}
+          createPaymentLink={createPaymentLink}
+          period={period}
+          openModal={() => {
+            window.open(user.payment_link![type].redirect_url)
+          }}
+        />
+      </>
     )
 
   // Sí el pago fue completado

@@ -9,6 +9,7 @@ import { Coins, Memberships, createPaymentLink } from './methods'
 import dayjs from 'dayjs'
 import ShowQR from './components/ShowQR'
 import { formatNumberWithCommas } from '@/utils/format'
+import OpenPayCheckout from '@/components/OpenpayCheckout/Checkout'
 
 type Props = {
   days?: number
@@ -42,7 +43,11 @@ const Membership: FC<Props> = ({
       if (loading) return
       setLoading(true)
       setPeriod(period)
-      await createPaymentLink(user.uid!, type, currency, period)
+      if (currency == 'LTC') {
+        await createPaymentLink(user.uid!, type, currency, period)
+      } else if (currency == 'MXN') {
+        //
+      }
     } catch (err) {
       console.error(err)
     } finally {
