@@ -3,8 +3,6 @@ import { Coins, Memberships } from '../methods'
 import { useState } from 'react'
 import { SiCashapp } from 'react-icons/si'
 import { Periods } from '../membership'
-import OpenPay from '@/components/openpay'
-import OpenPayCheckout from '@/components/OpenpayCheckout/Checkout'
 
 const GenerateQR = ({
   type,
@@ -58,7 +56,7 @@ const GenerateQR = ({
             onChange={(option) => setPeriod(option?.value || 'monthly')}
           />
         )}
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
           <Button
             className="h-max"

@@ -12,6 +12,13 @@ const PayMembership = () => {
         />
         <span>(PRODUCTOS)</span>
       </div>
+      <div>
+        Dirección de Correo Electrónico : admin@empoweritup.com
+        <br />
+        Dirección: Benito Juarez 47bis Manzanillo Colima, México
+        <br />
+        Télefono: +5213148726886
+      </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
         <Membership
           image="/img/memberships/alive-pack.png"
