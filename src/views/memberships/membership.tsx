@@ -43,11 +43,7 @@ const Membership: FC<Props> = ({
       if (loading) return
       setLoading(true)
       setPeriod(period)
-      if (currency == 'LTC') {
-        await createPaymentLink(user.uid!, type, currency, period)
-      } else if (currency == 'MXN') {
-        //
-      }
+      await createPaymentLink(user.uid!, type, currency, period)
     } catch (err) {
       console.error(err)
     } finally {
