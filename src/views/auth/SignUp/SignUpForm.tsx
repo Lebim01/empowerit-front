@@ -106,7 +106,7 @@ const SignUpForm = (props: SignUpFormProps) => {
         const presenter2ref = await getDocs(
           query(
             collection(db, 'users'),
-            where('presenter_code', '==', values.presenter_1)
+            where('presenter_code', '==', values.presenter_2)
           )
         )
         if (presenter2ref.empty) {
