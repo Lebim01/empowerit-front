@@ -19,6 +19,7 @@ const DEFAULT_ADDRESS = {
   num_ext: '',
   num_int: '',
   phone: '',
+  colony: ''
 }
 
 const MarketplaceForm: FC<Props> = (props) => {
@@ -37,6 +38,8 @@ const MarketplaceForm: FC<Props> = (props) => {
       if (!cart.address.city) throw new Error('Ciudad es requerido')
       if (!cart.address.cp) throw new Error('CP es requerido')
       if (!cart.address.street) throw new Error('Calle es requerido')
+      if (!cart.address.colony) throw new Error('Colonia es requerido')
+      if (!cart.address.phone) throw new Error('Telefono es requerido')
       if (!cart.address.reference)
         throw new Error('Referencia es requerido')
       if (!cart.address.num_ext)
@@ -106,6 +109,14 @@ const MarketplaceForm: FC<Props> = (props) => {
           <Input name="cp" value={cart.address.cp} onChange={change('cp')} />
         </div>
         <div>
+          <label>Colonia</label>
+          <Input
+            name="colony"
+            value={cart.address.colony}
+            onChange={change('colony')}
+          />
+        </div>
+        <div>
           <label>Calle</label>
           <Input
             name="street"
@@ -136,6 +147,14 @@ const MarketplaceForm: FC<Props> = (props) => {
             name="num_int"
             value={cart.address.num_int}
             onChange={change('num_int')}
+          />
+        </div>
+        <div>
+          <label>Télefono</label>
+          <Input
+            name="phone"
+            value={cart.address.phone}
+            onChange={change('phone')}
           />
         </div>
       </div>
