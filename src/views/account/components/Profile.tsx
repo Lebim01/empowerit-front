@@ -204,9 +204,9 @@ const Profile = ({ data }: any) => {
     if (data?.state?.value && !vState) {
       setVState(data.state)
     }
-    if (data?.city?.value && !vCity) {
+    /*if (data?.city?.value && !vCity) {
       setVCity(data.city)
-    }
+    }*/
   }
 
   useEffect(() => {
@@ -442,6 +442,17 @@ const Profile = ({ data }: any) => {
                   autoComplete="off"
                   name="cp"
                   placeholder=""
+                  component={Input}
+                  readOnly={!isValidCode}
+                  disabled={!isValidCode}
+                />
+                <label>Colonia</label>
+                <Field
+                  className="mt-2 ltr:mr-2 rtl:ml-2"
+                  type="text"
+                  autoComplete="off"
+                  name="colony"
+                  placeholder="Colonia"
                   component={Input}
                   readOnly={!isValidCode}
                   disabled={!isValidCode}
