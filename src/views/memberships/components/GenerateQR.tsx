@@ -58,7 +58,7 @@ const GenerateQR = ({
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          {process.env.ENABLE_OPENPAY && (
+          {import.meta.env.VITE_ENABLE_OPENPAY && (
             <Button
               className="h-max"
               disabled={disabled}

@@ -184,7 +184,7 @@ const FormPay = ({
         )}
 
         <div className="w-full flex justify-end">
-          {process.env.ENABLE_OPENPAY &&
+          {import.meta.env.VITE_ENABLE_OPENPAY &&
             user.payment_link![type].currency != 'MXN' && (
               <ButtonSwapCurrency
                 currency="MXN"
