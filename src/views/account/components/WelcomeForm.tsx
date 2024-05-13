@@ -84,15 +84,14 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
     state: Yup.object().shape({
       value: Yup.string().required('State is required'),
     }),
-    city: Yup.object().shape({
-      value: Yup.string().required('City is required'),
-    }),
+    city: Yup.string().required('City is required'),
     whatsapp: Yup.string().required('Phone Required'),
     zip: Yup.string().required('Zip Required'),
     num_ext: Yup.string().required('Num_ext Required'),
     num_int: Yup.string(),
     reference: Yup.string(),
     street: Yup.string().required('Address Required'),
+    colony: Yup.string().required('Colony Required'),
     title: Yup.string(),
     lang: Yup.string(),
     timeZone: Yup.string(),
@@ -158,6 +157,7 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
             num_ext: values.num_ext,
             num_int: values.num_int || '',
             reference: values.reference || '',
+            colony: values.colony,
           }
 
           const infBirthdate = {
@@ -353,6 +353,17 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                 />
                 {errors?.city && (
                   <span className="text-red-500">Ciudad es obligatorio</span>
+                )}
+
+                <Field
+                  type="text"
+                  autoComplete="off"
+                  name="colony"
+                  placeholder="Colonia"
+                  component={Input}
+                />
+                {errors?.colony && (
+                  <span className="text-red-500">Colonia es obligatorio</span>
                 )}
 
                 <div className="mt-2 ltr:mr-2 rtl:ml-2">

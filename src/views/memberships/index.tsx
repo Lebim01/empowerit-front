@@ -1,9 +1,69 @@
+import { useEffect, useState } from 'react'
 import FounderMembership from './founder'
 import Membership from './membership'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { useAppSelector } from '@/store'
+import { db } from '@/configs/firebaseConfig'
+import { Memberships } from './methods'
+import { Dialog } from '@/components/ui'
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
 
 const PayMembership = () => {
+  const [transactionStatus, setTransactionStatus] = useState<
+    'failed' | 'success' | 'pending' | null
+  >(null)
+  const user = useAppSelector((state) => state.auth.user)
+
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (url.searchParams.has('transaction')) {
+      setTransactionStatus('pending')
+      console.log('esperando respuesta de openpay')
+      const unsubscribe = onSnapshot(doc(db, `users/${user.uid}`), (snap) => {
+        const payment_link = snap.get('payment_link')
+        const membership = Object.keys(payment_link)[0] as Memberships
+        if (snap.get(`payment_link.${membership}.status`) != 'pending') {
+          setTransactionStatus(snap.get(`payment_link.${membership}.status`))
+          unsubscribe()
+        }
+      })
+      return () => {
+        unsubscribe()
+      }
+    }
+  }, [])
+
   return (
     <div className="flex flex-col gap-4 h-full">
+      <Dialog
+        isOpen={transactionStatus !== null}
+        onClose={() => {
+          if (transactionStatus !== 'pending') {
+            setTransactionStatus(null)
+          }
+        }}
+      >
+        {transactionStatus == 'pending' && (
+          <div>
+            <span className="text-blue-500">
+              Confirmando tu transacción, espere...
+            </span>
+          </div>
+        )}
+        {transactionStatus == 'success' && (
+          <div className="text-green-500 flex items-center space-x-4">
+            <FaCheckCircle size={24} />
+            <span>Transacción completada con éxito</span>
+          </div>
+        )}
+        {transactionStatus == 'failed' && (
+          <div className="text-red-500 flex items-center space-x-4">
+            <FaTimesCircle size={24} />
+            <span>Transacción rechazada</span>
+          </div>
+        )}
+      </Dialog>
+
       <div className="flex items-center space-x-4">
         <img
           src="/img/logo3/Logo-Empower-It-Up-Black.png"

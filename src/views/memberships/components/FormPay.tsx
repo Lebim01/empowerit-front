@@ -184,13 +184,14 @@ const FormPay = ({
         )}
 
         <div className="w-full flex justify-end">
-          {user.payment_link![type].currency != 'MXN' && (
-            <ButtonSwapCurrency
-              currency="MXN"
-              createPaymentLink={createPaymentLink}
-              type={type}
-            />
-          )}
+          {import.meta.env.VITE_ENABLE_OPENPAY &&
+            user.payment_link![type].currency != 'MXN' && (
+              <ButtonSwapCurrency
+                currency="MXN"
+                createPaymentLink={createPaymentLink}
+                type={type}
+              />
+            )}
           {user.payment_link![type].currency != 'LTC' && (
             <ButtonSwapCurrency
               currency="LTC"
