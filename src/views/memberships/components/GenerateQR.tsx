@@ -58,7 +58,7 @@ const GenerateQR = ({
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          <Button
+          {/*<Button
             className="h-max"
             disabled={disabled}
             onClick={() => _create('MXN')}
@@ -67,7 +67,7 @@ const GenerateQR = ({
               <SiCashapp height={50} width={50} className="h-[50px] w-[50px]" />
               <span>Fiat (MXN)</span>
             </div>
-          </Button>
+          </Button>*/}
           <Button
             className="h-max"
             disabled={disabled}

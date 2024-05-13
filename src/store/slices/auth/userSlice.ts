@@ -45,6 +45,7 @@ export type UserState = {
   zip?: string
   street?: string
   customToken: string
+  colony: string
 
   bond_presenter: number
   bond_quick_start: number
@@ -105,6 +106,7 @@ const initialState: UserState = {
   num_ext: '',
   num_int: '',
   reference: '',
+  colony: ''
 }
 
 const userSlice = createSlice({
@@ -133,6 +135,7 @@ const userSlice = createSlice({
         state.street = payload.street
         state.num_ext = payload.num_ext
         state.num_int = payload.num_int
+        state.colony = payload.colony
         state.reference = payload.reference
         state.zip = payload.zip
         state.customToken = payload.customToken

@@ -91,6 +91,8 @@ const GetUsersPacks = () => {
             <br />
             Ciudad: {cart?.address.city}
             <br />
+            Colonia: {cart?.address.colony}
+            <br />
             Calle: {cart?.address.street}
             <br />
             CP: {cart?.address.cp}
@@ -100,6 +102,8 @@ const GetUsersPacks = () => {
             num exterior: {cart?.address.num_ext}
             <br />
             num interior: {cart?.address.num_int}
+            <br />
+            Télefono: {cart?.address.phone}
             <br />
           </div>
           <div className="pr-8">
