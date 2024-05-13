@@ -79,13 +79,12 @@ const GetUsersPacks = () => {
   }
 
   const openDetails = (cart: any) => {
-    if(cart.json)
-      setCart({...cart, json: JSON.parse(cart.json)})
+    if (cart.json) setCart({ ...cart, json: JSON.parse(cart.json) })
   }
 
   return (
     <div className="flex flex-col space-y-8 w-full">
-      <Dialog isOpen={cart !== null}>
+      <Dialog isOpen={cart !== null} onClose={() => setCart(null)}>
         <div className="flex">
           <div className="flex-1">
             Estado: {cart?.address.state}
