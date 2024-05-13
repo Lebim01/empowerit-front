@@ -9,6 +9,12 @@ export type Memberships =
   | 'elite-pack'
   | 'vip-pack'
   | 'founder-pack'
+  | '100-pack'
+  | '300-pack'
+  | '500-pack'
+  | '1000-pack'
+  | '2000-pack'
+  
 export type Coins = 'MXN' | 'LTC'
 
 export enum PAYMENT_LINK_TYPE {

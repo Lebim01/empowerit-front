@@ -41,6 +41,41 @@ const PayMembership = () => {
           month_price={1289}
         />
       </div>
+      <div className="flex items-center space-x-4">
+        <span className="font-bold text-3xl">Franquicias</span>
+      </div>
+      <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
+        <Membership
+          image="/img/memberships/freedom-pack.png"
+          name="100-pack"
+          display_name="Paquete 100"
+          month_price={100}
+        />
+        <Membership
+          image="/img/memberships/freedom-pack.png"
+          name="300-pack"
+          display_name="Paquete 300"
+          month_price={300}
+        />
+        <Membership
+          image="/img/memberships/freedom-pack.png"
+          name="500-pack"
+          display_name="Paquete 500"
+          month_price={500}
+        />
+        <Membership
+          image="/img/memberships/freedom-pack.png"
+          name="1000-pack"
+          display_name="Paquete 1000"
+          month_price={1000}
+        />
+        <Membership
+          image="/img/memberships/freedom-pack.png"
+          name="2000-pack"
+          display_name="Paquete 2000"
+          month_price={2000}
+        />
+      </div>
 
       <div className="flex items-center space-x-4">
         <span className="font-bold text-3xl">ACCESO CON SERVICIO DIGITAL</span>
@@ -80,6 +115,7 @@ const PayMembership = () => {
           month_price={678}
         />
       </div>
+
 
       <div className="flex items-center space-x-4">
         <span className="font-bold text-3xl">FUNDADOR</span>
