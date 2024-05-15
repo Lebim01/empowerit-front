@@ -282,8 +282,7 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                 />
 
                 <div className="mt-2 ltr:mr-2 rtl:ml-2">
-                  <span className="font-bold">RFC</span>{' '}
-                  <span className="text-red-500 text-xs">(Obligatorio)</span>
+                  <span className="font-bold">RFC</span>
                 </div>
                 <Field
                   type="text"
@@ -295,8 +294,7 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                 />
 
                 <div className="mt-2 ltr:mr-2 rtl:ml-2">
-                  <span className="font-bold">Cuenta de Banco (CLABE)</span>{' '}
-                  <span className="text-red-500 text-xs">(Obligatorio)</span>
+                  <span className="font-bold">Cuenta de Banco (CLABE)</span>
                 </div>
                 <Field
                   type="text"
