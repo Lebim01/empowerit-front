@@ -7,6 +7,7 @@ import { db } from '@/configs/firebaseConfig'
 import { Memberships } from './methods'
 import { Dialog } from '@/components/ui'
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
+import Franchise from './Franchise'
 
 const PayMembership = () => {
   const [transactionStatus, setTransactionStatus] = useState<
@@ -64,7 +65,7 @@ const PayMembership = () => {
         )}
       </Dialog>
 
-      <div className="flex items-center space-x-4">
+      {/* <div className="flex items-center space-x-4">
         <img
           src="/img/logo3/Logo-Empower-It-Up-Black.png"
           height={100}
@@ -78,6 +79,9 @@ const PayMembership = () => {
         Dirección: Benito Juarez 47bis Manzanillo Colima, México
         <br />
         Télefono: +5213148726886
+      </div> */}
+      <div className="flex items-center space-x-4">
+        <span className="font-bold text-3xl">Membresias y Franquicias</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
         <Membership
@@ -105,35 +109,65 @@ const PayMembership = () => {
         <span className="font-bold text-3xl">Franquicias</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
-        <Membership
-          image="/img/memberships/freedom-pack.png"
+        <Franchise
+          image="/img/Franchises/100-pack.png"
           name="100-pack"
-          display_name="Paquete 100"
+          display_name="F100"
           month_price={100}
+          binary_points={50}
+          range_points={50}
+          bir={15}
+          binary_percent={10}
+          mentor_bonus={10}
+          cap={300}
         />
-        <Membership
-          image="/img/memberships/freedom-pack.png"
+        <Franchise
+          image="/img/Franchises/300-pack.png"
           name="300-pack"
-          display_name="Paquete 300"
+          display_name="F300"
           month_price={300}
+          binary_points={150}
+          range_points={300}
+          bir={15}
+          binary_percent={10}
+          mentor_bonus={15}
+          cap={1000}
         />
-        <Membership
-          image="/img/memberships/freedom-pack.png"
+        <Franchise
+          image="/img/Franchises/500-pack.png"
           name="500-pack"
-          display_name="Paquete 500"
+          display_name="F500"
           month_price={500}
+          binary_points={250}
+          range_points={500}
+          bir={20}
+          binary_percent={10}
+          mentor_bonus={15}
+          cap={2000}
         />
-        <Membership
-          image="/img/memberships/freedom-pack.png"
+        <Franchise
+          image="/img/Franchises/1000-pack.png"
           name="1000-pack"
-          display_name="Paquete 1000"
+          display_name="F1000"
           month_price={1000}
+          binary_points={500}
+          range_points={1000}
+          bir={20}
+          binary_percent={15}
+          mentor_bonus={15}
+          cap={6000}
         />
-        <Membership
-          image="/img/memberships/freedom-pack.png"
+        <Franchise
+          image="/img/Franchises/2000-pack.png"
           name="2000-pack"
-          display_name="Paquete 2000"
+          display_name="F2000"
           month_price={2000}
+          binary_points={1000}
+          range_points={2000}
+          bir={20}
+          binary_percent={15}
+          mentor_bonus={20}
+          cap={10000}
         />
       </div>*/}
 

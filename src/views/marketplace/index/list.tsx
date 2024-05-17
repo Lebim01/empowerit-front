@@ -91,7 +91,7 @@ const MarketplaceList: FC<Props> = (props) => {
       <p className="text-lg italic my-4">
         Arma tu carrito y pagalo a precio preferencial
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-4">
+      <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-4">
         {cart.map((p) => (
           <div
             key={p.id.toString()}
@@ -112,9 +112,9 @@ const MarketplaceList: FC<Props> = (props) => {
                 ${formatNumberWithCommas(p.price, 2, '-', false)}
               </span>
             </div>
-            <div className="flex justify-start items-center w-full py-2 space-x-2">
+            {/* <div className="flex justify-start items-center w-full py-2 space-x-2">
               <span>{Math.ceil(Number(p.sale_price) / 20 / 2)} puntos c/u</span>
-            </div>
+            </div> */}
             <div className="flex justify-start items-center w-full pb-4 space-x-2">
               <div className="flex justify-start text-yellow-500 space-x-1">
                 <FaStar />
