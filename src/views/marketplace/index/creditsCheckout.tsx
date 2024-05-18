@@ -11,10 +11,6 @@ type MarketplaceCreditsCheckoutProps = {
 
 export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsCheckoutProps) {
 
-    const holi = () =>{
-        console.log(user)
-    }
-
     const { copy } = useClipboard()
     const navigate = useNavigate()
     const user = useAppSelector((state) => state.auth.user)
@@ -96,12 +92,6 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
                     onClick={() => substractCredits()}
                 >
                     Comprar
-                </button>
-                <button
-                    className="bg-black text-white rounded-full px-6 py-2"
-                    onClick={() => holi()}
-                >
-                    mostrar user
                 </button>
             </div>
         </div>
