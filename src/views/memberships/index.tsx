@@ -105,8 +105,8 @@ const PayMembership = () => {
           month_price={1289}
         />
       </div>
-      <div className="flex items-center space-x-4">
-        <span className="font-bold text-3xl">Franquicias de Negocio</span>
+      {/*<div className="flex items-center space-x-4">
+        <span className="font-bold text-3xl">Franquicias</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
         <Franchise
@@ -169,7 +169,7 @@ const PayMembership = () => {
           mentor_bonus={20}
           cap={10000}
         />
-      </div>
+      </div>*/}
 
       <div className="flex items-center space-x-4">
         <span className="font-bold text-3xl">ACCESO CON SERVICIO DIGITAL</span>
