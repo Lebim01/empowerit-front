@@ -115,7 +115,7 @@ const PayMembership = () => {
           display_name="F100"
           month_price={100}
           binary_points={50}
-          range_points={50}
+          range_points={100}
           bir={15}
           binary_percent={10}
           mentor_bonus={10}

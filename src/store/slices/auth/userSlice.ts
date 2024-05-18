@@ -4,6 +4,7 @@ import { Coins } from '@/views/memberships/methods'
 import dayjs from 'dayjs'
 
 export type UserState = {
+  credits?: boolean
   is_admin?: boolean
   uid?: string
   avatar?: string
@@ -119,6 +120,7 @@ const userSlice = createSlice({
       if (payload) {
         state.uid = payload.uid
         state.avatar = payload.avatar
+        state.credits = payload.credits
         state.email = payload.email
         state.name = payload.name
         state.birthdate = payload.birthdate

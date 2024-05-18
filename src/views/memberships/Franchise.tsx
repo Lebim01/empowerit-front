@@ -70,7 +70,7 @@ export default function Franchise({ image, name, display_name, month_price, bina
                 <span className="text-left">Creditos: </span>
                 <span className="font-bold">{range_points} creditos</span>
                 <span className="text-left">CAP: </span>
-                <span className="font-bold">{cap} creditos</span>
+                <span className="font-bold">{cap} dolares</span>
 
                 {is_active && (
                     <>

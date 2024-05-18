@@ -5,6 +5,7 @@ import MarketplaceCheckout from './checkout'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
 import { useAppSelector } from '@/store'
+import MarketplaceCreditsCheckout from './creditsCheckout'
 
 const Marketplace = () => {
   const [stage, setStage] = useState<'cart' | 'form' | 'checkout'>('cart')
@@ -33,7 +34,8 @@ const Marketplace = () => {
   }, [cartPaymentStatus])
 
   if(stage == 'checkout')
-    return <MarketplaceCheckout />
+    return <MarketplaceCreditsCheckout onBack={() => setStage('cart')} />
+    /* return <MarketplaceCheckout  /> */
 
   if (stage == 'form')
     return (

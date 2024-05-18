@@ -13,6 +13,7 @@ type Props = {
 
 const MarketplaceList: FC<Props> = (props) => {
   const user = useAppSelector((state) => state.auth.user)
+  const [err,setErr] = useState(false)
 
   const [cart, setCart] = useState(
     products.map((p) => ({
@@ -40,6 +41,14 @@ const MarketplaceList: FC<Props> = (props) => {
   useEffect(() => {
     getCart()
   }, [])
+
+  useEffect(() => {
+    if(totalWithShipment() > Number(user.credits)){
+      setErr(true) 
+    }else{
+      setErr(false)
+    }
+  },[cart])
 
   const getCart = async () => {
     const res = await getDoc(doc(db, `users/${user.uid}/cart/1`))
@@ -71,13 +80,31 @@ const MarketplaceList: FC<Props> = (props) => {
     props.onComplete()
   }
 
+  const enoughCredits = () => {
+    totalWithShipment()
+    if(totalWithShipment() <= Number(user.credits)){
+      goNextStep()
+    } else{
+      return false
+    }
+  }
+
+  const totalWithShipment = () => {
+    let total = 0;
+    cart.filter((p) => p.quantity).map((p) => {
+      total = total + (Math.ceil(p.sale_price / 17) * p.quantity)
+    })
+    let totalWithShipment = total + quantity
+    return totalWithShipment
+  } 
+
   const quantity = cart.reduce((a, b) => a + b.quantity, 0)
 
   return (
     <div>
       <img src="/img/empoweritup.png" className="w-[400px]" />
       <div>
-        <b>
+        {/* <b>
           Compra con tarjeta de debito o crédito{' '}
           <a
             target="_blank"
@@ -86,7 +113,7 @@ const MarketplaceList: FC<Props> = (props) => {
           >
             Shopify
           </a>
-        </b>
+        </b> */}
       </div>
       <p className="text-lg italic my-4">
         Arma tu carrito y pagalo a precio preferencial
@@ -106,10 +133,10 @@ const MarketplaceList: FC<Props> = (props) => {
             </div>
             <div className="flex justify-start w-full space-x-2">
               <span className="font-medium">
-                ${formatNumberWithCommas(p.sale_price, 2, '-', false)}
+                {Math.ceil(p.sale_price / 17)} créditos
               </span>
               <span className="line-through text-gray-400">
-                ${formatNumberWithCommas(p.price, 2, '-', false)}
+                {Math.ceil(Number(p.price) / 17)} créditos
               </span>
             </div>
             {/* <div className="flex justify-start items-center w-full py-2 space-x-2">
@@ -157,29 +184,31 @@ const MarketplaceList: FC<Props> = (props) => {
 
             <div className="font-bold text-right">Envio</div>
             <div>
-              $
               {formatNumberWithCommas(
-                quantity >= 22 ? 600 : quantity >= 10 ? 300 : 200
+                quantity >= 22 ? 36 : quantity >= 10 ? 18 : 12
               )}{' '}
-              MXN
+              créditos
             </div>
 
-            <div className="font-bold text-right">Total</div>
+            <div className="font-bold text-right">Subtotal</div>
             <div>
-              $
               {formatNumberWithCommas(
-                cart.reduce((a, b) => a + Number(b.sale_price) * b.quantity, 0),
-                2,
+                cart.reduce((a, b) => a + Math.ceil(Number(b.sale_price / 17)) * b.quantity, 0),
+                0,
                 '-',
                 false
               )}{' '}
-              MXN
+              créditos
+            </div>
+            <div className="font-bold text-right">Total</div>
+            <div> {totalWithShipment()} {' '} créditos
             </div>
           </div>
           <div className="w-full mt-2">
             <button
-              className="bg-black text-white rounded-full w-full p-2"
-              onClick={() => goNextStep()}
+              className="bg-black text-white rounded-full w-full p-2 disabled:bg-gray-400"
+              onClick={() => enoughCredits()}
+              disabled={err}
             >
               Pagar
             </button>

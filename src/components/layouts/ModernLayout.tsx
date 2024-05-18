@@ -23,6 +23,7 @@ const HeaderActionsEnd = () => {
       <>
         {user?.membership && (
           <div className='flex items-center'>
+            <p className='px-4 font-bold'>{user.credits} créditos</p>
             <img src={OPTIONS.find(r => r.value == user.membership)?.image} className='h-[50px] w-auto' width={80} height={80} />
             <span>{OPTIONS.find(r => r.value == user.membership)?.label}</span>
           </div>
