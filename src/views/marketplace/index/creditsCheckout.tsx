@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, DocumentData, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { db } from "@/configs/firebaseConfig"
 import { useEffect, useState } from 'react'
 import useClipboard from '@/utils/hooks/useClipboard'
@@ -17,6 +17,7 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
 
     const [cart, setCart] = useState<any[]>([])
     const [total,setTotal] = useState<number>(0)
+    const [cartComplete, setCartComplete] = useState<DocumentData>()
 
     useEffect(() => {
         getCart()
@@ -29,6 +30,8 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
     const getCart = async () => {
         const res = await getDoc(doc(db, `users/${user.uid}/cart/1`))
         if (res.exists()) {
+            const documentData = res.data()
+            setCartComplete(documentData)
             try {
                 const _cart = JSON.parse(res.get('json'))
                 setCart(_cart)
@@ -48,19 +51,32 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
 
     const quantity = cart.reduce((a, b) => a + b.quantity, 0)
     
-    /* Crear una funcion que le reste los creditos al perfil */
     const substractCredits = async () => {
-        /* 9CXMbcJt2sNWG40zqWwQSxH8iki2 */
         let endCredits = Number(user.credits) - Number(total)
-        const userDocRef = doc(db,"users","9CXMbcJt2sNWG40zqWwQSxH8iki2")
+        const userDocRef = doc(db,`users/${user.uid}`)
         await updateDoc(userDocRef, {
             credits: endCredits
         })
-        console.log('Se ha realizado la substraccion de los creditos')
         navigate("/home")
     }
-    /* Crear una funcion que mande el cart a pending ships y de aqui tomare el ejemplo /users/1AGZxXU5gQUGUa6wnmWr7Fk1qXC3/pending-ships/cAXtJmp4sk049MvGs2NX */
-
+    const createPendingShip = async () => {
+        const docRef = await addDoc(collection(db,`users/${user.uid}/pending-ships/`), {
+            cart: cartComplete,
+            cartId: "1",
+            created_at: new Date(),
+            pack: "none",
+            sent: "false"
+          });
+          console.log(docRef)
+    }
+    const deleteCart = async () => {
+        await deleteDoc(doc(db,`users/${user.uid}/cart/1`))
+    }
+    const completeBuyProcess = async () => {
+        await createPendingShip()
+        await deleteCart()
+        await substractCredits()
+    }
 
     return (
         <div>
@@ -89,14 +105,11 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
                 </span>
                 <button
                     className="bg-black text-white rounded-full px-6 py-2"
-                    onClick={() => substractCredits()}
+                    onClick={() => completeBuyProcess()}
                 >
                     Comprar
                 </button>
             </div>
         </div>
-        /* 
-            /users/1AGZxXU5gQUGUa6wnmWr7Fk1qXC3/pending-ships/cAXtJmp4sk049MvGs2NX
-         */
     )
 }
