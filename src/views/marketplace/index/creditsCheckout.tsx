@@ -45,7 +45,8 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
         cart.filter((p) => p.quantity).map((p) => {
             total = total + (Math.ceil(p.sale_price / 17) * p.quantity)
         })
-        let totalWithShipment = total + quantity
+        let sendPrice = quantity >= 22 ? 36 : quantity >= 10 ? 18 : 12
+        let totalWithShipment = total + sendPrice
         setTotal(totalWithShipment)
     } 
 

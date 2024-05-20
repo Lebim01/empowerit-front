@@ -31,6 +31,7 @@ import {
 } from 'react-icons/fa'
 import { FaNetworkWired } from 'react-icons/fa6'
 import { PiPackage } from 'react-icons/pi'
+import { GiCoins } from "react-icons/gi";
 
 export type NavigationIcons = Record<string, JSX.Element>
 
@@ -60,6 +61,7 @@ const navigationIcon: NavigationIcons = {
   rank: <FaMedal />,
   map: <FaRegMap />,
   memberships: <BsShield />,
+  coins: <GiCoins/>,
 }
 
 export default navigationIcon

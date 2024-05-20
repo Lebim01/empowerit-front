@@ -87,6 +87,12 @@ export const protectedRoutes = [
     component: lazy(() => import('@/views/marketplace/index')),
     authority: ['USER'],
   },
+  {
+    key: 'marketplace.history',
+    path: '/marketplace/history',
+    component: lazy(() => import('@/views/marketplace-history/MarketPlaceHistory')),
+    authority: ['USER'],
+  },
   // Top Shop
   {
     key: 'shop',
