@@ -82,7 +82,19 @@ const ShowQR = ({
     return <ConfirmMessage />
 
   // Sí el pago se completo...
-  if (user.membership_status == 'paid') return null
+  if (user.membership_status == 'paid') {
+    return (
+      <>
+        <GenerateQR
+          type={type}
+          loading={loading}
+          createPaymentLink={createPaymentLink}
+          options={options}
+          founder={founder}
+        />
+      </>
+    )
+  }
 
   // Sí no se a creado la dirección de pago...
   if (!user.payment_link || !user.payment_link[type])
