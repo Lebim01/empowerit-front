@@ -97,7 +97,7 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
                 Total a pagar
             </p>
             <div>
-                <span>200 créditos</span>
+                <span>{total} créditos</span>
             </div>
             <div className="flex justify-between mt-8">
                 <span className="underline hover:cursor-pointer" onClick={props.onBack}>

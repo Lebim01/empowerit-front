@@ -46,6 +46,10 @@ const MarketplaceList: FC<Props> = (props) => {
     if(totalWithShipment() > Number(user.credits)){
       setErr(true) 
     }else{
+      if(quantity == 0){
+        setErr(true)
+        return
+      }
       setErr(false)
     }
   },[cart])

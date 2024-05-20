@@ -80,7 +80,7 @@ const PayMembership = () => {
         <br />
         Télefono: +5213148726886
       </div> */}
-      <div className="flex items-center space-x-4">
+      {/* <div className="flex items-center space-x-4">
         <span className="font-bold text-3xl">Membresias y Franquicias</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
@@ -104,8 +104,8 @@ const PayMembership = () => {
           days={90}
           month_price={1289}
         />
-      </div>
-      {/*<div className="flex items-center space-x-4">
+      </div> */}
+      <div className="flex items-center space-x-4">
         <span className="font-bold text-3xl">Franquicias</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
@@ -169,9 +169,9 @@ const PayMembership = () => {
           mentor_bonus={20}
           cap={10000}
         />
-      </div>*/}
+      </div>
 
-      <div className="flex items-center space-x-4">
+      {/* <div className="flex items-center space-x-4">
         <span className="font-bold text-3xl">ACCESO CON SERVICIO DIGITAL</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
@@ -189,9 +189,9 @@ const PayMembership = () => {
           month_price={199}
           year_price={1999}
         />
-      </div>
+      </div> */}
 
-      <div className="flex items-center space-x-4">
+      {/* <div className="flex items-center space-x-4">
         <span className="font-bold text-3xl">ACCESO HÍBRIDO</span>
         <span>(PRODUCTO Y SERVICIO)</span>
       </div>
@@ -208,10 +208,10 @@ const PayMembership = () => {
           display_name="Paquete Elite"
           month_price={678}
         />
-      </div>
+      </div> */}
 
 
-      <div className="flex items-center space-x-4">
+      {/* <div className="flex items-center space-x-4">
         <span className="font-bold text-3xl">FUNDADOR</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
@@ -221,7 +221,7 @@ const PayMembership = () => {
           display_name="Paquete Fundador"
           month_price={2950}
         />
-      </div>
+      </div> */}
     </div>
   )
 }
