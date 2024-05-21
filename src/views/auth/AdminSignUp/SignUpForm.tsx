@@ -59,6 +59,11 @@ const SignUpForm = (props: SignUpFormProps) => {
     value: string
     name: string
   }>(null)
+  const [membership, setMembership] = useState<null | {
+    label: string
+    value: string
+    name: string
+  }>(null)
 
   const onSignUp = async (
     values: SignUpFormSchema,
@@ -70,7 +75,7 @@ const SignUpForm = (props: SignUpFormProps) => {
     }
 
     try {
-      const { name, password, email, membership } = values
+      const { name, password, email } = values
       setSubmitting(true)
       const result = await fetch(
         `${import.meta.env.VITE_API_URL}/subscriptions/activeWithoutVolumen`,
@@ -157,7 +162,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             email: '',
             sponsor: '',
             sponsor_id: '',
-            membership: 'supreme',
+            membership: '100-pack',
             position: 'right',
           }}
           validationSchema={validationSchema}
@@ -232,7 +237,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                   />
                 </FormItem>
                 <FormItem label="Membresia" errorMessage={errors.sponsor}>
-                  <Select name="membership" options={OPTIONS2} />
+                  <Select name="membership" options={OPTIONS2} onChange={(value: any) => setMembership(value)} />
                 </FormItem>
                 <FormItem label="Lado" errorMessage={errors.sponsor}>
                   <Radio.Group
