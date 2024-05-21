@@ -35,6 +35,11 @@ const AllRoutes = (props: AllRoutesProps) => {
   const expires = useAppSelector(
     (state) => state.auth.user.membership_expires_at || null
   )
+  const Franchises = ['100-pack','300-pack','500-pack','1000-pack','2000-pack']
+
+  const franchise = useAppSelector(
+    (state) => state.auth.user.membership
+  )
 
   const isAdmin = useAppSelector((state) =>
     state.auth.user.authority?.includes('ADMIN')
@@ -43,7 +48,7 @@ const AllRoutes = (props: AllRoutesProps) => {
   const [redirectToPay, setRedirectToPay] = useState(false)
 
   useEffect(() => {
-    if (!isAdmin) {
+    if (!isAdmin && franchise && !Franchises.includes(franchise)) {
       if (!expires || dayjs().isAfter(dayjs(expires))) {
         // ya vencio la membresia
         setRedirectToPay(true)
@@ -53,7 +58,7 @@ const AllRoutes = (props: AllRoutesProps) => {
     } else {
       setRedirectToPay(false)
     }
-  }, [expires, isAdmin])
+  }, [expires, isAdmin, franchise])
 
   useEffect(() => {
     if (user.uid) {

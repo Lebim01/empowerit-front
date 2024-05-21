@@ -76,21 +76,23 @@ export default function Franchise({ image, name, display_name, month_price, bina
                     <>
                         <span className="text-right">Estado:</span>
                         <span className="font-bold text-green-600">Activa</span>
-                        <span className="text-right">Restante:</span>
-                        {/* <span className="font-bold">
+                        {/* <span className="text-right">Restante:</span>
+                        <span className="font-bold">
                             {membership_rest_days} días y{' '}
                             {getRestHoursMembership(
                                 membership_rest_days,
                                 dayjs(user.membership_expires_at)
                             )}{' '}
                             horas
-                        </span> */}
+                        </span>
                         <span className="text-right">Expira el:</span>
                         <span className="font-bold">
                             {dayjs(user.membership_expires_at).format('DD/MMMM/YYYY HH:mm')}
-                        </span>
+                        </span> */}
                     </>
                 )}
+
+                
             </div>
 
             {/* {!is_active && (

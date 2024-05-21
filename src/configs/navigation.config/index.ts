@@ -96,7 +96,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     authority: ['USER'],
     subMenu: [],
     //href: `https://www.empoweritup.com/?user=${user?.uid ?? ''}`,
-  },
+  },/* 
   {
     key: 'marketplace.history',
     path: `/marketplace/history`,
@@ -106,7 +106,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
-  },
+  }, */
   /*{
     key: '5',
     path: `/academy-leadership`,
