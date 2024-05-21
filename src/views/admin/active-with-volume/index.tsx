@@ -1,14 +1,14 @@
 import { Button, Input, Notification, Radio, Select, toast } from "@/components/ui"
 import { db } from "@/configs/firebaseConfig"
-import { OPTIONS } from "@/utils/packs"
-import { Memberships } from "@/views/memberships/methods"
+import { OPTIONS, OPTIONS2 } from "@/utils/packs"
+import { Franchises, Memberships } from "@/views/memberships/methods"
 import { collection, getDocs, query, where } from "firebase/firestore"
 import { useState } from "react"
 
 
 const ActiveWithVolume = () => {
     const [email, setEmail] = useState("")
-    const [membership, setMembership] = useState<Memberships>('pro')
+    const [membership, setMembership] = useState<Franchises>('100-pack')
     const [loading, setLoading] = useState(false)
 
     const enter = async () => {
@@ -57,11 +57,11 @@ const ActiveWithVolume = () => {
         <div className="w-full md:w-1/2 flex flex-col space-y-4 items-end">
           <Select
             className="w-full"
-            options={OPTIONS}
-            value={OPTIONS.find((r) => r.value == membership)}
+            options={OPTIONS2}
+            value={OPTIONS2.find((r) => r.value == membership)}
             onChange={(e) => {
-              if (e?.value) setMembership(e.value as Memberships)
-              else setMembership('pro')
+              if (e?.value) setMembership(e.value as Franchises)
+              else setMembership('100-pack')
             }}
           />
           <Input

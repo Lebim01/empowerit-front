@@ -1,5 +1,7 @@
 import { Periods } from './membership'
 
+export type Franchises = '100-pack' | '300-pack' | '500-pack' | '1000-pack' | '2000-pack';
+
 export type Memberships =
   | 'pro'
   | 'supreme'
