@@ -16,6 +16,7 @@ import { Notification, Radio, Select, toast } from '@/components/ui'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { OPTIONS2 } from '@/utils/packs'
 
 interface SignUpFormProps extends CommonProps {
   disableSubmit?: boolean
@@ -231,13 +232,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                   />
                 </FormItem>
                 <FormItem label="Membresia" errorMessage={errors.sponsor}>
-                  <Select
-                    name="membership"
-                    options={[
-                      { value: 'supreme', label: 'Supreme' },
-                      { value: 'pro', label: 'Pro' },
-                    ]}
-                  />
+                  <Select name="membership" options={OPTIONS2} />
                 </FormItem>
                 <FormItem label="Lado" errorMessage={errors.sponsor}>
                   <Radio.Group
