@@ -91,7 +91,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             sponsor_id: sponsor.value,
             side: position,
             days: 30,
-            membership,
+            membership: membership?.value,
           }),
           method: 'POST',
         }
