@@ -16,6 +16,7 @@ import { Notification, Radio, Select, toast } from '@/components/ui'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { OPTIONS2 } from '@/utils/packs'
 
 interface SignUpFormProps extends CommonProps {
   disableSubmit?: boolean
@@ -58,6 +59,11 @@ const SignUpForm = (props: SignUpFormProps) => {
     value: string
     name: string
   }>(null)
+  const [membership, setMembership] = useState<null | {
+    label: string
+    value: string
+    name: string
+  }>(null)
 
   const onSignUp = async (
     values: SignUpFormSchema,
@@ -69,7 +75,7 @@ const SignUpForm = (props: SignUpFormProps) => {
     }
 
     try {
-      const { name, password, email, membership } = values
+      const { name, password, email } = values
       setSubmitting(true)
       const result = await fetch(
         `${import.meta.env.VITE_API_URL}/subscriptions/activeWithoutVolumen`,
@@ -85,7 +91,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             sponsor_id: sponsor.value,
             side: position,
             days: 30,
-            membership,
+            membership: membership?.value,
           }),
           method: 'POST',
         }
@@ -156,7 +162,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             email: '',
             sponsor: '',
             sponsor_id: '',
-            membership: 'supreme',
+            membership: '100-pack',
             position: 'right',
           }}
           validationSchema={validationSchema}
@@ -231,13 +237,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                   />
                 </FormItem>
                 <FormItem label="Membresia" errorMessage={errors.sponsor}>
-                  <Select
-                    name="membership"
-                    options={[
-                      { value: 'supreme', label: 'Supreme' },
-                      { value: 'pro', label: 'Pro' },
-                    ]}
-                  />
+                  <Select name="membership" options={OPTIONS2} onChange={(value: any) => setMembership(value)} />
                 </FormItem>
                 <FormItem label="Lado" errorMessage={errors.sponsor}>
                   <Radio.Group

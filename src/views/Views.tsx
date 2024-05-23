@@ -49,11 +49,7 @@ const AllRoutes = (props: AllRoutesProps) => {
 
   useEffect(() => {
     if (!isAdmin) {
-      if (
-        ['100-pack', '300-pack', '500-pack', '1000-pack', '2000-pack'].includes(
-          user?.membership || ''
-        )
-      ) {
+      if (Franchises.includes(user?.membership || '')) {
         setRedirectToPay(false)
       } else if (!expires || dayjs().isAfter(dayjs(expires))) {
         // ya vencio la membresia

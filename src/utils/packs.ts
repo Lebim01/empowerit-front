@@ -35,3 +35,31 @@ export const OPTIONS = [
       image: '/img/memberships/vip-pack.png',
     },
   ]
+
+  export const OPTIONS2 = [
+    {
+      label: 'F100',
+      value: '100-pack',
+      image: '/img/Franchises/100-pack.png',
+    },
+    {
+      label: 'F300',
+      value: '300-pack',
+      image: '/img/Franchises/300-pack.png',
+    },
+    {
+      label: 'F500',
+      value: '500-pack',
+      image: '/img/Franchises/500-pack.png',
+    },
+    {
+      label: 'F1000',
+      value: '1000-pack',
+      image: '/img/Franchises/1000-pack.png',
+    },
+    {
+      label: 'F2000',
+      value: '2000-pack',
+      image: '/img/Franchises/2000-pack.png',
+    },
+  ]
