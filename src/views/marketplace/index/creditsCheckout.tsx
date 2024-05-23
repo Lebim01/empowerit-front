@@ -73,9 +73,17 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
     const deleteCart = async () => {
         await deleteDoc(doc(db,`users/${user.uid}/cart/1`))
     }
+    const createHistoryCreditsDoc = async () => {
+        const docRef = await addDoc(collection(db,`users/${user.uid}/credits-history/`), {
+            total,
+            created_at: new Date(),
+            concept: "Compra en Marketplace"
+          });
+    } 
     const completeBuyProcess = async () => {
         await createPendingShip()
         await deleteCart()
+        await createHistoryCreditsDoc()
         await substractCredits()
     }
 

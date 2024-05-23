@@ -117,11 +117,10 @@ const SalesDashboardBody = () => {
 
   return (
     <Loading /* loading={loading} */>
-      {/* 
-      <Dialog isOpen={isOpenModal} onClose={closeModal}>
-        <img src="/img/retiro.png" />
-        <p>penepen</p>
-      </Dialog> */}
+      
+      <Dialog isOpen={isOpenModal} onClose={closeModal} >
+        <img src="/img/retiro-mexico.png"/>
+      </Dialog>
       <div
         className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
         role="presentation"

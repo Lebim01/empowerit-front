@@ -5,48 +5,103 @@ import Td from '@/components/ui/Table/Td'
 import Th from '@/components/ui/Table/Th'
 import Tr from '@/components/ui/Table/Tr'
 import { useAppSelector } from '@/store'
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+interface PendingShip {
+    created_at: Date;
+    total: number;
+    concept: string;
+}
 
 function MarketPlaceHistory() {
 
     const user = useAppSelector((state) => state.auth.user)
-    const [cart,setCart] = useState()
+    const [pendingShips, setPendingShips] = useState<PendingShip[]>([]);
 
-    /**
-     * Los campos que utilizare seran created_at, sent del json sacar cuantos productos y el precio que se pago 
-     */
-    console.log(user)
+    useEffect(() => {
+        getPendingShips()
+    },[pendingShips])
 
-    const getQuantityByid = async () => {
-        console.log('desde getQuantityByid')
-        const res = await getDoc(doc(db, `users/${user.uid}/pending-ships/LppNN2WpbncPPHtXpw0y`))
+    const getPendingShips = async () => {
+        const querySnapshot = await getDocs(collection(db, `users/${user.uid}/credits-history`))
+        const pendingShipsData : PendingShip [] = []
+
+        querySnapshot.forEach((doc) => {
+            pendingShipsData.push({
+                created_at: doc.data().created_at.toDate(),
+                total: doc.data().total,
+                concept: doc.data().concept
+            })
+        })
+        setPendingShips(pendingShipsData)
+    }
+
+    const getRightPoints = async (documentId: string, id: string) => {
+        console.log('derecha')
+        const rightPointsRef = collection(db, `users/${id}/right-points`);
+        const q = query(rightPointsRef, where("user_id", "==", documentId));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (docSnapshot) => {
+            const docRef = doc(db, `users/${id}/right-points`, docSnapshot.id);
+            const currentPoints = docSnapshot.data().points;
+
+            const updatedPoints = currentPoints * 2;
+
+            await updateDoc(docRef, {
+                points: updatedPoints
+            });
+        });
+    }
+
+    const getLeftPoints = async (documentId: string, id: string) => {
+        console.log('izquierda')
+        const rightPointsRef = collection(db, `users/${id}/left-points`);
+        const q = query(rightPointsRef, where("user_id", "==", documentId));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (docSnapshot) => {
+            const docRef = doc(db, `users/${id}/left-points`, docSnapshot.id);
+            const currentPoints = docSnapshot.data().points;
+
+            const updatedPoints = currentPoints * 2;
+
+            await updateDoc(docRef, {
+                points: updatedPoints
+            });
+        });
+    }
+
+    const getParentBinaryUserId = async (documentId: string, id: string) => {
+        const res = await getDoc(doc(db, `users/${id}`))
         if (res.exists()) {
-            try {
-                const _cart = JSON.parse(res.data().get('cart'))
-                setCart(_cart)
-            } catch (err) {
-                console.error(err)
+            if (res.data().parent_binary_user_id) {
+                console.log('el parent_binary_user_id es: ', res.data().parent_binary_user_id)
+                await getRightPoints(documentId, res.data().parent_binary_user_id)
+                await getLeftPoints(documentId, res.data().parent_binary_user_id)
             }
+            await fixBinaryPoints(documentId, res.data().parent_binary_user_id)
+        }
+
+    }
+
+    const fixBinaryPoints = async (documentId: string, id: string) => {
+        if (documentId) {
+            await getParentBinaryUserId(documentId, id)
         }
     }
 
-    console.log(cart)
+    const getDocumentIdByEmail = async (email: string) => {
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("email", "==", email));
 
-
-
-    const getPendingShips = async () => {
-        const querySnapshot = await getDocs(collection(db,`users/${user.uid}/pending-ships`))
-        const pendingShipsData = []
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id)
-            /* pendingShipsData.push({
-                date: doc.data().created_at,
-                is_sent: doc.data().sent,
-                quantity: doc.data().sent,
-            }) */
-        })
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            const doc = querySnapshot.docs[0];
+            await fixBinaryPoints(doc.id, doc.id)
+        } else {
+            return null;
+        }
     }
 
     return (
@@ -57,35 +112,30 @@ function MarketPlaceHistory() {
                     <Tr>
                         <Th>#</Th>
                         <Th>Fecha</Th>
-                        <Th>Cantidad de productos</Th>
-                        <Th>Creditos Totales</Th>
-                        <Th>Status</Th>
+                        <Th>Créditos</Th>
+                        <Th>CONCEPTO</Th>
                     </Tr>
                 </THead>
                 <TBody>
-                    <Tr>
-                        <Td>1</Td>
-                        <Td>1234</Td>
-                        <Td>1234123</Td>
-                        <Td>1234213</Td>
-                        <Td>Enviado</Td>
+                    {pendingShips && pendingShips.map((pendingShip, index) => (
+                        <Tr key={index}>
+                        <Td>{index}</Td>
+                        <Td>{pendingShip.created_at.toLocaleDateString()}</Td>
+                        <Td>{pendingShip.total}</Td>
+                        <Td>{pendingShip.concept}</Td>
                     </Tr>
+                    ))}
+                    
                 </TBody>
             </Table>
-            <div className='flex space-between'>
+            {/* <div className='flex space-between'>
                 <button
-                    onClick={ () => getPendingShips()}
+                    onClick={() => getDocumentIdByEmail("gonzalestoro1032+1@gmail.com")}
                     className='bg-black text-white rounded mx-auto p-3'
                 >
-                    test
+                    Boton para arreglar binario por correo
                 </button>
-                <button
-                    onClick={ () => getQuantityByid()}
-                    className='bg-black text-white rounded mx-auto p-3'
-                >
-                    getQuantityByid
-                </button>
-            </div>
+            </div> */}
         </>
     )
 }
