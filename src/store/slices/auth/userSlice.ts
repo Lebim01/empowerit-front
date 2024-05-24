@@ -44,6 +44,8 @@ export type UserState = {
   membership: string | null
   membership_status: 'paid' | 'expired' | null
   membership_expires_at: string | null
+  membership_cap_current?: number
+  membership_cap_limit?: number
   zip?: string
   street?: string
   customToken: string
@@ -109,7 +111,9 @@ const initialState: UserState = {
   num_int: '',
   reference: '',
   colony: '',
-  academyAccess: false
+  academyAccess: false,
+  membership_cap_current:0,
+  membership_cap_limit:0
 }
 
 const userSlice = createSlice({
@@ -174,6 +178,8 @@ const userSlice = createSlice({
 
         state.membership_status = payload.membership_status
         state.membership = payload.membership
+        state.membership_cap_current = payload.membership_cap_current
+        state.membership_cap_limit = payload.membership_cap_limit
 
         state.bond_quick_start = payload.bond_quick_start
         state.bond_presenter = payload.bond_presenter

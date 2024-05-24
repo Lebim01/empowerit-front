@@ -65,7 +65,7 @@ export default function MartketplaceDigitalService() {
                     className="bg-gray-100 flex flex-col items-center rounded-lg px-4 pb-4"
                 >
                     <img
-                        src="../../public/membership/crypto-elite.png"
+                        src="/membership/crypto-elite.png"
                         className="w-[80%] flex-1 object-contain"
                     />
                     <div className="flex justify-start w-full text-lg">
