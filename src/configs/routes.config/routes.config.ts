@@ -17,7 +17,7 @@ export const protectedRoutes = [
     key: 'academy',
     path: '/academy',
     component: lazy(() => import('@/views/academies/Academy.component')),
-    authority: ['USER', 'ADMIN'],
+    authority: ['ACADEMY', 'ADMIN'],
   },
   {
     key: 'academy',
@@ -25,19 +25,19 @@ export const protectedRoutes = [
     component: lazy(
       () => import('@/views/academies/previews/PreviewAcademy.component')
     ),
-    authority: ['USER', 'ADMIN'],
+    authority: ['ACADEMY', 'ADMIN'],
   },
   {
     key: 'academy',
     path: '/:academyType/course/:courseId/lesson/:lessonId',
     component: lazy(() => import('@/views/video')),
-    authority: ['USER', 'ADMIN'],
+    authority: ['ACADEMY', 'ADMIN'],
   },
   {
     key: 'academy',
     path: '/:academyType/course/:courseId/live/:lessonId',
     component: lazy(() => import('@/views/video')),
-    authority: ['USER', 'ADMIN'],
+    authority: ['ACADEMY', 'ADMIN'],
   },
   // Membership
   {
@@ -85,6 +85,12 @@ export const protectedRoutes = [
     key: 'marketplace',
     path: '/marketplace',
     component: lazy(() => import('@/views/marketplace/index')),
+    authority: ['USER'],
+  },
+  {
+    key: 'marketplace-digital-service',
+    path: '/marketplace-digital-service',
+    component: lazy(() => import('@/views/marketplace-digital-service/MartketplaceDigitalService')),
     authority: ['USER'],
   },
   {

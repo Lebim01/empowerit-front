@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 export type UserState = {
   credits?: boolean
   is_admin?: boolean
+  academyAccess?: boolean
   uid?: string
   avatar?: string
   name?: string
@@ -107,7 +108,8 @@ const initialState: UserState = {
   num_ext: '',
   num_int: '',
   reference: '',
-  colony: ''
+  colony: '',
+  academyAccess: false
 }
 
 const userSlice = createSlice({
@@ -141,10 +143,13 @@ const userSlice = createSlice({
         state.reference = payload.reference
         state.zip = payload.zip
         state.customToken = payload.customToken
+        state.academyAccess = payload.academyAccess
 
         const roles = []
         if (payload.is_admin || payload.uid == '9CXMbcJt2sNWG40zqWwQSxH8iki2') {
           roles.push('ADMIN', 'USER')
+        } else if(payload.academyAccess == true) {
+          roles.push('USER','ACADEMY')
         } else {
           roles.push('USER')
         }
