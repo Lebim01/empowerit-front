@@ -21,17 +21,29 @@ export default function MartketplaceDigitalService() {
         }
     }, [user]);
 
+    const enoughCredits = async() => {
+        const usersRef = doc(db, `users/${user.uid}`);
+        const res = await getDoc(usersRef)
+        if(res.data()?.credits >= 0){
+            return true
+        }
+        return false
+    }
+
     const buyAcademyAccess = async () => {
         const usersRef = await doc(db, `users/${user.uid}`);
         const res = await getDoc(usersRef)
-        if (res.exists()) {
-            const creditsLeft = res.data().credits
-            await updateDoc(usersRef, {
-                academyAccess: true,
-                credits: creditsLeft - 100
-            })
+        const isEnoughtCredits = await enoughCredits()
+        if(isEnoughtCredits){
+            if (res.exists()) {
+                const creditsLeft = res.data().credits
+                await updateDoc(usersRef, {
+                    academyAccess: true,
+                    credits: creditsLeft - 100
+                })
+            }
+            createHistoryCreditsDoc(100)
         }
-        createHistoryCreditsDoc(100)
         setOpenModal(false)
     }
 
@@ -79,13 +91,33 @@ export default function MartketplaceDigitalService() {
                             <span className="font-medium">En existencia</span>
                         </div>
                     </div>
-                    <Button
-                        onClick={() => setOpenModal(true)}
-                        disabled={academyAccess}
-                        className={`px-4 py-2 font-semibold rounded ${academyAccess ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700'}`}
-                    >
-                        {academyAccess ? 'Membresia Obtenida' : 'Comprar Membresia'}
-                    </Button>
+                    {user && typeof user.credits === 'number' ? (
+                        user.credits <= 100 ? (
+                            <Button
+                                onClick={() => setOpenModal(true)}
+                                disabled={true}
+                                className="px-4 py-2 font-semibold rounded bg-gray-400 text-gray-700 cursor-not-allowed"
+                            >
+                                {academyAccess ? 'Membresía Obtenida' : 'Créditos insuficientes'}
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={() => setOpenModal(true)}
+                                disabled={academyAccess}
+                                className={`px-4 py-2 font-semibold rounded ${academyAccess ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700'}`}
+                            >
+                                {academyAccess ? 'Membresía Obtenida' : 'Comprar Membresía'}
+                            </Button>
+                        )
+                    ) : (
+                        <Button
+                            onClick={() => setOpenModal(true)}
+                            disabled={true}
+                            className="px-4 py-2 font-semibold rounded bg-gray-400 text-gray-700 cursor-not-allowed"
+                        >
+                            Créditos insuficientes
+                        </Button>
+                    )}
                 </div>
             </div>
             <Dialog isOpen={openModal} onClose={() => setOpenModal(false)} >
