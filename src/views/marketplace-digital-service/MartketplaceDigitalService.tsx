@@ -92,7 +92,7 @@ export default function MartketplaceDigitalService() {
                         </div>
                     </div>
                     {user && typeof user.credits === 'number' ? (
-                        user.credits <= 100 ? (
+                        user.credits < 100 ? (
                             <Button
                                 onClick={() => setOpenModal(true)}
                                 disabled={true}
