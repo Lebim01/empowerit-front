@@ -73,7 +73,7 @@ const SignUpForm = (props: SignUpFormProps) => {
       setMessage('Seleccionar sponsor')
       return
     }
-//
+
     try {
       const { name, password, email } = values
       setSubmitting(true)
