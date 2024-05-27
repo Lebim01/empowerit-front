@@ -155,7 +155,7 @@ const PayMembership = () => {
           bir={20}
           binary_percent={15}
           mentor_bonus={15}
-          cap={6000}
+          cap={5000}
         />
         <Franchise
           image="/img/Franchises/2000-pack.png"
