@@ -7,6 +7,7 @@ export type UserState = {
   credits?: boolean
   is_admin?: boolean
   academyAccess?: boolean
+  academy_access_expires_at?: string | null
   uid?: string
   avatar?: string
   name?: string
@@ -100,6 +101,7 @@ const initialState: UserState = {
   position: 'left',
   membership: null,
   membership_expires_at: null,
+  academy_access_expires_at : null,
   membership_status: null,
   is_pending_complete_personal_info: true,
   customToken: '',
@@ -148,13 +150,15 @@ const userSlice = createSlice({
         state.zip = payload.zip
         state.customToken = payload.customToken
         state.academyAccess = payload.academyAccess
+        state.academy_access_expires_at = payload.academy_access_expires_at
 
         const roles = []
         if (payload.is_admin || payload.uid == '9CXMbcJt2sNWG40zqWwQSxH8iki2') {
           roles.push('ADMIN', 'USER')
-        } else if(payload.academyAccess == true) {
+        } else if(payload.academy_access_expires_at.seconds > new Date().getTime() / 1000) {
           roles.push('USER','ACADEMY')
         } else {
+          console.log('aca')
           roles.push('USER')
         }
 

@@ -12,10 +12,21 @@ export default function MartketplaceDigitalService() {
 
     const [openModal, setOpenModal] = useState(false)
     const [academyAccess, setAcademyAccess] = useState(false)
+    const [leftDaysString, setLeftDaysString] = useState<string>()
+
+    const getLeftDays = ( expires_at : any) => {
+        if(expires_at && expires_at.seconds > new Date().getTime() / 1000) {
+            const leftDays = Math.floor((expires_at.seconds - (new Date().getTime() / 1000)) / 60 / 60 /24)
+            setAcademyAccess(true)
+            setLeftDaysString(leftDays + ' días restantes')
+            return
+        }
+        setAcademyAccess(false)
+    }
 
     useEffect(() => {
-        if (user.academyAccess) {
-            setAcademyAccess(true);
+        if (user && user.academy_access_expires_at) {
+            getLeftDays(user.academy_access_expires_at);
         } else {
             setAcademyAccess(false);
         }
@@ -31,6 +42,10 @@ export default function MartketplaceDigitalService() {
     }
 
     const buyAcademyAccess = async () => {
+        const now = new Date();
+        const expiresAt = new Date(now);
+        expiresAt.setDate(now.getDate() + 30);
+
         const usersRef = await doc(db, `users/${user.uid}`);
         const res = await getDoc(usersRef)
         const isEnoughtCredits = await enoughCredits()
@@ -38,8 +53,8 @@ export default function MartketplaceDigitalService() {
             if (res.exists()) {
                 const creditsLeft = res.data().credits
                 await updateDoc(usersRef, {
-                    academyAccess: true,
-                    credits: creditsLeft - 100
+                    credits: creditsLeft - 100,
+                    academy_access_expires_at: expiresAt
                 })
             }
             createHistoryCreditsDoc(100)
@@ -48,10 +63,15 @@ export default function MartketplaceDigitalService() {
     }
 
     const createHistoryCreditsDoc = async (total: number) => {
-        const docRef = await addDoc(collection(db,`users/${user.uid}/credits-history/`), {
+        const now = new Date();
+        const expiresAt = new Date(now);
+        expiresAt.setDate(now.getDate() + 30);
+
+        await addDoc(collection(db,`users/${user.uid}/credits-history/`), {
             total,
             created_at: new Date(),
-            concept: "Compra en Marketplace Servicios Digital"
+            concept: "Compra en Marketplace Servicios Digital",
+            academy_access_expires_at: expiresAt
           });
     } 
 
@@ -79,6 +99,14 @@ export default function MartketplaceDigitalService() {
                             120 créditos
                         </span>
                     </div>
+                    <div className="flex justify-start w-full space-x-2">
+                        <span className="font-medium">
+                            Duración: 
+                        </span>
+                        <span className=" text-gray-400">
+                            30 días
+                        </span>
+                    </div>
                     <div className="flex justify-start items-center w-full pb-4 space-x-2">
                         <div className="flex justify-start text-yellow-500 space-x-1">
                             <FaStar />
@@ -98,7 +126,7 @@ export default function MartketplaceDigitalService() {
                                 disabled={true}
                                 className="px-4 py-2 font-semibold rounded bg-gray-400 text-gray-700 cursor-not-allowed"
                             >
-                                {academyAccess ? 'Membresía Obtenida' : 'Créditos insuficientes'}
+                                {academyAccess ? leftDaysString : 'Créditos insuficientes'}
                             </Button>
                         ) : (
                             <Button
@@ -106,7 +134,7 @@ export default function MartketplaceDigitalService() {
                                 disabled={academyAccess}
                                 className={`px-4 py-2 font-semibold rounded ${academyAccess ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700'}`}
                             >
-                                {academyAccess ? 'Membresía Obtenida' : 'Comprar Membresía'}
+                                {academyAccess ? leftDaysString : 'Comprar Membresía'}
                             </Button>
                         )
                     ) : (
