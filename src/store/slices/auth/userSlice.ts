@@ -155,10 +155,11 @@ const userSlice = createSlice({
         const roles = []
         if (payload.is_admin || payload.uid == '9CXMbcJt2sNWG40zqWwQSxH8iki2') {
           roles.push('ADMIN', 'USER')
-        } else if(payload.academy_access_expires_at.seconds > new Date().getTime() / 1000) {
-          roles.push('USER','ACADEMY')
+        } else if(payload.academy_access_expires_at ) {
+          if(payload.academy_access_expires_at.seconds > new Date().getTime() / 1000){
+            roles.push('USER','ACADEMY')
+          }
         } else {
-          console.log('aca')
           roles.push('USER')
         }
 
