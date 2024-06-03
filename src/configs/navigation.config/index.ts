@@ -29,7 +29,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
   {
     key: 'pay-supreme',
     path: '/subscriptions',
-    title: 'Membresías y Franquicias',
+    title: 'Franquicias',
     translateKey: 'nav.pay-supreme',
     icon: 'memberships',
     type: NAV_ITEM_TYPE_ITEM,
