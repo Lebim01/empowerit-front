@@ -29,7 +29,7 @@ export default function CapSlider() {
                     <span className='mx-auto font-bold text-xl uppercase'>{PACK_NAMES[user.membership]}</span>
                 )}
                 <div className='w-full bg-white h-[30px] rounded-full my-4 mx-auto'>
-                <div style={{ minWidth: '30px', width: `${percentage}%` }} className={`rounded-full h-[30px] flex text-center justify-center text-white ${capBackgroundColor}`}>
+                <div style={{ minWidth: '80px', width: `${percentage}%` }} className={`rounded-full h-[30px] flex text-center justify-center text-white ${capBackgroundColor}`}>
                         <span className='font-bold pt-1'>{user.membership_cap_current}</span>
                     </div>
                     <div className="justify-between flex font-bold mt-1">

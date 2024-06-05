@@ -6,8 +6,8 @@ import dayjs from 'dayjs'
 export type UserState = {
   credits?: boolean
   is_admin?: boolean
-  academyAccess?: boolean
   academy_access_expires_at?: string | null
+  algorithm_mr_range_access_expires_at?: string | null
   uid?: string
   avatar?: string
   name?: string
@@ -101,7 +101,7 @@ const initialState: UserState = {
   position: 'left',
   membership: null,
   membership_expires_at: null,
-  academy_access_expires_at : null,
+  academy_access_expires_at: null,
   membership_status: null,
   is_pending_complete_personal_info: true,
   customToken: '',
@@ -113,9 +113,9 @@ const initialState: UserState = {
   num_int: '',
   reference: '',
   colony: '',
-  academyAccess: false,
-  membership_cap_current:0,
-  membership_cap_limit:0
+  membership_cap_current: 0,
+  membership_cap_limit: 0,
+  algorithm_mr_range_access_expires_at: null,
 }
 
 const userSlice = createSlice({
@@ -149,15 +149,36 @@ const userSlice = createSlice({
         state.reference = payload.reference
         state.zip = payload.zip
         state.customToken = payload.customToken
-        state.academyAccess = payload.academyAccess
         state.academy_access_expires_at = payload.academy_access_expires_at
+        state.algorithm_mr_range_access_expires_at =
+          payload.algorithm_mr_range_access_expires_at
 
         const roles = []
         if (payload.is_admin || payload.uid == '9CXMbcJt2sNWG40zqWwQSxH8iki2') {
           roles.push('ADMIN', 'USER')
-        } else if(payload.academy_access_expires_at ) {
-          if(payload.academy_access_expires_at.seconds > new Date().getTime() / 1000){
-            roles.push('USER','ACADEMY')
+        }
+        if (payload.academy_access_expires_at && payload.algorithm_mr_range_access_expires_at){
+          if(payload.academy_access_expires_at.seconds >
+            new Date().getTime() / 1000 && 
+            payload.algorithm_mr_range_access_expires_at.seconds >
+            new Date().getTime() / 1000 ) {
+              roles.push('USER','ACADEMY', 'ALGORITHM')
+            }
+        }
+        if (payload.academy_access_expires_at) {
+          if (
+            payload.academy_access_expires_at.seconds >
+            new Date().getTime() / 1000
+          ) {
+            roles.push('USER', 'ACADEMY')
+          }
+        }
+        if (payload.algorithm_mr_range_access_expires_at) {
+          if (
+            payload.algorithm_mr_range_access_expires_at.seconds >
+            new Date().getTime() / 1000
+          ) {
+            roles.push('USER', 'ALGORITHM')
           }
         } else {
           roles.push('USER')

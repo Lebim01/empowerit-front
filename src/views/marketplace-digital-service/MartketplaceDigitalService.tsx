@@ -4,6 +4,8 @@ import { useAppSelector } from "@/store";
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import AlgorithmMrRangeComponent from "./components/AlgorithmMrRangeComponent";
+import { useNavigate } from "react-router-dom";
 
 
 export default function MartketplaceDigitalService() {
@@ -13,10 +15,11 @@ export default function MartketplaceDigitalService() {
     const [openModal, setOpenModal] = useState(false)
     const [academyAccess, setAcademyAccess] = useState(false)
     const [leftDaysString, setLeftDaysString] = useState<string>()
+    const navigate = useNavigate()
 
-    const getLeftDays = ( expires_at : any) => {
-        if(expires_at && expires_at.seconds > new Date().getTime() / 1000) {
-            const leftDays = Math.floor((expires_at.seconds - (new Date().getTime() / 1000)) / 60 / 60 /24)
+    const getLeftDays = (expires_at: any) => {
+        if (expires_at && expires_at.seconds > new Date().getTime() / 1000) {
+            const leftDays = Math.floor((expires_at.seconds - (new Date().getTime() / 1000)) / 60 / 60 / 24)
             setAcademyAccess(true)
             setLeftDaysString(leftDays + ' días restantes')
             return
@@ -32,10 +35,10 @@ export default function MartketplaceDigitalService() {
         }
     }, [user]);
 
-    const enoughCredits = async() => {
+    const enoughCredits = async () => {
         const usersRef = doc(db, `users/${user.uid}`);
         const res = await getDoc(usersRef)
-        if(res.data()?.credits >= 0){
+        if (res.data()?.credits >= 0) {
             return true
         }
         return false
@@ -49,7 +52,7 @@ export default function MartketplaceDigitalService() {
         const usersRef = await doc(db, `users/${user.uid}`);
         const res = await getDoc(usersRef)
         const isEnoughtCredits = await enoughCredits()
-        if(isEnoughtCredits){
+        if (isEnoughtCredits) {
             if (res.exists()) {
                 const creditsLeft = res.data().credits
                 await updateDoc(usersRef, {
@@ -60,6 +63,7 @@ export default function MartketplaceDigitalService() {
             createHistoryCreditsDoc(100)
         }
         setOpenModal(false)
+        navigate('/home')
     }
 
     const createHistoryCreditsDoc = async (total: number) => {
@@ -67,13 +71,13 @@ export default function MartketplaceDigitalService() {
         const expiresAt = new Date(now);
         expiresAt.setDate(now.getDate() + 30);
 
-        await addDoc(collection(db,`users/${user.uid}/credits-history/`), {
+        await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
             total,
             created_at: new Date(),
             concept: "Compra en Marketplace Servicios Digital",
             academy_access_expires_at: expiresAt
-          });
-    } 
+        });
+    }
 
     return (
         <div>
@@ -86,7 +90,7 @@ export default function MartketplaceDigitalService() {
                 >
                     <img
                         src="/membership/top-xpert-imagen-marketplace.jpg"
-                        className="w-[80%] flex-1 object-contain"
+                        className="max-w-[250px] max-h-[250px] flex-1 object-contain"
                     />
                     <div className="flex justify-start w-full text-lg">
                         <span className="font-bold">Acceso a academia</span>
@@ -101,7 +105,7 @@ export default function MartketplaceDigitalService() {
                     </div>
                     <div className="flex justify-start w-full space-x-2">
                         <span className="font-medium">
-                            Duración: 
+                            Duración:
                         </span>
                         <span className=" text-gray-400">
                             30 días
@@ -134,7 +138,7 @@ export default function MartketplaceDigitalService() {
                                 disabled={academyAccess}
                                 className={`px-4 py-2 font-semibold rounded ${academyAccess ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700'}`}
                             >
-                                {academyAccess ? leftDaysString : 'Comprar Membresía'}
+                                {academyAccess ? leftDaysString : 'Comprar Acceso'}
                             </Button>
                         )
                     ) : (
@@ -147,6 +151,7 @@ export default function MartketplaceDigitalService() {
                         </Button>
                     )}
                 </div>
+                <AlgorithmMrRangeComponent />
             </div>
             <Dialog isOpen={openModal} onClose={() => setOpenModal(false)} >
                 <div>

@@ -20,6 +20,12 @@ export const protectedRoutes = [
     authority: ['ACADEMY', 'ADMIN'],
   },
   {
+    key: 'algorithm-mr-range',
+    path: '/algorithm-mr-range',
+    component: lazy(() => import('@/views/algorithm-mr-range/index')),
+    authority: ['ALGORITHM', 'ADMIN'],
+  },
+  {
     key: 'academy',
     path: '/:academyType/course/:courseId',
     component: lazy(

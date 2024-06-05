@@ -27,6 +27,16 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     subMenu: [],
   },
   {
+    key: 'algorithm-mr-range',
+    path: '/algorithm-mr-range',
+    title: 'Algoritmo Mr. Rango',
+    translateKey: 'nav.dashboard',
+    icon: 'algorithmMrRange',
+    type: NAV_ITEM_TYPE_ITEM,
+    authority: ['ALGORITHM','ADMIN'],
+    subMenu: [],
+  },
+  {
     key: 'pay-supreme',
     path: '/subscriptions',
     title: 'Franquicias',
