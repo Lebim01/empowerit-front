@@ -1,6 +1,6 @@
 
 import PreviewAcademy from '../academies/previews/PreviewAcademy.component'
-import AlgorithmTable from './components/AlgorithmTable'
+import AlgorithmTable from './components/AlgorithmTable.1';
 import AlgorithmVideos from './components/AlgorithmVideos'
 import { GoDownload } from "react-icons/go";
 

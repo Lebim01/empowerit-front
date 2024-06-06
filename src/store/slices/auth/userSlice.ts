@@ -41,6 +41,7 @@ export type UserState = {
   is_new: boolean
   position: 'left' | 'right'
   user_profile?: string
+  algorithmId?: number
 
   membership: string | null
   membership_status: 'paid' | 'expired' | null
@@ -116,6 +117,7 @@ const initialState: UserState = {
   membership_cap_current: 0,
   membership_cap_limit: 0,
   algorithm_mr_range_access_expires_at: null,
+  algorithmId:0
 }
 
 const userSlice = createSlice({
@@ -209,6 +211,7 @@ const userSlice = createSlice({
 
         state.bond_quick_start = payload.bond_quick_start
         state.bond_presenter = payload.bond_presenter
+        state.algorithmId = payload.algorithmId
 
         console.log(payload.membership_expires_at)
         state.membership_expires_at = payload.membership_expires_at

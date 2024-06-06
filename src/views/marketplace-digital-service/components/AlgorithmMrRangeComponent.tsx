@@ -48,12 +48,14 @@ export default function AlgorithmMrRangeComponent() {
         });
 
         await updateDoc(docRef, {
-            licenseId: docRef.id
+            licenseId: docRef.id,
+            algorithmId: user.algorithmId ? user.algorithmId : ''
         });
         const docMainRef = await addDoc(collection(db, `algorithm-license-history`), {
             expires_at: expiresAt,
             licenseId: docRef.id,
-            userId: user.uid
+            userId: user.uid,
+            algorithmId: user.algorithmId ? user.algorithmId : null
         });
     }
 
