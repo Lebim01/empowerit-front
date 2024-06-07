@@ -13,7 +13,7 @@ function AlgorithmMrRange() {
           <h3 className="text-xl font-bold">Algoritmo de Mr. Rango</h3>
           <div className='flex border rounded-lg px-3 py-1 mx-2 shadow-sm text-center'>
             <a
-              href="https://storage.cloud.google.com/empowerit-top.appspot.com/recursos-algorithm-mr-range/Recursos-20240605T194032Z-001.zip"
+              href="https://storage.googleapis.com/empowerit-top.appspot.com/recursos-algorithm-mr-range/Recursos-20240605T194032Z-001.zip"
               className='flex items-center'
             >
               <button className='flex-row flex-nowrap'>
