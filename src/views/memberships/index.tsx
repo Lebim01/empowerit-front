@@ -218,7 +218,7 @@ const PayMembership = () => {
         <FounderMembership
           image="/img/memberships/p300.png"
           name="founder-pack"
-          display_name="Paquete Fundador"
+          display_name="Participación 3000"
           month_price={3000}
         />
       </div>
