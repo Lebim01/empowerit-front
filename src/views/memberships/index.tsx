@@ -219,7 +219,7 @@ const PayMembership = () => {
           image="/img/memberships/founder-pack.png"
           name="founder-pack"
           display_name="Paquete Fundador"
-          month_price={2950}
+          month_price={3000}
         />
       </div>
     </div>
