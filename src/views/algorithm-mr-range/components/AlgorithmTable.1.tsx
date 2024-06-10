@@ -86,10 +86,29 @@ export default function AlgorithmTable() {
         <div className='flex flex-col justify-center'>
             {licenses && licenses.length > 0 && (
                 <>
-                    <div className='flex items-center text-center pb-4 space-x-5'>
-                        <h3 className="text-xl font-bold">Administra tus licencias </h3>
+                    <div className='flex flex-col pb-4 space-x-5'>
+                        <h3 className="text-xl font-bold mb-2">Administra tus licencias </h3>
                         {user.algorithmId ? (
-                            null
+                            <Table>
+                            <THead>
+                                <Tr>
+                                    <Th>#</Th>
+                                    <Th>Licencia</Th>
+                                    <Th>Expira</Th>
+                                </Tr>
+                            </THead>
+                            <TBody>
+                                {licenses && licenses.map((license, index) => {
+                                    return (
+                                        <Tr key={index}>
+                                            <Td>{index}</Td>
+                                            <Td>{license.id}</Td>
+                                            <Td>{license.expires_at.toLocaleDateString()}</Td>
+                                        </Tr>
+                                    );
+                                })}
+                            </TBody>
+                        </Table>
                         ) : (
                             <>
                                 <input
@@ -123,33 +142,14 @@ export default function AlgorithmTable() {
                             </div>
                         </Dialog>
                     </div>
-                    <Table>
-                        <THead>
-                            <Tr>
-                                <Th>#</Th>
-                                <Th>Licencia</Th>
-                                <Th>Expira</Th>
-                            </Tr>
-                        </THead>
-                        <TBody>
-                            {licenses && licenses.map((license, index) => {
-                                return (
-                                    <Tr key={index}>
-                                        <Td>{index}</Td>
-                                        <Td>{license.id}</Td>
-                                        <Td>{license.expires_at.toLocaleDateString()}</Td>
-                                    </Tr>
-                                );
-                            })}
-                        </TBody>
-                    </Table>
+                    
                 </>
             )}
             <Dialog isOpen={modal} onClose={() => setModal(false)}>
                 <div className='flex flex-col items-center'>
 
                     <span className='justify-center text-left w-[90%]' style={{ textAlign: 'justify' }}>
-                        Una vez creada la cuenta de IC Markets deberas registrarla en el apartado de "Administra tus Licencias" para un correcto funcionamiento
+                        Una vez creada la cuenta de IC Markets deberas registrarla en el apartado de "Administra tus Licencias" para un correcto funcionamiento y acceso a tus licencias
                     </span>
                     <Button className='w-[90%] mt-4' onClick={() => setModal(false)}>
                         Aceptar
