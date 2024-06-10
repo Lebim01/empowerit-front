@@ -216,10 +216,10 @@ const PayMembership = () => {
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
         <FounderMembership
-          image="/img/memberships/founder-pack.png"
+          image="/img/memberships/p300.png"
           name="founder-pack"
-          display_name="Paquete Fundador"
-          month_price={2950}
+          display_name="Participación 3000"
+          month_price={3000}
         />
       </div>
     </div>
