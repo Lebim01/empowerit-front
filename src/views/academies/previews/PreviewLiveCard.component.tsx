@@ -10,11 +10,13 @@ type Props = {
   isLeadership: boolean;
 };
 
+
 const PreviewLiveCard: FC<Props> = ({ lesson, courseId, isLeadership = false }) => {
+  console.log(`/${isLeadership ? AcademyType.LEADERSHIP : AcademyType.STANDARD}/course/${courseId}/lesson/${lesson.id}`)
   return (
     <Link
       to={
-        `/${isLeadership ? AcademyType.LEADERSHIP : AcademyType.STANDARD}/course/${courseId}/live/${lesson.id}`
+        `/${isLeadership ? AcademyType.LEADERSHIP : AcademyType.STANDARD}/course/${courseId}/lesson/${lesson.id}`
       }
     >
       <div className="w-68">

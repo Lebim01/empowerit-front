@@ -31,19 +31,19 @@ export const protectedRoutes = [
     component: lazy(
       () => import('@/views/academies/previews/PreviewAcademy.component')
     ),
-    authority: ['ACADEMY', 'ADMIN'],
+    authority: ['ACADEMY', 'ADMIN','ALGORITHM'],
   },
   {
     key: 'academy',
     path: '/:academyType/course/:courseId/lesson/:lessonId',
     component: lazy(() => import('@/views/video')),
-    authority: ['ACADEMY', 'ADMIN'],
+    authority: ['ACADEMY', 'ADMIN','ALGORITHM'],
   },
   {
     key: 'academy',
     path: '/:academyType/course/:courseId/live/:lessonId',
     component: lazy(() => import('@/views/video')),
-    authority: ['ACADEMY', 'ADMIN'],
+    authority: ['ACADEMY', 'ADMIN','ALGORITHM'],
   },
   // Membership
   {
