@@ -424,7 +424,7 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                 <div className="mt-2 ltr:mr-2 rtl:ml-2">
                   <label>Referencia</label>
                   <Field
-                    type="number"
+                    type="text"
                     autoComplete="off"
                     name="reference"
                     placeholder="Entre calles"
@@ -455,7 +455,7 @@ const WelcomeForm = ({ data, setOpenWelcomeModal }: any) => {
                 />
                 <Field
                   className="mt-2 ltr:mr-2 rtl:ml-2"
-                  type="number"
+                  type="text"
                   autoComplete="off"
                   name="telegram"
                   placeholder="Telegram"
