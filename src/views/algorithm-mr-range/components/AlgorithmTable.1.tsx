@@ -18,15 +18,16 @@ export default function AlgorithmTable() {
     const navigate = useNavigate()
 
     const [licenses, setLicenses] = useState<LicenseHistoryProps[]>();
-    const [modal, setModal] = useState(true);
+    const [modal, setModal] = useState(false);
     const [inputValue, setInputValue] = useState<number | ''>('');
     const [confirmModal, setConfirmModal] = useState(false);
     const [pendingLicenses, setPendingLicenses] = useState<number>()
 
 
+
     useEffect(() => {
         getLicenseHistoryById();
-        getPendingLicensesSize();
+        getPendingLicensesSize()
     }, [user]);
 
     const getPendingLicensesSize = async () => {
@@ -34,6 +35,11 @@ export default function AlgorithmTable() {
         const snapshot = await getDocs(ref)
         const count = snapshot.size;
         setPendingLicenses(count)
+        if(count == 0){
+            setModal(false)
+            return
+        }
+        setModal(true)
     }
 
     const getLicenseHistoryById = async () => {
@@ -138,7 +144,7 @@ export default function AlgorithmTable() {
                     <div className='flex flex-col pb-4 space-x-5'>
                         <div className='flex'>
                             <h3 className="text-xl font-bold mb-2">Administra tus licencias</h3>
-                            {pendingLicenses && pendingLicenses > 0 && (
+                            {(pendingLicenses && pendingLicenses > 0) ? (
                                 <>
                                     <input
                                         type="number"
@@ -155,8 +161,9 @@ export default function AlgorithmTable() {
                                     </button>
                                 </>
 
-                            )}
+                            ) : null}
                         </div>
+                        {licenses && licenses.length > 0 && (
                             <Table>
                                 <THead>
                                     <Tr>
@@ -179,6 +186,7 @@ export default function AlgorithmTable() {
                                     })}
                                 </TBody>
                             </Table>
+                        )}
                        
                         <Dialog isOpen={confirmModal} onClose={() => setConfirmModal(false)}>
                             <div className='flex flex-col items-center text-center'>
