@@ -6,26 +6,35 @@ import Th from '@/components/ui/Table/Th';
 import Tr from '@/components/ui/Table/Tr';
 import { db } from '@/configs/firebaseConfig';
 import { useAppSelector } from '@/store';
-import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { LicenseHistoryProps } from './AlgorithmTable';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function AlgorithmTable() {
 
     const user = useAppSelector((state) => state.auth.user);
+    const navigate = useNavigate()
+
     const [licenses, setLicenses] = useState<LicenseHistoryProps[]>();
-    const [modal, setModal] = useState(false);
+    const [modal, setModal] = useState(true);
     const [inputValue, setInputValue] = useState<number | ''>('');
     const [confirmModal, setConfirmModal] = useState(false);
+    const [pendingLicenses, setPendingLicenses] = useState<number>()
 
 
     useEffect(() => {
         getLicenseHistoryById();
-        if (!user.algorithmId) {
-            setModal(true);
-        }
+        getPendingLicensesSize();
     }, [user]);
+
+    const getPendingLicensesSize = async () => {
+        const ref = collection(db, `users/${user.uid}/pending-algorithm-licenses`)
+        const snapshot = await getDocs(ref)
+        const count = snapshot.size;
+        setPendingLicenses(count)
+    }
 
     const getLicenseHistoryById = async () => {
         try {
@@ -35,7 +44,8 @@ export default function AlgorithmTable() {
             querySnapshot.forEach((doc) => {
                 licenseHistory.push({
                     id: doc.id,
-                    expires_at: doc.data().expires_at.toDate()
+                    expires_at: doc.data().expires_at.toDate(),
+                    ICMarketAccount: doc.data().algorithmId
                 });
             });
             setLicenses(licenseHistory);
@@ -49,13 +59,52 @@ export default function AlgorithmTable() {
         setInputValue(value === '' ? '' : parseFloat(value));
     };
 
-    const setAlgorithmId = async () => {
-        const docRef = doc(db, `users/${user.uid}`);
+    const getFirstPendingLicense = async () => {
+        try {
+            const ref = collection(db, `users/${user.uid}/pending-algorithm-licenses`);
+            const snapshot = await getDocs(ref);
+            if (!snapshot.empty) {
+                const firstDoc = snapshot.docs[0];
+                const firstDocId = firstDoc.id;
+
+                const docRef = doc(db, `users/${user.uid}/pending-algorithm-licenses/${firstDocId}`);
+                await deleteDoc(docRef);
+                console.log(`Documento con ID ${firstDocId} eliminado.`);
+            } else {
+                console.log("No hay documentos en la subcolección.");
+                return null;
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const createLicenseHistory = async () => {
+        const now = new Date();
+        const expiresAt = new Date(now);
+        expiresAt.setDate(now.getDate() + 30);
+
+        const docRef = await addDoc(collection(db, `users/${user.uid}/algorithm-license-history`), {
+            expires_at: expiresAt
+        });
+
         await updateDoc(docRef, {
+            licenseId: docRef.id,
             algorithmId: inputValue
         });
-        await updateAlgorithmId()
+        const docMainRef = await addDoc(collection(db, `algorithm-license-history`), {
+            expires_at: expiresAt,
+            licenseId: docRef.id,
+            userId: user.uid,
+            algorithmId: inputValue
+        });
+    }
+
+    const setAlgorithmId = async () => {
+        getFirstPendingLicense()
+        createLicenseHistory()
         setConfirmModal(false);
+        navigate('/home')
     };
 
     const updateAlgorithmId = async () => {
@@ -70,7 +119,7 @@ export default function AlgorithmTable() {
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach(async (docu) => {
                 console.log(docu.id, " => ", docu.data());
-                const docRef = doc(db,`algorithm-license-history/${docu.id}`)
+                const docRef = doc(db, `algorithm-license-history/${docu.id}`)
                 await updateDoc(docRef, {
                     algorithmId: inputValue
                 });
@@ -82,51 +131,55 @@ export default function AlgorithmTable() {
         }
     };
 
+
     return (
         <div className='flex flex-col justify-center'>
-            {licenses && licenses.length > 0 && (
                 <>
                     <div className='flex flex-col pb-4 space-x-5'>
-                        <h3 className="text-xl font-bold mb-2">Administra tus licencias </h3>
-                        {user.algorithmId ? (
-                            <Table>
-                            <THead>
-                                <Tr>
-                                    <Th>#</Th>
-                                    <Th>Licencia</Th>
-                                    <Th>Expira</Th>
-                                </Tr>
-                            </THead>
-                            <TBody>
-                                {licenses && licenses.map((license, index) => {
-                                    return (
-                                        <Tr key={index}>
-                                            <Td>{index}</Td>
-                                            <Td>{license.id}</Td>
-                                            <Td>{license.expires_at.toLocaleDateString()}</Td>
-                                        </Tr>
-                                    );
-                                })}
-                            </TBody>
-                        </Table>
-                        ) : (
-                            <>
-                                <input
-                                    type="number"
-                                    value={inputValue}
-                                    placeholder='Ingresa tu cuenta de IC Markets Ejemplo: 51697086'
-                                    className='min-w-[400px] p-1'
-                                    onChange={handleInputChange} />
-                                <button
-                                    className={`border rounded-lg px-3 py-1 mx-2 shadow-sm text-center ${!inputValue ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : ''}`}
-                                    disabled={!inputValue}
-                                    onClick={() => setConfirmModal(true)}
-                                >
-                                    Registrar
-                                </button>
-                            </>
+                        <div className='flex'>
+                            <h3 className="text-xl font-bold mb-2">Administra tus licencias</h3>
+                            {pendingLicenses && pendingLicenses > 0 && (
+                                <>
+                                    <input
+                                        type="number"
+                                        value={inputValue}
+                                        placeholder='Ingresa tu cuenta de IC Markets Ejemplo: 51697086'
+                                        className='min-w-[400px] mb-2 ml-3'
+                                        onChange={handleInputChange} />
+                                    <button
+                                        className={`border rounded-lg px-3 py-1 mb-2 mx-2 shadow-sm text-center ${!inputValue ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : ''}`}
+                                        disabled={!inputValue}
+                                        onClick={() => setConfirmModal(true)}
+                                    >
+                                        Registrar
+                                    </button>
+                                </>
 
-                        )}
+                            )}
+                        </div>
+                            <Table>
+                                <THead>
+                                    <Tr>
+                                        <Th>#</Th>
+                                        <Th>Licencia</Th>
+                                        <Th>Cuenta IC Markets</Th>
+                                        <Th>Expira</Th>
+                                    </Tr>
+                                </THead>
+                                <TBody>
+                                    {licenses && licenses.map((license, index) => {
+                                        return (
+                                            <Tr key={index}>
+                                                <Td>{index}</Td>
+                                                <Td>{license.id}</Td>
+                                                <Td>{license.ICMarketAccount}</Td>
+                                                <Td>{license.expires_at.toLocaleDateString()}</Td>
+                                            </Tr>
+                                        );
+                                    })}
+                                </TBody>
+                            </Table>
+                       
                         <Dialog isOpen={confirmModal} onClose={() => setConfirmModal(false)}>
                             <div className='flex flex-col items-center text-center'>
                                 <span className='justify-center w-[90%] text-xl font-black'>
@@ -142,16 +195,16 @@ export default function AlgorithmTable() {
                             </div>
                         </Dialog>
                     </div>
-                    
+
                 </>
-            )}
             <Dialog isOpen={modal} onClose={() => setModal(false)}>
                 <div className='flex flex-col items-center'>
 
-                    <span className='justify-center text-left w-[90%]' style={{ textAlign: 'justify' }}>
-                        Una vez creada la cuenta de IC Markets deberas registrarla en el apartado de "Administra tus Licencias" para un correcto funcionamiento y acceso a tus licencias
+                    <span className='text-left w-full p-3' >
+                        Para el correcto registro y funcionamiento de las licencias deberás ingresar una cuenta diferente en el apartado de <span className='font-bold'> Administra tus licencias</span>
                     </span>
-                    <Button className='w-[90%] mt-4' onClick={() => setModal(false)}>
+                    <span>Cuentas con {pendingLicenses} registros pendientes </span>
+                    <Button className='w-[60%] mt-4' onClick={() => setModal(false)}>
                         Aceptar
                     </Button>
                 </div>

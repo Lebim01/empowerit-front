@@ -1,7 +1,7 @@
 import { Button, Dialog } from "@/components/ui";
 import { db } from "@/configs/firebaseConfig";
 import { useAppSelector } from "@/store";
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { Firestore, addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -35,27 +35,13 @@ export default function AlgorithmMrRangeComponent() {
 
     const buyProcess = async () => {
         createHistoryCreditsDoc(150)
-        createLicenseHistory()
+        addPendingLicense()
     }
 
-    const createLicenseHistory = async () => {
-        const now = new Date();
-        const expiresAt = new Date(now);
-        expiresAt.setDate(now.getDate() + 30);
-
-        const docRef = await addDoc(collection(db, `users/${user.uid}/algorithm-license-history`), {
-            expires_at: expiresAt
-        });
-
-        await updateDoc(docRef, {
-            licenseId: docRef.id,
-            algorithmId: user.algorithmId ? user.algorithmId : ''
-        });
-        const docMainRef = await addDoc(collection(db, `algorithm-license-history`), {
-            expires_at: expiresAt,
-            licenseId: docRef.id,
-            userId: user.uid,
-            algorithmId: user.algorithmId ? user.algorithmId : null
+    const addPendingLicense = async () => {
+        const ref = collection(db, `users/${user.uid}/pending-algorithm-licenses`);
+        await addDoc(ref, {
+            created_at: new Date()
         });
     }
 
@@ -68,7 +54,7 @@ export default function AlgorithmMrRangeComponent() {
         const res = await getDoc(usersRef)
         await updateDoc(usersRef, {
             credits: Number(user.credits) - 150,
-            algorithm_mr_range_access_expires_at: expiresAt
+            algorithm_mr_range_access_expires_at: expiresAt,
         })
 
         await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
