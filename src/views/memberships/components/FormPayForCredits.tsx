@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { onSnapshot, collection } from 'firebase/firestore'
 import { BsClock, BsWallet } from 'react-icons/bs'
 import { FiCopy } from 'react-icons/fi'
-import { Coins, Memberships } from '../methods'
+import { Coins, Memberships, PackCredits } from '../methods'
 import { useAppSelector } from '@/store'
 import useClipboard from '@/utils/hooks/useClipboard'
 import { getPaidAmount } from '@/services/Memberships'
@@ -14,18 +14,15 @@ import ButtonSwapCurrency, { currencyIcon } from './ButtonSwapCurrency'
 import { Periods } from '../membership'
 import classNames from 'classnames'
 
-const FormPay = ({
+const FormPayForCredits = ({
   type,
   createPaymentLink,
   loading,
-  period,
-  founder,
   openModal,
 }: {
-  type: Memberships
-  createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
+  type: PackCredits
+  createPaymentLink: (type: PackCredits, coin: Coins) => void
   loading: boolean
-  period: Periods
   founder?: boolean
   openModal: () => void
 }) => {
@@ -35,19 +32,19 @@ const FormPay = ({
   const [amountChanged, setAmountChanged] = useState(false)
 
   const address =
-    user.payment_link &&
-    user.payment_link[type] &&
-    user.payment_link[type]?.address
+    user.payment_link_credits &&
+    user.payment_link_credits[type] &&
+    user.payment_link_credits[type]?.address
   const amountcrypto =
-    user.payment_link &&
-    user.payment_link[type] &&
-    user.payment_link[type]?.amount
+    user.payment_link_credits &&
+    user.payment_link_credits[type] &&
+    user.payment_link_credits[type]?.amount
   const expires_at =
-    user.payment_link &&
-    user.payment_link[type] &&
-    user.payment_link[type]?.expires_at
+    user.payment_link_credits &&
+    user.payment_link_credits[type] &&
+    user.payment_link_credits[type]?.expires_at
   const qr =
-    user.payment_link && user.payment_link[type] && user.payment_link[type]?.qr
+    user.payment_link_credits && user.payment_link_credits[type] && user.payment_link_credits[type]?.qr
 
   const isExpired = dayjs(
     expires_at?.seconds ? expires_at?.seconds * 1000 : null
@@ -58,7 +55,7 @@ const FormPay = ({
    */
   const calculatePenfindAmount = async () => {
     // Obtener el monto total
-    const totalAmount = Number(user.payment_link![type].amount)
+    const totalAmount = Number(user.payment_link_credits![type].amount)
 
     try {
       // Obtener el monto ya pagado
@@ -96,16 +93,16 @@ const FormPay = ({
   }, [user.uid])
 
   useEffect(() => {
-    if (address && user.payment_link && user.payment_link[type]) {
-      setAmount(Number(user.payment_link[type].amount) || 0)
+    if (address && user.payment_link_credits && user.payment_link_credits[type]) {
+      setAmount(Number(user.payment_link_credits[type].amount) || 0)
     }
   }, [address, amountcrypto])
 
   // Obtener tiempo que se ocupa
   const timer = useTimer(
-    user.payment_link &&
-      user.payment_link[type] &&
-      user.payment_link[type].expires_at &&
+    user.payment_link_credits &&
+      user.payment_link_credits[type] &&
+      user.payment_link_credits[type].expires_at &&
       expires_at &&
       !amountChanged
       ? expires_at.seconds * 1000
@@ -123,7 +120,7 @@ const FormPay = ({
               src={qr}
               className={classNames(
                 'h-[150px] w-[150px]',
-                user.payment_link![type].currency == 'MXN' && 'hidden'
+                user.payment_link_credits![type].currency == 'MXN' && 'hidden'
               )}
             />
           </div>
@@ -134,7 +131,7 @@ const FormPay = ({
           prefix={<BsWallet />}
           value={isExpired && !amountChanged ? '' : address}
           className={classNames(
-            user.payment_link![type].currency == 'MXN' && 'hidden'
+            user.payment_link_credits![type].currency == 'MXN' && 'hidden'
           )}
           suffix={
             <div
@@ -158,11 +155,11 @@ const FormPay = ({
           ) : null}
           <Input
             readOnly
-            prefix={currencyIcon[user.payment_link![type].currency || 'BTC']}
+            prefix={currencyIcon[user.payment_link_credits![type].currency || 'BTC']}
             value={isExpired && !amountChanged ? '' : amount.toFixed(8)}
             suffix={
               <div className="flex items-center space-x-2">
-                <span>{user.payment_link![type].currency}</span>{' '}
+                <span>{user.payment_link_credits![type].currency}</span>{' '}
                 <div
                   className="bg-gray-200 p-2 rounded-lg hover:cursor-pointer hover:bg-gray-300"
                   onClick={() => copy(amount.toFixed(8) || '')}
@@ -174,7 +171,7 @@ const FormPay = ({
           />
         </div>
 
-        {!isExpired && user.payment_link![type].currency == 'MXN' && (
+        {!isExpired && user.payment_link_credits![type].currency == 'MXN' && (
           <button
             className="bg-green-600 rounded-md px-4 py-2 text-white text-xl hover:bg-green-800"
             onClick={() => openModal()}
@@ -221,7 +218,7 @@ const FormPay = ({
       ) : null}
       <div>
         <p className="text-center">
-          La membresia se activará automaticamente
+          Los créditos se te añadiran
           <br />
           despues de confirmar el pago.
         </p>
@@ -232,14 +229,14 @@ const FormPay = ({
             loading={loading}
             disabled={!isExpired}
             onClick={() =>
-              createPaymentLink(type, user.payment_link![type].currency, period)
+              createPaymentLink(type, user.payment_link_credits![type].currency)
             }
           >
             Calcular de nuevo
           </Button>
         </div>
       ) : null}
-      {user.payment_link![type] && expires_at && (
+      {user.payment_link_credits![type] && expires_at && (
         <span className="text-xs text-gray-300">
           Tu membresia expiró el:{' '}
           {dayjs(expires_at!.seconds * 1000).format('YYYY-MM-DD HH:mm:ss')}
@@ -249,4 +246,5 @@ const FormPay = ({
   )
 }
 
-export default FormPay
+export default FormPayForCredits
+

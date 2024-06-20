@@ -6,6 +6,9 @@ import SideNav from '@/components/template/SideNav'
 import View from '@/views'
 import { useAppSelector } from '@/store'
 import { OPTIONS } from '@/utils/packs'
+import { useState } from 'react'
+import { Dialog } from '../ui'
+import RechargeCreditsCard from './RechargeCreditsCard'
 
 const HeaderActionsStart = () => {
     return (
@@ -18,18 +21,25 @@ const HeaderActionsStart = () => {
 
 const HeaderActionsEnd = () => {
     const user = useAppSelector((state) => state.auth.user)
-    
+    const [open, setOpen] = useState(false)
+
     return (
-      <>
-        {user?.membership && (
-          <div className='flex items-center'>
-            <p className='px-4 font-bold'>{user.credits} créditos</p>
-            <img src={OPTIONS.find(r => r.value == user.membership)?.image} className='h-[50px] w-auto' width={80} height={80} />
-            <span>{OPTIONS.find(r => r.value == user.membership)?.label}</span>
-          </div>
-        )}
-        <UserDropdown hoverable={false} />
-      </>
+        <>
+            {user?.membership && (
+                <div className='flex items-center'>
+                    <p className='hidden px-1 font-bold hover:cursor-pointer' onClick={() => setOpen(true)}>Agregar créditos</p>
+                    <p className='px-4 font-bold'>{user.credits} créditos</p>
+                    <img src={OPTIONS.find(r => r.value == user.membership)?.image} className='h-[50px] w-auto' width={80} height={80} />
+                    <span>{OPTIONS.find(r => r.value == user.membership)?.label}</span>
+                    <Dialog isOpen={open} onClose={() => setOpen(false)}>
+                        <h3>Recarga créditos</h3>
+                        <RechargeCreditsCard/>
+                    </Dialog>
+                </div>
+
+            )}
+            <UserDropdown hoverable={false} />
+        </>
     )
 }
 

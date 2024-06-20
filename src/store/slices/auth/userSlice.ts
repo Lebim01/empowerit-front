@@ -68,6 +68,17 @@ export type UserState = {
       redirect_url?: string
     }
   }
+  payment_link_credits?: {
+    [type: string]: {
+      amount: string
+      expires_at: { seconds: number }
+      qr: string
+      currency: Coins
+      status: 'pending' | 'confirming'
+      address: string
+      redirect_url?: string
+    }
+  }
   is_pending_complete_personal_info: boolean
   founder_pack?: {
     status: 'paid'
@@ -203,6 +214,7 @@ const userSlice = createSlice({
         state.position = payload.position ?? 'right'
         state.is_new = payload.is_new ?? false
         state.payment_link = payload.payment_link
+        state.payment_link_credits = payload.payment_link_credits
 
         state.membership_status = payload.membership_status
         state.membership = payload.membership

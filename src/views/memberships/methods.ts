@@ -2,6 +2,8 @@ import { Periods } from './membership'
 
 export type Franchises = '100-pack' | '300-pack' | '500-pack' | '1000-pack' | '2000-pack';
 
+export type PackCredits = '100-credits' | '500-credits' | '1000-credits'
+
 export type Memberships =
   | 'pro'
   | 'supreme'
@@ -52,6 +54,34 @@ export const createPaymentLink = async (
           type,
           coin,
           period,
+        }),
+      }
+    )
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const createPaymentLinkForCredits = async (
+  user_id: string,
+  type: PackCredits,
+  coin: Coins
+) => {
+  try {
+    // Crear dirección de pago
+    await fetch(
+      `${
+        import.meta.env.VITE_API_URL
+      }/subscriptions/createPaymentAddressForCredits/${type}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user_id,
+          type,
+          coin,
         }),
       }
     )
