@@ -9,7 +9,7 @@ export default function RechargeCreditsCard() {
 
   const [loading, setLoading] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
-  
+
   const [selectedCredits, setSelectedCredits] = useState<PackCredits>('100-credits');
 
   const _createPaymentLink = async (
@@ -39,9 +39,7 @@ export default function RechargeCreditsCard() {
 
   return (
     <div className='flex flex-col max-w-28 rounded-md w-full ring-1 ring-gray-200 p-4 justify-center mt-2 space-y-1'>
-      <div className="bg-slate-300 mx-auto h-[300px] w-[300px] rounded-lg mb-3">
-        {/* Aqui va la imagen */}
-      </div>
+      <img src='/img/credits.jpeg' className="mx-auto h-[300px] w-[300px] rounded-lg mb-3" />
 
       <div className='flex space-x-2'>
         <span className="max-w-xs truncate">Puntos de Binario:  </span>

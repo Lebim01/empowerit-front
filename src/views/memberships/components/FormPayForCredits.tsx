@@ -72,7 +72,7 @@ const FormPayForCredits = ({
       const roundedNumber =
         Math.ceil(result * Math.pow(10, decimals)) / Math.pow(10, decimals)
 
-      if (paidAmount > 0) setAmountChanged(true)
+      if (result > 0) setAmountChanged(true)
       setAmount(roundedNumber)
     } catch (e) {
       console.error('Error al calcular el monto pendiente: ', e)
