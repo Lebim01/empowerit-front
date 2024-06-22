@@ -18,6 +18,7 @@ export type Memberships =
   | '500-pack'
   | '1000-pack'
   | '2000-pack'
+  | '3000-pack'
   
 export type Coins = 'MXN' | 'LTC'
 
