@@ -21,8 +21,6 @@ export default function AlgorithmDataTableHistory() {
 
      const [licenses, setLicenses] = useState<licensesProps []>([])
 
-     if(licenses[0].expires_at) console.log(licenses[0].expires_at.toDate().toLocaleDateString())
-
      useEffect(() => {
           getLicences()
      },[])
