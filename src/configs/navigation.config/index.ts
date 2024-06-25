@@ -373,6 +373,27 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
       },
     ],
   },
+  {
+    key: 'admin-mr-range',
+    path: `/admin/mr-range`,
+    title: 'ADMIN: Mr. Rango',
+    translateKey: 'nav.order-list',
+    icon: 'algorithmMrRange',
+    type: NAV_ITEM_TYPE_COLLAPSE,
+    authority: ['ADMIN'],
+    subMenu: [
+      {
+        key: 'admin-mr-range',
+        path: `/admin/mr-range-history`,
+        title: 'Historial de Licencias',
+        translateKey: 'nav.order-list',
+        icon: 'algorithmMrRange',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      }
+    ],
+  },
 ]
 
 export default navigationConfig

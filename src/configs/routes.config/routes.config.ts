@@ -296,6 +296,12 @@ export const protectedRoutes = [
     component: lazy(() => import('@/views/admin/get-users-fund-account')),
     authority: ['ADMIN'],
   },
+  {
+    key: 'admin-mr-range',
+    path: '/admin/mr-range-history',
+    component: lazy(() => import('@/views/algorithm-mr-range/admin-algorithm-mr-range')),
+    authority: ['ADMIN'],
+  },
 ]
 
 export const payRoute = [
