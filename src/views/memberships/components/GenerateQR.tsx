@@ -49,16 +49,16 @@ const GenerateQR = ({
   if (showCoin) {
     return (
       <div className="flex flex-col space-y-2">
-        {showCoin && !founder && (
+        {/* {showCoin && !founder && (
           <Select
             options={options}
             value={options.find((r) => r.value == period)}
             onChange={(option) => setPeriod(option?.value || 'monthly')}
           />
-        )}
+        )} */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          {/* {import.meta.env.VITE_ENABLE_OPENPAY && (
+          {import.meta.env.VITE_ENABLE_OPENPAY && (
             <Button
               className="h-max"
               disabled={disabled}
@@ -73,7 +73,7 @@ const GenerateQR = ({
                 <span>Fiat (MXN)</span>
               </div>
             </Button>
-          )} */}
+          )}
           <Button
             className="h-max"
             disabled={disabled}

@@ -28,8 +28,6 @@ export default function Franchise({ image, name, display_name, month_price, bina
     const user = useAppSelector((state) => state.auth.user)
     const [period, setPeriod] = useState<Periods>('monthly')
 
-    console.log(user)
-
     const _createPaymentLink = async (
         type: Memberships,
         currency: Coins,
