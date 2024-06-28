@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 
 const isProd = process.env.NODE_ENV == 'production'
-const databaseName = !isProd ? '(default)' : 'testing'
+const databaseName = isProd ? '(default)' : 'testing'
 
 const firebaseConfig =
   import.meta.env.VITE_CUSTOM_ENV == 'production'
