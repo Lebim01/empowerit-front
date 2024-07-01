@@ -98,11 +98,12 @@ export default function AlgorithmTable() {
             licenseId: docRef.id,
             algorithmId: inputValue
         });
-        const docMainRef = await addDoc(collection(db, `algorithm-license-history`), {
+        await addDoc(collection(db, `algorithm-license-history`), {
             expires_at: expiresAt,
             licenseId: docRef.id,
             userId: user.uid,
-            algorithmId: inputValue
+            algorithmId: inputValue,
+            email: user.email
         });
     }
 
