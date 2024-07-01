@@ -76,21 +76,21 @@ const History: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
       if (isNextPage && lastVisible) {
         _query = query(
           collection(db, 'memberships-history'),
-          orderBy('date', 'desc'),
+          orderBy('created_at', 'desc'),
           limit(pageSize),
           startAfter(lastVisible)
         )
       } else if (!isNextPage && firstVisible) {
         _query = query(
           collection(db, 'memberships-history'),
-          orderBy('date', 'desc'),
+          orderBy('created_at', 'desc'),
           limit(pageSize),
           endAt(firstVisible)
         )
       } else {
         _query = query(
           collection(db, 'memberships-history'),
-          orderBy('date', 'desc'),
+          orderBy('created_at', 'desc'),
           limit(pageSize)
         )
       }
@@ -104,12 +104,13 @@ const History: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
           ? dayjs(doc.data().created_at.seconds * 1000).format('YYYY-MM-DD HH:mm:ss')
           : null,
         sponsor: doc.data().sponsor,
-        upline: doc.data().parent_binary_user_id,
+        upline: doc.data().upline,
         position: doc.data().position,
         membership: doc.get('membership'),
         pay_status: doc.data().subscription_status,
         pay_status_link: doc.data().payment_link ? doc.data().payment_link : {},
-        activatedType: doc.data().activated
+        activatedType: doc.data().activated,
+        currency: doc.data().currency
       }))
 
       setUsers(newUsers)
@@ -182,7 +183,7 @@ const History: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
           <tbody className="bg-white divide-y divide-gray-200">
             {users.map((item, key) => (
               <tr key={key} className="hover:bg-gray-100 transition-colors text-center">
-                <td className="py-4 whitespace-nowrap">{item.date}</td>
+                <td className="py-4 whitespace-nowrap">{item.date}</td> 
                 <td className="py-4 whitespace-nowrap">{item.name}</td>
                 <td className="py-4 whitespace-nowrap">{item.membership}</td>
                 <td className="py-4 whitespace-nowrap">{item.email}</td>
@@ -198,6 +199,7 @@ const History: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
                   )}
                 </td>
                 <td className="py-4 px-4 whitespace-nowrap">{item.activatedType}</td>
+                <td className="py-4 px-4 whitespace-nowrap">{item.currency}</td>
               </tr>
             ))}
           </tbody>
