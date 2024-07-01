@@ -380,7 +380,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     translateKey: 'nav.order-list',
     icon: 'algorithmMrRange',
     type: NAV_ITEM_TYPE_COLLAPSE,
-    authority: ['ADMIN'],
+    authority: ['ADMIN','MR-RANGE'],
     subMenu: [
       {
         key: 'admin-mr-range',
@@ -389,7 +389,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         translateKey: 'nav.order-list',
         icon: 'algorithmMrRange',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: ['ADMIN'],
+        authority: ['ADMIN','MR-RANGE'],
         subMenu: [],
       }
     ],

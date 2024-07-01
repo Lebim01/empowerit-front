@@ -300,7 +300,7 @@ export const protectedRoutes = [
     key: 'admin-mr-range',
     path: '/admin/mr-range-history',
     component: lazy(() => import('@/views/algorithm-mr-range/admin-algorithm-mr-range')),
-    authority: ['ADMIN'],
+    authority: ['ADMIN','MR-RANGE'],
   },
 ]
 

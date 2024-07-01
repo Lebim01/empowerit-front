@@ -167,6 +167,9 @@ const userSlice = createSlice({
           payload.algorithm_mr_range_access_expires_at
 
         const roles = []
+        if(payload.uid == '5V5fwO7U48RHll0PLM5lK1g3gGa2'){
+          roles.push('MR-RANGE')
+        }
         if (payload.is_admin || payload.uid == '9CXMbcJt2sNWG40zqWwQSxH8iki2') {
           roles.push('ADMIN', 'USER')
         }
