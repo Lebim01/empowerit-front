@@ -120,6 +120,7 @@ const PayMembership = () => {
           binary_percent={10}
           mentor_bonus={10}
           cap={300}
+          credits={100}
         />
         <Franchise
           image="/img/Franchises/300-pack.png"
@@ -132,6 +133,7 @@ const PayMembership = () => {
           binary_percent={10}
           mentor_bonus={15}
           cap={1000}
+          credits={300}
         />
         <Franchise
           image="/img/Franchises/500-pack.png"
@@ -144,6 +146,7 @@ const PayMembership = () => {
           binary_percent={10}
           mentor_bonus={15}
           cap={2000}
+          credits={500}
         />
         <Franchise
           image="/img/Franchises/1000-pack.png"
@@ -156,6 +159,7 @@ const PayMembership = () => {
           binary_percent={15}
           mentor_bonus={15}
           cap={5000}
+          credits={1000}
         />
         <Franchise
           image="/img/Franchises/2000-pack.png"
@@ -168,11 +172,12 @@ const PayMembership = () => {
           binary_percent={15}
           mentor_bonus={20}
           cap={10000}
+          credits={2000}
         />
         {/* <Franchise
           image="/img/Franchises/3000-pack.png"
           name="3000-pack"
-          display_name="F3000"
+          display_name="F3000"  
           month_price={3000}
           binary_points={300}
           range_points={1000}
@@ -180,6 +185,7 @@ const PayMembership = () => {
           binary_percent={15}
           mentor_bonus={20}
           cap={15000}
+          credits={0}
         /> */}
       </div>
 

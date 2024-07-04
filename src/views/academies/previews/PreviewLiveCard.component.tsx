@@ -16,7 +16,7 @@ const PreviewLiveCard: FC<Props> = ({ lesson, courseId, isLeadership = false }) 
   return (
     <Link
       to={
-        `/${isLeadership ? AcademyType.LEADERSHIP : AcademyType.STANDARD}/course/${courseId}/lesson/${lesson.id}`
+        `/${isLeadership ? AcademyType.LEADERSHIP : AcademyType.STANDARD}/course/${courseId}/live/${lesson.id}`
       }
     >
       <div className="w-68">

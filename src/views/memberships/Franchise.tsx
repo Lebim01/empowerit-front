@@ -18,11 +18,12 @@ interface FranchiseProps {
     cap: number
     year_price?: number
     days_label?: string
+    credits?: number
 }
 
 export type Periods = 'monthly' | 'yearly'
 
-export default function Franchise({ image, name, display_name, month_price, binary_points, range_points, bir, binary_percent, mentor_bonus, cap, year_price, days_label = "Mensual"  }: FranchiseProps) {
+export default function Franchise({ image, name, credits, display_name, month_price, binary_points, range_points, bir, binary_percent, mentor_bonus, cap, year_price, days_label = "Mensual" }: FranchiseProps) {
 
     const [loading, setLoading] = useState(false)
     const user = useAppSelector((state) => state.auth.user)
@@ -32,18 +33,18 @@ export default function Franchise({ image, name, display_name, month_price, bina
         type: Memberships,
         currency: Coins,
         period: Periods
-      ) => {
+    ) => {
         try {
-          if (loading) return
-          setLoading(true)
-          setPeriod(period)
-          await createPaymentLink(user.uid!, type, currency, period)
+            if (loading) return
+            setLoading(true)
+            setPeriod(period)
+            await createPaymentLink(user.uid!, type, currency, period)
         } catch (err) {
-          console.error(err)
+            console.error(err)
         } finally {
-          setLoading(false)
+            setLoading(false)
         }
-      }
+    }
 
     const is_active = user.membership == name
     return (
@@ -66,9 +67,16 @@ export default function Franchise({ image, name, display_name, month_price, bina
                 <span className="max-w-xs truncate">Puntos de Binario:</span>
                 <span className="font-bold">{binary_points} puntos</span>
                 <span className="text-left">Creditos: </span>
-                <span className="font-bold">{range_points} creditos</span>
+                <span className="font-bold">{credits} creditos</span>
                 <span className="text-left">CAP: </span>
                 <span className="font-bold">{cap} dolares</span>
+                {display_name == 'F3000' && (
+                    <>
+                        <span className="text-left">Academia: </span>
+                        <span className="font-bold">1 año</span>
+                    </>
+                )
+                }
 
                 {is_active && (
                     <>
@@ -90,7 +98,7 @@ export default function Franchise({ image, name, display_name, month_price, bina
                     </>
                 )}
 
-                
+
             </div>
 
             {/* {!is_active && (
