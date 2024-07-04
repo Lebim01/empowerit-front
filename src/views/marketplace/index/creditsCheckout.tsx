@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import useClipboard from '@/utils/hooks/useClipboard'
 import { useAppSelector } from '@/store'
 import { useNavigate } from 'react-router-dom'
+import Button from '@/components/ui/Button'
 
 type MarketplaceCreditsCheckoutProps = {
     onBack: () => void
@@ -18,6 +19,7 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
     const [cart, setCart] = useState<any[]>([])
     const [total,setTotal] = useState<number>(0)
     const [cartComplete, setCartComplete] = useState<DocumentData>()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
         getCart()
@@ -81,10 +83,17 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
           });
     } 
     const completeBuyProcess = async () => {
-        await createPendingShip()
-        await deleteCart()
-        await createHistoryCreditsDoc()
-        await substractCredits()
+        setIsLoading(true)
+        try {
+            await createPendingShip()
+            await deleteCart()
+            await createHistoryCreditsDoc()
+            await substractCredits()
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -109,15 +118,19 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
                 <span>{total} créditos</span>
             </div>
             <div className="flex justify-between mt-8">
-                <span className="underline hover:cursor-pointer" onClick={props.onBack}>
-                    {'<'} Regresar al carrito
-                </span>
-                <button
-                    className="bg-black text-white rounded-full px-6 py-2"
+                <Button
+                    className="bg-black rounded-full px-6 py-2"
+                    onClick={props.onBack}
+                >
+                    Regresar al carrito
+                </Button>
+                <Button
+                    loading={isLoading}
+                    className="bg-black rounded-full px-6 py-2"
                     onClick={() => completeBuyProcess()}
                 >
                     Comprar
-                </button>
+                </Button>
             </div>
         </div>
     )

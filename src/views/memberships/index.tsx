@@ -177,7 +177,7 @@ const PayMembership = () => {
         {/* <Franchise
           image="/img/Franchises/3000-pack.png"
           name="3000-pack"
-          display_name="F3000"  
+          display_name="F3000"
           month_price={3000}
           binary_points={300}
           range_points={1000}
