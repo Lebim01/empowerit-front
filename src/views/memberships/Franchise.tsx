@@ -66,14 +66,24 @@ export default function Franchise({ image, name, credits, display_name, month_pr
                 <span className="font-bold max-w-xs truncate">{display_name}</span>
                 <span className="max-w-xs truncate">Puntos de Binario:</span>
                 <span className="font-bold">{binary_points} puntos</span>
-                <span className="text-left">Creditos: </span>
-                <span className="font-bold">{credits} creditos</span>
+                {display_name != 'F3000' && (
+                    <>
+                        <span className="text-left">Creditos: </span>
+                        <span className="font-bold">{credits} creditos</span>
+                    </>
+                )}
                 <span className="text-left">CAP: </span>
                 <span className="font-bold">{cap} dolares</span>
                 {display_name == 'F3000' && (
                     <>
-                        <span className="text-left">Academia: </span>
-                        <span className="font-bold">1 año</span>
+                        <span className="text-left">Beneficios: </span>
+                        <span className="font-bold">1 año Top Xpert</span>
+                        <span className="text-left"></span>
+                        <span className="font-bold">Cuenta leverage 5000 usd</span>
+                        <span className="text-left"></span>
+                        <span className="font-bold">Crucero incluido</span>
+                        <span className="text-left"></span>
+                        <span className="font-bold">Kit crucero lifestyle</span>
                     </>
                 )
                 }
