@@ -62,4 +62,9 @@ export const OPTIONS = [
       value: '2000-pack',
       image: '/img/Franchises/2000-pack.png',
     },
+    {
+      label: 'F3000',
+      value: '3000-pack',
+      image: '/img/Franchises/3000-pack.png',
+    },
   ]

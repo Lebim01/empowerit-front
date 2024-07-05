@@ -174,7 +174,7 @@ const PayMembership = () => {
           cap={10000}
           credits={2000}
         />
-        {/* <Franchise
+        <Franchise
           image="/img/Franchises/3000-pack.png"
           name="3000-pack"
           display_name="F3000"
@@ -186,7 +186,7 @@ const PayMembership = () => {
           mentor_bonus={20}
           cap={15000}
           credits={0}
-        /> */}
+        />
       </div>
 
       {/* <div className="flex items-center space-x-4">
