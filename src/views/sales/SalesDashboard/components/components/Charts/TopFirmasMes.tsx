@@ -83,7 +83,6 @@ const TopFirmasMes = () => {
       query(
         collection(db, 'users'),
         where('count_direct_people_this_month', '>', 0),
-        where('membership_status', '==', 'paid'),
         //where('type', '!=', 'top-lider'),
         orderBy('count_direct_people_this_month', 'desc'),
         limit(10)
@@ -96,6 +95,8 @@ const TopFirmasMes = () => {
 
     return () => unsub()
   }, [])
+
+  console.log(topPeople)
 
   useEffect(() => {
     loadChart()
