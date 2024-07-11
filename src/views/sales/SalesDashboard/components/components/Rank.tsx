@@ -52,7 +52,7 @@ const Rank = () => {
   useEffect(() => {
     displayTopDollars()
   }, [data])
-
+  console.log(user)
   useEffect(() => {
     if (typeof user.max_rank == 'string') {
       getRank(user.max_rank)
@@ -178,7 +178,7 @@ const Rank = () => {
                 <img
                   src={`/img/insignias/${rank?.key}.png`}
                   width={40}
-                  height={40}
+                  height={40} 
                 />
               ) : null}
             </div>
