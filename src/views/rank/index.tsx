@@ -6,7 +6,16 @@ import { IProfitsHistory } from './Rank.definition'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import weekday from 'dayjs/plugin/weekday'
-import { getDocs, query, collection, orderBy, where, Timestamp, doc, getDoc } from 'firebase/firestore'
+import {
+  getDocs,
+  query,
+  collection,
+  orderBy,
+  where,
+  Timestamp,
+  doc,
+  getDoc,
+} from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
 import classNames from 'classnames'
 import { ranksOrder, ranksPoints, ranks_object } from './ranks_object'
@@ -73,26 +82,27 @@ const Rank = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [loadingRank, setLoadingRank] = useState<boolean>(true)
   const [isLoadingPoints, setIsLoadingPoints] = useState<boolean>(false)
-  const [isLoadingPointsLastMonth, setIsLoadingPointsLastMonth] = useState<boolean>(false)
+  const [isLoadingPointsLastMonth, setIsLoadingPointsLastMonth] =
+    useState<boolean>(false)
   const [leftPeopleData, setLeftPeopleData] = useState<any[]>([])
   const [rightPeopleData, setRightPeopleData] = useState<any[]>([])
   const [isLoadingTableData, setIsLoadingTableData] = useState(false)
   const [points, setPoints] = useState({
     right_points: 0,
-    left_points: 0
+    left_points: 0,
   })
   const [lastMonthPoints, setLastMonthPoints] = useState({
     right_points: 0,
-    left_points: 0
+    left_points: 0,
   })
 
   useEffect(() => {
-    if(rank){
+    if (rank) {
       getDocumentsCreatedThisMonth(user.uid)
       getDocumentsCreatedLastMonth()
       getPeople()
     }
-  }, [rank, nextRank])
+  }, [rank, nextRank, user.uid])
 
   useEffect(() => {
     if (user.uid) {
@@ -132,7 +142,12 @@ const Rank = () => {
 
   /* UseEffect para los puntos de este mes */
   useEffect(() => {
-    if (!isLoadingPoints && (points.left_points || points.right_points) && rank.rank && nextRank) {
+    if (
+      !isLoadingPoints &&
+      (points.left_points || points.right_points) &&
+      rank.rank &&
+      nextRank
+    ) {
       const options = {
         title: {
           text: 'Puntos del mes actual',
@@ -144,7 +159,10 @@ const Rank = () => {
         yAxis: {
           type: 'value',
           min: 0,
-          max: points.left_points > points.right_points ? points.left_points * 1.2 : points.right_points * 1.2,
+          max:
+            points.left_points > points.right_points
+              ? points.left_points * 1.2
+              : points.right_points * 1.2,
         },
         series: [
           {
@@ -152,7 +170,7 @@ const Rank = () => {
             type: 'bar',
             name: 'Puntos',
             label: {
-              show: true
+              show: true,
             },
             markLine: {
               data: [
@@ -176,7 +194,12 @@ const Rank = () => {
 
   /* UseEffect para los puntos del mes pasado */
   useEffect(() => {
-    if (!isLoadingPointsLastMonth && (lastMonthPoints.left_points || lastMonthPoints.right_points) && rank.rank && nextRank) {
+    if (
+      !isLoadingPointsLastMonth &&
+      (lastMonthPoints.left_points || lastMonthPoints.right_points) &&
+      rank.rank &&
+      nextRank
+    ) {
       const options = {
         title: {
           text: 'Puntos del mes anterior',
@@ -188,7 +211,10 @@ const Rank = () => {
         yAxis: {
           type: 'value',
           min: 0,
-          max: lastMonthPoints.left_points > lastMonthPoints.right_points ? lastMonthPoints.left_points * 1.2 : lastMonthPoints.right_points * 1.2,
+          max:
+            lastMonthPoints.left_points > lastMonthPoints.right_points
+              ? lastMonthPoints.left_points * 1.2
+              : lastMonthPoints.right_points * 1.2,
         },
         series: [
           {
@@ -196,7 +222,7 @@ const Rank = () => {
             type: 'bar',
             name: 'Puntos',
             label: {
-              show: true
+              show: true,
             },
           },
         ],
@@ -214,7 +240,7 @@ const Rank = () => {
         points: next_rank_points,
       })
     }
-  }, [rankKey])
+  }, [rankKey, rank])
 
   const getRank = async (id: string) => {
     setLoading(true)
@@ -270,85 +296,98 @@ const Rank = () => {
   const endMonth = dayjs().endOf('month')
 
   async function getDocumentsCreatedThisMonth(user_id: string) {
-
-    const now = new Date();
-    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const now = new Date()
+    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
 
     setIsLoadingPoints(true)
 
     try {
-      const firstDayOfMonthTimestamp = Timestamp.fromDate(firstDayOfMonth);
-      const q = query(collection(db, `users/${user_id}/points`), where("created_at", ">=", firstDayOfMonthTimestamp), orderBy("created_at", "desc"))
+      const firstDayOfMonthTimestamp = Timestamp.fromDate(firstDayOfMonth)
+      const q = query(
+        collection(db, `users/${user_id}/points`),
+        where('created_at', '>=', firstDayOfMonthTimestamp),
+        orderBy('created_at', 'desc')
+      )
       const thisMonthRangePoints = await getDocs(q)
 
       // Procesa los documentos
-      const left_points: any = [];
-      const right_points: any = [];
-      let rightPointsTotal = 0;
-      let leftPointsTotal = 0;
+      const left_points: any = []
+      const right_points: any = []
+      let rightPointsTotal = 0
+      let leftPointsTotal = 0
 
-      thisMonthRangePoints.forEach(doc => {
+      for (const doc of thisMonthRangePoints.docs) {
         if (doc.data().side == 'right') {
-          right_points.push({ id: doc.id, ...doc.data() });
-          rightPointsTotal += doc.data()?.points;
+          right_points.push({ id: doc.id, ...doc.data() })
+          rightPointsTotal += doc.data()?.points
         }
         if (doc.data().side == 'left') {
-          left_points.push({ id: doc.id, ...doc.data() });
-          leftPointsTotal += doc.data()?.points;
+          left_points.push({ id: doc.id, ...doc.data() })
+          leftPointsTotal += doc.data()?.points
         }
-      });
+      }
 
       if (user_id == user.uid) {
         setPoints({
           right_points: rightPointsTotal,
-          left_points: leftPointsTotal
-        });
+          left_points: leftPointsTotal,
+        })
       }
-      return rightPointsTotal >= leftPointsTotal ? leftPointsTotal : rightPointsTotal;
+      return rightPointsTotal >= leftPointsTotal
+        ? leftPointsTotal
+        : rightPointsTotal
     } catch (error) {
-      console.error("Error obteniendo documentos: ", error);
+      console.error('Error obteniendo documentos: ', error)
     } finally {
       setIsLoadingPoints(false)
     }
   }
 
   async function getDocumentsCreatedLastMonth() {
-
-    const now = new Date();
-    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const firstDayOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const now = new Date()
+    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+    const firstDayOfLastMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      1
+    )
 
     setIsLoadingPointsLastMonth(true)
 
     try {
-      const firstDayOfMonthTimestamp = Timestamp.fromDate(firstDayOfMonth);
-      const q = query(collection(db, `users/${user.uid}/points`), where("created_at", "<=", firstDayOfMonthTimestamp), where("created_at", ">=", firstDayOfLastMonth), orderBy("created_at", "desc"))
+      const firstDayOfMonthTimestamp = Timestamp.fromDate(firstDayOfMonth)
+      const q = query(
+        collection(db, `users/${user.uid}/points`),
+        where('created_at', '<=', firstDayOfMonthTimestamp),
+        where('created_at', '>=', firstDayOfLastMonth),
+        orderBy('created_at', 'desc')
+      )
       const thisMonthRangePoints = await getDocs(q)
 
       // Procesa los documentos
-      const left_points: any = [];
-      const right_points: any = [];
-      let rightPointsTotal = 0;
-      let leftPointsTotal = 0;
+      const left_points: any = []
+      const right_points: any = []
+      let rightPointsTotal = 0
+      let leftPointsTotal = 0
 
-      thisMonthRangePoints.forEach(doc => {
+      for (const doc of thisMonthRangePoints.docs) {
         if (doc.data().side == 'right') {
-          right_points.push({ id: doc.id, ...doc.data() });
-          rightPointsTotal += doc.data()?.points;
+          right_points.push({ id: doc.id, ...doc.data() })
+          rightPointsTotal += doc.data()?.points
         }
         if (doc.data().side == 'left') {
-          left_points.push({ id: doc.id, ...doc.data() });
-          leftPointsTotal += doc.data()?.points;
+          left_points.push({ id: doc.id, ...doc.data() })
+          leftPointsTotal += doc.data()?.points
         }
-      });
+      }
 
       setLastMonthPoints({
         right_points: rightPointsTotal,
-        left_points: leftPointsTotal
-      });
-      return `Left points => ${leftPointsTotal}, Right Points => ${rightPointsTotal}`;
+        left_points: leftPointsTotal,
+      })
+      return `Left points => ${leftPointsTotal}, Right Points => ${rightPointsTotal}`
     } catch (error) {
-      console.error("Error obteniendo documentos: ", error);
+      console.error('Error obteniendo documentos: ', error)
     } finally {
       setIsLoadingPointsLastMonth(false)
     }
@@ -356,64 +395,71 @@ const Rank = () => {
 
   async function getPeople() {
     try {
-      const leftPeopleSnapshots = await getDocs(collection(db, `users/${user.uid}/left-people`));
-      const rightPeopleSnapshots = await getDocs(collection(db, `users/${user.uid}/right-people`));
+      const leftPeopleSnapshots = await getDocs(
+        collection(db, `users/${user.uid}/left-people`)
+      )
+      const rightPeopleSnapshots = await getDocs(
+        collection(db, `users/${user.uid}/right-people`)
+      )
 
-      const leftPeopleDataPromises = leftPeopleSnapshots.docs.map(async (docs) => {
-        const data = docs.data();
-        const userRef = doc(db, `users`, data.user_id)
-        const userSnap = await getDoc(userRef)
-        let name = '';
-        let rank = '';
-        if (userSnap.exists()) {
-          name = userSnap.data().name,
+      const leftPeopleDataPromises = leftPeopleSnapshots.docs.map(
+        async (docs) => {
+          const data = docs.data()
+          const userRef = doc(db, `users`, data.user_id)
+          const userSnap = await getDoc(userRef)
+          let name = ''
+          let rank = ''
+          if (userSnap.exists()) {
+            name = userSnap.data().name
             rank = userSnap.data().rank
+          }
+          const volumen = await getDocumentsCreatedThisMonth(
+            docs.data().user_id
+          )
+          if (volumen && volumen > 0) {
+            return { volumen, data, name, rank }
+          }
+          return null
         }
-        const volumen = await getDocumentsCreatedThisMonth(docs.data().user_id);
-        if (volumen && volumen > 0) {
-          return { volumen, data, name, rank };
-        }
-        return null;
-      });
+      )
 
-      const rightPeopleDataPromises = rightPeopleSnapshots.docs.map(async (docs) => {
-        const data = docs.data();
-        const userRef = doc(db, `users`, data.user_id)
-        const userSnap = await getDoc(userRef)
-        let name = '';
-        let rank = '';
-        if (userSnap.exists()) {
-          name = userSnap.data().name,
-            rank = userSnap.data().rank
+      const rightPeopleDataPromises = rightPeopleSnapshots.docs.map(
+        async (docs) => {
+          const data = docs.data()
+          const userRef = doc(db, `users`, data.user_id)
+          const userSnap = await getDoc(userRef)
+          let name = ''
+          let rank = ''
+          if (userSnap.exists()) {
+            ;(name = userSnap.data().name), (rank = userSnap.data().rank)
+          }
+          const volumen = await getDocumentsCreatedThisMonth(data.user_id)
+          if (volumen && volumen > 0) {
+            return { volumen, data, name, rank }
+          }
+          return null
         }
-        const volumen = await getDocumentsCreatedThisMonth(data.user_id);
-        if (volumen && volumen > 0) {
-          return { volumen, data, name, rank };
-        }
-        return null;
-      });
+      )
 
-      const leftPeopleDataResults = await Promise.all(leftPeopleDataPromises);
-      const rightPeopleDataResults = await Promise.all(rightPeopleDataPromises);
+      const leftPeopleDataResults = await Promise.all(leftPeopleDataPromises)
+      const rightPeopleDataResults = await Promise.all(rightPeopleDataPromises)
 
       const leftPeopleData = leftPeopleDataResults
-        .filter(item => item !== null)
-        .sort((a, b) => b.volumen - a.volumen);
+        .filter((item) => item !== null)
+        .sort((a, b) => b.volumen - a.volumen)
 
       const rightPeopleData = rightPeopleDataResults
-        .filter(item => item !== null)
-        .sort((a, b) => b.volumen - a.volumen);
+        .filter((item) => item !== null)
+        .sort((a, b) => b.volumen - a.volumen)
 
-      setLeftPeopleData(leftPeopleData);
-      setRightPeopleData(rightPeopleData);
+      setLeftPeopleData(leftPeopleData)
+      setRightPeopleData(rightPeopleData)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     } finally {
-      setIsLoadingTableData(true);
+      setIsLoadingTableData(true)
     }
   }
-
-  console.log('rank',rank)
 
   return (
     <div className="flex flex-col w-full h-full space-y-10">
@@ -498,11 +544,8 @@ const Rank = () => {
               ) : rank.order == -1 ? (
                 <p className="text-[24px] font-bold">Initial Builder</p>
               ) : (
-                <p className="text-[24px] font-bold">
-                  {nextRank?.display}
-                </p>
+                <p className="text-[24px] font-bold">{nextRank?.display}</p>
               )}
-
             </div>
 
             <div className="flex flex-col justify-center">
@@ -510,7 +553,7 @@ const Rank = () => {
                 src={`/img/insignias/${rank?.next_rank?.key}.png`}
                 className={classNames(
                   (rank?.next_rank == undefined || rank?.next_rank == 'none') &&
-                  'hidden'
+                    'hidden'
                 )}
                 width={40}
                 height={40}
@@ -532,82 +575,84 @@ const Rank = () => {
           {isLoadingPointsLastMonth && (
             <Spinner className={`select-loading-indicatior`} size={40} />
           )}
-          <p className={"text-[24px] font-bold " + isLoadingPointsLastMonth ? "" : "hidden"}>
+          <p
+            className={
+              'text-[24px] font-bold ' + isLoadingPointsLastMonth
+                ? ''
+                : 'hidden'
+            }
+          >
             <ReactECharts option={lastMonthSocios} key="1" />
           </p>
-
         </div>
         <div className="flex flex-col gap-4 w-full lg:w-[500px] lg:min-w-[440px] xl:w-[600px] h-full">
           {isLoadingPoints && (
             <Spinner className={`select-loading-indicatior`} size={40} />
           )}
-          <p className={"text-[24px] font-bold " + isLoadingPoints ? "" : "hidden"}>
+          <p
+            className={
+              'text-[24px] font-bold ' + isLoadingPoints ? '' : 'hidden'
+            }
+          >
             <ReactECharts option={socios} key="2" />
           </p>
-
         </div>
       </div>
-      <div className='flex justify-between'>
-
-        <div className=' w-[45%] flex flex-col'>
-          <span className='text-lg font-semibold mb-5 text-center'>Pierna izquierda (mes actual)</span>
+      <div className="flex justify-between">
+        <div className=" w-[45%] flex flex-col">
+          <span className="text-lg font-semibold mb-5 text-center">
+            Pierna izquierda (mes actual)
+          </span>
           <Table>
             <THead>
               <Tr>
-                <Th>
-                  Persona
-                </Th>
-                <Th>
-                  Volumen
-                </Th>
-                <Th>
-                  Rango
-                </Th>
+                <Th>Persona</Th>
+                <Th>Volumen</Th>
+                <Th>Rango</Th>
               </Tr>
             </THead>
             <TBody>
-              {
-                leftPeopleData && leftPeopleData.length > 0 && rank && nextRank && rankKey && (
-                  leftPeopleData.slice(0, 5).map((doc, index) => (
-                    <tr key={index}>
-                      <td>{doc.name}</td>
-                      <td>{doc.volumen}</td>
-                      <td>{doc.rank}</td>
-                    </tr>
-                  ))
-                )
-              }
+              {leftPeopleData &&
+                leftPeopleData.length > 0 &&
+                rank &&
+                nextRank &&
+                rankKey &&
+                leftPeopleData.slice(0, 5).map((doc, index) => (
+                  <tr key={index}>
+                    <td>{doc.name}</td>
+                    <td>{doc.volumen}</td>
+                    <td>{doc.rank}</td>
+                  </tr>
+                ))}
             </TBody>
           </Table>
         </div>
-        <div className=' w-[45%] flex flex-col'>
-          <span className='text-lg font-semibold mb-5 text-center'>Pierna Derecha (mes actual)</span>
+        <div className=" w-[45%] flex flex-col">
+          <span className="text-lg font-semibold mb-5 text-center">
+            Pierna Derecha (mes actual)
+          </span>
           <Table>
             <THead>
               <Tr>
-                <Th>
-                  Persona
-                </Th>
-                <Th>
-                  Volumen
-                </Th>
-                <Th>
-                  Rango
-                </Th>
+                <Th>Persona</Th>
+                <Th>Volumen</Th>
+                <Th>Rango</Th>
               </Tr>
             </THead>
             <TBody>
-              {
-                isLoadingTableData && rightPeopleData && rightPeopleData.length > 0 && rank && nextRank && rankKey && (
-                  rightPeopleData.slice(0, 5).map((doc, index) => (
-                    <tr key={index}>
-                      <td>{doc.name}</td>
-                      <td>{doc.volumen}</td>
-                      <td>{doc.rank}</td>
-                    </tr>
-                  ))
-                )
-              }
+              {isLoadingTableData &&
+                rightPeopleData &&
+                rightPeopleData.length > 0 &&
+                rank &&
+                nextRank &&
+                rankKey &&
+                rightPeopleData.slice(0, 5).map((doc, index) => (
+                  <tr key={index}>
+                    <td>{doc.name}</td>
+                    <td>{doc.volumen}</td>
+                    <td>{doc.rank}</td>
+                  </tr>
+                ))}
             </TBody>
           </Table>
         </div>
