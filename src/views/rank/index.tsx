@@ -613,7 +613,6 @@ const Rank = () => {
             </THead>
             <TBody>
               {leftPeopleData &&
-                leftPeopleData.length > 0 &&
                 rank &&
                 nextRank &&
                 rankKey &&
@@ -642,7 +641,6 @@ const Rank = () => {
             <TBody>
               {isLoadingTableData &&
                 rightPeopleData &&
-                rightPeopleData.length > 0 &&
                 rank &&
                 nextRank &&
                 rankKey &&
