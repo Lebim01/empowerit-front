@@ -104,9 +104,8 @@ const SalesDashboardBody = () => {
       checkSubscription(user).isActive &&
       checkSubscription(user).restDays <= 5
     ) {
-      const title = `Su membresía de tipo Pro está por vencer. ${
-        checkSubscription(user).restDays
-      } días restantes`
+      const title = `Su membresía de tipo Pro está por vencer. ${checkSubscription(user).restDays
+        } días restantes`
       const type = checkSubscription(user).restDays > 3 ? 'warning' : 'danger'
       createNotification(title, type, 600000)
     }
@@ -118,9 +117,11 @@ const SalesDashboardBody = () => {
 
   return (
     <Loading /* loading={loading} */>
-      
+
       <Dialog isOpen={isOpenModal} onClose={closeModal} >
-        <img src="/img/retiro-mexico.png"/>
+        <div className='py-5'>
+          <img src="/img/retiro-mexico.png" />
+        </div>
       </Dialog>
       <div
         className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
@@ -132,7 +133,7 @@ const SalesDashboardBody = () => {
         />
       </div>
       <Rank />
-      {user && user.membership_cap_limit && typeof user.membership_cap_current === 'number' && typeof user.membership_cap_limit === 'number' ? <CapSlider/> : null}
+      {user && user.membership_cap_limit && typeof user.membership_cap_current === 'number' && typeof user.membership_cap_limit === 'number' ? <CapSlider /> : null}
       <div
         className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
         role="presentation"

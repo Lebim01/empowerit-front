@@ -52,7 +52,6 @@ const Rank = () => {
   useEffect(() => {
     displayTopDollars()
   }, [data])
-  console.log(user)
   useEffect(() => {
     if (typeof user.max_rank == 'string') {
       getRank(user.max_rank)
