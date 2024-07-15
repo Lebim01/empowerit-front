@@ -35,6 +35,22 @@ const dayweeks = [
   'Domingo',
 ]
 
+const ranks_name = {
+    none: 'Ninguno',
+    initial_builder: 'Initial Builder',
+    star_builder: 'Star Builder',
+    advanced_builder: 'Advance Builder',
+    master_2000: 'Master 2000',
+    master_2500: 'Master 2500',
+    master_3500: 'Master 3500',
+    regional_director: 'Regional Director',
+    national_director: 'National Director',
+    international_director: 'International Director',
+    top_diamond: 'TOP Diamond',
+    top_1: 'TOP 1%',
+    top_legend: 'TOP LENGEND'
+}
+
 dayjs.extend(utc)
 dayjs.extend(weekday)
 
@@ -429,7 +445,7 @@ const Rank = () => {
           const userRef = doc(db, `users`, data.user_id)
           const userSnap = await getDoc(userRef)
           let name = ''
-          let rank = ''
+          let rank = '' 
           if (userSnap.exists()) {
             ;(name = userSnap.data().name), (rank = userSnap.data().rank)
           }
@@ -648,7 +664,7 @@ const Rank = () => {
                   <tr key={index}>
                     <td>{doc.name}</td>
                     <td>{doc.volumen}</td>
-                    <td>{doc.rank}</td>
+                    <td>{ranks_name[doc.rank]}</td>
                   </tr>
                 ))}
             </TBody>
