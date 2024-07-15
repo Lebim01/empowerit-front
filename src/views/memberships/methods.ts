@@ -81,7 +81,6 @@ export const createPaymentLinkForCredits = async (
         },
         body: JSON.stringify({
           userId: user_id,
-          type,
           coin,
         }),
       }
