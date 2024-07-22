@@ -8,6 +8,7 @@ import { Memberships } from './methods'
 import { Dialog } from '@/components/ui'
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
 import Franchise from './Franchise'
+import Participation from './Participation'
 
 const PayMembership = () => {
   const [transactionStatus, setTransactionStatus] = useState<
@@ -230,14 +231,23 @@ const PayMembership = () => {
 
 
       <div className="flex items-center space-x-4">
-        <span className="font-bold text-3xl">FUNDADOR</span>
+        <span className="font-bold text-3xl">PARTICIPACIONES</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
-        <FounderMembership
+        {/* <FounderMembership
           image="/img/memberships/p300.png"
           name="founder-pack"
           display_name="Participación 3000"
           month_price={3000}
+        /> */}
+        <Participation
+          image="/img/memberships/p300.png"
+          name="3000-participation"
+          display_name="Participación 3000"
+          price={3000}
+          binary_points={300}
+          range_points={1000}
+          bir={5}
         />
       </div>
     </div>

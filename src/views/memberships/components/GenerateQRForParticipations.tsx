@@ -1,20 +1,18 @@
 import { Button, Select } from '@/components/ui'
-import { Coins, Memberships } from '../methods'
+import { Coins, Memberships, PackCredits, Participations } from '../methods'
 import { useState } from 'react'
 import { SiCashapp } from 'react-icons/si'
 import { Periods } from '../membership'
 
-const GenerateQR = ({
+const GenerateQRForParticipations = ({
   type,
   loading,
   createPaymentLink,
-  options,
   founder,
 }: {
-  type: Memberships
+  type: Participations
   loading: boolean
-  createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
-  options: { value: Periods; label: string }[]
+  createPaymentLink: (type: Participations, coin: Coins) => void
   founder?: boolean
 }) => {
   const [period, setPeriod] = useState<Periods>('monthly')
@@ -24,18 +22,7 @@ const GenerateQR = ({
   const _create = (coin: Coins) => {
     try {
       setDisabled(true)
-      createPaymentLink(type, coin, period)
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setDisabled
-    }
-  }
-
-
-  const _createOpenPay = (coin: 'MXN') => {
-    try {
-      setDisabled(true)
+      createPaymentLink(type, coin)
     } catch (err) {
       console.error(err)
     } finally {
@@ -50,16 +37,8 @@ const GenerateQR = ({
   if (showCoin) {
     return (
       <div className="flex flex-col space-y-2">
-        {/* {showCoin && !founder && (
-          <Select
-            options={options}
-            value={options.find((r) => r.value == period)}
-            onChange={(option) => setPeriod(option?.value || 'monthly')}
-          />
-        )} */}
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          {import.meta.env.VITE_ENABLE_OPENPAY && type!='3000-pack' &&  (
+          {/* {import.meta.env.VITE_ENABLE_OPENPAY && (
             <Button
               className="h-max"
               disabled={disabled}
@@ -74,7 +53,7 @@ const GenerateQR = ({
                 <span>Fiat (MXN)</span>
               </div>
             </Button>
-          )}
+          )} */}
           <Button
             className="h-max"
             disabled={disabled}
@@ -104,4 +83,4 @@ const GenerateQR = ({
   )
 }
 
-export default GenerateQR
+export default GenerateQRForParticipations

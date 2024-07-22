@@ -19,8 +19,11 @@ export type Memberships =
   | '1000-pack'
   | '2000-pack'
   | '3000-pack'
+  | '3000-participation'
   
 export type Coins = 'MXN' | 'LTC'
+
+export type Participations = '3000-participation'
 
 export enum PAYMENT_LINK_TYPE {
   PRO = 'pro',
@@ -55,6 +58,34 @@ export const createPaymentLink = async (
           type,
           coin,
           period,
+        }),
+      }
+    )
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const createPaymentLinkForParticipations = async (
+  user_id: string,
+  type: Participations,
+  coin: Coins
+) => {
+  try {
+    // Crear dirección de pago
+    await fetch(
+      `${
+        import.meta.env.VITE_API_URL
+      }/subscriptions/createPaymentAddressForParticipations/${type}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user_id,
+          type,
+          coin,
         }),
       }
     )
