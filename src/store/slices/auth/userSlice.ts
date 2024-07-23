@@ -96,6 +96,7 @@ export type UserState = {
     created_at: Date
     price: number
   }
+  has_participations: boolean
 }
 
 const initialState: UserState = {
@@ -139,7 +140,8 @@ const initialState: UserState = {
   membership_cap_current: 0,
   membership_cap_limit: 0,
   algorithm_mr_range_access_expires_at: null,
-  algorithmId:0
+  algorithmId: 0,
+  has_participations: false,
 }
 
 const userSlice = createSlice({
@@ -176,28 +178,22 @@ const userSlice = createSlice({
         state.academy_access_expires_at = payload.academy_access_expires_at
         state.algorithm_mr_range_access_expires_at =
           payload.algorithm_mr_range_access_expires_at
+        state.has_participations = payload.has_participations
+        
 
         const roles = []
-        if(payload.uid == '5V5fwO7U48RHll0PLM5lK1g3gGa2'){
+        if (payload.uid == '5V5fwO7U48RHll0PLM5lK1g3gGa2') {
           roles.push('MR-RANGE')
         }
         if (payload.is_admin || payload.uid == '9CXMbcJt2sNWG40zqWwQSxH8iki2') {
           roles.push('ADMIN', 'USER')
-        }
-        if (payload.academy_access_expires_at && payload.algorithm_mr_range_access_expires_at){
-          if(payload.academy_access_expires_at.seconds >
-            new Date().getTime() / 1000 && 
-            payload.algorithm_mr_range_access_expires_at.seconds >
-            new Date().getTime() / 1000 ) {
-              roles.push('USER','ACADEMY', 'ALGORITHM')
-            }
         }
         if (payload.academy_access_expires_at) {
           if (
             payload.academy_access_expires_at.seconds >
             new Date().getTime() / 1000
           ) {
-            roles.push('USER', 'ACADEMY')
+            roles.push('ACADEMY')
           }
         }
         if (payload.algorithm_mr_range_access_expires_at) {
@@ -205,9 +201,13 @@ const userSlice = createSlice({
             payload.algorithm_mr_range_access_expires_at.seconds >
             new Date().getTime() / 1000
           ) {
-            roles.push('USER', 'ALGORITHM')
+            roles.push('ALGORITHM')
           }
-        } else {
+        }
+        if(payload.has_participations) {
+          roles.push('PARTICIPATIONS')
+        }
+        if (payload.membership) {
           roles.push('USER')
         }
 

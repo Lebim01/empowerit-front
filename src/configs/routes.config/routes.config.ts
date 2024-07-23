@@ -47,10 +47,16 @@ export const protectedRoutes = [
   },
   // Membership
   {
-    key: 'memberships',
+    key: 'subscriptions',
     path: '/subscriptions',
     component: lazy(() => import('@/views/memberships')),
     authority: ['USER', 'STARTER'],
+  },
+  {
+    key: 'participations',
+    path: '/participations',
+    component: lazy(() => import('@/views/participations/index')),
+    authority: ['PARTICIPATIONS'],
   },
   // Uninivel
   {

@@ -21,6 +21,7 @@ const SalesDashboardBody = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
   const [data, setData] = useState<any>({})
+  console.log(user)
 
   const userLogged = useAppSelector((state) => state.auth.user)
 
