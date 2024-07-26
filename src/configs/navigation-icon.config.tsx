@@ -35,6 +35,7 @@ import { GiCoins } from "react-icons/gi";
 import { GiDiploma } from "react-icons/gi";
 import { SiThealgorithms } from "react-icons/si";
 import { MdApartment } from "react-icons/md";
+import { IoBusiness } from "react-icons/io5";
 
 export type NavigationIcons = Record<string, JSX.Element>
 
@@ -64,10 +65,11 @@ const navigationIcon: NavigationIcons = {
   rank: <FaMedal />,
   map: <FaRegMap />,
   memberships: <BsShield />,
-  coins: <GiCoins/>,
+  coins: <GiCoins />,
   digitalService: <GiDiploma />,
   algorithmMrRange: <SiThealgorithms />,
-  participationsIcon: <MdApartment/>
+  participationsIcon: <MdApartment />,
+  participationsAdmin: <IoBusiness />
 }
 
 export default navigationIcon

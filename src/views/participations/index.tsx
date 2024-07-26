@@ -1,19 +1,23 @@
-import { getParticipations } from "@/hooks/useParticipations"
+
 import CapSliderParticipations from "./components/CapSliderParticipations"
 import { useAppSelector } from "@/store"
 import { useEffect, useState } from "react"
 import { Timestamp } from "firebase/firestore";
 import ParticipationsTable from "./components/ParticipationsTable";
+import { getParticipations } from "@/services/Participations";
 
 export type ParticipationName = '3000-participation'
 
 export type Participation = {
+  id_doc?:string;
   created_at: Timestamp;
   next_pay: Timestamp;
   participation_cap_current: number;
   participation_cap_limit: number;
   participation_name: ParticipationName;
   starts_at: Timestamp;
+  email: string;
+  userName: string;
 };
 
 export const INVESTMENT_PARTICIPATION = {

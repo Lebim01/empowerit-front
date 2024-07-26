@@ -176,6 +176,25 @@ export const protectedRoutes = [
     component: lazy(() => import('@/views/AdminPayroll/income')),
     authority: ['ADMIN'],
   },
+  //ADMIN: Participations
+  {
+    key: 'admin-participations-payroll',
+    path: '/admin-participations-payroll/pays',
+    component: lazy(() => import('@/views/admin/participations')),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'admin-participations-without-volumen',
+    path: '/admin-participations-without-volumen',
+    component: lazy(() => import('@/views/admin/participations/activate-without-volumen')),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'admin-participations-with-volumen',
+    path: '/admin-participations-with-volumen',
+    component: lazy(() => import('@/views/admin/participations/activate-with-volumen')),
+    authority: ['ADMIN'],
+  },
   // ADMIN: Academy
   {
     key: 'admin-academy',
