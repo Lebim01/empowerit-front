@@ -44,12 +44,25 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
     }
     const getTotal = () => {
         let total = 0;
-        cart.filter((p) => p.quantity).map((p) => {
-            total = total + (Math.ceil(p.sale_price / 17) * p.quantity)
-        })
-        let sendPrice = quantity >= 22 ? 36 : quantity >= 10 ? 18 : 12
-        let totalWithShipment = total + sendPrice
-        setTotal(totalWithShipment)
+    cart.filter((p) => p.quantity).forEach((p) => {
+      total += Math.ceil(p.sale_price / 17) * p.quantity;
+    });
+  
+    let sendPrice = 12;
+    const hasFreeShipping = cart.some(
+      (p) => (p.id === 94320904768178 || p.id === 943209047681782) && p.quantity > 0
+    );
+  
+    if (hasFreeShipping) {
+      sendPrice = 0;
+    } else if (quantity >= 22) {
+      sendPrice = 36;
+    } else if (quantity >= 10) {
+      sendPrice = 18;
+    }
+  
+    let totalWithShipment = total + sendPrice;
+    setTotal(totalWithShipment);
     } 
 
     const quantity = cart.reduce((a, b) => a + b.quantity, 0)

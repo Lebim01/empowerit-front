@@ -11,10 +11,11 @@ type Props = {
   onComplete: () => void
 }
 
+
 const MarketplaceList: FC<Props> = (props) => {
   const user = useAppSelector((state) => state.auth.user)
-  const [err,setErr] = useState(false)
-
+  const [err, setErr] = useState(false)
+  const [hasChallenges, setHasChallenges] = useState(false)
   const [cart, setCart] = useState(
     products.map((p) => ({
       id: p.id,
@@ -27,32 +28,51 @@ const MarketplaceList: FC<Props> = (props) => {
   )
 
   const setToCart = (product_id: number, quantity: number) => {
-    if (quantity < 0) return
+    if (quantity < 0) return;
     setCart((products) => {
-      const _products = [...products]
-      const index = _products.findIndex((r) => r.id == product_id)
+      const _products = [...products];
+      const index = _products.findIndex((r) => r.id == product_id);
       if (index > -1) {
-        _products[index].quantity = quantity
+        if (product_id === 9432090476817) { // id de la uritea
+          if (quantity == 4) {
+            quantity = 0;
+          } else if (quantity == 1) {
+            quantity = 5;
+          }
+        }
+        _products[index].quantity = quantity;
+        if (product_id === 94320904768178 || product_id === 943209047681782) {
+          setHasChallenges(quantity > 0);
+        }
       }
-      return _products
-    })
-  }
+      return _products;
+    });
+  };
+
+  useEffect(() => {
+    const hasFreeShipping = cart.some(
+      (p) => (p.id === 94320904768178 || p.id === 943209047681782) && p.quantity > 0
+    );
+    if(hasFreeShipping){
+      setHasChallenges(true)
+    }
+  },[cart])
 
   useEffect(() => {
     getCart()
   }, [])
 
   useEffect(() => {
-    if(totalWithShipment() > Number(user.credits)){
-      setErr(true) 
-    }else{
-      if(quantity == 0){
+    if (totalWithShipment() > Number(user.credits)) {
+      setErr(true)
+    } else {
+      if (quantity == 0) {
         setErr(true)
         return
       }
       setErr(false)
     }
-  },[cart])
+  }, [cart])
 
   const getCart = async () => {
     const res = await getDoc(doc(db, `users/${user.uid}/cart/1`))
@@ -86,22 +106,35 @@ const MarketplaceList: FC<Props> = (props) => {
 
   const enoughCredits = () => {
     totalWithShipment()
-    if(totalWithShipment() <= Number(user.credits)){
+    if (totalWithShipment() <= Number(user.credits)) {
       goNextStep()
-    } else{
+    } else {
       return false
     }
   }
 
   const totalWithShipment = () => {
     let total = 0;
-    cart.filter((p) => p.quantity).map((p) => {
-      total = total + (Math.ceil(p.sale_price / 17) * p.quantity)
-    })
-    let sendPrice = quantity >= 22 ? 36 : quantity >= 10 ? 18 : 12
-    let totalWithShipment = total + sendPrice
-    return totalWithShipment
-  } 
+    cart.filter((p) => p.quantity).forEach((p) => {
+      total += Math.ceil(p.sale_price / 17) * p.quantity;
+    });
+
+    let sendPrice = 12;
+    const hasFreeShipping = cart.some(
+      (p) => (p.id === 94320904768178 || p.id === 943209047681782) && p.quantity > 0
+    );
+
+    if (hasFreeShipping) {
+      sendPrice = 0;
+    } else if (quantity >= 22) {
+      sendPrice = 36;
+    } else if (quantity >= 10) {
+      sendPrice = 18;
+    }
+
+    let totalWithShipment = total + sendPrice;
+    return totalWithShipment;
+  };
 
   const quantity = cart.reduce((a, b) => a + b.quantity, 0)
 
@@ -144,6 +177,11 @@ const MarketplaceList: FC<Props> = (props) => {
                 {Math.ceil(Number(p.price) / 17)} créditos
               </span>
             </div>
+            {p.id && p.id == 9432090476817 && (
+              <div className="flex justify-start w-full space-x-2">
+                <span>Minimo de compra: 5 unidades</span>
+              </div>
+            )}
             {/* <div className="flex justify-start items-center w-full py-2 space-x-2">
               <span>{Math.ceil(Number(p.sale_price) / 20 / 2)} puntos c/u</span>
             </div> */}
@@ -189,10 +227,14 @@ const MarketplaceList: FC<Props> = (props) => {
 
             <div className="font-bold text-right">Envio</div>
             <div>
-              {formatNumberWithCommas(
-                quantity >= 22 ? 36 : quantity >= 10 ? 18 : 12
-              )}{' '}
-              créditos
+              {hasChallenges ? (
+                '0 creditos'
+              ) : <>
+                {formatNumberWithCommas(
+                  quantity >= 22 ? 36 : quantity >= 10 ? 18 : 12
+                )}{' '}
+                créditos
+              </>}
             </div>
 
             <div className="font-bold text-right">Subtotal</div>
