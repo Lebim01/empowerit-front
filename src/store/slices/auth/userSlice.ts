@@ -8,6 +8,7 @@ export type UserState = {
   is_admin?: boolean
   academy_access_expires_at?: string | null
   algorithm_mr_range_access_expires_at?: string | null
+  mr_sport_money_expires_at?: string | null
   uid?: string
   avatar?: string
   name?: string
@@ -42,6 +43,7 @@ export type UserState = {
   position: 'left' | 'right'
   user_profile?: string
   algorithmId?: number
+  has_bought_mr_sport?: boolean
 
   membership: string | null
   membership_status: 'paid' | 'expired' | null
@@ -140,8 +142,10 @@ const initialState: UserState = {
   membership_cap_current: 0,
   membership_cap_limit: 0,
   algorithm_mr_range_access_expires_at: null,
+  mr_sport_money_expires_at: null,
   algorithmId: 0,
   has_participations: false,
+  has_bought_mr_sport: false
 }
 
 const userSlice = createSlice({
@@ -179,6 +183,8 @@ const userSlice = createSlice({
         state.algorithm_mr_range_access_expires_at =
           payload.algorithm_mr_range_access_expires_at
         state.has_participations = payload.has_participations
+        state.mr_sport_money_expires_at = payload.mr_sport_money_expires_at
+        state.has_bought_mr_sport = payload.has_bought_mr_sport
         
 
         const roles = []

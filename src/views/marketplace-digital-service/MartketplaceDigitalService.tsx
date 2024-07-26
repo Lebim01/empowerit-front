@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import AlgorithmMrRangeComponent from "./components/AlgorithmMrRangeComponent";
 import { useNavigate } from "react-router-dom";
+import MrSportMoney from "./components/MrSportMoney";
 
 
 export default function MartketplaceDigitalService() {
@@ -152,6 +153,7 @@ export default function MartketplaceDigitalService() {
                     )}
                 </div>
                 <AlgorithmMrRangeComponent />
+                <MrSportMoney/>
             </div>
             <Dialog isOpen={openModal} onClose={() => setOpenModal(false)} >
                 <div>
