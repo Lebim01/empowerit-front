@@ -8,6 +8,13 @@ const PARTICIPATIONS_CAP_LIMIT = {
   '3000-participation': 6000
 }
 
+const initialValues = {
+  email: '',
+  participation_name: '3000-participation',
+  starts_at: '',
+  participation_cap_current: 0
+}
+
 export default function ActivateWithoutVolumenParticipations() {
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -18,12 +25,7 @@ export default function ActivateWithoutVolumenParticipations() {
     image: '/img/memberships/p300.png',
   })
 
-  const [form, setForm] = useState({
-    email: '',
-    participation_name: '3000-participation',
-    starts_at: '',
-    participation_cap_current: 0
-  })
+  const [form, setForm] = useState(initialValues)
 
   const [errors, setErrors] = useState({
     email: '',
@@ -133,6 +135,7 @@ export default function ActivateWithoutVolumenParticipations() {
             console.error(err)
         }finally{
             setLoading(false)
+            setForm(initialValues)
         }
     } else {
       console.log('Errores en el formulario', errors)
