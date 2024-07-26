@@ -215,6 +215,8 @@ const userSlice = createSlice({
         }
         if (payload.membership) {
           roles.push('USER')
+        } else {
+          roles.push('NONE')
         }
 
         state.authority = roles

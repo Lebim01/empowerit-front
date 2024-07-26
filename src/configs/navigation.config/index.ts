@@ -113,7 +113,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     translateKey: 'nav.order-list',
     icon: 'marketplace',
     type: NAV_ITEM_TYPE_ITEM,
-    authority: ['USER'],
+    authority: [],
     subMenu: [],
     //href: `https://www.empoweritup.com/?user=${user?.uid ?? ''}`,
   },
