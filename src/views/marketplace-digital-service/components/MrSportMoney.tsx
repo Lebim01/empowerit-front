@@ -75,11 +75,11 @@ export default function MrSportMoney() {
                className="bg-gray-100 flex flex-col items-center rounded-lg px-4 pb-4"
           >
                <img
-                    src="/img/digital-marketplace/mr-sport-money.jpg"
+                    src="/img/digital-marketplace/mr-money-power.png"
                     className="max-w-[250px] max-h-[250px] flex-1 object-contain"
                />
                <div className="flex justify-start w-full text-lg">
-                    <span className="font-bold">Acceso a Mr.Sport Money </span>
+                    <span className="font-bold">Acceso a Mr. Money Power </span>
                </div>
                <div className="flex justify-start w-full space-x-2">
                     <span className="font-medium">
@@ -97,6 +97,12 @@ export default function MrSportMoney() {
                               </span>
                               <span className=" text-gray-400">
                                    30 días
+                              </span>
+                              <span className="font-medium">
+                                   Reconsumo:
+                              </span>
+                              <span className=" text-gray-400">
+                                   39 créditos
                               </span>
                          </>
                     ) : (
