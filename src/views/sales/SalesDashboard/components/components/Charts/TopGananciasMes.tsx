@@ -99,7 +99,7 @@ const TopGananciasMes = () => {
                 ].includes(r.id)
             )
             .map((r) => ({ id: r.id, ...r.data() }))
-            .slice(0, 10)
+            .slice(0, 3)
         )
         setLoading(false)
       }
@@ -144,7 +144,7 @@ const TopGananciasMes = () => {
             autoplay
             loop
             src="https://lottie.host/68698fc0-37e6-46b1-beb4-874035dffda0/UzU5sGPcjP.json"
-            style={{ height: '300px', width: '300px' }}
+            style={{ height: '225px', width: '300px' }}
           >
             <Controls
               visible={false}

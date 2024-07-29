@@ -16,23 +16,33 @@ const Card: React.FC<CardProps> = ({ children }: CardProps) => {
   )
 }
 
+const HalfCard: React.FC<CardProps> = ({ children }: CardProps) => {
+  return (
+    <div className="bg-slate-100 rounded-[10px] p-4 card-border cursor-pointer user-select-none hover:shadow-lg flex flex-col space-y-2 overflow-hidden h-[225px] min-h-[225px]">
+      {children}
+    </div>
+  )
+}
+
 const Charts = () => {
   const user = store.getState().auth.user
   const hasProMembership = user.membership_status === 'paid' || user.is_admin 
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full">
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 w-full">
       {hasProMembership && (
         <Card>
           <LastLives />
         </Card>
       )}
-      <Card>
+      <div>
+      <HalfCard>
         <TopFirmasMes />
-      </Card>
-      <Card>
+      </HalfCard>
+      <HalfCard>
         <TopGananciasMes />
-      </Card>
+      </HalfCard>
+      </div>
     </div>
   )
 }

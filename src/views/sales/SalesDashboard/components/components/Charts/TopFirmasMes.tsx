@@ -85,7 +85,7 @@ const TopFirmasMes = () => {
         where('count_direct_people_this_month', '>', 0),
         //where('type', '!=', 'top-lider'),
         orderBy('count_direct_people_this_month', 'desc'),
-        limit(10)
+        limit(3)
       ),
       (snap) => {
         setTopPeople(snap.docs.map((r) => r.data()))
@@ -109,7 +109,7 @@ const TopFirmasMes = () => {
         Top Firmas ({dayjs().format('MMMM')})
       </h1>
       {topPeople.length > 0 && (
-        <ReactECharts option={options} style={{ height: 400 }} />
+        <ReactECharts option={options} style={{ height: 140 }} />
       )}
       {topPeople.length == 0 && (
         <>
@@ -117,7 +117,7 @@ const TopFirmasMes = () => {
             autoplay
             loop
             src="https://lottie.host/68698fc0-37e6-46b1-beb4-874035dffda0/UzU5sGPcjP.json"
-            style={{ height: '300px', width: '300px' }}
+            style={{ height: '180px', width: '300px' }}
           >
             <Controls
               visible={false}
