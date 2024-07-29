@@ -27,6 +27,8 @@ export default function RechargeCreditsCard() {
     }
   }
   const PACK_CREDITS: { [key in PackCredits]: number } = {
+    '30-credits': 15,
+    '50-credits': 25,
     '100-credits': 50,
     '500-credits': 250,
     '1000-credits': 500,
@@ -46,6 +48,8 @@ export default function RechargeCreditsCard() {
         <span className="font-bold">{PACK_CREDITS[selectedCredits]} puntos</span>
       </div>
       <select className='p-1 w-full rounded-lg border' value={selectedCredits} onChange={handleSelectChange}>
+        <option value="30-credits">30 créditos</option>
+        <option value="50-credits">50 créditos</option>
         <option value="100-credits">100 créditos</option>
         <option value="500-credits">500 créditos</option>
         <option value="1000-credits">1000 créditos</option>

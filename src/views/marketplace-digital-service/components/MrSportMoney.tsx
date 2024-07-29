@@ -13,7 +13,7 @@ export default function MrSportMoney() {
      const [openModal, setOpenModal] = useState(false)
      const [hasAccess, setHasAccess] = useState(false)
      const [leftDaysString, setLeftDaysString] = useState<string>()
-     const [cost, setCost] = useState(99)
+     const [cost, setCost] = useState(79)
      const [disabled, setDisabled] = useState(false)
      const navigate = useNavigate()
 

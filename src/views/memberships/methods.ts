@@ -2,7 +2,7 @@ import { Periods } from './membership'
 
 export type Franchises = '100-pack' | '300-pack' | '500-pack' | '1000-pack' | '2000-pack';
 
-export type PackCredits = '100-credits' | '500-credits' | '1000-credits'
+export type PackCredits = '30-credits' | '50-credits' | '100-credits' | '500-credits' | '1000-credits'
 
 export type Memberships =
   | 'pro'
