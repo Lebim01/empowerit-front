@@ -99,7 +99,6 @@ const Users: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
 
   useEffect(() => {
     loadPage()
-    console.log(email)
   }, [email])
 
   return (

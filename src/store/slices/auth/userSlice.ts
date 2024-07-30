@@ -253,7 +253,6 @@ const userSlice = createSlice({
         state.bond_presenter = payload.bond_presenter
         state.algorithmId = payload.algorithmId
 
-        console.log(payload.membership_expires_at)
         state.membership_expires_at = payload.membership_expires_at
           ? typeof payload.membership_expires_at == 'string'
             ? payload.membership_expires_at

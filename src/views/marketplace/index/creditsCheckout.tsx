@@ -83,7 +83,6 @@ export default function MarketplaceCreditsCheckout(props: MarketplaceCreditsChec
             pack: "none",
             sent: "false"
           });
-          console.log(docRef)
     }
     const deleteCart = async () => {
         await deleteDoc(doc(db,`users/${user.uid}/cart/1`))

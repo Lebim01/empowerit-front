@@ -39,7 +39,6 @@ function MarketPlaceHistory() {
     }
 
     const getRightPoints = async (documentId: string, id: string) => {
-        console.log('derecha')
         const rightPointsRef = collection(db, `users/${id}/right-points`);
         const q = query(rightPointsRef, where("user_id", "==", documentId));
         const querySnapshot = await getDocs(q);
@@ -56,7 +55,6 @@ function MarketPlaceHistory() {
     }
 
     const getLeftPoints = async (documentId: string, id: string) => {
-        console.log('izquierda')
         const rightPointsRef = collection(db, `users/${id}/left-points`);
         const q = query(rightPointsRef, where("user_id", "==", documentId));
         const querySnapshot = await getDocs(q);
@@ -76,7 +74,6 @@ function MarketPlaceHistory() {
         const res = await getDoc(doc(db, `users/${id}`))
         if (res.exists()) {
             if (res.data().parent_binary_user_id) {
-                console.log('el parent_binary_user_id es: ', res.data().parent_binary_user_id)
                 await getRightPoints(documentId, res.data().parent_binary_user_id)
                 await getLeftPoints(documentId, res.data().parent_binary_user_id)
             }

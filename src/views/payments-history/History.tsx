@@ -140,7 +140,6 @@ const History: React.FC<BillingHistoryProps> = ({ data = [], ...rest }) => {
         upline: u.upline,
         created_at: new Date()
       })
-      console.log(xd)
       xd++
     }
   } */

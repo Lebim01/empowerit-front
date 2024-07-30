@@ -190,7 +190,6 @@ export default function OrgChartTree() {
       buildTreeFromFirestore('users', rootNodeId)
         .then((rootNode) => {
           //console.log('Tree built successfully!', rootNode)
-          console.log('pasa por aca')
           console.log(rootNode?.data.id, dayjs(rootNode?.data.created_at.seconds * 1000).format('YYYY-MM-DD HH:mm:ss'))
           setTree(rootNode)
         })

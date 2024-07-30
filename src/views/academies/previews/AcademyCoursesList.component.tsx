@@ -15,8 +15,7 @@ const AcademyCoursesList = (props: AcademyCoursesListProps) => {
     const { isLeadership, isEditable } = props;
     const { data: courses, isLoading } = useAcademiesCourses(isLeadership)
     const [coursesAcademy, setCoursesAcademy] = useState<Course[]>()
-
-    console.log(isLeadership)
+    
     useEffect(() => {
         removeInvalidCourse(courses)
     },[courses])

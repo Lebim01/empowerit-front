@@ -67,7 +67,6 @@ export default function MrMoneyPower() {
           });
 
           navigate('/home');
-          console.log('compra exitosa');
      };
 
      return (

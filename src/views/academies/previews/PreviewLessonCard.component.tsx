@@ -13,7 +13,6 @@ type Props = {
 };
 
 const PreviewLessonCard: FC<Props> = ({ lesson, courseId, isLeadership = false }) => {
-  console.log(`/${isLeadership ? AcademyType.LEADERSHIP : AcademyType.STANDARD}/course/${courseId}/lesson/${lesson.id}`)
   return (
     <ConditionalWrapper
       condition={lesson.status !== 'scheduled'}

@@ -44,8 +44,6 @@ export default function AlgorithmDataTableHistory() {
           }
      }
 
-     console.log(licenses)
-
      return (
           <>
                <Table>

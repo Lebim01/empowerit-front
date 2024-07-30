@@ -64,7 +64,6 @@ export default function AlgorithmMrRangeComponent() {
             academy_access_expires_at: expiresAt
         });
         navigate('/home')
-        console.log('compra exitosa')
     }
 
     return (

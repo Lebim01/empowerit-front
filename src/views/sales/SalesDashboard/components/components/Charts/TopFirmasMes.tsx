@@ -96,8 +96,6 @@ const TopFirmasMes = () => {
     return () => unsub()
   }, [])
 
-  console.log(topPeople)
-
   useEffect(() => {
     loadChart()
   }, [topPeople])

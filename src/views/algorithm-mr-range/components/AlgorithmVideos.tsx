@@ -21,8 +21,6 @@ export default function AlgorithmVideos() {
         })
     }, [])
 
-    console.log(lives.length)
-
 
     return (
         <div className="flex flex-col space-y-8">

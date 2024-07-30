@@ -14,7 +14,6 @@ type ParticipationsTableProps = {
 
 
 export default function ParticipationsTable({participations} : ParticipationsTableProps) {
-     console.log('participation desde ParticipationsTable',participations)
   return (
      <Table>
      <THead>

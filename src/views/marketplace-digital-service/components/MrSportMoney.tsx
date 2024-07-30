@@ -67,7 +67,6 @@ export default function MrSportMoney() {
           });
 
           navigate('/home');
-          console.log('compra exitosa');
      };
 
      return (

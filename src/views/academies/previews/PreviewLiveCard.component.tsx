@@ -12,7 +12,6 @@ type Props = {
 
 
 const PreviewLiveCard: FC<Props> = ({ lesson, courseId, isLeadership = false }) => {
-  console.log(`/${isLeadership ? AcademyType.LEADERSHIP : AcademyType.STANDARD}/course/${courseId}/lesson/${lesson.id}`)
   return (
     <Link
       to={
