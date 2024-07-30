@@ -1,5 +1,5 @@
 
-import { Table } from "@/components/ui"
+import { Button, Table } from "@/components/ui"
 import TBody from "@/components/ui/Table/TBody"
 import Td from "@/components/ui/Table/Td"
 import Th from "@/components/ui/Table/Th"
@@ -12,6 +12,7 @@ import { useEffect, useState } from "react"
 export default function ParticipationsHistory() {
 
      const [participations, setParticipations] = useState<Participation[] | null>(null);
+     const [valuePayroll, setValuePayroll] = useState(0)
 
      useEffect(() => {
           getParticipations()
@@ -24,9 +25,31 @@ export default function ParticipationsHistory() {
           }
      }
 
+     const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+          setValuePayroll(Number(e.target.value))
+     }
+
+     const payrollParticipations = () => {
+          console.log('desde la funcion de payrollParticipations')
+     }
+
+     console.log(valuePayroll)
+
 
      return (
           <div>
+               <div className="flex justify-between my-4">
+                    <input 
+                    type="number"
+                    className="border rounded-md"
+                    value={valuePayroll}
+                    onChange={onChangeValue}
+                    />
+                    <Button 
+                    variant="solid"
+                    onClick={payrollParticipations}
+                     >Repartir</Button>
+               </div>
                <Table>
                     <THead>
                          <Tr>

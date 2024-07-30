@@ -20,8 +20,10 @@ const AcademyCoursesList = (props: AcademyCoursesListProps) => {
         removeInvalidCourse(courses)
     },[courses])
 
+    const invalidCourses = ['C0n4amHlu5aFEu7T7D4R', 'xLvEPccG4yWYen4PcWTN', 'r3OFhhJPyZc5b17NDavo']
+
     const removeInvalidCourse = (courses : Course[]) => {
-        setCoursesAcademy(courses.filter(course => course.id !== 'C0n4amHlu5aFEu7T7D4R'))
+        setCoursesAcademy(courses.filter(course => !invalidCourses.includes(course.id)))
     };
 
     const getCourseCards = () => {
