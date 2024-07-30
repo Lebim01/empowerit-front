@@ -9,6 +9,7 @@ export type UserState = {
   academy_access_expires_at?: string | null
   algorithm_mr_range_access_expires_at?: string | null
   mr_sport_money_expires_at?: string | null
+  mr_money_power_expires_at?: string | null
   uid?: string
   avatar?: string
   name?: string
@@ -44,6 +45,7 @@ export type UserState = {
   user_profile?: string
   algorithmId?: number
   has_bought_mr_sport?: boolean
+  has_bought_mr_money_power?: boolean
 
   membership: string | null
   membership_status: 'paid' | 'expired' | null
@@ -143,9 +145,11 @@ const initialState: UserState = {
   membership_cap_limit: 0,
   algorithm_mr_range_access_expires_at: null,
   mr_sport_money_expires_at: null,
+  mr_money_power_expires_at: null,
   algorithmId: 0,
   has_participations: false,
-  has_bought_mr_sport: false
+  has_bought_mr_sport: false,
+  has_bought_mr_money_power: false
 }
 
 const userSlice = createSlice({
@@ -184,6 +188,7 @@ const userSlice = createSlice({
           payload.algorithm_mr_range_access_expires_at
         state.has_participations = payload.has_participations
         state.mr_sport_money_expires_at = payload.mr_sport_money_expires_at
+        state.mr_money_power_expires_at = payload.mr_money_power_expires_at
         state.has_bought_mr_sport = payload.has_bought_mr_sport
         
 
@@ -194,14 +199,14 @@ const userSlice = createSlice({
         if (payload.is_admin || payload.uid == '9CXMbcJt2sNWG40zqWwQSxH8iki2') {
           roles.push('ADMIN', 'USER')
         }
-        if (payload.academy_access_expires_at) {
+        /* if (payload.academy_access_expires_at) {
           if (
             payload.academy_access_expires_at.seconds >
             new Date().getTime() / 1000
           ) {
             roles.push('ACADEMY')
           }
-        }
+        } */
         if (payload.algorithm_mr_range_access_expires_at) {
           if (
             payload.algorithm_mr_range_access_expires_at.seconds >

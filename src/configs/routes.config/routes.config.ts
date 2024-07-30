@@ -17,7 +17,7 @@ export const protectedRoutes = [
     key: 'academy',
     path: '/academy',
     component: lazy(() => import('@/views/academies/Academy.component')),
-    authority: ['ACADEMY', 'ADMIN'],
+    authority: ['USER', 'ADMIN'],
   },
   {
     key: 'algorithm-mr-range',
@@ -31,19 +31,19 @@ export const protectedRoutes = [
     component: lazy(
       () => import('@/views/academies/previews/PreviewAcademy.component')
     ),
-    authority: ['ACADEMY', 'ADMIN','ALGORITHM'],
+    authority: ['USER', 'ADMIN','ALGORITHM'],
   },
   {
     key: 'academy',
     path: '/:academyType/course/:courseId/lesson/:lessonId',
     component: lazy(() => import('@/views/video')),
-    authority: ['ACADEMY', 'ADMIN','ALGORITHM'],
+    authority: ['USER', 'ADMIN','ALGORITHM'],
   },
   {
     key: 'academy',
     path: '/:academyType/course/:courseId/live/:lessonId',
     component: lazy(() => import('@/views/video')),
-    authority: ['ACADEMY', 'ADMIN','ALGORITHM'],
+    authority: ['USER', 'ADMIN','ALGORITHM'],
   },
   // Membership
   {

@@ -23,7 +23,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     translateKey: 'nav.dashboard',
     icon: 'academy',
     type: NAV_ITEM_TYPE_ITEM,
-    authority: ['ACADEMY','ADMIN'],
+    authority: ['USER','ADMIN'],
     subMenu: [],
   },
   {

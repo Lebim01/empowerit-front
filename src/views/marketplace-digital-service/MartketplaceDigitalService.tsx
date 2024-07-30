@@ -7,6 +7,7 @@ import { FaStar } from "react-icons/fa";
 import AlgorithmMrRangeComponent from "./components/AlgorithmMrRangeComponent";
 import { useNavigate } from "react-router-dom";
 import MrSportMoney from "./components/MrSportMoney";
+import MrMoneyPower from "./components/MrMoneyPower";
 
 
 export default function MartketplaceDigitalService() {
@@ -86,7 +87,7 @@ export default function MartketplaceDigitalService() {
                 Arma tu carrito con nuestros productos digitales
             </p>
             <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-4">
-                <div
+                {/* <div
                     className="bg-gray-100 flex flex-col items-center rounded-lg px-4 pb-4"
                 >
                     <img
@@ -151,9 +152,10 @@ export default function MartketplaceDigitalService() {
                             Créditos insuficientes
                         </Button>
                     )}
-                </div>
+                </div> */}
                 <AlgorithmMrRangeComponent />
                 <MrSportMoney/>
+                <MrMoneyPower/>
             </div>
             <Dialog isOpen={openModal} onClose={() => setOpenModal(false)} >
                 <div>

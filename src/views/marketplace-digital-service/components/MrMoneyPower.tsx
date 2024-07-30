@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-export default function MrSportMoney() {
+export default function MrMoneyPower() {
 
      const user = useAppSelector((state) => state.auth.user)
 
@@ -28,14 +28,14 @@ export default function MrSportMoney() {
      }
 
      useEffect(() => {
-          if (user && user.mr_sport_money_expires_at) {
+          if (user && user.mr_money_power_expires_at) {
                setCost(39)
-               getLeftDays(user.mr_sport_money_expires_at);
+               getLeftDays(user.mr_money_power_expires_at);
                setDisabled(true)
           } else {
                setHasAccess(false);
           }
-          if (user && user.has_bought_mr_sport) {
+          if (user && user.has_bought_mr_money_power) {
                setCost(39)
           }
      }, [user]);
@@ -55,15 +55,15 @@ export default function MrSportMoney() {
 
           await updateDoc(usersRef, {
                credits: Number(user.credits) - cost,
-               mr_sport_money_expires_at: expiresAt,
-               has_bought_mr_sport: true
+               mr_money_power_expires_at: expiresAt,
+               has_bought_mr_money_power: true
           });
 
           await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
                total,
                created_at: now,
                concept: "Compra de Acceso de Mr Sport Money en Marketplace Servicios Digital ",
-               mr_sport_money_expires_at: expiresAt
+               mr_money_power_expires_at: expiresAt
           });
 
           navigate('/home');
@@ -75,7 +75,7 @@ export default function MrSportMoney() {
                className="bg-gray-100 flex flex-col items-center rounded-lg px-4 pb-4"
           >
                <img
-                    src="/img/digital-marketplace/mr-sport-money.jpg"
+                    src="/img/digital-marketplace/mr-money-power.png"
                     className="max-w-[250px] max-h-[250px] flex-1 object-contain"
                />
                <div className="flex justify-start w-full text-lg">
@@ -91,20 +91,26 @@ export default function MrSportMoney() {
                </div>
                <div className="flex justify-start w-full space-x-2">
                     {!hasAccess ? (
-                         <>
-                              <span className="font-medium">
-                                   Duración:
-                              </span>
-                              <span className=" text-gray-400">
-                                   30 días
-                              </span>
-                              <span className="font-medium">
-                                   Reconsumo:
-                              </span>
-                              <span className=" text-gray-400">
-                                   39 créditos
-                              </span>
-                         </>
+                         <div className="flex flex-col">
+                              <div>
+
+                                   <span className="font-medium">
+                                        Duración:
+                                   </span>
+                                   <span className=" text-gray-400">
+                                        {' '} 30 días
+                                   </span>
+                              </div>
+                              <div>
+
+                                   <span className="font-medium">
+                                        Reconsumo:
+                                   </span>
+                                   <span className=" text-gray-400">
+                                        {' '}39 créditos
+                                   </span>
+                              </div>
+                         </div>
                     ) : (
                          <>
                               <span className="font-bold text-green-400">
