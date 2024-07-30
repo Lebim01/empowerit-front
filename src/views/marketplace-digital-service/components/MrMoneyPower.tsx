@@ -79,7 +79,7 @@ export default function MrMoneyPower() {
                     className="max-w-[250px] max-h-[250px] flex-1 object-contain"
                />
                <div className="flex justify-start w-full text-lg">
-                    <span className="font-bold">Acceso a Mr. Sport Money </span>
+                    <span className="font-bold">Acceso a Mr. Money Power </span>
                </div>
                <div className="flex justify-start w-full space-x-2">
                     <span className="font-medium">
