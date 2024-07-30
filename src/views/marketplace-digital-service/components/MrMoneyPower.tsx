@@ -13,7 +13,7 @@ export default function MrMoneyPower() {
      const [openModal, setOpenModal] = useState(false)
      const [hasAccess, setHasAccess] = useState(false)
      const [leftDaysString, setLeftDaysString] = useState<string>()
-     const [cost, setCost] = useState(79)
+     const [cost, setCost] = useState(39)
      const [disabled, setDisabled] = useState(false)
      const navigate = useNavigate()
 
@@ -86,7 +86,7 @@ export default function MrMoneyPower() {
                          {cost} créditos
                     </span>
                     <span className="line-through text-gray-400">
-                         120 créditos
+                         79 créditos
                     </span>
                </div>
                <div className="flex justify-start w-full space-x-2">
