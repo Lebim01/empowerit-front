@@ -18,6 +18,7 @@ export type Participation = {
   starts_at: Timestamp;
   email: string;
   userName: string;
+  has_wallet?: boolean;
 };
 
 export const INVESTMENT_PARTICIPATION = {
