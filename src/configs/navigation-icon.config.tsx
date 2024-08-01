@@ -36,6 +36,7 @@ import { GiDiploma } from "react-icons/gi";
 import { SiThealgorithms } from "react-icons/si";
 import { MdApartment } from "react-icons/md";
 import { IoBusiness } from "react-icons/io5";
+import { LiaCoinsSolid } from "react-icons/lia";
 
 export type NavigationIcons = Record<string, JSX.Element>
 
@@ -69,7 +70,8 @@ const navigationIcon: NavigationIcons = {
   digitalService: <GiDiploma />,
   algorithmMrRange: <SiThealgorithms />,
   participationsIcon: <MdApartment />,
-  participationsAdmin: <IoBusiness />
+  participationsAdmin: <IoBusiness />,
+  adminCredits: <LiaCoinsSolid/>
 }
 
 export default navigationIcon

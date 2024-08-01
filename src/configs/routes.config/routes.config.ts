@@ -31,19 +31,19 @@ export const protectedRoutes = [
     component: lazy(
       () => import('@/views/academies/previews/PreviewAcademy.component')
     ),
-    authority: ['USER', 'ADMIN','ALGORITHM'],
+    authority: ['USER', 'ADMIN', 'ALGORITHM'],
   },
   {
     key: 'academy',
     path: '/:academyType/course/:courseId/lesson/:lessonId',
     component: lazy(() => import('@/views/video')),
-    authority: ['USER', 'ADMIN','ALGORITHM'],
+    authority: ['USER', 'ADMIN', 'ALGORITHM'],
   },
   {
     key: 'academy',
     path: '/:academyType/course/:courseId/live/:lessonId',
     component: lazy(() => import('@/views/video')),
-    authority: ['USER', 'ADMIN','ALGORITHM'],
+    authority: ['USER', 'ADMIN', 'ALGORITHM'],
   },
   // Membership
   {
@@ -102,13 +102,18 @@ export const protectedRoutes = [
   {
     key: 'marketplace-digital-service',
     path: '/marketplace-digital-service',
-    component: lazy(() => import('@/views/marketplace-digital-service/MartketplaceDigitalService')),
+    component: lazy(
+      () =>
+        import('@/views/marketplace-digital-service/MartketplaceDigitalService')
+    ),
     authority: ['USER'],
   },
   {
     key: 'marketplace.history',
     path: '/marketplace/history',
-    component: lazy(() => import('@/views/marketplace-history/MarketPlaceHistory')),
+    component: lazy(
+      () => import('@/views/marketplace-history/MarketPlaceHistory')
+    ),
     authority: ['USER'],
   },
   // Top Shop
@@ -186,13 +191,17 @@ export const protectedRoutes = [
   {
     key: 'admin-participations-without-volumen',
     path: '/admin-participations-without-volumen',
-    component: lazy(() => import('@/views/admin/participations/activate-without-volumen')),
+    component: lazy(
+      () => import('@/views/admin/participations/activate-without-volumen')
+    ),
     authority: ['ADMIN'],
   },
   {
     key: 'admin-participations-with-volumen',
     path: '/admin-participations-with-volumen',
-    component: lazy(() => import('@/views/admin/participations/activate-with-volumen')),
+    component: lazy(
+      () => import('@/views/admin/participations/activate-with-volumen')
+    ),
     authority: ['ADMIN'],
   },
   // ADMIN: Academy
@@ -324,8 +333,29 @@ export const protectedRoutes = [
   {
     key: 'admin-mr-range',
     path: '/admin/mr-range-history',
-    component: lazy(() => import('@/views/algorithm-mr-range/admin-algorithm-mr-range')),
-    authority: ['ADMIN','MR-RANGE'],
+    component: lazy(
+      () => import('@/views/algorithm-mr-range/admin-algorithm-mr-range')
+    ),
+    authority: ['ADMIN', 'MR-RANGE'],
+  },
+  //ADMIN: Creditos
+  {
+    key: 'admin-credits.all',
+    path: '/admin-credits/all-credits',
+    component: lazy(() => import('@/views/admin/credits/all-credits')),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'admin-credits.add-credits',
+    path: '/admin-credits/add-credits',
+    component: lazy(() => import('@/views/admin/credits/add-credits')),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'admin-credits.history-credits',
+    path: '/admin-credits/history-credits',
+    component: lazy(() => import('@/views/admin/credits/history-credits')),
+    authority: ['ADMIN'],
   },
 ]
 

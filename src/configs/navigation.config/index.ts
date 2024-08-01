@@ -23,7 +23,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     translateKey: 'nav.dashboard',
     icon: 'academy',
     type: NAV_ITEM_TYPE_ITEM,
-    authority: ['USER','ADMIN'],
+    authority: ['USER', 'ADMIN'],
     subMenu: [],
   },
   {
@@ -33,7 +33,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     translateKey: 'nav.dashboard',
     icon: 'algorithmMrRange',
     type: NAV_ITEM_TYPE_ITEM,
-    authority: ['ALGORITHM','ADMIN'],
+    authority: ['ALGORITHM', 'ADMIN'],
     subMenu: [],
   },
   {
@@ -131,12 +131,53 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
   {
     key: 'marketplace.history',
     path: `/marketplace/history`,
-    title: 'Historial de Creditos',
+    title: 'Historial de Créditos',
     translateKey: 'nav.order-list',
     icon: 'coins',
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
+  },
+  {
+    key: 'admin-credits',
+    path: `/admin-credits`,
+    title: 'ADMIN: Créditos',
+    translateKey: 'nav.order-list',
+    icon: 'adminCredits',
+    type: NAV_ITEM_TYPE_COLLAPSE,
+    authority: ['ADMIN'],
+    subMenu: [
+      {
+        key: 'admin-credits.all',
+        path: `/admin-credits/all-credits`,
+        title: 'Créditos Existentes',
+        translateKey: 'nav.order-list.all-credits',
+        icon: 'withdraw',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
+      {
+        key: 'admin-credits.add-credits',
+        path: `/admin-credits/add-credits`,
+        title: 'Aregar Créditos',
+        translateKey: 'nav.order-list.add-credits',
+        icon: 'withdraw',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
+      {
+        key: 'admin-credits.history-credits',
+        path: `/admin-credits/history-credits`,
+        title: 'Historial de Compras',
+        translateKey: 'nav.order-list.history-credits',
+        icon: 'withdraw',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
+    ],
   },
   /*{
     key: '5',
@@ -431,7 +472,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     translateKey: 'nav.order-list',
     icon: 'algorithmMrRange',
     type: NAV_ITEM_TYPE_COLLAPSE,
-    authority: ['ADMIN','MR-RANGE'],
+    authority: ['ADMIN', 'MR-RANGE'],
     subMenu: [
       {
         key: 'admin-mr-range',
@@ -440,9 +481,9 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         translateKey: 'nav.order-list',
         icon: 'algorithmMrRange',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: ['ADMIN','MR-RANGE'],
+        authority: ['ADMIN', 'MR-RANGE'],
         subMenu: [],
-      }
+      },
     ],
   },
 ]

@@ -100,14 +100,14 @@ const Rank = () => {
   useEffect(() => {
     const _query = lastPayroll
       ? query(
-          collection(db, 'users/' + user.uid + '/profits_details'),
-          where('created_at', '>=', lastPayroll.created_at),
-          orderBy('created_at', 'asc')
-        )
+        collection(db, 'users/' + user.uid + '/profits_details'),
+        where('created_at', '>=', lastPayroll.created_at),
+        orderBy('created_at', 'asc')
+      )
       : query(
-          collection(db, 'users/' + user.uid + '/profits_details'),
-          orderBy('created_at', 'asc')
-        )
+        collection(db, 'users/' + user.uid + '/profits_details'),
+        orderBy('created_at', 'asc')
+      )
     getDocs(_query).then((snap) => {
       setPayrollDetails(() => snap.docs.map((d) => d.data()))
     })
@@ -177,7 +177,7 @@ const Rank = () => {
                 <img
                   src={`/img/insignias/${rank?.key}.png`}
                   width={40}
-                  height={40} 
+                  height={40}
                 />
               ) : null}
             </div>
@@ -351,8 +351,8 @@ const Rank = () => {
                   <td className="text-right">
                     {r.created_at.seconds
                       ? dayjs(r.created_at.seconds * 1000).format(
-                          'DD/MM/YYYY HH:mm:ss'
-                        )
+                        'DD/MM/YYYY HH:mm:ss'
+                      )
                       : null}
                   </td>
                 </tr>
@@ -400,13 +400,13 @@ const Rank = () => {
                   </td>
                   <td>{r.side}</td>
                   <td className="text-right">{r.points}</td>
-                  <td className="text-right">
+                  {/* <td className="text-right">
                     {r.expires_at.seconds
                       ? dayjs(r.expires_at.seconds * 1000).format(
                           'DD/MM/YYYY HH:mm:ss'
                         )
                       : null}
-                  </td>
+                  </td> */}
                 </tr>
               ))}
               {binaryPoints.length == 0 && (

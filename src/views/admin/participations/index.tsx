@@ -89,7 +89,7 @@ export default function ParticipationsHistory() {
                     }
                )
                toast.push(
-                    <Notification type="success">Se hizo la machaca</Notification>
+                    <Notification type="success">Se ha realizado el pago!!</Notification>
                )
                window.location.reload()
           } catch (error) {
