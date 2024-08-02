@@ -6,10 +6,19 @@ import THead from '@/components/ui/Table/THead'
 import Tr from '@/components/ui/Table/Tr'
 import React, { useEffect, useState } from 'react'
 import { getHistoryCredits } from '@/services/Credits'
+import { Timestamp } from 'firebase/firestore'
+
+interface CreditHistory {
+  name?: string;
+  email?: string;
+  total: number;
+  concept: string;
+  created_at: Timestamp;
+}
 
 export default function CreditsPurchaseHistoryTable() {
 
-  const [dataTable, setDataTable] = useState()
+  const [dataTable, setDataTable] = useState<CreditHistory[] | null>(null);
 
   useEffect(() => {
     getData()
@@ -24,7 +33,7 @@ export default function CreditsPurchaseHistoryTable() {
   const getData = async () => {
     const data = await getHistoryCredits()
     if (data) {
-      setDataTable(data)
+      setDataTable(data as CreditHistory[])
     }
   }
 

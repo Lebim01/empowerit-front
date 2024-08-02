@@ -76,6 +76,7 @@ export default function MartketplaceDigitalService() {
         await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
             id_user: user.uid,
             email: user.email,
+            name: user.name,
             total,
             created_at: new Date(),
             concept: "Compra en Marketplace Servicios Digital",

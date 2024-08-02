@@ -60,6 +60,9 @@ export default function MrSportMoney() {
           });
 
           await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
+               id_user: user.uid,
+               email: user.email,
+               name: user.name,
                total,
                created_at: now,
                concept: "Compra de Acceso de Mr Sport Money en Marketplace Servicios Digital ",

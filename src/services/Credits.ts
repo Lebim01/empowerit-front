@@ -33,6 +33,8 @@ export const getHistoryCredits = async () => {
   const notAvailable = [
     'Compra en Marketplace',
     'Compra en Marketplace Servicios Digital',
+    'Compra de Acceso de Mr Sport Money en Marketplace Servicios Digital ',
+    'Compra de Acceso de Mr Money Power en Marketplace Servicios Digital ',
   ]
   const q = query(
     collectionGroup(db, 'credits-history'),

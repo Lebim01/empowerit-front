@@ -60,9 +60,12 @@ export default function MrMoneyPower() {
           });
 
           await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
+               id_user: user.uid,
+               email: user.email,
+               name: user.name,
                total,
                created_at: now,
-               concept: "Compra de Acceso de Mr Sport Money en Marketplace Servicios Digital ",
+               concept: "Compra de Acceso de Mr Money Power en Marketplace Servicios Digital ",
                mr_money_power_expires_at: expiresAt
           });
 
