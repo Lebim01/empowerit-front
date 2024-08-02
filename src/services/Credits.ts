@@ -1,5 +1,12 @@
 import { db } from '@/configs/firebaseConfig'
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore'
+import {
+  collection,
+  collectionGroup,
+  getDocs,
+  orderBy,
+  query,
+  where,
+} from 'firebase/firestore'
 
 export const getAllExistantCredits = async () => {
   const usersRef = collection(db, 'users')
@@ -20,4 +27,27 @@ export const getAllExistantCredits = async () => {
   } else {
     return null
   }
+}
+
+export const getHistoryCredits = async () => {
+  const notAvailable = [
+    'Compra en Marketplace',
+    'Compra en Marketplace Servicios Digital',
+  ]
+  const q = query(
+    collectionGroup(db, 'credits-history'),
+    where(
+      'concept',
+      '!=',
+      'Compra de Acceso de Mr Sport en Marketplace Servicios Digital '
+    )
+  )
+  const qSnapshot = await getDocs(q)
+  let data = []
+  for (const docu of qSnapshot.docs) {
+    if (!notAvailable.includes(docu.data().concept)) {
+      data.push(docu.data())
+    }
+  }
+  return data
 }

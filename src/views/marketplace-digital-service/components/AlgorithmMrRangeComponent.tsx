@@ -58,6 +58,8 @@ export default function AlgorithmMrRangeComponent() {
         })
 
         await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
+            id_user: user.uid,
+            email: user.email,
             total,
             created_at: new Date(),
             concept: "Compra en Marketplace Servicios Digital",
