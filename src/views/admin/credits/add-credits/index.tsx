@@ -41,21 +41,20 @@ export default function AddCreditsComponent() {
         )
           if (!res.empty) {
             const user_id = res.docs[0].id
-            /* await fetch(
-              `${import.meta.env.VITE_API_URL}/participations/activateWithoutVolumen`,
+            await fetch(
+              `${import.meta.env.VITE_API_URL}/subscriptions/addCredits/${user_id}`,
               {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  form,
-                  user_id
+                  credits: Number(form.credits)
                 }),
               }
-            ) */
+            )
             toast.push(
-              <Notification title="Usuario encontrado!!" type="success" />,
+              <Notification title="Créditos agregados correctamente!!" type="success" />,
               {
                 placement: 'top-center',
               }
@@ -136,7 +135,7 @@ export default function AddCreditsComponent() {
             {formErrors.credits && <span className="text-red-500">{formErrors.credits}</span>}
           </div>
           <Button loading={loading}>
-            Activar
+            Agregar
           </Button>
         </div>
       </form>
