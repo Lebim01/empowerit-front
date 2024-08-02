@@ -35,14 +35,11 @@ export const getHistoryCredits = async () => {
     'Compra en Marketplace Servicios Digital',
     'Compra de Acceso de Mr Sport Money en Marketplace Servicios Digital ',
     'Compra de Acceso de Mr Money Power en Marketplace Servicios Digital ',
+    'Compra de Acceso de Mr Sport en Marketplace Servicios Digital ',
   ]
   const q = query(
     collectionGroup(db, 'credits-history'),
-    where(
-      'concept',
-      '!=',
-      'Compra de Acceso de Mr Sport en Marketplace Servicios Digital '
-    )
+    orderBy('created_at', 'desc')
   )
   const qSnapshot = await getDocs(q)
   let data = []
