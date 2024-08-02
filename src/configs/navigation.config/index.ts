@@ -160,7 +160,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
       {
         key: 'admin-credits.add-credits',
         path: `/admin-credits/add-credits`,
-        title: 'Aregar Créditos',
+        title: 'Agregar Créditos',
         translateKey: 'nav.order-list.add-credits',
         icon: 'withdraw',
         type: NAV_ITEM_TYPE_ITEM,
