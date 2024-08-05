@@ -25,12 +25,12 @@ type SignInFormSchema = {
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().matches(
-    /[a-z0-9]+@[a-z]+\.[a-z]*/,
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     'Please enter a valid email'
-  ),
+  ).required('Please enter your email'),
   password: Yup.string().required('Please enter your password'),
   rememberMe: Yup.bool(),
-})
+});
 
 const SignInForm = (props: SignInFormProps) => {
   const {

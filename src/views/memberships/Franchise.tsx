@@ -64,8 +64,22 @@ export default function Franchise({ image, name, credits, display_name, month_pr
             <div className="grid grid-cols-[min-content_1fr] w-max gap-x-4 ">
                 <span className="text-left max-w-xs truncate">Franquicia: </span>
                 <span className="font-bold max-w-xs truncate">{display_name}</span>
-                <span className="max-w-xs truncate">Puntos de Binario:</span>
-                <span className="font-bold">{binary_points} puntos</span>
+                {display_name == 'F49' && (
+                    <>
+                        <span className="max-w-xs truncate">Incluye:</span>
+                        <span className="font-bold">Posicionamiento</span>
+                        <span></span>
+                        <span className="font-bold">Acceso a leverage</span>
+                        <span></span>
+                        <span className="font-bold">Bono residual leverage</span>
+                    </>
+                )}
+                {display_name != 'F49' && (
+                    <>
+                        <span className="max-w-xs truncate">Puntos de Binario:</span>
+                        <span className="font-bold">{binary_points} puntos</span>
+                    </>
+                )}
                 {display_name != 'F3000' && (
                     <>
                         <span className="text-left">Creditos: </span>
