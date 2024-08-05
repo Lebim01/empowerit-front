@@ -36,12 +36,12 @@ const Charts = () => {
         </Card>
       )}
       <div>
-      <HalfCard>
+      {/* <HalfCard>
         <TopFirmasMes />
       </HalfCard>
       <HalfCard>
         <TopGananciasMes />
-      </HalfCard>
+      </HalfCard> */}
       </div>
     </div>
   )

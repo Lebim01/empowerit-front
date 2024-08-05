@@ -110,6 +110,19 @@ const PayMembership = () => {
         <span className="font-bold text-3xl">Franquicias</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
+      {/* <Franchise
+          image="/img/Franchises/49-pack.png"
+          name="49-pack"
+          display_name="F49"
+          month_price={100}
+          binary_points={0}
+          range_points={0}
+          bir={0}
+          binary_percent={10}
+          mentor_bonus={10}
+          cap={0}
+          credits={0}
+        /> */}
         <Franchise
           image="/img/Franchises/100-pack.png"
           name="100-pack"
