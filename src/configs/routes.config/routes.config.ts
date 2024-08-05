@@ -10,7 +10,7 @@ export const protectedRoutes = [
     key: 'home',
     path: '/home',
     component: lazy(() => import('@/views/sales/SalesDashboard')),
-    authority: [],
+    authority: ['USER'],
   },
   // Academy
   {

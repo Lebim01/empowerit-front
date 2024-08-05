@@ -24,6 +24,7 @@ const HeaderActionsEnd = () => {
     const [open, setOpen] = useState(false)
 
     const is_new_pack = [
+        '49-pack',
         '100-pack',
         '300-pack',
         '500-pack',

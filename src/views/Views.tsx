@@ -35,7 +35,7 @@ const AllRoutes = (props: AllRoutesProps) => {
   const expires = useAppSelector(
     (state) => state.auth.user.membership_expires_at || null
   )
-  const Franchises = ['100-pack','300-pack','500-pack','1000-pack','2000-pack']
+  const Franchises = ['49-pack', '100-pack', '300-pack', '500-pack', '1000-pack', '2000-pack']
 
   const franchise = useAppSelector(
     (state) => state.auth.user.membership

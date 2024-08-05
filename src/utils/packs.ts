@@ -38,6 +38,11 @@ export const OPTIONS = [
 
 export const OPTIONS2 = [
   {
+    label: 'F49',
+    value: '49-pack',
+    image: '/img/Franchises/49-pack.png',
+  },
+  {
     label: 'F100',
     value: '100-pack',
     image: '/img/Franchises/100-pack.png',

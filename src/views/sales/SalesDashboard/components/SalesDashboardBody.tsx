@@ -147,7 +147,9 @@ const SalesDashboardBody = () => {
       {/*<Events />*/}
       <div className="grid grid-cols-1 md:grid-cols-[25%_50%_25%] gap-x-4 gap-y-4">
         <Summary />
-        <Links />
+        {user && user.membership != '49-pack' && (
+          <Links />
+        )}
       </div>
 
       <Dialog

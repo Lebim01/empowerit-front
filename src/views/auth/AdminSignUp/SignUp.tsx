@@ -5,7 +5,7 @@ const SignUp = () => {
     <>
       <div className="mb-8">
         <h3 className="mb-1">Registrar usuario</h3>
-        <p>Registrar y activar academia inmediatamente (30 días)</p>
+        <p>Registrar y activar academia inmediatamente</p>
       </div>
       <SignUpForm disableSubmit={false} />
     </>
