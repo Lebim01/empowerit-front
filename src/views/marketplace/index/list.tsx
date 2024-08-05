@@ -6,6 +6,7 @@ import { FC, useEffect, useState } from 'react'
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
 import { useAppSelector } from '@/store'
+import PendingShipsTable from './components/PendingShipsTable'
 
 type Props = {
   onComplete: () => void
@@ -53,10 +54,10 @@ const MarketplaceList: FC<Props> = (props) => {
     const hasFreeShipping = cart.some(
       (p) => (p.id === 94320904768178 || p.id === 943209047681782) && p.quantity > 0
     );
-    if(hasFreeShipping){
+    if (hasFreeShipping) {
       setHasChallenges(true)
     }
-  },[cart])
+  }, [cart])
 
   useEffect(() => {
     getCart()
@@ -261,6 +262,9 @@ const MarketplaceList: FC<Props> = (props) => {
             </button>
           </div>
         </div>
+      </div>
+      <div className='mt-5'>
+        <PendingShipsTable />
       </div>
     </div>
   )

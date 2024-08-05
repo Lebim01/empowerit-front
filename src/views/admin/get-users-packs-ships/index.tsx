@@ -1,4 +1,4 @@
-import { Button, Dialog, Notification, toast } from '@/components/ui'
+import { Button, Dialog, Input, Notification, toast } from '@/components/ui'
 import Table from '@/components/ui/Table'
 import TBody from '@/components/ui/Table/TBody'
 import THead from '@/components/ui/Table/THead'
@@ -21,6 +21,9 @@ import { useEffect, useState } from 'react'
 const GetUsersPacks = () => {
   const [users, setUsers] = useState<any[]>([])
   const [cart, setCart] = useState<any>(null)
+  const [guide, setGuide] = useState<string>('')
+  const [guideModal, setGuideModal] = useState<boolean>(false)
+  const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null)
 
   const getData = async () => {
     const res = await getDocs(
@@ -55,6 +58,25 @@ const GetUsersPacks = () => {
     const _data = [...users]
     _data[index].send = true
     setUsers(_data)
+  }
+
+  const openGuideModal = async (path: string, index: number) => {
+    setSelectedUserIndex(index)
+    setGuideModal(true)
+  }
+  const addGuide = async () => {
+    if (selectedUserIndex !== null) {
+      const path = users[selectedUserIndex].ref_path
+      await updateDoc(doc(db, path), {
+        guide: guide,
+      })
+
+      const _data = [...users]
+      _data[selectedUserIndex].guide = guide
+      setUsers(_data)
+      setGuideModal(false)
+      setGuide('')
+    }
   }
 
   const sendShopify = async (user: any) => {
@@ -119,6 +141,15 @@ const GetUsersPacks = () => {
           </div>
         </div>
       </Dialog>
+      <Dialog isOpen={guideModal} >
+        <div className='space-y-2'>
+          <p className='text-lg font-semibold'>Ingrese la guía</p>
+          <Input type="text" onChange={(e) => setGuide(e.target.value)} />
+          <Button onClick={addGuide}>
+            Agregar Guia
+          </Button>
+        </div>
+      </Dialog>
       <Table>
         <THead>
           <Tr>
@@ -128,7 +159,7 @@ const GetUsersPacks = () => {
             <Th>Patrocinador</Th>
             <Th>Patrocinador Correo</Th>
             <Th>Fecha de creación de pedido</Th>
-            <Th></Th>
+            <Th>Detalles de envío</Th>
           </Tr>
         </THead>
         <TBody>
@@ -144,15 +175,26 @@ const GetUsersPacks = () => {
                   'YYYY-MM-DD HH:mm:ss'
                 )}
               </Td>
-              <Td>
+              <Td className='flex flex-col'>
                 <Button size="sm" onClick={() => openDetails(user.cart)}>
                   Ver detalles
                 </Button>
-                {user.send ? (
-                  'Enviado'
+                {user.sent ? (
+                  <Button size="sm" disabled={true} >
+                    Enviado
+                  </Button>
                 ) : (
                   <Button size="sm" onClick={() => markSent(user.ref_path, i)}>
                     Macar como enviado
+                  </Button>
+                )}
+                {user.guide ? (
+                  <Button size='sm' disabled={true}>
+                    Guía añadida
+                  </Button>
+                ) : (
+                  <Button size='sm' onClick={() => openGuideModal(user.ref_path, i)}>
+                    Agregar Guia
                   </Button>
                 )}
 

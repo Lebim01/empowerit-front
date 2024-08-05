@@ -1,4 +1,4 @@
-import { Input, Notification, toast } from "@/components/ui"
+import { Button, Dialog, Input, Notification, toast } from "@/components/ui"
 import { db } from "@/configs/firebaseConfig"
 import { useAppSelector } from "@/store"
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
@@ -27,6 +27,7 @@ const MarketplaceForm: FC<Props> = (props) => {
   const [cart, setCart] = useState({
     address: DEFAULT_ADDRESS,
   })
+  const [modal, setModal] = useState(false)
 
   useEffect(() => {
     getCart()
@@ -51,7 +52,7 @@ const MarketplaceForm: FC<Props> = (props) => {
       })
 
       props.onComplete()
-    } catch (err: any) {    
+    } catch (err: any) {
       toast.push(<Notification title={err.toString()} type="danger" />, {
         placement: 'top-center',
       })
@@ -83,6 +84,35 @@ const MarketplaceForm: FC<Props> = (props) => {
 
   return (
     <div>
+      <Dialog isOpen={modal} onClose={() => setModal(false)}>
+        <p className="text-center font-bold text-xl mb-2">¿Tus datos son correctos?</p>
+        <div className="grid grid-cols-2 gap-4 justify-between p-4 rounded-lg">
+          <div className="font-semibold">
+            <p>Estado:</p>
+            <p>Ciudad:</p>
+            <p>Código Postal:</p>
+            <p>Colonia:</p>
+            <p>Calle:</p>
+            <p>Referencias:</p>
+            <p>Teléfono de contacto:</p>
+          </div>
+          <div>
+            <p>{cart.address.state}</p>
+            <p>{cart.address.city}</p>
+            <p>{cart.address.cp}</p>
+            <p>{cart.address.colony}</p>
+            <p>{cart.address.street}</p>
+            <p>{cart.address.reference}</p>
+            <p>{cart.address.phone}</p>
+          </div>
+        </div>
+        <div className="flex justify-between mx-4">
+          <Button onClick={() => setModal(false)}>Regresar</Button>
+          <Button onClick={setAddress}>Aceptar</Button>
+
+        </div>
+      </Dialog>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label>Páis</label>
@@ -164,7 +194,7 @@ const MarketplaceForm: FC<Props> = (props) => {
         </span>
         <button
           className="bg-black text-white rounded-full px-6 py-2"
-          onClick={() => setAddress()}
+          onClick={() => setModal(true)}
         >
           Pagar
         </button>
