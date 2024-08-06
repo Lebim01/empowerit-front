@@ -100,6 +100,8 @@ const GetUsersPacks = () => {
     )
   }
 
+  console.log(users)
+
   const openDetails = (cart: any) => {
     if (cart.json) setCart({ ...cart, json: JSON.parse(cart.json) })
   }
@@ -179,13 +181,13 @@ const GetUsersPacks = () => {
                 <Button size="sm" onClick={() => openDetails(user.cart)}>
                   Ver detalles
                 </Button>
-                {user.sent ? (
-                  <Button size="sm" disabled={true} >
-                    Enviado
+                {user.sent == 'false' || user.sent == false ? (
+                  <Button size="sm" onClick={() => markSent(user.ref_path, i)}>
+                    Marcar como enviado
                   </Button>
                 ) : (
-                  <Button size="sm" onClick={() => markSent(user.ref_path, i)}>
-                    Macar como enviado
+                  <Button size="sm" disabled={true} >
+                    Enviado
                   </Button>
                 )}
                 {user.guide ? (
