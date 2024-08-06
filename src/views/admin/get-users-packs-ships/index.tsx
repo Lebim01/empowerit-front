@@ -56,12 +56,13 @@ const GetUsersPacks = () => {
     })
 
     const _data = [...users]
-    _data[index].send = true
+    _data[index].sent = true
     setUsers(_data)
   }
 
-  const openGuideModal = async (path: string, index: number) => {
+  const openGuideModal = async (path: string, index: number, prevGuide: string) => {
     setSelectedUserIndex(index)
+    setGuide(prevGuide)
     setGuideModal(true)
   }
   const addGuide = async () => {
@@ -99,8 +100,6 @@ const GetUsersPacks = () => {
       }
     )
   }
-
-  console.log(users)
 
   const openDetails = (cart: any) => {
     if (cart.json) setCart({ ...cart, json: JSON.parse(cart.json) })
@@ -146,7 +145,7 @@ const GetUsersPacks = () => {
       <Dialog isOpen={guideModal} onClose={() => setGuideModal(false)}>
         <div className='space-y-2'>
           <p className='text-lg font-semibold'>Ingrese la guía</p>
-          <Input type="text" onChange={(e) => setGuide(e.target.value)} />
+          <Input type="text" onChange={(e) => setGuide(e.target.value)} value={guide} />
           <Button onClick={addGuide}>
             Agregar Guia
           </Button>
@@ -191,11 +190,11 @@ const GetUsersPacks = () => {
                   </Button>
                 )}
                 {user.guide ? (
-                  <Button size='sm' disabled={true}>
+                  <Button size='sm' onClick={() => openGuideModal(user.ref_path, i, user.guide)} >
                     Guía añadida
                   </Button>
                 ) : (
-                  <Button size='sm' onClick={() => openGuideModal(user.ref_path, i)}>
+                  <Button size='sm' onClick={() => openGuideModal(user.ref_path, i, '')}>
                     Agregar Guia
                   </Button>
                 )}
