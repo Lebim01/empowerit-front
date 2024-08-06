@@ -141,7 +141,7 @@ const GetUsersPacks = () => {
           </div>
         </div>
       </Dialog>
-      <Dialog isOpen={guideModal} >
+      <Dialog isOpen={guideModal} onClose={() => setGuideModal(false)}>
         <div className='space-y-2'>
           <p className='text-lg font-semibold'>Ingrese la guía</p>
           <Input type="text" onChange={(e) => setGuide(e.target.value)} />
