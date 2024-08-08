@@ -5,7 +5,7 @@ import Td from '@/components/ui/Table/Td'
 import Th from '@/components/ui/Table/Th'
 import Tr from '@/components/ui/Table/Tr'
 import { useAppSelector } from '@/store'
-import { collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
 import { useEffect, useState } from 'react'
 
@@ -25,7 +25,8 @@ function MarketPlaceHistory() {
     },[pendingShips])
 
     const getPendingShips = async () => {
-        const querySnapshot = await getDocs(collection(db, `users/${user.uid}/credits-history`))
+        const q = query(collection(db, `users/${user.uid}/credits-history`),orderBy("created_at","desc"))
+        const querySnapshot = await getDocs(q)
         const pendingShipsData : PendingShip [] = []
 
         querySnapshot.forEach((doc) => {

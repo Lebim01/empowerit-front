@@ -14,6 +14,7 @@ export default function AlgorithmMrRangeComponent() {
     const [hasAccess, setHasAccess] = useState(false)
     const [leftDaysString, setLeftDaysString] = useState<string>()
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     const getLeftDays = (expires_at: any) => {
         if (expires_at && expires_at.seconds > new Date().getTime() / 1000) {
@@ -34,8 +35,16 @@ export default function AlgorithmMrRangeComponent() {
     }, [user]);
 
     const buyProcess = async () => {
-        createHistoryCreditsDoc(150)
-        addPendingLicense()
+        setLoading(true)
+        try {
+            createHistoryCreditsDoc(150)
+            addPendingLicense()
+        } catch (error) {
+            console.log('Error en la compra de Mr.Range')
+        } finally {
+            setLoading(false)
+            navigate('/home')
+        }
     }
 
     const addPendingLicense = async () => {
@@ -66,7 +75,6 @@ export default function AlgorithmMrRangeComponent() {
             concept: "Compra en Marketplace Servicios Digital",
             academy_access_expires_at: expiresAt
         });
-        navigate('/home')
     }
 
     return (
@@ -152,7 +160,7 @@ export default function AlgorithmMrRangeComponent() {
                 <div>
                     <span className="pt-4">Desea comprar este producto por 150 créditos?</span>
                     <div className="flex justify-between w-full mt-4">
-                        <Button onClick={() => buyProcess()}>
+                        <Button onClick={() => buyProcess()} loading={loading}>
                             ACEPTAR
                         </Button>
                         <Button onClick={() => setOpenModal(true)}>

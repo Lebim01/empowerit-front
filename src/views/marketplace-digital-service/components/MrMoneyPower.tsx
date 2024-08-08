@@ -15,6 +15,7 @@ export default function MrMoneyPower() {
      const [leftDaysString, setLeftDaysString] = useState<string>()
      const [cost, setCost] = useState(39)
      const [disabled, setDisabled] = useState(false)
+     const [loading, setLoading] = useState(false)
      const navigate = useNavigate()
 
      const getLeftDays = (expires_at: any) => {
@@ -41,7 +42,15 @@ export default function MrMoneyPower() {
      }, [user]);
 
      const buyProcess = async () => {
-          await createHistoryCreditsDoc(cost);
+          setLoading(true)
+          try {
+               await createHistoryCreditsDoc(cost);
+          } catch (error) {
+               console.log('Error en la compra de mrMoneyPwer')
+          } finally {
+               setLoading(false)
+               navigate('/home');
+          }
      };
 
      const createHistoryCreditsDoc = async (total: number) => {
@@ -68,8 +77,6 @@ export default function MrMoneyPower() {
                concept: "Compra de Acceso de Mr Money Power en Marketplace Servicios Digital ",
                mr_money_power_expires_at: expiresAt
           });
-
-          navigate('/home');
      };
 
      return (
@@ -168,7 +175,7 @@ export default function MrMoneyPower() {
                     <div>
                          <span className="pt-4">Desea comprar este producto por {cost} créditos?</span>
                          <div className="flex justify-between w-full mt-4">
-                              <Button onClick={() => buyProcess()}>
+                              <Button onClick={() => buyProcess()} loading={loading}>
                                    ACEPTAR
                               </Button>
                               <Button onClick={() => setOpenModal(true)}>
