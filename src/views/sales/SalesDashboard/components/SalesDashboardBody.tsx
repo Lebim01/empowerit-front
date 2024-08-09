@@ -120,7 +120,7 @@ const SalesDashboardBody = () => {
 
       <Dialog isOpen={isOpenModal} onClose={closeModal} >
         <div className='py-5'>
-          <img src="/img/retiro-mexico.png" />
+          <img src="/img/retiro-de-liderazgo-mexico-colombia.jpg" />
         </div>
       </Dialog>
       <div
