@@ -20,6 +20,8 @@ import {
 import { sendEmail } from '@/services/emailSender'
 import { HiShieldCheck } from 'react-icons/hi'
 import { validateWallet } from '@/services/ValidateWallet'
+import { doc, getDoc, updateDoc } from '@firebase/firestore'
+import { db } from '@/configs/firebaseConfig'
 
 const Billing = () => {
   const user = useAppSelector((state) => state.auth.user)
@@ -161,6 +163,26 @@ const Billing = () => {
     }
   }
 
+  const deleteWallet = async () => {
+    try {
+      if (user && user.uid){
+        const userRef = doc(db,"users",user.uid)
+        await updateDoc(userRef, {
+          wallet_litecoin: ''
+      });
+      }
+    } catch (error) {
+      console.log('Error a la hora de borrar la wallet', error)
+    } finally {
+      toast.push(
+        <Notification title={'Wallet eliminada correctamente'} type="success" />,
+        {
+          placement: 'top-center',
+        }
+      )
+    }
+  }
+
   return (
     <Formik
       enableReinitialize
@@ -251,6 +273,16 @@ const Billing = () => {
                 >
                   Verificar
                 </Button>
+                <Button
+                    className="mt-2 ltr:mr-2 rtl:ml-2 "
+                    type="button"
+                    variant="default"
+                    color="primary"
+                    onClick={() => deleteWallet()}
+                    hidden={!isValidCode}
+                  >
+                    Quitar wallet
+                  </Button>
               </FormRow>
               {isAuthenticating && (
                 <FormRow name="code" label="Código" {...validatorProps}>
