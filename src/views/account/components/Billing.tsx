@@ -196,7 +196,9 @@ const Billing = () => {
       prev_wallet: user.wallet_litecoin,
       new_wallet: wallet,
       type,
-      created_at: new Date()
+      created_at: new Date(),
+      email: user.email,
+      user_id: user.uid
     });
   }
 
