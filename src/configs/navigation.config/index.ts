@@ -72,9 +72,30 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     title: 'Binario',
     translateKey: 'nav.order-list',
     icon: 'binary',
-    type: NAV_ITEM_TYPE_ITEM,
+    type: NAV_ITEM_TYPE_COLLAPSE,
     authority: ['USER'],
-    subMenu: [],
+    subMenu: [
+      {
+        key: 'binary.tree',
+        path: `/binary-tree`,
+        title: 'Árbol Binario',
+        translateKey: 'nav.order-list.binary-tree',
+        icon: 'binary',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['USER'],
+        subMenu: [],
+      },
+      /* {
+        key: 'binary.active',
+        path: `/binary-active`,
+        title: 'Binario Activo',
+        translateKey: 'nav.order-list.binary-active',
+        icon: 'binary',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['USER'],
+        subMenu: [],
+      }, */
+    ],
   },
   /*{
     key: 'sanguine-map',

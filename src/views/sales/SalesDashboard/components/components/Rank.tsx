@@ -403,8 +403,8 @@ const Rank = () => {
                   <td className="text-right">
                     {r.expires_at.seconds
                       ? dayjs(r.expires_at.seconds * 1000).format(
-                          'DD/MM/YYYY HH:mm:ss'
-                        )
+                        'DD/MM/YYYY HH:mm:ss'
+                      )
                       : null}
                   </td>
                 </tr>

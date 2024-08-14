@@ -67,9 +67,15 @@ export const protectedRoutes = [
   },
   // Binario
   {
-    key: 'binary',
-    path: '/binary',
+    key: 'binary.tree',
+    path: '/binary-tree',
     component: lazy(() => import('@/views/binary-tree')),
+    authority: ['USER'],
+  },
+  {
+    key: 'binary.active',
+    path: '/binary-active',
+    component: lazy(() => import('@/views/binary-active')),
     authority: ['USER'],
   },
   // Mapa
