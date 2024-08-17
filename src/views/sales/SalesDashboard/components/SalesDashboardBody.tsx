@@ -21,6 +21,7 @@ const SalesDashboardBody = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
   const [data, setData] = useState<any>({})
+  const [secondModal,setSecondModal] = useState<boolean>(false)
 
   const userLogged = useAppSelector((state) => state.auth.user)
 
@@ -85,6 +86,7 @@ const SalesDashboardBody = () => {
     window.localStorage.setItem(modalName, '1')
     setIsOpenModal(false)
     setOpenWelcomeModal(false)
+    setSecondModal(true)
   }
 
   const checkSubscription = (user: UserState) => {
@@ -121,6 +123,11 @@ const SalesDashboardBody = () => {
       <Dialog isOpen={isOpenModal} onClose={closeModal} >
         <div className='py-5'>
           <img src="/img/retiro-de-liderazgo-mexico-colombia.jpg" />
+        </div>
+      </Dialog>
+      <Dialog isOpen={secondModal} onClose={() => setSecondModal(false)} >
+        <div className='py-5'>
+          <img src="/img/pack-founder--vertical.png" />
         </div>
       </Dialog>
       <div

@@ -187,6 +187,12 @@ export const protectedRoutes = [
     component: lazy(() => import('@/views/AdminPayroll/income')),
     authority: ['ADMIN'],
   },
+  {
+    key: 'admin-payroll.7-levels',
+    path: 'admin-payroll/7-levels',
+    component: lazy(() => import('@/views/AdminPayroll/7-levels')),
+    authority: ['ADMIN'],
+  },
   //ADMIN: Participations
   {
     key: 'admin-participations-payroll',

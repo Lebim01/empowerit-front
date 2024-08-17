@@ -259,6 +259,16 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         authority: ['ADMIN'],
         subMenu: [],
       },
+      {
+        key: 'admin-payroll.7-levels',
+        path: `/admin-payroll/7-levels`,
+        title: '7 niveles',
+        translateKey: 'nav.order-list.7-levels',
+        icon: 'payroll',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
     ],
   },
   {
