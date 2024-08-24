@@ -350,6 +350,12 @@ export const protectedRoutes = [
     ),
     authority: ['ADMIN', 'MR-RANGE'],
   },
+  {
+    key: 'admin-signals-add',
+    path: '/admin/signals/add',
+    component: lazy(() => import('@/views/signals/add-signal')),
+    authority: ['ADMIN', 'FOREX', 'CRYPTO', 'SPORT'],
+  },
   //ADMIN: Creditos
   {
     key: 'admin-credits.all',
