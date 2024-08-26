@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button, Input } from '@/components/ui'
 import useTimer from '@/hooks/useTimer'
 import dayjs from 'dayjs'
-import { onSnapshot, collection } from 'firebase/firestore'
+import { onSnapshot, collection, doc, updateDoc } from 'firebase/firestore'
 import { BsClock, BsWallet } from 'react-icons/bs'
 import { FiCopy } from 'react-icons/fi'
 import { Coins, Memberships } from '../methods'
@@ -112,6 +112,14 @@ const FormPay = ({
       : undefined
   )
 
+  const deletePaymentLink = async () => {
+    const userRef = doc(db, `users/${user.uid}`)
+
+    await updateDoc(userRef, {
+      payment_link: {},
+    })
+  }
+
   return (
     <>
       <div className="flex flex-1 flex-col space-y-2 items-center">
@@ -175,12 +183,14 @@ const FormPay = ({
         </div>
 
         {!isExpired && user.payment_link![type].currency == 'MXN' && (
-          <button
-            className="bg-green-600 rounded-md px-4 py-2 text-white text-xl hover:bg-green-800"
-            onClick={() => openModal()}
-          >
-            Pagar
-          </button>
+          <>
+            <button
+              className="bg-green-600 rounded-md px-4 py-2 text-white text-xl hover:bg-green-800"
+              onClick={() => openModal()}
+            >
+              Pagar
+            </button>
+          </>
         )}
 
         {/* <div className="w-full flex justify-end">
@@ -225,6 +235,12 @@ const FormPay = ({
           <br />
           despues de confirmar el pago.
         </p>
+        <button
+          className="rounded-md px-4 py-2 underline"
+          onClick={() => deletePaymentLink()}
+        >
+          {'<-'} Cambiar metodo de pago
+        </button>
       </div>
       {isExpired && !amountChanged ? (
         <div className="flex justify-end space-x-1">

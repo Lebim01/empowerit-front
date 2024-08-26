@@ -44,7 +44,9 @@ const FormPayForCredits = ({
     user.payment_link_credits[type] &&
     user.payment_link_credits[type]?.expires_at
   const qr =
-    user.payment_link_credits && user.payment_link_credits[type] && user.payment_link_credits[type]?.qr
+    user.payment_link_credits &&
+    user.payment_link_credits[type] &&
+    user.payment_link_credits[type]?.qr
 
   const isExpired = dayjs(
     expires_at?.seconds ? expires_at?.seconds * 1000 : null
@@ -93,7 +95,11 @@ const FormPayForCredits = ({
   }, [user.uid])
 
   useEffect(() => {
-    if (address && user.payment_link_credits && user.payment_link_credits[type]) {
+    if (
+      address &&
+      user.payment_link_credits &&
+      user.payment_link_credits[type]
+    ) {
       setAmount(Number(user.payment_link_credits[type].amount) || 0)
     }
   }, [address, amountcrypto])
@@ -113,7 +119,7 @@ const FormPayForCredits = ({
     const userRef = doc(db, `users/${user.uid}`)
 
     await updateDoc(userRef, {
-      payment_link_credits: {}
+      payment_link_credits: {},
     })
   }
 
@@ -163,7 +169,9 @@ const FormPayForCredits = ({
           ) : null}
           <Input
             readOnly
-            prefix={currencyIcon[user.payment_link_credits![type].currency || 'BTC']}
+            prefix={
+              currencyIcon[user.payment_link_credits![type].currency || 'BTC']
+            }
             value={isExpired && !amountChanged ? '' : amount.toFixed(8)}
             suffix={
               <div className="flex items-center space-x-2">
@@ -180,10 +188,7 @@ const FormPayForCredits = ({
         </div>
 
         {!isExpired && user.payment_link_credits![type].currency == 'MXN' && (
-          <div className='flex justify-between space-x-2 w-full py4'>
-            <button className='rounded-md px-4 py-2 underline' onClick={() => deletePaymentLinkForCredits()}>
-              {'<-'} Cambiar metodo de pago
-            </button>
+          <div className="flex justify-between space-x-2 w-full py4">
             <button
               className="bg-green-600 rounded-md px-4 py-2 text-white text-xl hover:bg-green-800"
               onClick={() => openModal()}
@@ -237,9 +242,12 @@ const FormPayForCredits = ({
         </p>
       </div>
       <div>
-        <button className='rounded-md px-4 py-2 underline' onClick={() => deletePaymentLinkForCredits()}>
-              {'<-'} Cambiar metodo de pago
-            </button>
+        <button
+          className="rounded-md px-4 py-2 underline"
+          onClick={() => deletePaymentLinkForCredits()}
+        >
+          {'<-'} Cambiar metodo de pago
+        </button>
       </div>
       {isExpired && !amountChanged ? (
         <div className="flex justify-end space-x-1">
@@ -265,4 +273,3 @@ const FormPayForCredits = ({
 }
 
 export default FormPayForCredits
-

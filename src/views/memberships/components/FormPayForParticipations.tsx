@@ -44,7 +44,9 @@ const FormPayForParticipations = ({
     user.payment_link_participations[type] &&
     user.payment_link_participations[type]?.expires_at
   const qr =
-    user.payment_link_participations && user.payment_link_participations[type] && user.payment_link_participations[type]?.qr
+    user.payment_link_participations &&
+    user.payment_link_participations[type] &&
+    user.payment_link_participations[type]?.qr
 
   const isExpired = dayjs(
     expires_at?.seconds ? expires_at?.seconds * 1000 : null
@@ -93,7 +95,11 @@ const FormPayForParticipations = ({
   }, [user.uid])
 
   useEffect(() => {
-    if (address && user.payment_link_participations && user.payment_link_participations[type]) {
+    if (
+      address &&
+      user.payment_link_participations &&
+      user.payment_link_participations[type]
+    ) {
       setAmount(Number(user.payment_link_participations[type].amount) || 0)
     }
   }, [address, amountcrypto])
@@ -113,7 +119,7 @@ const FormPayForParticipations = ({
     const userRef = doc(db, `users/${user.uid}`)
 
     await updateDoc(userRef, {
-     payment_link_participations: {}
+      payment_link_participations: {},
     })
   }
 
@@ -128,7 +134,8 @@ const FormPayForParticipations = ({
               src={qr}
               className={classNames(
                 'h-[150px] w-[150px]',
-                user.payment_link_participations![type].currency == 'MXN' && 'hidden'
+                user.payment_link_participations![type].currency == 'MXN' &&
+                  'hidden'
               )}
             />
           </div>
@@ -139,7 +146,8 @@ const FormPayForParticipations = ({
           prefix={<BsWallet />}
           value={isExpired && !amountChanged ? '' : address}
           className={classNames(
-            user.payment_link_participations![type].currency == 'MXN' && 'hidden'
+            user.payment_link_participations![type].currency == 'MXN' &&
+              'hidden'
           )}
           suffix={
             <div
@@ -163,7 +171,11 @@ const FormPayForParticipations = ({
           ) : null}
           <Input
             readOnly
-            prefix={currencyIcon[user.payment_link_participations![type].currency || 'BTC']}
+            prefix={
+              currencyIcon[
+                user.payment_link_participations![type].currency || 'BTC'
+              ]
+            }
             value={isExpired && !amountChanged ? '' : amount.toFixed(8)}
             suffix={
               <div className="flex items-center space-x-2">
@@ -179,19 +191,17 @@ const FormPayForParticipations = ({
           />
         </div>
 
-        {!isExpired && user.payment_link_participations![type].currency == 'MXN' && (
-          <div className='flex justify-between space-x-2 w-full py4'>
-            <button className='rounded-md px-4 py-2 underline' onClick={() => deletePaymentLinkForParticipations()}>
-              {'<-'} Cambiar metodo de pago
-            </button>
-            <button
-              className="bg-green-600 rounded-md px-4 py-2 text-white text-xl hover:bg-green-800"
-              onClick={() => openModal()}
-            >
-              Pagar
-            </button>
-          </div>
-        )}
+        {!isExpired &&
+          user.payment_link_participations![type].currency == 'MXN' && (
+            <div className="flex justify-between space-x-2 w-full py4">
+              <button
+                className="bg-green-600 rounded-md px-4 py-2 text-white text-xl hover:bg-green-800"
+                onClick={() => openModal()}
+              >
+                Pagar
+              </button>
+            </div>
+          )}
 
         {/* <div className="w-full flex justify-end">
           {import.meta.env.VITE_ENABLE_OPENPAY &&
@@ -237,9 +247,12 @@ const FormPayForParticipations = ({
         </p>
       </div>
       <div>
-        <button className='rounded-md px-4 py-2 underline' onClick={() => deletePaymentLinkForParticipations()}>
-              {'<-'} Cambiar metodo de pago
-            </button>
+        <button
+          className="rounded-md px-4 py-2 underline"
+          onClick={() => deletePaymentLinkForParticipations()}
+        >
+          {'<-'} Cambiar metodo de pago
+        </button>
       </div>
       {isExpired && !amountChanged ? (
         <div className="flex justify-end space-x-1">
@@ -247,7 +260,10 @@ const FormPayForParticipations = ({
             loading={loading}
             disabled={!isExpired}
             onClick={() =>
-              createPaymentLink(type, user.payment_link_participations![type].currency)
+              createPaymentLink(
+                type,
+                user.payment_link_participations![type].currency
+              )
             }
           >
             Calcular de nuevo
@@ -265,4 +281,3 @@ const FormPayForParticipations = ({
 }
 
 export default FormPayForParticipations
-
