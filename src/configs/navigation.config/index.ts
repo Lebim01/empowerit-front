@@ -517,6 +517,27 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
       },
     ],
   },
+  {
+    key: 'admin-signals',
+    path: `/admin/signals`,
+    title: 'ADMIN: Signals',
+    translateKey: 'nav.order-list',
+    icon: '',
+    type: NAV_ITEM_TYPE_COLLAPSE,
+    authority: ['ADMIN', 'TRADER'],
+    subMenu: [
+      {
+        key: 'admin-signals-add',
+        path: `/admin/signals/add`,
+        title: 'Añadir señales',
+        translateKey: 'nav.order-list',
+        icon: 'algorithmMrRange',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN', 'TRADER'],
+        subMenu: [],
+      },
+    ],
+  },
 ]
 
 export default navigationConfig
