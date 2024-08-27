@@ -7,6 +7,7 @@ import {
   query,
   getDoc,
   doc,
+  orderBy,
 } from 'firebase/firestore'
 import { useEffect, useState, forwardRef, useCallback } from 'react'
 import { Avatar, Button, Dialog } from '@/components/ui'
@@ -316,13 +317,14 @@ export default function OrgChartTree() {
   }, [user.uid])
 
   const getPoints = async () => {
+    if (!user || !user.uid) return
     const docs = await getDocs(
       query(
         collection(db, `users/${user.uid}/points`),
         where('created_at', '>=', dayjs().startOf('month').toDate())
       )
     )
-    const left = await Promise.all(
+    /* const left = await Promise.all(
       docs.docs
         .filter((r) => r.get('side') == 'left')
         .map(async (r) => ({
@@ -331,8 +333,8 @@ export default function OrgChartTree() {
             'YYYY-MM-DD HH:mm:ss'
           ),
         }))
-    )
-    const right = await Promise.all(
+    ) */
+    /* const right = await Promise.all(
       docs.docs
         .filter((r) => r.get('side') == 'right')
         .map(async (r) => ({
@@ -341,7 +343,30 @@ export default function OrgChartTree() {
             'YYYY-MM-DD HH:mm:ss'
           ),
         }))
+    ) */
+    const left = []
+    const leftSnapshot = await getDocs(
+      query(
+        collection(db, `users/${user.uid}/left-points`),
+        where('expires_at', '>=', new Date()),
+        orderBy('expires_at', 'desc')
+      )
     )
+    for (const docu of leftSnapshot.docs) {
+      left.push(docu.data())
+    }
+    const right = []
+    const rightSnapshot = await getDocs(
+      query(
+        collection(db, 'users', user.uid, 'right-points'),
+        where('expires_at', '>=', new Date()),
+        orderBy('expires_at', 'desc')
+      )
+    )
+    for (const docu of rightSnapshot.docs) {
+      right.push(docu.data())
+    }
+
     setLeftPoints(left)
     setRightPoints(right)
   }
@@ -375,7 +400,7 @@ export default function OrgChartTree() {
         <table className="w-full">
           <thead>
             <tr>
-              <th>Franquicia</th>
+              <th>Puntos</th>
               <th>Usuario</th>
               <th>Correo</th>
               <th>Patrocinador</th>
@@ -390,17 +415,21 @@ export default function OrgChartTree() {
                   <td className="text-center">{r.user_name}</td>
                   <td className="text-center">{r.user_email}</td>
                   <td className="text-center">{r.user_sponsor}</td>
-                  <td className="text-center">{r.created_at}</td>
+                  <td className="text-center">
+                    {dayjs(r.starts_at.toDate()).format('YYYY-MM-DD HH:mm:ss')}
+                  </td>
                 </tr>
               ))}
             {openModal == 'right' &&
               rightPoints.map((r, index) => (
                 <tr key={index}>
                   <td className="text-center">{r.points}</td>
-                  <td className="text-center">{r.user_name}</td>
+                  <td className="text-center">{r.name}</td>
                   <td className="text-center">{r.user_email}</td>
                   <td className="text-center">{r.user_sponsor}</td>
-                  <td className="text-center">{r.created_at}</td>
+                  <td className="text-center">
+                    {dayjs(r.starts_at.toDate()).format('YYYY-MM-DD HH:mm:ss')}
+                  </td>
                 </tr>
               ))}
           </tbody>
