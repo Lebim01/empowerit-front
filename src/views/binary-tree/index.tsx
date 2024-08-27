@@ -412,7 +412,7 @@ export default function OrgChartTree() {
               leftPoints.map((r, index) => (
                 <tr key={index}>
                   <td className="text-center">{r.points}</td>
-                  <td className="text-center">{r.user_name}</td>
+                  <td className="text-center">{r.name}</td>
                   <td className="text-center">{r.user_email}</td>
                   <td className="text-center">{r.user_sponsor}</td>
                   <td className="text-center">
