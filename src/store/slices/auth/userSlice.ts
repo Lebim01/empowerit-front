@@ -94,6 +94,18 @@ export type UserState = {
       redirect_url?: string
     }
   }
+  payment_link_automatic_franchises?: {
+    [type: string]: {
+      amount: string
+      expires_at: { seconds: number }
+      qr: string
+      currency: Coins
+      status: 'pending' | 'confirming'
+      address: string
+      redirect_url?: string
+    }
+  }
+
   is_pending_complete_personal_info: boolean
   founder_pack?: {
     status: 'paid'
@@ -149,7 +161,7 @@ const initialState: UserState = {
   algorithmId: 0,
   has_participations: false,
   has_bought_mr_sport: false,
-  has_bought_mr_money_power: false
+  has_bought_mr_money_power: false,
 }
 
 const userSlice = createSlice({
@@ -190,7 +202,6 @@ const userSlice = createSlice({
         state.mr_sport_money_expires_at = payload.mr_sport_money_expires_at
         state.mr_money_power_expires_at = payload.mr_money_power_expires_at
         state.has_bought_mr_sport = payload.has_bought_mr_sport
-        
 
         const roles = []
         if (payload.uid == '5V5fwO7U48RHll0PLM5lK1g3gGa2') {
@@ -215,7 +226,7 @@ const userSlice = createSlice({
             roles.push('ALGORITHM')
           }
         }
-        if(payload.has_participations) {
+        if (payload.has_participations) {
           roles.push('PARTICIPATIONS')
         }
         if (payload.membership) {
@@ -243,6 +254,8 @@ const userSlice = createSlice({
         state.payment_link = payload.payment_link
         state.payment_link_credits = payload.payment_link_credits
         state.payment_link_participations = payload.payment_link_participations
+        state.payment_link_automatic_franchises =
+          payload.payment_link_automatic_franchises
 
         state.membership_status = payload.membership_status
         state.membership = payload.membership

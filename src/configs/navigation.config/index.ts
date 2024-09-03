@@ -42,9 +42,30 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     title: 'Franquicias',
     translateKey: 'nav.pay-supreme',
     icon: 'memberships',
-    type: NAV_ITEM_TYPE_ITEM,
+    type: NAV_ITEM_TYPE_COLLAPSE,
     authority: ['USER', 'STARTER'],
-    subMenu: [],
+    subMenu: [
+      {
+        key: 'subscriptions',
+        path: `/subscriptions-manual`,
+        title: 'Franquicias Manuales',
+        translateKey: 'nav.subscriptions-manual',
+        icon: 'memberships',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['USER'],
+        subMenu: [],
+      },
+      /* {
+        key: 'subscriptions',
+        path: `/subscriptions-automatic`,
+        title: 'Franquicias Automáticas',
+        translateKey: 'nav.subscriptions-automatic',
+        icon: 'memberships',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['USER'],
+        subMenu: [],
+      }, */
+    ],
   },
   {
     key: 'participations',

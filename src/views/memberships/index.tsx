@@ -107,10 +107,10 @@ const PayMembership = () => {
         />
       </div> */}
       <div className="flex items-center space-x-4">
-        <span className="font-bold text-3xl">Franquicias</span>
+        <span className="font-bold text-3xl">Franquicias Manuales</span>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 gap-y-2 gap-x-4">
-      {/* <Franchise
+        {/* <Franchise
           image="/img/Franchises/49-pack.png"
           name="49-pack"
           display_name="F49"
@@ -241,7 +241,6 @@ const PayMembership = () => {
           month_price={678}
         />
       </div> */}
-
 
       <div className="flex items-center space-x-4">
         <span className="font-bold text-3xl">PARTICIPACIONES</span>
