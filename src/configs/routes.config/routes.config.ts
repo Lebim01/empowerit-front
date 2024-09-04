@@ -168,6 +168,29 @@ export const protectedRoutes = [
   },
   // Historial DISABLED
   // Retiros DISABLED
+  // ADMIN: Franquicias Automaticas
+  {
+    key: 'admin-automatic-franchises-pay',
+    path: '/admin-automatic-franchises-pay',
+    component: lazy(() => import('@/views/adminAutomaticFranchises')),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'admin-automatic-franchises-activate-without-volumen',
+    path: '/admin-automatic-franchises-activate-without-volumen',
+    component: lazy(
+      () => import('@/views/adminAutomaticFranchises/activate-without-volumen')
+    ),
+    authority: ['ADMIN'],
+  },
+  {
+    key: 'admin-automatic-franchises-activate-with-volumen',
+    path: '/admin-automatic-franchises-activate-with-volumen',
+    component: lazy(
+      () => import('@/views/adminAutomaticFranchises/activate-with-volumen')
+    ),
+    authority: ['ADMIN'],
+  },
   // ADMIN: Pagos
   {
     key: 'admin-payroll',

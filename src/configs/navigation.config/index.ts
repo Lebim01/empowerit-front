@@ -46,7 +46,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     authority: ['USER', 'STARTER'],
     subMenu: [
       {
-        key: 'subscriptions',
+        key: 'subscriptions-manual',
         path: `/subscriptions-manual`,
         title: 'Franquicias Manuales',
         translateKey: 'nav.subscriptions-manual',
@@ -56,7 +56,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         subMenu: [],
       },
       /* {
-        key: 'subscriptions',
+        key: 'subscriptions-automatic',
         path: `/subscriptions-automatic`,
         title: 'Franquicias Automáticas',
         translateKey: 'nav.subscriptions-automatic',
@@ -179,6 +179,49 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER'],
     subMenu: [],
+  },
+  {
+    key: 'admin-automatic-franchises',
+    path: `/admin-automatic-franchises`,
+    title: 'ADMIN: Franquicias Automáticas',
+    translateKey: 'nav.order-list',
+    icon: 'memberships',
+    type: NAV_ITEM_TYPE_COLLAPSE,
+    authority: ['ADMIN'],
+    subMenu: [
+      {
+        key: 'admin-automatic-franchises-pay',
+        path: `/admin-automatic-franchises-pay`,
+        title: 'Pagar Franquicias Automaticas',
+        translateKey: 'nav.order-list.automatic-franchises-pay',
+        icon: 'memberships',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
+      {
+        key: 'admin-automatic-franchises-activate-without-volumen',
+        path: `/admin-automatic-franchises-activate-without-volumen`,
+        title: 'Activar sin volumen',
+        translateKey:
+          'nav.order-list.automatic-franchises-activate-without-volumen',
+        icon: 'memberships',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
+      {
+        key: 'admin-automatic-franchises-activate-with-volumen',
+        path: `/admin-automatic-franchises-activate-with-volumen`,
+        title: 'Activar con volumen',
+        translateKey:
+          'nav.order-list.automatic-franchises-activate-with-volumen',
+        icon: 'memberships',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
+    ],
   },
   {
     key: 'admin-credits',
