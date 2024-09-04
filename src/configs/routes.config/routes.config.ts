@@ -71,6 +71,13 @@ export const protectedRoutes = [
     component: lazy(() => import('@/views/sales/OrderList')),
     authority: ['USER'],
   },
+  //Mis Franquicias
+  {
+    key: 'my-automatic-franchises',
+    path: '/my-automatic-franchises',
+    component: lazy(() => import('@/views/my-automatic-franchises')),
+    authority: ['USER'],
+  },
   // Binario
   {
     key: 'binary.tree',

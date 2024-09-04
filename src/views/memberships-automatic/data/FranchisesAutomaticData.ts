@@ -44,3 +44,12 @@ export const AUTOMATIC_FRANCHISE: FranchiseAutomaticProps[] = [
     image: '/img/Franchises/FA20000.png',
   },
 ]
+
+export const AUTOMATIC_FRANCHISES_PRICES: Record<string, number> = {
+  FA500: 500,
+  FA1000: 1000,
+  FA2000: 2000,
+  FA5000: 5000,
+  FA10000: 10000,
+  FA20000: 20000,
+}
