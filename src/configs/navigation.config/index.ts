@@ -55,7 +55,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         authority: ['USER'],
         subMenu: [],
       },
-      /* {
+      {
         key: 'subscriptions-automatic',
         path: `/subscriptions-automatic`,
         title: 'Franquicias Automáticas',
@@ -64,7 +64,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         type: NAV_ITEM_TYPE_ITEM,
         authority: ['USER'],
         subMenu: [],
-      }, */
+      },
     ],
   },
   {

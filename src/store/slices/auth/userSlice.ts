@@ -46,6 +46,7 @@ export type UserState = {
   algorithmId?: number
   has_bought_mr_sport?: boolean
   has_bought_mr_money_power?: boolean
+  has_automatic_franchises?: boolean
 
   membership: string | null
   membership_status: 'paid' | 'expired' | null
@@ -162,6 +163,7 @@ const initialState: UserState = {
   has_participations: false,
   has_bought_mr_sport: false,
   has_bought_mr_money_power: false,
+  has_automatic_franchises: false,
 }
 
 const userSlice = createSlice({
@@ -199,6 +201,7 @@ const userSlice = createSlice({
         state.algorithm_mr_range_access_expires_at =
           payload.algorithm_mr_range_access_expires_at
         state.has_participations = payload.has_participations
+        state.has_automatic_franchises = payload.has_automatic_franchises
         state.mr_sport_money_expires_at = payload.mr_sport_money_expires_at
         state.mr_money_power_expires_at = payload.mr_money_power_expires_at
         state.has_bought_mr_sport = payload.has_bought_mr_sport
@@ -231,6 +234,9 @@ const userSlice = createSlice({
         }
         if (payload.membership) {
           roles.push('USER')
+        }
+        if (payload.has_automatic_franchises) {
+          roles.push('AUTOMATIC_FRANCHISES')
         } else {
           roles.push('NONE')
         }
