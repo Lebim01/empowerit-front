@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { SLICE_BASE_NAME } from './constants'
 import { Coins } from '@/views/memberships/methods'
 import dayjs from 'dayjs'
+import { Timestamp } from 'firebase/firestore'
 
 export type UserState = {
   credits?: boolean
@@ -9,7 +10,7 @@ export type UserState = {
   academy_access_expires_at?: string | null
   algorithm_mr_range_access_expires_at?: string | null
   mr_sport_money_expires_at?: string | null
-  mr_money_power_expires_at?: string | null
+  mr_money_power_expires_at?: Timestamp | null
   uid?: string
   avatar?: string
   name?: string

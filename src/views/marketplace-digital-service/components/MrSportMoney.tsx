@@ -91,13 +91,17 @@ export default function MrSportMoney() {
         <span className="font-medium">{cost} créditos</span>
         <span className="line-through text-gray-400">79 créditos</span>
       </div>
-      <div className="flex justify-start w-full space-x-2">
+      <div className="flex flex-col justify-start w-full">
         {!hasAccess ? (
           <>
-            <span className="font-medium">Duración:</span>
-            <span className=" text-gray-400">30 días</span>
-            <span className="font-medium">Reconsumo:</span>
-            <span className=" text-gray-400">39 créditos</span>
+            <div>
+              <span className="font-medium">Duración:</span>
+              <span className=" text-gray-400">30 días</span>
+            </div>
+            <div>
+              <span className="font-medium">Reconsumo:</span>
+              <span className="text-gray-400">39 créditos</span>
+            </div>
           </>
         ) : (
           <>

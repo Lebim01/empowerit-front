@@ -1,96 +1,96 @@
-import { Button, Dialog } from "@/components/ui";
-import { db } from "@/configs/firebaseConfig";
-import { useAppSelector } from "@/store";
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { FaStar } from "react-icons/fa";
-import AlgorithmMrRangeComponent from "./components/AlgorithmMrRangeComponent";
-import { useNavigate } from "react-router-dom";
-import MrSportMoney from "./components/MrSportMoney";
-import MrMoneyPower from "./components/MrMoneyPower";
-
+import { Button, Dialog } from '@/components/ui'
+import { db } from '@/configs/firebaseConfig'
+import { useAppSelector } from '@/store'
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
+import { FaStar } from 'react-icons/fa'
+import AlgorithmMrRangeComponent from './components/AlgorithmMrRangeComponent'
+import { useNavigate } from 'react-router-dom'
+import MrSportMoney from './components/MrSportMoney'
+import MrMoneyPower from './components/MrMoneyPower'
 
 export default function MartketplaceDigitalService() {
+  const user = useAppSelector((state) => state.auth.user)
 
-    const user = useAppSelector((state) => state.auth.user)
+  const [openModal, setOpenModal] = useState(false)
+  const [academyAccess, setAcademyAccess] = useState(false)
+  const [leftDaysString, setLeftDaysString] = useState<string>()
+  const navigate = useNavigate()
 
-    const [openModal, setOpenModal] = useState(false)
-    const [academyAccess, setAcademyAccess] = useState(false)
-    const [leftDaysString, setLeftDaysString] = useState<string>()
-    const navigate = useNavigate()
-
-    const getLeftDays = (expires_at: any) => {
-        if (expires_at && expires_at.seconds > new Date().getTime() / 1000) {
-            const leftDays = Math.floor((expires_at.seconds - (new Date().getTime() / 1000)) / 60 / 60 / 24)
-            setAcademyAccess(true)
-            setLeftDaysString(leftDays + ' días restantes')
-            return
-        }
-        setAcademyAccess(false)
+  const getLeftDays = (expires_at: any) => {
+    if (expires_at && expires_at.seconds > new Date().getTime() / 1000) {
+      const leftDays = Math.floor(
+        (expires_at.seconds - new Date().getTime() / 1000) / 60 / 60 / 24
+      )
+      setAcademyAccess(true)
+      setLeftDaysString(leftDays + ' días restantes')
+      return
     }
+    setAcademyAccess(false)
+  }
 
-    useEffect(() => {
-        if (user && user.academy_access_expires_at) {
-            getLeftDays(user.academy_access_expires_at);
-        } else {
-            setAcademyAccess(false);
-        }
-    }, [user]);
-
-    const enoughCredits = async () => {
-        const usersRef = doc(db, `users/${user.uid}`);
-        const res = await getDoc(usersRef)
-        if (res.data()?.credits >= 0) {
-            return true
-        }
-        return false
+  useEffect(() => {
+    if (user && user.academy_access_expires_at) {
+      getLeftDays(user.academy_access_expires_at)
+    } else {
+      setAcademyAccess(false)
     }
+  }, [user])
 
-    const buyAcademyAccess = async () => {
-        const now = new Date();
-        const expiresAt = new Date(now);
-        expiresAt.setDate(now.getDate() + 30);
-
-        const usersRef = await doc(db, `users/${user.uid}`);
-        const res = await getDoc(usersRef)
-        const isEnoughtCredits = await enoughCredits()
-        if (isEnoughtCredits) {
-            if (res.exists()) {
-                const creditsLeft = res.data().credits
-                await updateDoc(usersRef, {
-                    credits: creditsLeft - 100,
-                    academy_access_expires_at: expiresAt
-                })
-            }
-            createHistoryCreditsDoc(100)
-        }
-        setOpenModal(false)
-        navigate('/home')
+  const enoughCredits = async () => {
+    const usersRef = doc(db, `users/${user.uid}`)
+    const res = await getDoc(usersRef)
+    if (res.data()?.credits >= 0) {
+      return true
     }
+    return false
+  }
 
-    const createHistoryCreditsDoc = async (total: number) => {
-        const now = new Date();
-        const expiresAt = new Date(now);
-        expiresAt.setDate(now.getDate() + 30);
+  const buyAcademyAccess = async () => {
+    const now = new Date()
+    const expiresAt = new Date(now)
+    expiresAt.setDate(now.getDate() + 30)
 
-        await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
-            id_user: user.uid,
-            email: user.email,
-            name: user.name,
-            total,
-            created_at: new Date(),
-            concept: "Compra en Marketplace Servicios Digital",
-            academy_access_expires_at: expiresAt
-        });
+    const usersRef = await doc(db, `users/${user.uid}`)
+    const res = await getDoc(usersRef)
+    const isEnoughtCredits = await enoughCredits()
+    if (isEnoughtCredits) {
+      if (res.exists()) {
+        const creditsLeft = res.data().credits
+        await updateDoc(usersRef, {
+          credits: creditsLeft - 100,
+          academy_access_expires_at: expiresAt,
+        })
+      }
+      createHistoryCreditsDoc(100)
     }
+    setOpenModal(false)
+    navigate('/home')
+  }
 
-    return (
-        <div>
-            <p className="text-lg italic my-4">
-                Arma tu carrito con nuestros productos digitales
-            </p>
-            <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-4">
-                {/* <div
+  const createHistoryCreditsDoc = async (total: number) => {
+    const now = new Date()
+    const expiresAt = new Date(now)
+    expiresAt.setDate(now.getDate() + 30)
+
+    await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
+      id_user: user.uid,
+      email: user.email,
+      name: user.name,
+      total,
+      created_at: new Date(),
+      concept: 'Compra en Marketplace Servicios Digital',
+      academy_access_expires_at: expiresAt,
+    })
+  }
+
+  return (
+    <div>
+      <p className="text-lg italic my-4">
+        Arma tu carrito con nuestros productos digitales
+      </p>
+      <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-4">
+        {/* <div
                     className="bg-gray-100 flex flex-col items-center rounded-lg px-4 pb-4"
                 >
                     <img
@@ -156,23 +156,21 @@ export default function MartketplaceDigitalService() {
                         </Button>
                     )}
                 </div> */}
-                <AlgorithmMrRangeComponent />
-                <MrSportMoney/>
-                <MrMoneyPower/>
-            </div>
-            <Dialog isOpen={openModal} onClose={() => setOpenModal(false)} >
-                <div>
-                    <span className="pt-4">Desea comprar este producto por 100 créditos?</span>
-                    <div className="flex justify-between w-full mt-4">
-                        <Button onClick={() => buyAcademyAccess()}>
-                            ACEPTAR
-                        </Button>
-                        <Button onClick={() => setOpenModal(true)}>
-                            CERRAR
-                        </Button>
-                    </div>
-                </div>
-            </Dialog>
+        {/* <AlgorithmMrRangeComponent /> */}
+        <MrSportMoney />
+        <MrMoneyPower />
+      </div>
+      <Dialog isOpen={openModal} onClose={() => setOpenModal(false)}>
+        <div>
+          <span className="pt-4">
+            Desea comprar este producto por 100 créditos?
+          </span>
+          <div className="flex justify-between w-full mt-4">
+            <Button onClick={() => buyAcademyAccess()}>ACEPTAR</Button>
+            <Button onClick={() => setOpenModal(true)}>CERRAR</Button>
+          </div>
         </div>
-    )
+      </Dialog>
+    </div>
+  )
 }
