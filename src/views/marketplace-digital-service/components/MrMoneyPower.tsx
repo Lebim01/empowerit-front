@@ -86,6 +86,17 @@ export default function MrMoneyPower() {
         'Compra de Acceso de Mr Money Power en Marketplace Servicios Digital ',
       mr_money_power_expires_at: expiresAt,
     })
+    await addDoc(
+      collection(db, `users/${user.uid}/digital-marketplace-purchases/`),
+      {
+        user_id: user.uid,
+        email: user.email,
+        purcharse:
+          'Compra de Acceso de Mr Money Power en Marketplace Servicios Digital ',
+        cost,
+        created_at: new Date(),
+      }
+    )
   }
 
   return (

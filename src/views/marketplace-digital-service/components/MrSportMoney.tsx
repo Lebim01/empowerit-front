@@ -76,6 +76,17 @@ export default function MrSportMoney() {
         'Compra de Acceso de Mr Sport Money en Marketplace Servicios Digital ',
       mr_sport_money_expires_at: expiresAt,
     })
+    await addDoc(
+      collection(db, `users/${user.uid}/digital-marketplace-purchases/`),
+      {
+        user_id: user.uid,
+        email: user.email,
+        purcharse:
+          'Compra de Acceso de Mr Sport Money en Marketplace Servicios Digital ',
+        cost,
+        created_at: new Date(),
+      }
+    )
   }
 
   return (

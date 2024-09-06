@@ -8,6 +8,7 @@ import AlgorithmMrRangeComponent from './components/AlgorithmMrRangeComponent'
 import { useNavigate } from 'react-router-dom'
 import MrSportMoney from './components/MrSportMoney'
 import MrMoneyPower from './components/MrMoneyPower'
+import FollowerUp from './components/FollowerUp'
 
 export default function MartketplaceDigitalService() {
   const user = useAppSelector((state) => state.auth.user)
@@ -159,6 +160,21 @@ export default function MartketplaceDigitalService() {
         {/* <AlgorithmMrRangeComponent /> */}
         <MrSportMoney />
         <MrMoneyPower />
+        <FollowerUp
+          img="/img/digital-marketplace/follower-up.png"
+          cost={16}
+          name="1K"
+        />
+        <FollowerUp
+          img="/img/digital-marketplace/follower-up-5k.png"
+          cost={39}
+          name="5K"
+        />
+        <FollowerUp
+          img="/img/digital-marketplace/follower-up-10k.png"
+          cost={72}
+          name="10K"
+        />
       </div>
       <Dialog isOpen={openModal} onClose={() => setOpenModal(false)}>
         <div>

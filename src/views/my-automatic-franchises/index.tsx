@@ -78,7 +78,7 @@ export default function MyAutomaticFranchisesModal() {
                 <p className="text-lg">Mi franquicia Automática</p>
                 <p className="text-lg">#{selectedFranchise + 1}</p>
 
-                <span className="font-bold text-3   xl">
+                <span className="font-bold text-3xl">
                   ${' '}
                   {AUTOMATIC_FRANCHISES_PRICES[data[selectedFranchise]?.type] ??
                     'N/A'}
