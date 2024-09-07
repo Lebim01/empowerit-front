@@ -10,6 +10,10 @@ import MrSportMoney from './components/MrSportMoney'
 import MrMoneyPower from './components/MrMoneyPower'
 import FollowerUp from './components/FollowerUp'
 import CryptoXpertModal from './components/CryptoXpertModal'
+import ProFunnelModal from './components/ProFunnelModal'
+import InstaAdsModal from './components/InstaAdsModal'
+import FlowBotModal from './components/FlowBotModal'
+import PackMarketing from './components/PackMarketing'
 
 export default function MartketplaceDigitalService() {
   const user = useAppSelector((state) => state.auth.user)
@@ -177,6 +181,10 @@ export default function MartketplaceDigitalService() {
           cost={72}
           name="10K"
         />
+        <ProFunnelModal />
+        <InstaAdsModal />
+        <FlowBotModal />
+        <PackMarketing />
       </div>
       <Dialog isOpen={openModal} onClose={() => setOpenModal(false)}>
         <div>

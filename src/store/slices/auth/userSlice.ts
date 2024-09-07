@@ -12,6 +12,10 @@ export type UserState = {
   mr_sport_money_expires_at?: string | null
   mr_money_power_expires_at?: Timestamp | null
   crypto_xpert_expires_at?: string | null
+  pro_funnel_expires_at?: string | null
+  insta_ads_expires_at?: string | null
+  flow_bot_expires_at?: string | null
+  pack_marketing_expires_at?: string | null
   uid?: string
   avatar?: string
   name?: string
@@ -145,6 +149,10 @@ const initialState: UserState = {
   membership: null,
   membership_expires_at: null,
   crypto_xpert_expires_at: null,
+  pro_funnel_expires_at: null,
+  insta_ads_expires_at: null,
+  flow_bot_expires_at: null,
+  pack_marketing_expires_at: null,
   academy_access_expires_at: null,
   membership_status: null,
   is_pending_complete_personal_info: true,
@@ -204,6 +212,10 @@ const userSlice = createSlice({
         state.algorithm_mr_range_access_expires_at =
           payload.algorithm_mr_range_access_expires_at
         state.crypto_xpert_expires_at = payload.crypto_xpert_expires_at
+        state.pro_funnel_expires_at = payload.pro_funnel_expires_at
+        state.insta_ads_expires_at = payload.insta_ads_expires_at
+        state.flow_bot_expires_at = payload.flow_bot_expires_at
+        state.pack_marketing_expires_at = payload.pack_marketing_expires_at
         state.has_participations = payload.has_participations
         state.has_automatic_franchises = payload.has_automatic_franchises
         state.mr_sport_money_expires_at = payload.mr_sport_money_expires_at
