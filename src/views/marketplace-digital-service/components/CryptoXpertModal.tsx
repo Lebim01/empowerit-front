@@ -1,31 +1,20 @@
 import { Button, Dialog } from '@/components/ui'
 import { db } from '@/configs/firebaseConfig'
 import { useAppSelector } from '@/store'
-import {
-  Timestamp,
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  updateDoc,
-} from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { FaStar } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
 
-export default function MrMoneyPower() {
+export default function CryptoXpertModal() {
   const user = useAppSelector((state) => state.auth.user)
-
-  const [openModal, setOpenModal] = useState(false)
-  const [hasAccess, setHasAccess] = useState(false)
+  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [leftDaysString, setLeftDaysString] = useState<string>()
-  const [cost, setCost] = useState(39)
-  const [disabled, setDisabled] = useState(false)
   const [captureModal, setCaptureModal] = useState<boolean>(false)
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const [hasAccess, setHasAccess] = useState<boolean>(false)
+  const [cost, setCost] = useState<number>(50)
 
-  const getLeftDays = (expires_at: Timestamp) => {
+  const getLeftDays = (expires_at: any) => {
     if (expires_at && expires_at.seconds > new Date().getTime() / 1000) {
       const leftDays = Math.floor(
         (expires_at.seconds - new Date().getTime() / 1000) / 60 / 60 / 24
@@ -38,15 +27,10 @@ export default function MrMoneyPower() {
   }
 
   useEffect(() => {
-    if (user && user.mr_money_power_expires_at) {
-      setCost(39)
-      getLeftDays(user.mr_money_power_expires_at)
-      setDisabled(true)
+    if (user && user.crypto_xpert_expires_at) {
+      getLeftDays(user.crypto_xpert_expires_at)
     } else {
       setHasAccess(false)
-    }
-    if (user && user.has_bought_mr_money_power) {
-      setCost(39)
     }
   }, [user])
 
@@ -55,7 +39,7 @@ export default function MrMoneyPower() {
     try {
       await createHistoryCreditsDoc(cost)
     } catch (error) {
-      console.log('Error en la compra de mrMoneyPwer')
+      console.log('Error en la compra de CryptoXpertModal')
     } finally {
       setLoading(false)
       setOpenModal(false)
@@ -70,12 +54,10 @@ export default function MrMoneyPower() {
     expiresAt.setDate(now.getDate() + 30)
 
     const usersRef = doc(db, `users/${user.uid}`)
-    const res = await getDoc(usersRef)
 
     await updateDoc(usersRef, {
       credits: Number(user.credits) - cost,
-      mr_money_power_expires_at: expiresAt,
-      has_bought_mr_money_power: true,
+      crypto_xpert_expires_at: expiresAt,
     })
 
     await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
@@ -84,31 +66,28 @@ export default function MrMoneyPower() {
       name: user.name,
       total,
       created_at: now,
-      concept:
-        'Compra de Acceso de Mr Money Power en Marketplace Servicios Digital ',
-      mr_money_power_expires_at: expiresAt,
+      concept: 'Compra de Acceso de Crypto Xpert',
+      crypto_xpert_expires_at: expiresAt,
     })
     await addDoc(
       collection(db, `users/${user.uid}/digital-marketplace-purchases/`),
       {
         user_id: user.uid,
         email: user.email,
-        purchase:
-          'Compra de Acceso de Mr Money Power en Marketplace Servicios Digital ',
+        purchase: 'Compra de Acceso de Crypto Xpert',
         cost,
         created_at: new Date(),
       }
     )
   }
-
   return (
     <div className="bg-gray-100 flex flex-col items-center rounded-lg px-4 pb-4">
       <img
-        src="/img/digital-marketplace/mr-money-power.png"
+        src="/img/digital-marketplace/crypto-xpert-1.png"
         className="max-w-[250px] max-h-[250px] flex-1 object-contain"
       />
       <div className="flex justify-start w-full text-lg">
-        <span className="font-bold">Acceso a Mr. Money Power </span>
+        <span className="font-bold">Acceso a Crypto Xpert </span>
       </div>
       <div className="flex justify-start w-full space-x-2">
         <span className="font-medium">{cost} créditos</span>
@@ -119,11 +98,7 @@ export default function MrMoneyPower() {
           <div className="flex flex-col">
             <div>
               <span className="font-medium">Duración:</span>
-              <span className=" text-gray-400"> 30 días</span>
-            </div>
-            <div>
-              <span className="font-medium">Reconsumo:</span>
-              <span className=" text-gray-400"> 39 créditos</span>
+              <span className=" text-gray-400">30 días</span>
             </div>
           </div>
         ) : (
@@ -150,16 +125,14 @@ export default function MrMoneyPower() {
         user.credits < cost ? (
           <Button
             disabled={true}
-            className="px-4 py-2 font-semibold rounded bg-gray-400 text-gray-700 cursor-not-allowed"
+            className="px-4 py-2 font-semibold rounded bg-gray-400 text-gray-700 cursor-not-allowed mt-4"
           >
             Creditos insuficientes
           </Button>
         ) : (
           <Button
             disabled={hasAccess}
-            className={`px-4 py-2 font-semibold rounded bg-gray-400 text-gray-700 ${
-              hasAccess && 'mt-4'
-            }`}
+            className={`px-4 py-2 font-semibold rounded bg-gray-400 text-gray-700 mt-4`}
             onClick={() => setOpenModal(true)}
           >
             {hasAccess ? leftDaysString : 'Comprar Acceso'}
@@ -179,7 +152,7 @@ export default function MrMoneyPower() {
             Desea comprar este producto por {cost} créditos?
           </span>
           <div className="flex justify-between w-full mt-4">
-            <Button onClick={() => buyProcess()} loading={loading}>
+            <Button loading={loading} onClick={() => buyProcess()}>
               ACEPTAR
             </Button>
             <Button onClick={() => setOpenModal(true)}>CERRAR</Button>

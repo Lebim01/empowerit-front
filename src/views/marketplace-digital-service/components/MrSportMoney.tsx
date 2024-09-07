@@ -104,9 +104,9 @@ export default function MrSportMoney() {
         <span className="font-medium">{cost} créditos</span>
         <span className="line-through text-gray-400">79 créditos</span>
       </div>
-      <div className="flex flex-col justify-start w-full">
+      <div className="flex justify-start w-full space-x-2">
         {!hasAccess ? (
-          <>
+          <div className="flex flex-col">
             <div>
               <span className="font-medium">Duración:</span>
               <span className=" text-gray-400">30 días</span>
@@ -115,7 +115,7 @@ export default function MrSportMoney() {
               <span className="font-medium">Reconsumo:</span>
               <span className="text-gray-400">39 créditos</span>
             </div>
-          </>
+          </div>
         ) : (
           <>
             <span className="font-bold text-green-400">Activa:</span>
@@ -147,9 +147,9 @@ export default function MrSportMoney() {
         ) : (
           <Button
             disabled={hasAccess}
-            className={
-              'px-4 py-2 font-semibold rounded bg-gray-400 text-gray-700 '
-            }
+            className={`px-4 py-2 font-semibold rounded bg-gray-400 text-gray-700 ${
+              hasAccess && 'mt-4'
+            }`}
             onClick={() => setOpenModal(true)}
           >
             {hasAccess ? leftDaysString : 'Comprar Acceso'}

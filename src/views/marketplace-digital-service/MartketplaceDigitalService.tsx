@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import MrSportMoney from './components/MrSportMoney'
 import MrMoneyPower from './components/MrMoneyPower'
 import FollowerUp from './components/FollowerUp'
+import CryptoXpertModal from './components/CryptoXpertModal'
 
 export default function MartketplaceDigitalService() {
   const user = useAppSelector((state) => state.auth.user)
@@ -160,6 +161,7 @@ export default function MartketplaceDigitalService() {
         {/* <AlgorithmMrRangeComponent /> */}
         <MrSportMoney />
         <MrMoneyPower />
+        <CryptoXpertModal />
         <FollowerUp
           img="/img/digital-marketplace/follower-up.png"
           cost={16}

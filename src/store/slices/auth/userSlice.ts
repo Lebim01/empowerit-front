@@ -11,6 +11,7 @@ export type UserState = {
   algorithm_mr_range_access_expires_at?: string | null
   mr_sport_money_expires_at?: string | null
   mr_money_power_expires_at?: Timestamp | null
+  crypto_xpert_expires_at?: string | null
   uid?: string
   avatar?: string
   name?: string
@@ -143,6 +144,7 @@ const initialState: UserState = {
   position: 'left',
   membership: null,
   membership_expires_at: null,
+  crypto_xpert_expires_at: null,
   academy_access_expires_at: null,
   membership_status: null,
   is_pending_complete_personal_info: true,
@@ -201,6 +203,7 @@ const userSlice = createSlice({
         state.academy_access_expires_at = payload.academy_access_expires_at
         state.algorithm_mr_range_access_expires_at =
           payload.algorithm_mr_range_access_expires_at
+        state.crypto_xpert_expires_at = payload.crypto_xpert_expires_at
         state.has_participations = payload.has_participations
         state.has_automatic_franchises = payload.has_automatic_franchises
         state.mr_sport_money_expires_at = payload.mr_sport_money_expires_at
