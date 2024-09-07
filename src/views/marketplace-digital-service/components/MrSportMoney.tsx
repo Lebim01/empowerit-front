@@ -12,6 +12,7 @@ export default function MrSportMoney() {
   const [openModal, setOpenModal] = useState(false)
   const [hasAccess, setHasAccess] = useState(false)
   const [leftDaysString, setLeftDaysString] = useState<string>()
+  const [captureModal, setCaptureModal] = useState<boolean>(false)
   const [cost, setCost] = useState(39)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -48,7 +49,8 @@ export default function MrSportMoney() {
       console.log('Error en la compra de MrSportMoney')
     } finally {
       setLoading(false)
-      navigate('/home')
+      setOpenModal(false)
+      setCaptureModal(true)
     }
   }
 
@@ -81,7 +83,7 @@ export default function MrSportMoney() {
       {
         user_id: user.uid,
         email: user.email,
-        purcharse:
+        purchase:
           'Compra de Acceso de Mr Sport Money en Marketplace Servicios Digital ',
         cost,
         created_at: new Date(),
@@ -171,6 +173,41 @@ export default function MrSportMoney() {
               ACEPTAR
             </Button>
             <Button onClick={() => setOpenModal(true)}>CERRAR</Button>
+          </div>
+        </div>
+      </Dialog>
+      <Dialog isOpen={captureModal} onClose={() => setCaptureModal(false)}>
+        <div>
+          <p className="text-2xl font-bold text-center">
+            ¡Su compra se ha realizado exitosamente!
+          </p>
+          <p>
+            La compra de su producto ha sido realizada con éxito. Una vez
+            adquirido el servicio, deberás tomar una captura de pantalla y
+            comunicarte al siguiente número para la activación:{' '}
+            <span className="font-bold"> +52 3345813983</span>
+          </p>
+          <p className="font-bold">
+            Nombre: <span className="font-normal">{user.name}</span>
+          </p>
+          <p className="font-bold">
+            Correo: <span className="font-normal">{user.email}</span>
+          </p>
+          <p className="font-bold">
+            Fecha de Adquisición:{' '}
+            <span className="font-normal">
+              {new Date().toLocaleString('es-MX', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+              })}
+            </span>
+          </p>
+          <div className="flex justify-end mt-4">
+            <Button onClick={() => setCaptureModal(false)}>Aceptar</Button>
           </div>
         </div>
       </Dialog>
