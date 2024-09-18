@@ -4,6 +4,7 @@ import { useAppSelector } from '@/store'
 import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { FaStar } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 export default function CryptoXpertModal() {
   const user = useAppSelector((state) => state.auth.user)
@@ -13,6 +14,7 @@ export default function CryptoXpertModal() {
   const [captureModal, setCaptureModal] = useState<boolean>(false)
   const [hasAccess, setHasAccess] = useState<boolean>(false)
   const [cost, setCost] = useState<number>(50)
+  const navigate = useNavigate()
 
   const getLeftDays = (expires_at: any) => {
     if (expires_at && expires_at.seconds > new Date().getTime() / 1000) {
@@ -159,7 +161,13 @@ export default function CryptoXpertModal() {
           </div>
         </div>
       </Dialog>
-      <Dialog isOpen={captureModal} onClose={() => setCaptureModal(false)}>
+      <Dialog
+        isOpen={captureModal}
+        onClose={() => {
+          setCaptureModal(false)
+          navigate('/home')
+        }}
+      >
         <div>
           <p className="text-2xl font-bold text-center">
             ¡Su compra se ha realizado exitosamente!
@@ -190,7 +198,14 @@ export default function CryptoXpertModal() {
             </span>
           </p>
           <div className="flex justify-end mt-4">
-            <Button onClick={() => setCaptureModal(false)}>Aceptar</Button>
+            <Button
+              onClick={() => {
+                setCaptureModal(false)
+                navigate('/home')
+              }}
+            >
+              Aceptar
+            </Button>
           </div>
         </div>
       </Dialog>

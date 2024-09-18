@@ -176,7 +176,13 @@ export default function MrSportMoney() {
           </div>
         </div>
       </Dialog>
-      <Dialog isOpen={captureModal} onClose={() => setCaptureModal(false)}>
+      <Dialog
+        isOpen={captureModal}
+        onClose={() => {
+          setCaptureModal(false)
+          navigate('/home')
+        }}
+      >
         <div>
           <p className="text-2xl font-bold text-center">
             ¡Su compra se ha realizado exitosamente!
@@ -207,7 +213,14 @@ export default function MrSportMoney() {
             </span>
           </p>
           <div className="flex justify-end mt-4">
-            <Button onClick={() => setCaptureModal(false)}>Aceptar</Button>
+            <Button
+              onClick={() => {
+                setCaptureModal(false)
+                navigate('/home')
+              }}
+            >
+              Aceptar
+            </Button>
           </div>
         </div>
       </Dialog>

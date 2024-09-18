@@ -10,6 +10,7 @@ import {
 } from 'firebase/firestore'
 import { useState } from 'react'
 import { FaStar } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 export type FollowerUpProps = {
   img: string
@@ -22,6 +23,7 @@ export default function FollowerUp({ img, cost, name }: FollowerUpProps) {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [captureModal, setCaptureModal] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   const buyProcess = async () => {
     if (!user || !user.uid) return
@@ -39,6 +41,14 @@ export default function FollowerUp({ img, cost, name }: FollowerUpProps) {
         purchase: `Follower Up ${name}`,
         cost,
         created_at: new Date(),
+      })
+      await addDoc(collection(db, `users/${user.uid}/credits-history/`), {
+        id_user: user.uid,
+        email: user.email,
+        name: user.name,
+        total: cost,
+        created_at: new Date(),
+        concept: `Compra de Follower Up ${name}`,
       })
     } catch (error) {
       console.log(`Error intentando comprar Follower Up${name}`, error)
@@ -125,7 +135,13 @@ export default function FollowerUp({ img, cost, name }: FollowerUpProps) {
           </div>
         </div>
       </Dialog>
-      <Dialog isOpen={captureModal} onClose={() => setCaptureModal(false)}>
+      <Dialog
+        isOpen={captureModal}
+        onClose={() => {
+          setCaptureModal(false)
+          navigate('/home')
+        }}
+      >
         <div>
           <p className="text-2xl font-bold text-center">
             ¡Su compra se ha realizado exitosamente!
@@ -156,7 +172,14 @@ export default function FollowerUp({ img, cost, name }: FollowerUpProps) {
             </span>
           </p>
           <div className="flex justify-end mt-4">
-            <Button onClick={() => setCaptureModal(false)}>Aceptar</Button>
+            <Button
+              onClick={() => {
+                setCaptureModal(false)
+                navigate('/home')
+              }}
+            >
+              Aceptar
+            </Button>
           </div>
         </div>
       </Dialog>
