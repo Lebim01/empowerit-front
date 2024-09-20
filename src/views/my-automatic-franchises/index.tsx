@@ -53,6 +53,8 @@ export type PayrollAutomaticFranchisesProps = {
   user_id: string
 }
 
+const MARKETING_IDS = ['BjsuClM1KiUi1FNLdUQ7BfeUHhR2']
+
 export default function MyAutomaticFranchisesModal() {
   const user = useAppSelector((state) => state.auth.user)
   const [data, setData] = useState<AutomaticFranchiseData[]>([])
@@ -433,7 +435,9 @@ export default function MyAutomaticFranchisesModal() {
               data[
                 selectedFranchise
               ].available_pay_date_for_franchise_performance.toDate() <
-                new Date() && (
+                new Date() &&
+              user.uid &&
+              !MARKETING_IDS.includes(user.uid) && (
                 <div className="flex flex-col 821px:flex-row justify-end space-y-4 821px:space-y-0 821px:space-x-5">
                   <Button
                     className="justify-end"
@@ -617,7 +621,9 @@ export default function MyAutomaticFranchisesModal() {
               data[
                 selectedFranchise
               ].available_pay_date_for_capital_performance.toDate() <
-                new Date() && (
+                new Date() &&
+              user.uid &&
+              !MARKETING_IDS.includes(user.uid) && (
                 <div className="flex flex-col 821px:flex-row justify-end space-y-4 821px:space-y-0 821px:space-x-5">
                   <Button
                     className="justify-end"
