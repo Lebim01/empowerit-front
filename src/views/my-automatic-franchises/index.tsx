@@ -20,7 +20,6 @@ import Td from '@/components/ui/Table/Td'
 import Stack from '@mui/material/Stack'
 import { Gauge } from '@mui/x-charts/Gauge'
 import TFoot from '@/components/ui/Table/TFoot'
-import { useNavigate } from 'react-router-dom'
 
 export type AutomaticFranchiseData = {
   id?: string
@@ -58,18 +57,32 @@ export default function MyAutomaticFranchisesModal() {
   const user = useAppSelector((state) => state.auth.user)
   const [data, setData] = useState<AutomaticFranchiseData[]>([])
   const [selectedFranchise, setSelectedFranchise] = useState<number>(0)
-  const [disabledPay, setDisabledPay] = useState<boolean>(false)
   const [openEarningsHistoryModal, setOpenEarningsHistoryModal] =
+    useState<boolean>(false)
+  const [openCapitalEarningsHistoryModal, setOpenCapitalEarningsHistoryModal] =
     useState<boolean>(false)
   const [pendingProfitsData, setPendingProfitsData] = useState<
     pendingProfitsData[]
   >([])
+  const [pendingCapitalProfitsData, setCapitalPendingProfitsData] = useState<
+    pendingProfitsData[]
+  >([])
   const [totalPendingProfits, setTotalPendingProfits] = useState<number>(0)
+  const [totalCapitalPendingProfits, setTotalCapitalPendingProfits] =
+    useState<number>(0)
   const [loadingPaymentProcess, setLoadingPaymentProcess] =
     useState<boolean>(false)
   const [totalFranchisePerformance, setTotalFranchisePerformance] = useState(0)
+  const [
+    totalFranchiseCapitalPerformance,
+    setTotalFranchiseCapitalPerformance,
+  ] = useState(0)
   const [payrollAutomaticFranchiseData, setPayrollAutomaticFranchiseData] =
     useState<PayrollAutomaticFranchisesProps[]>([])
+  const [
+    payrollAutomaticCapitalFranchiseData,
+    setPayrollAutomaticCapitalFranchiseData,
+  ] = useState<PayrollAutomaticFranchisesProps[]>([])
 
   useEffect(() => {
     if (user && user.uid) {
@@ -104,18 +117,6 @@ export default function MyAutomaticFranchisesModal() {
     )
       return
 
-    const isAvailableToPaymentProcess = (index: number) => {
-      if (
-        data[index]?.available_pay_date_for_franchise_performance.toDate() >
-          new Date() ||
-        totalPendingProfits < 50
-      ) {
-        setDisabledPay(true)
-        return
-      }
-      setDisabledPay(false)
-    }
-
     const getTotalFranchisePerformance = async () => {
       if (!user || !user.uid) return
       const userRef = doc(db, 'users', user.uid)
@@ -133,6 +134,25 @@ export default function MyAutomaticFranchisesModal() {
       }
       setTotalFranchisePerformance(Math.floor(total))
       setPayrollAutomaticFranchiseData(payroll)
+    }
+
+    const getTotalFranchiseCapitalPerformance = async () => {
+      if (!user || !user.uid) return
+      const userRef = doc(db, 'users', user.uid)
+      const q = query(
+        collection(userRef, 'payroll-capital-automatic-franchises'),
+        where('doc_id', '==', data[selectedFranchise].id)
+      )
+      const qSnapshot = await getDocs(q)
+      let total = 0
+      const payroll: PayrollAutomaticFranchisesProps[] = []
+      for (const payrollDocu of qSnapshot.docs) {
+        const docuData = payrollDocu.data()
+        total = total + docuData.total
+        payroll.push(docuData as PayrollAutomaticFranchisesProps)
+      }
+      setTotalFranchiseCapitalPerformance(Math.floor(total))
+      setPayrollAutomaticCapitalFranchiseData(payroll)
     }
 
     const getPendingProfits = async (doc_id: string) => {
@@ -167,13 +187,44 @@ export default function MyAutomaticFranchisesModal() {
       }
     }
 
-    // Verificar si el pago está disponible
-    isAvailableToPaymentProcess(selectedFranchise)
+    const getCapitalPendingProfits = async (doc_id: string) => {
+      if (!user || !user.uid) return
+      const userRef = doc(db, 'users', user.uid)
+      const automaticFranchisesPendingProfits = collection(
+        userRef,
+        'automatic-franchises-capital-performance-pending-profits'
+      )
+
+      try {
+        const pendingProfitsDocs = await getDocs(
+          automaticFranchisesPendingProfits
+        )
+        const pendingProfitsData: pendingProfitsData[] = []
+        let total = 0
+        if (!pendingProfitsDocs.empty) {
+          for (const docu of pendingProfitsDocs.docs) {
+            if (doc_id === docu.data().doc_id) {
+              pendingProfitsData.push(docu.data() as pendingProfitsData)
+            }
+            total += Number(docu.data().daily_performance)
+          }
+          setCapitalPendingProfitsData(pendingProfitsData)
+          setTotalCapitalPendingProfits(Number(total.toFixed(2)))
+        } else {
+          setCapitalPendingProfitsData([])
+          setTotalCapitalPendingProfits(0)
+        }
+      } catch (error) {
+        console.log('Error en la función de getPendingProfits', error)
+      }
+    }
 
     // Obtener las ganancias pendientes solo si hay un id válido
     if (data[selectedFranchise]?.id) {
       getPendingProfits(data[selectedFranchise].id)
+      getCapitalPendingProfits(data[selectedFranchise].id)
       getTotalFranchisePerformance()
+      getTotalFranchiseCapitalPerformance()
     }
   }, [selectedFranchise, data, user, totalPendingProfits])
 
@@ -184,7 +235,7 @@ export default function MyAutomaticFranchisesModal() {
     return `${daysRemaining} días ...`
   }
 
-  const requestPaymentProcess = async (type: string) => {
+  const requestPaymentProcess = async (type: string, is_capital: boolean) => {
     if (type == 'quick') {
       setLoadingPaymentProcess(true)
       try {
@@ -200,6 +251,35 @@ export default function MyAutomaticFranchisesModal() {
             body: JSON.stringify({
               doc_id: data[selectedFranchise].id,
               user_id: user.uid,
+              is_capital,
+            }),
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error('Error en la petición')
+        }
+      } catch (error) {
+        console.log('Error en el retiro rapido ', error)
+      } finally {
+        window.location.reload()
+      }
+    } else if (type == 'normal') {
+      setLoadingPaymentProcess(true)
+      try {
+        const response = await fetch(
+          `${
+            import.meta.env.VITE_API_URL
+          }/subscriptions/normalPayForAutomaticFranchisePerformance`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              doc_id: data[selectedFranchise].id,
+              user_id: user.uid,
+              is_capital,
             }),
           }
         )
@@ -211,10 +291,8 @@ export default function MyAutomaticFranchisesModal() {
         console.log('Error en el retiro rapido ', error)
       } finally {
         setLoadingPaymentProcess(false)
-        window.location.reload()
       }
     }
-    if (!disabledPay) return
   }
   return (
     <div className="h-full lg:space-y-4">
@@ -261,7 +339,12 @@ export default function MyAutomaticFranchisesModal() {
                 <p className="text-lg">Total de Ganancias</p>
 
                 <span className="font-bold text-3xl">
-                  $ {data[selectedFranchise].automatic_franchise_cap_current}
+                  ${' '}
+                  {Number(
+                    data[
+                      selectedFranchise
+                    ].automatic_franchise_cap_current.toFixed(2)
+                  )}
                 </span>
               </div>
 
@@ -300,7 +383,7 @@ export default function MyAutomaticFranchisesModal() {
               new Date() && (
               <div
                 className="flex p-4 justify-center m-auto items-center bg-slate-100 min-h-[150px] rounded-[10px] card-border hover:dark:border-gray-400 cursor-pointer user-select-none hover:shadow-lg space-x-6"
-                onClick={() => setOpenEarningsHistoryModal(true)}
+                onClick={() => setOpenCapitalEarningsHistoryModal(true)}
               >
                 <div>
                   <p className="font-bold text-xl">Historial de Ganancias</p>
@@ -311,10 +394,8 @@ export default function MyAutomaticFranchisesModal() {
                     <Gauge
                       width={150}
                       height={150}
-                      value={
-                        data[selectedFranchise].automatic_franchise_cap_current
-                      }
-                      valueMin={10}
+                      value={totalFranchiseCapitalPerformance}
+                      valueMin={0}
                       valueMax={
                         data[selectedFranchise].automatic_franchise_cap_limit
                       }
@@ -324,13 +405,25 @@ export default function MyAutomaticFranchisesModal() {
                   </Stack>
                 </div>
                 <div className="flex flex-col">
-                  <p className="font-bold truncate">Requisitos para cobrar: </p>
+                  <p className="font-bold truncate">
+                    Requisitos para Retiro Rápido:{' '}
+                  </p>
                   <ul className="">
                     <li>
                       -{`Contar con un status de 'Rendimiento Capital Activo'`}
                     </li>
-                    <li>-Cumplir con los 365 días a partir de los </li>
-                    <li>-Contar con una ganancia pendiente a $50 </li>
+                    <li>-Contar con una ganancia mayor a 0 </li>
+                  </ul>
+                  <p className="font-bold truncate">
+                    Requisitos para Solicitar Retiro:{' '}
+                  </p>
+                  <ul className="">
+                    <li>
+                      -
+                      {`Contar con un mínimo de 365 días después de la adquisición`}
+                    </li>
+                    <li>-Contar con una ganancia pendiente mayor a $50 </li>
+                    <li>-Contar con tu wallet de litecoin en tu perfil </li>
                   </ul>
                 </div>
               </div>
@@ -344,16 +437,34 @@ export default function MyAutomaticFranchisesModal() {
                   <Button
                     className="justify-end"
                     variant="solid"
-                    disabled={disabledPay}
-                    onClick={() => requestPaymentProcess('normal')}
+                    disabled={
+                      totalCapitalPendingProfits >= 50 ||
+                      data[
+                        selectedFranchise
+                      ].available_pay_date_for_capital_pay.toDate() > new Date()
+                        ? true
+                        : false
+                    }
+                    onClick={() => requestPaymentProcess('normal', true)}
                   >
-                    {disabledPay ? 'Requisitos Pendientes' : 'Solicitar Pago'}
+                    {totalCapitalPendingProfits >= 50 ||
+                    data[
+                      selectedFranchise
+                    ].available_pay_date_for_capital_pay.toDate() > new Date()
+                      ? `${getDaysRemaining(
+                          new Date(
+                            data[selectedFranchise]
+                              .available_pay_date_for_capital_pay.seconds * 1000
+                          )
+                        )}`
+                      : 'Solicitar Pago'}
                   </Button>
                   <Button
                     className="justify-end"
                     variant="solid"
-                    disabled={disabledPay}
-                    onClick={() => requestPaymentProcess('quick')}
+                    disabled={totalCapitalPendingProfits <= 0 ? true : false}
+                    loading={loadingPaymentProcess}
+                    onClick={() => requestPaymentProcess('quick', true)}
                   >
                     Retiro Rápido
                   </Button>
@@ -363,7 +474,7 @@ export default function MyAutomaticFranchisesModal() {
               selectedFranchise
             ].available_pay_date_for_franchise_performance.toDate() <
               new Date() &&
-              pendingProfitsData && (
+              pendingProfitsData.length > 0 && (
                 <>
                   <p className="font-semibold text-xl">
                     Rendimiento de Capital Diario
@@ -380,8 +491,8 @@ export default function MyAutomaticFranchisesModal() {
                         </Tr>
                       </THead>
                       <TBody>
-                        {pendingProfitsData &&
-                          pendingProfitsData.map((item, index) => (
+                        {pendingCapitalProfitsData &&
+                          pendingCapitalProfitsData.map((item, index) => (
                             <Tr key={index}>
                               <Td className="w-1/3">{index}</Td>
                               <Td className="w-1/3">
@@ -402,7 +513,9 @@ export default function MyAutomaticFranchisesModal() {
                       <Tr className="font-bold">
                         <Td className="w-1/3"></Td>
                         <Td className="font-bold w-1/3">TOTAL</Td>
-                        <Td className="w-1/3">$ {totalPendingProfits}</Td>
+                        <Td className="w-1/3">
+                          $ {totalCapitalPendingProfits}
+                        </Td>
                       </Tr>
                     </TFoot>
                   </Table>
@@ -412,7 +525,7 @@ export default function MyAutomaticFranchisesModal() {
           </div>
           {/* Parte derecha => RENDIMIENTO */}
           <div className="p-4 space-y-4">
-            <div className="flex flex-col space space-y-2 lg:flex-row justify-between lg:space-x-8">
+            <div className="flex flex-col space space-y-2 lg:space-y-0 lg:flex-row justify-between lg:space-x-8">
               {data[
                 selectedFranchise
               ].available_pay_date_for_franchise_performance.toDate() <
@@ -483,10 +596,20 @@ export default function MyAutomaticFranchisesModal() {
                   </Stack>
                 </div>
                 <div className="flex flex-col">
-                  <p className="font-bold truncate">Requisitos para cobrar: </p>
+                  <p className="font-bold truncate">
+                    Requisitos para Retiro Rápido:{' '}
+                  </p>
+                  <ul className="">
+                    <li>-{`Contar con un status de 'Rendimiento Activo'`}</li>
+                    <li>-Contar con una ganancia pendiente a 0 </li>
+                  </ul>
+                  <p className="font-bold truncate">
+                    Requisitos para Solicitar Retiro:{' '}
+                  </p>
                   <ul className="">
                     <li>-{`Contar con un status de 'Rendimiento Activo'`}</li>
                     <li>-Contar con una ganancia pendiente a $50 </li>
+                    <li>-Contar con tu wallet de litecoin en tu perfil </li>
                   </ul>
                 </div>
               </div>
@@ -500,17 +623,21 @@ export default function MyAutomaticFranchisesModal() {
                   <Button
                     className="justify-end"
                     variant="solid"
-                    disabled={disabledPay}
-                    onClick={() => requestPaymentProcess('normal')}
+                    disabled={totalPendingProfits < 50 ? true : false}
+                    onClick={() => requestPaymentProcess('normal', false)}
                   >
-                    {disabledPay ? 'Requisitos Pendientes' : 'Solicitar Pago'}
+                    {`${
+                      totalPendingProfits < 50
+                        ? 'Requisitos Pendientes'
+                        : 'Solicitar Pago'
+                    }  `}
                   </Button>
                   <Button
                     className="justify-end"
                     variant="solid"
                     disabled={totalPendingProfits <= 0 ? true : false}
                     loading={loadingPaymentProcess}
-                    onClick={() => requestPaymentProcess('quick')}
+                    onClick={() => requestPaymentProcess('quick', false)}
                   >
                     Retiro Rápido
                   </Button>
@@ -521,7 +648,7 @@ export default function MyAutomaticFranchisesModal() {
               selectedFranchise
             ].available_pay_date_for_franchise_performance.toDate() <
               new Date() &&
-              pendingProfitsData && (
+              pendingProfitsData.length > 0 && (
                 <>
                   <p className="font-semibold text-xl">
                     Rendimiento diario por cobrar
@@ -586,6 +713,33 @@ export default function MyAutomaticFranchisesModal() {
             <TBody>
               {payrollAutomaticFranchiseData.length > 0 &&
                 payrollAutomaticFranchiseData.map((item, index) => (
+                  <Tr key={index}>
+                    <Td>{item.created_at.toDate().toLocaleString()}</Td>
+                    <Td>$ {item.total}</Td>
+                    <Td>{item.type_payroll}</Td>
+                  </Tr>
+                ))}
+            </TBody>
+          </Table>
+        </div>
+      </Dialog>
+      <Dialog
+        isOpen={openCapitalEarningsHistoryModal}
+        onClose={() => setOpenCapitalEarningsHistoryModal(false)}
+      >
+        <div className="space-y-2">
+          <p className="text-xl font-bold">Historial de Ganancias pene</p>
+          <Table>
+            <THead>
+              <Tr>
+                <Th>Fecha</Th>
+                <Th>Monto</Th>
+                <Th>Tipo de Retiro</Th>
+              </Tr>
+            </THead>
+            <TBody>
+              {payrollAutomaticCapitalFranchiseData.length > 0 &&
+                payrollAutomaticCapitalFranchiseData.map((item, index) => (
                   <Tr key={index}>
                     <Td>{item.created_at.toDate().toLocaleString()}</Td>
                     <Td>$ {item.total}</Td>
