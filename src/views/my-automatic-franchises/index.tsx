@@ -157,18 +157,19 @@ export default function MyAutomaticFranchisesModal() {
 
     const getPendingProfits = async (doc_id: string) => {
       if (!user || !user.uid) return
-      const userRef = doc(db, 'users', user.uid)
-      const automaticFranchisesPendingProfits = collection(
-        userRef,
-        'automatic-franchises-performance-pending-profits'
-      )
 
       try {
+        const userRef = doc(db, 'users', user.uid)
+        const automaticFranchisesPendingProfits = collection(
+          userRef,
+          'automatic-franchises-performance-pending-profits'
+        )
         const pendingProfitsDocs = await getDocs(
           automaticFranchisesPendingProfits
         )
         const pendingProfitsData: pendingProfitsData[] = []
         let total = 0
+
         if (!pendingProfitsDocs.empty) {
           for (const docu of pendingProfitsDocs.docs) {
             if (doc_id === docu.data().doc_id) {
@@ -438,19 +439,18 @@ export default function MyAutomaticFranchisesModal() {
                     className="justify-end"
                     variant="solid"
                     disabled={
-                      totalCapitalPendingProfits >= 50 ||
+                      totalCapitalPendingProfits <= 50 ||
                       data[
                         selectedFranchise
-                      ].available_pay_date_for_capital_pay.toDate() > new Date()
-                        ? true
-                        : false
+                      ].available_pay_date_for_capital_pay.toDate() >=
+                        new Date()
                     }
                     onClick={() => requestPaymentProcess('normal', true)}
                   >
-                    {totalCapitalPendingProfits >= 50 ||
+                    {totalCapitalPendingProfits <= 50 ||
                     data[
                       selectedFranchise
-                    ].available_pay_date_for_capital_pay.toDate() > new Date()
+                    ].available_pay_date_for_capital_pay.toDate() >= new Date()
                       ? `${getDaysRemaining(
                           new Date(
                             data[selectedFranchise]
@@ -474,7 +474,7 @@ export default function MyAutomaticFranchisesModal() {
               selectedFranchise
             ].available_pay_date_for_franchise_performance.toDate() <
               new Date() &&
-              pendingProfitsData.length > 0 && (
+              pendingCapitalProfitsData.length > 0 && (
                 <>
                   <p className="font-semibold text-xl">
                     Rendimiento de Capital Diario
@@ -506,7 +506,6 @@ export default function MyAutomaticFranchisesModal() {
                       </TBody>
                     </Table>
                   </div>
-
                   {/* Fila total fija */}
                   <Table className="w-full bg-gray-100">
                     <TFoot>
@@ -728,7 +727,7 @@ export default function MyAutomaticFranchisesModal() {
         onClose={() => setOpenCapitalEarningsHistoryModal(false)}
       >
         <div className="space-y-2">
-          <p className="text-xl font-bold">Historial de Ganancias pene</p>
+          <p className="text-xl font-bold">Historial de Ganancias</p>
           <Table>
             <THead>
               <Tr>
