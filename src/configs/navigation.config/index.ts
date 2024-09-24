@@ -25,7 +25,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['USER', 'ADMIN'],
     subMenu: [],
-  },
+  } /* 
   {
     key: 'algorithm-mr-range',
     path: '/algorithm-mr-range',
@@ -35,7 +35,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     type: NAV_ITEM_TYPE_ITEM,
     authority: ['ALGORITHM', 'ADMIN'],
     subMenu: [],
-  },
+  }, */,
   {
     key: 'subscriptions',
     path: '/subscriptions',
@@ -569,7 +569,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         subMenu: [],
       },
     ],
-  },
+  } /* 
   {
     key: 'admin-mr-range',
     path: `/admin/mr-range`,
@@ -590,7 +590,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         subMenu: [],
       },
     ],
-  },
+  }, */,
   {
     key: 'admin-signals',
     path: `/admin/signals`,

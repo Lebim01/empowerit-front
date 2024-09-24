@@ -18,13 +18,13 @@ export const protectedRoutes = [
     path: '/academy',
     component: lazy(() => import('@/views/academies/Academy.component')),
     authority: ['USER', 'ADMIN'],
-  },
+  } /* 
   {
     key: 'algorithm-mr-range',
     path: '/algorithm-mr-range',
     component: lazy(() => import('@/views/algorithm-mr-range/index')),
     authority: ['ALGORITHM', 'ADMIN'],
-  },
+  }, */,
   {
     key: 'academy',
     path: '/:academyType/course/:courseId',
@@ -377,7 +377,7 @@ export const protectedRoutes = [
     path: '/admin/pending-fund-account',
     component: lazy(() => import('@/views/admin/get-users-fund-account')),
     authority: ['ADMIN'],
-  },
+  } /* 
   {
     key: 'admin-mr-range',
     path: '/admin/mr-range-history',
@@ -385,7 +385,7 @@ export const protectedRoutes = [
       () => import('@/views/algorithm-mr-range/admin-algorithm-mr-range')
     ),
     authority: ['ADMIN', 'MR-RANGE'],
-  },
+  }, */,
   {
     key: 'admin-signals-add',
     path: '/admin/signals/add',
