@@ -19,7 +19,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
   {
     key: 'academy',
     path: '/academy',
-    title: 'Academia',
+    title: 'Mis Cursos',
     translateKey: 'nav.dashboard',
     icon: 'academy',
     type: NAV_ITEM_TYPE_ITEM,
