@@ -34,6 +34,7 @@ export type AutomaticFranchiseData = {
   starts_at: Timestamp
   type: AutomaticFranchises
   user_id: string
+  is_marketing_franchise?: boolean
 }
 
 export type pendingProfitsData = {
@@ -437,7 +438,7 @@ export default function MyAutomaticFranchisesModal() {
               ].available_pay_date_for_franchise_performance.toDate() <
                 new Date() &&
               user.uid &&
-              !MARKETING_IDS.includes(user.uid) && (
+              !data[selectedFranchise].is_marketing_franchise && (
                 <div className="flex flex-col 821px:flex-row justify-end space-y-4 821px:space-y-0 821px:space-x-5">
                   <Button
                     className="justify-end"
@@ -623,7 +624,7 @@ export default function MyAutomaticFranchisesModal() {
               ].available_pay_date_for_capital_performance.toDate() <
                 new Date() &&
               user.uid &&
-              !MARKETING_IDS.includes(user.uid) && (
+              !data[selectedFranchise].is_marketing_franchise && (
                 <div className="flex flex-col 821px:flex-row justify-end space-y-4 821px:space-y-0 821px:space-x-5">
                   <Button
                     className="justify-end"
