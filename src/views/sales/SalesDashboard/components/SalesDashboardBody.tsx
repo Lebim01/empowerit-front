@@ -21,7 +21,7 @@ const SalesDashboardBody = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
   const [data, setData] = useState<any>({})
-  const [secondModal,setSecondModal] = useState<boolean>(false)
+  /* const [secondModal, setSecondModal] = useState<boolean>(false) */
 
   const userLogged = useAppSelector((state) => state.auth.user)
 
@@ -86,7 +86,7 @@ const SalesDashboardBody = () => {
     window.localStorage.setItem(modalName, '1')
     setIsOpenModal(false)
     setOpenWelcomeModal(false)
-    setSecondModal(true)
+    /* setSecondModal(true) */
   }
 
   const checkSubscription = (user: UserState) => {
@@ -106,8 +106,9 @@ const SalesDashboardBody = () => {
       checkSubscription(user).isActive &&
       checkSubscription(user).restDays <= 5
     ) {
-      const title = `Su membresía de tipo Pro está por vencer. ${checkSubscription(user).restDays
-        } días restantes`
+      const title = `Su membresía de tipo Pro está por vencer. ${
+        checkSubscription(user).restDays
+      } días restantes`
       const type = checkSubscription(user).restDays > 3 ? 'warning' : 'danger'
       createNotification(title, type, 600000)
     }
@@ -119,17 +120,16 @@ const SalesDashboardBody = () => {
 
   return (
     <Loading /* loading={loading} */>
-
-      <Dialog isOpen={isOpenModal} onClose={closeModal} >
-        <div className='py-5'>
+      <Dialog isOpen={isOpenModal} onClose={closeModal}>
+        <div className="py-5">
           <img src="/img/retiro-de-liderazgo-mexico-colombia.jpg" />
         </div>
       </Dialog>
-      <Dialog isOpen={secondModal} onClose={() => setSecondModal(false)} >
+      {/* <Dialog isOpen={secondModal} onClose={() => setSecondModal(false)} >
         <div className='py-5'>
           <img src="/img/pack-founder--vertical.png" />
         </div>
-      </Dialog>
+      </Dialog> */}
       <div
         className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
         role="presentation"
@@ -140,7 +140,12 @@ const SalesDashboardBody = () => {
         />
       </div>
       <Rank />
-      {user && user.membership_cap_limit && typeof user.membership_cap_current === 'number' && typeof user.membership_cap_limit === 'number' ? <CapSlider /> : null}
+      {user &&
+      user.membership_cap_limit &&
+      typeof user.membership_cap_current === 'number' &&
+      typeof user.membership_cap_limit === 'number' ? (
+        <CapSlider />
+      ) : null}
       <div
         className="card hover:shadow-lg transition duration-150 ease-in-out hover:dark:border-gray-400  p-4  card-border bg-slate-100 rounded-[10px]"
         role="presentation"
@@ -154,9 +159,7 @@ const SalesDashboardBody = () => {
       {/*<Events />*/}
       <div className="grid grid-cols-1 md:grid-cols-[25%_50%_25%] gap-x-4 gap-y-4">
         <Summary />
-        {user && user.membership != '49-pack' && (
-          <Links />
-        )}
+        {user && user.membership != '49-pack' && <Links />}
       </div>
 
       <Dialog
