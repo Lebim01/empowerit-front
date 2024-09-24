@@ -21,6 +21,7 @@ import useUserModalStore from '@/zustand/userModal'
 import { FaRegMoneyBill1, FaNetworkWired, FaPeopleLine } from 'react-icons/fa6'
 import { RiPresentationFill } from 'react-icons/ri'
 import { formatNumberWithCommas } from '@/utils/format'
+import { usersIndex } from '@/algolia'
 
 const Rank = () => {
   const userModal = useUserModalStore((state) => state)
@@ -37,6 +38,8 @@ const Rank = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isOpenModalBinary, setIsOpenModalBinary] = useState(false)
   const [isTopDollarsDisplayed, setIsTopDollarsDisplayed] = useState(false)
+  const [totalAutomaticFranchisesProfits, setTotalAutomaticFranchisesProfits] =
+    useState<number>(0)
 
   useEffect(() => {
     if (user.uid) {
@@ -82,6 +85,41 @@ const Rank = () => {
       )
     }
   }, [user.uid])
+
+  useEffect(() => {
+    const getAutomaticFranchisesTotalProfits = () => {
+      const automaticFranchisesRef = collection(
+        db,
+        `users/${user.uid}/automatic-franchises`
+      )
+      const unsubscribe = onSnapshot(
+        automaticFranchisesRef,
+        (snapshot) => {
+          let totalProfit = 0
+          snapshot.forEach((docu) => {
+            const profit = Number(docu.data().automatic_franchise_cap_current)
+            totalProfit += profit
+          })
+          setTotalAutomaticFranchisesProfits(totalProfit)
+        },
+        (error) => {
+          console.log(
+            'Error en la función getAutomaticFranchisesTotalProfits',
+            error
+          )
+        }
+      )
+      return () => unsubscribe()
+    }
+
+    if (user && user.uid) {
+      if (!user.has_automatic_franchises) {
+        setTotalAutomaticFranchisesProfits(0)
+      } else {
+        getAutomaticFranchisesTotalProfits()
+      }
+    }
+  }, [user])
 
   useEffect(() => {
     if (user.uid) {
@@ -303,18 +341,21 @@ const Rank = () => {
           </div>
         </Card>
 
-        <Card onClick={() => openDetails('bond_presenter')}>
+        <Card>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
               <RiPresentationFill size={30} className="text-purple-500" />
             </div>
-            <span className="text-lg font-medium">Bono Presentador</span>
+            <span className="text-lg font-medium">Mis Franq. Aut.</span>
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
               ${' '}
               <span className="text-3xl">
-                {formatNumberWithCommas(data?.bond_presenter ?? 0, 2)}
+                {formatNumberWithCommas(
+                  totalAutomaticFranchisesProfits ?? 0,
+                  2
+                )}
               </span>{' '}
               USD
             </span>

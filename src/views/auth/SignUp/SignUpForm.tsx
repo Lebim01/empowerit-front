@@ -54,7 +54,7 @@ const validationSchema = Yup.object().shape({
     [Yup.ref('password')],
     'Tu contraseña no coincide'
   ),
-  presenter_1: Yup.string().required('Presentardor es requerido'),
+  presenter_1: Yup.string().optional(),
   presenter_2: Yup.string().optional(),
 })
 
@@ -81,7 +81,7 @@ const SignUpForm = (props: SignUpFormProps) => {
       const { name, password, email } = values
       setSubmitting(true)
 
-      const presenter1ref = await getDocs(
+      /* const presenter1ref = await getDocs(
         query(
           collection(db, 'users'),
           where('presenter_code', '==', values.presenter_1)
@@ -122,7 +122,7 @@ const SignUpForm = (props: SignUpFormProps) => {
           return
         }
         presenter2 = presenter2ref.docs[0].id
-      }
+      } */
 
       const sponsorref = await getDoc(doc(db, 'users/' + uid))
       const sponsor = sponsorref.data()
@@ -137,8 +137,8 @@ const SignUpForm = (props: SignUpFormProps) => {
         sponsor: sponsor.name,
         sponsor_id: uid,
         position: position_sponsor,
-        presenter1,
-        presenter2,
+        presenter1: '',
+        presenter2: '',
       })
 
       // Mensajes de error
@@ -305,7 +305,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             disabled={true}
                           />
                         </FormItem>
-                        <FormItem
+                        {/* <FormItem
                           label="Presentador 1"
                           errorMessage={errors.presenter_1}
                         >
@@ -315,8 +315,8 @@ const SignUpForm = (props: SignUpFormProps) => {
                             placeholder={'Código de presentador'}
                             component={Input}
                           />
-                        </FormItem>
-                        <FormItem
+                        </FormItem> */}
+                        {/* <FormItem
                           label="Presentador 2 (Opcional)"
                           errorMessage={errors.presenter_2}
                         >
@@ -326,7 +326,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             placeholder={'Código de presentador'}
                             component={Input}
                           />
-                        </FormItem>
+                        </FormItem> */}
                         <Button
                           block
                           loading={isSubmitting}
