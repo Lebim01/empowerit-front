@@ -1,7 +1,13 @@
 import { Button, Dialog } from '@/components/ui'
 import { db } from '@/configs/firebaseConfig'
 import { useAppSelector } from '@/store'
-import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  doc,
+  increment,
+  updateDoc,
+} from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { FaStar } from 'react-icons/fa'
 
@@ -38,6 +44,7 @@ export default function ProFunnelModal() {
     setLoading(true)
     try {
       await createHistoryCreditsDoc(cost)
+      await updateCreditsSpentThisMonth()
     } catch (error) {
       console.log('Error en la compra de ProFunnel')
     } finally {
@@ -45,6 +52,14 @@ export default function ProFunnelModal() {
       setLoading(false)
       /* setCaptureModal(true) */
     }
+  }
+
+  const updateCreditsSpentThisMonth = async () => {
+    if (!user.uid) return
+    const userRef = doc(db, 'users', user.uid)
+    await updateDoc(userRef, {
+      credits_spent_this_month: increment(Number(cost)),
+    })
   }
 
   const createHistoryCreditsDoc = async (total: number) => {

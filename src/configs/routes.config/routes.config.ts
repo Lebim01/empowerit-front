@@ -119,6 +119,12 @@ export const protectedRoutes = [
     authority: [],
   },
   {
+    key: 'marketplace-distributor',
+    path: '/marketplace-distributor',
+    component: lazy(() => import('@/views/marketplace-distributor')),
+    authority: [],
+  },
+  {
     key: 'marketplace-digital-service',
     path: '/marketplace-digital-service',
     component: lazy(

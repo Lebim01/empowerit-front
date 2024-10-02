@@ -31,12 +31,13 @@ import {
 } from 'react-icons/fa'
 import { FaNetworkWired } from 'react-icons/fa6'
 import { PiPackage } from 'react-icons/pi'
-import { GiCoins } from "react-icons/gi";
-import { GiDiploma } from "react-icons/gi";
-import { SiThealgorithms } from "react-icons/si";
-import { MdApartment } from "react-icons/md";
-import { IoBusiness } from "react-icons/io5";
-import { LiaCoinsSolid } from "react-icons/lia";
+import { GiCoins } from 'react-icons/gi'
+import { GiDiploma } from 'react-icons/gi'
+import { SiThealgorithms } from 'react-icons/si'
+import { MdApartment } from 'react-icons/md'
+import { IoBusiness } from 'react-icons/io5'
+import { LiaCoinsSolid } from 'react-icons/lia'
+import { FaShopLock } from 'react-icons/fa6'
 
 export type NavigationIcons = Record<string, JSX.Element>
 
@@ -71,7 +72,8 @@ const navigationIcon: NavigationIcons = {
   algorithmMrRange: <SiThealgorithms />,
   participationsIcon: <MdApartment />,
   participationsAdmin: <IoBusiness />,
-  adminCredits: <LiaCoinsSolid/>
+  adminCredits: <LiaCoinsSolid />,
+  distributorMarketplace: <FaShopLock />,
 }
 
 export default navigationIcon

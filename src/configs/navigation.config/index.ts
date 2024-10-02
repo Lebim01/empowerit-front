@@ -161,7 +161,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
   {
     key: 'marketplace',
     path: `/marketplace`,
-    title: 'Marketplace Productos',
+    title: 'Marketplace Productos Créditos',
     translateKey: 'nav.order-list',
     icon: 'marketplace',
     type: NAV_ITEM_TYPE_ITEM,
@@ -180,6 +180,17 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     subMenu: [],
     //href: `https://www.empoweritup.com/?user=${user?.uid ?? ''}`,
   },
+  /* {
+    key: 'marketplace-distributor',
+    path: `/marketplace-distributor`,
+    title: 'Marketplace Productos Bono Distribuidor',
+    translateKey: 'nav.order-list',
+    icon: 'distributorMarketplace',
+    type: NAV_ITEM_TYPE_ITEM,
+    authority: ['USER'],
+    subMenu: [],
+    //href: `https://www.empoweritup.com/?user=${user?.uid ?? ''}`,
+  }, */
   {
     key: 'marketplace.history',
     path: `/marketplace/history`,

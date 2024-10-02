@@ -1,7 +1,14 @@
 import { Button, Dialog } from '@/components/ui'
 import { db } from '@/configs/firebaseConfig'
 import { useAppSelector } from '@/store'
-import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  increment,
+  updateDoc,
+} from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { FaStar } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
@@ -40,6 +47,7 @@ export default function CryptoXpertModal() {
     setLoading(true)
     try {
       await createHistoryCreditsDoc(cost)
+      await updateCreditsSpentThisMonth()
     } catch (error) {
       console.log('Error en la compra de CryptoXpertModal')
     } finally {
@@ -81,6 +89,13 @@ export default function CryptoXpertModal() {
         created_at: new Date(),
       }
     )
+  }
+  const updateCreditsSpentThisMonth = async () => {
+    if (!user.uid) return
+    const userRef = doc(db, 'users', user.uid)
+    await updateDoc(userRef, {
+      credits_spent_this_month: increment(Number(cost)),
+    })
   }
   return (
     <div className="bg-gray-100 flex flex-col items-center rounded-lg px-4 pb-4">

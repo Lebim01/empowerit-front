@@ -50,6 +50,7 @@ export default function FollowerUp({ img, cost, name }: FollowerUpProps) {
         created_at: new Date(),
         concept: `Compra de Follower Up ${name}`,
       })
+      await updateCreditsSpentThisMonth()
     } catch (error) {
       console.log(`Error intentando comprar Follower Up${name}`, error)
     } finally {
@@ -57,6 +58,14 @@ export default function FollowerUp({ img, cost, name }: FollowerUpProps) {
       setOpenModal(false)
       setCaptureModal(true)
     }
+  }
+
+  const updateCreditsSpentThisMonth = async () => {
+    if (!user.uid) return
+    const userRef = doc(db, 'users', user.uid)
+    await updateDoc(userRef, {
+      credits_spent_this_month: increment(Number(cost)),
+    })
   }
   return (
     <div className="bg-gray-100 flex flex-col items-center rounded-lg px-4 pb-4">

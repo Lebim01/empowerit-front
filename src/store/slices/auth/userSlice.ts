@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { Timestamp } from 'firebase/firestore'
 
 export type UserState = {
-  credits?: boolean
+  credits?: number
   is_admin?: boolean
   academy_access_expires_at?: string | null
   algorithm_mr_range_access_expires_at?: string | null
@@ -16,6 +16,7 @@ export type UserState = {
   insta_ads_expires_at?: string | null
   flow_bot_expires_at?: string | null
   pack_marketing_expires_at?: string | null
+  credits_spent_this_month?: number
   uid?: string
   avatar?: string
   name?: string
@@ -175,6 +176,8 @@ const initialState: UserState = {
   has_bought_mr_sport: false,
   has_bought_mr_money_power: false,
   has_automatic_franchises: false,
+  credits_spent_this_month: 0,
+  credits: 0,
 }
 
 const userSlice = createSlice({
@@ -221,6 +224,7 @@ const userSlice = createSlice({
         state.mr_sport_money_expires_at = payload.mr_sport_money_expires_at
         state.mr_money_power_expires_at = payload.mr_money_power_expires_at
         state.has_bought_mr_sport = payload.has_bought_mr_sport
+        state.credits_spent_this_month = payload.credits_spent_this_month
 
         const roles = []
         if (payload.uid == '5V5fwO7U48RHll0PLM5lK1g3gGa2') {

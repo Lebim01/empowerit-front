@@ -1,31 +1,34 @@
-/* eslint-disable react/jsx-no-target-blank */
-import { formatNumberWithCommas } from '@/utils/format'
-import products from './products.json'
+import { useEffect, useState } from 'react'
 import { FaMinus, FaPlus, FaStar } from 'react-icons/fa'
-import { FC, useEffect, useState } from 'react'
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
-import { db } from '@/configs/firebaseConfig'
+import products from '../marketplace/index/products.json'
+import { formatNumberWithCommas } from '@/utils/format'
 import { useAppSelector } from '@/store'
-import PendingShipsTable from './components/PendingShipsTable'
+import { Button, Dialog } from '@/components/ui'
 
-type Props = {
+type MarketplaceDistributorListProps = {
   onComplete: () => void
 }
 
-const MarketplaceList: FC<Props> = (props) => {
+export default function MarketplaceDistributorList({
+  onComplete,
+}: MarketplaceDistributorListProps) {
   const user = useAppSelector((state) => state.auth.user)
-  const [err, setErr] = useState(false)
-  const [hasChallenges, setHasChallenges] = useState(false)
   const [cart, setCart] = useState(
-    products.map((p) => ({
-      id: p.id,
-      product_galleries: [p.product_galleries[0]],
-      name: p.name,
-      sale_price: p.sale_price,
-      price: p.price,
-      quantity: 0,
-    }))
+    products
+      .filter((p) => p.distributor_usd_price !== undefined)
+      .map((p) => ({
+        id: p.id,
+        product_galleries: [p.product_galleries[0]],
+        name: p.name,
+        sale_price: p.distributor_usd_price,
+        price: p.sale_price,
+        quantity: 0,
+      }))
   )
+  const [isAvailable, setIsAvailable] = useState<boolean>(false)
+  const [availableProcess, setAvailableProcess] = useState<boolean>(false)
+  const [totalPrice, setTotalPrice] = useState<number>(0)
+  const quantity = cart.reduce((a, b) => a + b.quantity, 0)
 
   const setToCart = (product_id: number, quantity: number) => {
     if (quantity < 0) return
@@ -42,118 +45,77 @@ const MarketplaceList: FC<Props> = (props) => {
           }
         }
         _products[index].quantity = quantity
-        if (product_id === 94320904768178 || product_id === 943209047681782) {
-          setHasChallenges(quantity > 0)
-        }
       }
       return _products
     })
   }
 
   useEffect(() => {
-    const hasFreeShipping = cart.some(
-      (p) =>
-        (p.id === 94320904768178 || p.id === 943209047681782) && p.quantity > 0
-    )
-    if (hasFreeShipping) {
-      setHasChallenges(true)
+    if (
+      user &&
+      user.credits_spent_this_month &&
+      user.credits_spent_this_month >= 100
+    ) {
+      setIsAvailable(true)
+    } else {
+      setIsAvailable(false)
     }
-  }, [cart])
+  }, [user])
 
   useEffect(() => {
-    getCart()
-  }, [])
+    const totalWithShipment = () => {
+      let total = 0
+      cart
+        .filter((p) => p.quantity)
+        .forEach((p) => {
+          total += p.sale_price * p.quantity
+        })
 
-  useEffect(() => {
-    if (totalWithShipment() > Number(user.credits)) {
-      setErr(true)
-    } else {
-      if (quantity == 0) {
-        setErr(true)
-        return
+      let sendPrice = 0
+
+      if (quantity >= 22) {
+        sendPrice = 36
+      } else if (quantity >= 10) {
+        sendPrice = 18
       }
-      setErr(false)
+
+      const totalWithShipment = total + sendPrice
+      setTotalPrice(totalWithShipment)
+    }
+    if (user) {
+      totalWithShipment()
     }
   }, [cart])
-
-  const getCart = async () => {
-    const res = await getDoc(doc(db, `users/${user.uid}/cart/1`))
-    if (res.exists()) {
-      try {
-        const _cart = JSON.parse(res.get('json'))
-        setCart(
-          cart.map((r) => ({
-            ...r,
-            quantity: _cart.find((c: any) => c.id == r.id).quantity,
-          }))
-        )
-      } catch (err) {
-        console.error(err)
-      }
-    } else {
-      await setDoc(doc(db, `users/${user.uid}/cart/1`), {
-        created_at: new Date(),
-        json: JSON.stringify(cart),
-      })
-    }
-  }
-
-  const goNextStep = async () => {
-    await updateDoc(doc(db, `users/${user.uid}/cart/1`), {
-      updated_at: new Date(),
-      json: JSON.stringify(cart),
-    })
-    props.onComplete()
-  }
 
   const enoughCredits = () => {
-    totalWithShipment()
-    if (totalWithShipment() <= Number(user.credits)) {
-      goNextStep()
-    } else {
-      return false
-    }
+    onComplete()
   }
-
-  const totalWithShipment = () => {
-    let total = 0
-    cart
-      .filter((p) => p.quantity)
-      .forEach((p) => {
-        total += Math.ceil(p.sale_price / 17) * p.quantity
-      })
-
-    let sendPrice = 12
-    const hasFreeShipping = cart.some(
-      (p) =>
-        (p.id === 94320904768178 || p.id === 943209047681782) && p.quantity > 0
-    )
-
-    if (hasFreeShipping) {
-      sendPrice = 0
-    } else if (quantity >= 22) {
-      sendPrice = 36
-    } else if (quantity >= 10) {
-      sendPrice = 18
-    }
-
-    const totalWithShipment = total + sendPrice
-    return totalWithShipment
-  }
-
-  const quantity = cart.reduce((a, b) => a + b.quantity, 0)
 
   return (
     <div>
+      <Dialog isOpen={!isAvailable} onClose={() => setIsAvailable(true)}>
+        <div className="space-y-1 flex flex-col">
+          <p className="font-bold text-xl">Faltan requisitos</p>
+          <p className="font-lg">
+            Para disfrutar de los beneficios de Marketplace Bono Distribuidor
+            deberás de contar con un mínimo de 100 créditos utilizados en el
+            mes.
+          </p>
+        </div>
+        <div className="text-right mt-2">
+          <Button onClick={() => setIsAvailable(true)}>ACEPTAR</Button>
+        </div>
+      </Dialog>
+
       <img src="/img/empoweritup.png" className="w-[400px]" />
-      <p className="flex font-bold text-lg my-2">
+      <p className="flex font-bold text-lg mt-2">
         Créditos utilizados en el mes:{' '}
         <span className="ml-1 font-normal">
           {' '}
           {user.credits_spent_this_month} créditos
         </span>
       </p>
-      <p className="text-lg italic mb-2">
+      <p className="text-lg italic my-2">
         Arma tu carrito y pagalo a precio preferencial
       </p>
       <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-4">
@@ -170,11 +132,9 @@ const MarketplaceList: FC<Props> = (props) => {
               <span className="font-bold">{p.name}</span>
             </div>
             <div className="flex justify-start w-full space-x-2">
-              <span className="font-medium">
-                {Math.ceil(p.sale_price / 17)} créditos
-              </span>
+              <span className="font-medium">$ {p.sale_price}</span>
               <span className="line-through text-gray-400">
-                {Math.ceil(Number(p.price) / 17)} créditos
+                ${Math.ceil(Number(p.price) / 17)}
               </span>
             </div>
             {p.id && p.id == 9432090476817 && (
@@ -182,9 +142,6 @@ const MarketplaceList: FC<Props> = (props) => {
                 <span>Minimo de compra: 5 unidades</span>
               </div>
             )}
-            {/* <div className="flex justify-start items-center w-full py-2 space-x-2">
-              <span>{Math.ceil(Number(p.sale_price) / 20 / 2)} puntos c/u</span>
-            </div> */}
             <div className="flex justify-start items-center w-full pb-4 space-x-2">
               <div className="flex justify-start text-yellow-500 space-x-1">
                 <FaStar />
@@ -199,8 +156,8 @@ const MarketplaceList: FC<Props> = (props) => {
             </div>
             <div className="flex items-center space-x-1">
               <button
-                disabled={!p.quantity}
                 className="rounded-full bg-black text-white p-2 text-lg hover:bg-slate-800 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                disabled={!p.quantity}
                 onClick={() => setToCart(p.id, p.quantity - 1)}
               >
                 <FaMinus />
@@ -208,7 +165,6 @@ const MarketplaceList: FC<Props> = (props) => {
               <input
                 value={p.quantity}
                 className="flex-1 rounded-full text-black bg-gray-300 h-full text-center"
-                disabled
               />
               <button
                 className="rounded-full bg-black text-white p-2 text-lg hover:bg-slate-700"
@@ -228,51 +184,45 @@ const MarketplaceList: FC<Props> = (props) => {
 
             <div className="font-bold text-right">Envio</div>
             <div>
-              {hasChallenges ? (
-                '0 creditos'
-              ) : (
-                <>
-                  {formatNumberWithCommas(
-                    quantity >= 22 ? 36 : quantity >= 10 ? 18 : 12
-                  )}{' '}
-                  créditos
-                </>
-              )}
+              {/* Cuando son 22 o mas seran 36 de envio, cuando son 10 o mas son 18 y cuando son menos de 10 son 12 */}
+              ${' '}
+              {formatNumberWithCommas(
+                quantity >= 22 ? 36 : quantity >= 10 ? 18 : 12
+              )}{' '}
             </div>
 
             <div className="font-bold text-right">Subtotal</div>
             <div>
+              ${' '}
               {formatNumberWithCommas(
-                cart.reduce(
-                  (a, b) =>
-                    a + Math.ceil(Number(b.sale_price / 17)) * b.quantity,
-                  0
-                ),
+                cart.reduce((a, b) => a + b.sale_price * b.quantity, 0),
                 0,
                 '-',
                 false
               )}{' '}
-              créditos
             </div>
             <div className="font-bold text-right">Total</div>
-            <div> {totalWithShipment()} créditos</div>
+            <div>$ {totalPrice}</div>
           </div>
           <div className="w-full mt-2">
             <button
-              className="bg-black text-white rounded-full w-full p-2 disabled:bg-gray-400"
+              className="bg-black text-white rounded-full w-full p-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+              disabled={
+                user.credits &&
+                user.credits_spent_this_month &&
+                user.credits_spent_this_month >= 100 &&
+                totalPrice > 0 &&
+                totalPrice <= user.credits
+                  ? false
+                  : true
+              }
               onClick={() => enoughCredits()}
-              disabled={err}
             >
               Pagar
             </button>
           </div>
         </div>
       </div>
-      <div className="mt-5">
-        <PendingShipsTable />
-      </div>
     </div>
   )
 }
-
-export default MarketplaceList

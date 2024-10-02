@@ -7,6 +7,7 @@ import {
   collection,
   doc,
   getDoc,
+  increment,
   updateDoc,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
@@ -54,6 +55,7 @@ export default function MrMoneyPower() {
     setLoading(true)
     try {
       await createHistoryCreditsDoc(cost)
+      await updateCreditsSpentThisMonth()
     } catch (error) {
       console.log('Error en la compra de mrMoneyPwer')
     } finally {
@@ -99,6 +101,14 @@ export default function MrMoneyPower() {
         created_at: new Date(),
       }
     )
+  }
+
+  const updateCreditsSpentThisMonth = async () => {
+    if (!user.uid) return
+    const userRef = doc(db, 'users', user.uid)
+    await updateDoc(userRef, {
+      credits_spent_this_month: increment(Number(cost)),
+    })
   }
 
   return (

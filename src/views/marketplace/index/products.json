@@ -333,159 +333,159 @@
   },
   {
     "id": 943209047681781,
-      "product_galleries": [
-        {
-          "name": "Imagen del producto #0",
-          "original_url": "/img/pack-1.jpg"
-        }
-      ],
-      "name": "PACK 1",
-      "sale_price": 1360,
-      "price": "1700",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del producto #0",
+        "original_url": "/img/pack-1.jpg"
+      }
+    ],
+    "name": "PACK 1",
+    "sale_price": 1360,
+    "price": "1700",
+    "quantity": 0
   },
   {
-    "id": 943209047681782,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #1",
-          "original_url": "/img/pack-2.jpg"
-        }
-      ],
-      "name": "PACK 2",
-      "sale_price": 1360,
-      "price": "1700",
-      "quantity": 0
+    "id": 943209047681782222,
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #1",
+        "original_url": "/img/pack-2.jpg"
+      }
+    ],
+    "name": "PACK 2",
+    "sale_price": 1360,
+    "price": "1700",
+    "quantity": 0
   },
   {
     "id": 943209047681785,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #5",
-          "original_url": "/img/pack-5.jpg"
-        }
-      ],
-      "name": "PACK 5",
-      "sale_price": 1360,
-      "price": "1700",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #5",
+        "original_url": "/img/pack-5.jpg"
+      }
+    ],
+    "name": "PACK 5",
+    "sale_price": 1360,
+    "price": "1700",
+    "quantity": 0
   },
   {
     "id": 943209047681783,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #3",
-          "original_url": "/img/pack-3.jpg"
-        }
-      ],
-      "name": "PACK 3",
-      "sale_price": 1785,
-      "price": "2200",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #3",
+        "original_url": "/img/pack-3.jpg"
+      }
+    ],
+    "name": "PACK 3",
+    "sale_price": 1785,
+    "price": "2200",
+    "quantity": 0
   },
   {
     "id": 943209047681784,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #4",
-          "original_url": "/img/pack-4.jpg"
-        }
-      ],
-      "name": "PACK 4",
-      "sale_price": 1785,
-      "price": "2200",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #4",
+        "original_url": "/img/pack-4.jpg"
+      }
+    ],
+    "name": "PACK 4",
+    "sale_price": 1785,
+    "price": "2200",
+    "quantity": 0
   },
   {
     "id": 943209047681788,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #8",
-          "original_url": "/img/pack-8.jpg"
-        }
-      ],
-      "name": "PACK 8",
-      "sale_price": 2720,
-      "price": "3000",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #8",
+        "original_url": "/img/pack-8.jpg"
+      }
+    ],
+    "name": "PACK 8",
+    "sale_price": 2720,
+    "price": "3000",
+    "quantity": 0
   },
   {
     "id": 943209047681786,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #6",
-          "original_url": "/img/pack-6.jpg"
-        }
-      ],
-      "name": "PACK 6",
-      "sale_price": 2975,
-      "price": "3300",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #6",
+        "original_url": "/img/pack-6.jpg"
+      }
+    ],
+    "name": "PACK 6",
+    "sale_price": 2975,
+    "price": "3300",
+    "quantity": 0
   },
   {
     "id": 943209047681787,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #7",
-          "original_url": "/img/pack-7.jpg"
-        }
-      ],
-      "name": "PACK 7",
-      "sale_price": 5950,
-      "price": "6450",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #7",
+        "original_url": "/img/pack-7.jpg"
+      }
+    ],
+    "name": "PACK 7",
+    "sale_price": 5950,
+    "price": "6450",
+    "quantity": 0
   },
   {
     "id": 943209047681789,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #9",
-          "original_url": "/img/pack-9.jpg"
-        }
-      ],
-      "name": "PACK 9",
-      "sale_price": 6035,
-      "price": "6535",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #9",
+        "original_url": "/img/pack-9.jpg"
+      }
+    ],
+    "name": "PACK 9",
+    "sale_price": 6035,
+    "price": "6535",
+    "quantity": 0
   },
   {
     "id": 943209047681790,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #10",
-          "original_url": "/img/pack-10.jpg"
-        }
-      ],
-      "name": "PACK 10",
-      "sale_price": 10625,
-      "price": "11125",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #10",
+        "original_url": "/img/pack-10.jpg"
+      }
+    ],
+    "name": "PACK 10",
+    "sale_price": 10625,
+    "price": "11125",
+    "quantity": 0
   },
   {
     "id": 943209047681791,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #11",
-          "original_url": "/img/pack-11.jpg"
-        }
-      ],
-      "name": "PACK 11",
-      "sale_price": 15130,
-      "price": "16130",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #11",
+        "original_url": "/img/pack-11.jpg"
+      }
+    ],
+    "name": "PACK 11",
+    "sale_price": 15130,
+    "price": "16130",
+    "quantity": 0
   },
   {
     "id": 943209047681792,
-      "product_galleries": [
-        {
-          "name": "Imagen del pack #12",
-          "original_url": "/img/pack-12.jpg"
-        }
-      ],
-      "name": "PACK 12",
-      "sale_price": 18700,
-      "price": "20000",
-      "quantity": 0
+    "product_galleries": [
+      {
+        "name": "Imagen del pack #12",
+        "original_url": "/img/pack-12.jpg"
+      }
+    ],
+    "name": "PACK 12",
+    "sale_price": 18700,
+    "price": "20000",
+    "quantity": 0
   },
   {
     "id": 9412028563729,
@@ -505,6 +505,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 15,
     "sale_price": 499,
     "price": "649",
     "sale_starts_at": null,
@@ -675,6 +676,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 15,
     "sale_price": 499,
     "price": "649",
     "sale_starts_at": null,
@@ -845,6 +847,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 15,
     "sale_price": 499,
     "price": "649",
     "sale_starts_at": null,
@@ -1015,6 +1018,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 15,
     "sale_price": 499,
     "price": "649",
     "sale_starts_at": null,
@@ -1185,6 +1189,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 49,
     "sale_price": 1199,
     "price": "1499",
     "sale_starts_at": null,
@@ -1355,6 +1360,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 15,
     "sale_price": 499,
     "price": "649",
     "sale_starts_at": null,
@@ -1521,6 +1527,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 15,
     "sale_price": 499,
     "price": "649",
     "sale_starts_at": null,
@@ -1691,6 +1698,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 15,
     "sale_price": 499,
     "price": "649",
     "sale_starts_at": null,
@@ -1861,6 +1869,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 15,
     "sale_price": 499,
     "price": "649",
     "sale_starts_at": null,
@@ -2031,6 +2040,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 19,
     "sale_price": 649,
     "price": "849",
     "sale_starts_at": null,
@@ -2201,6 +2211,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 19,
     "sale_price": 649,
     "price": "849",
     "sale_starts_at": null,
@@ -2367,6 +2378,7 @@
     "reviews_count": 0,
     "safe_checkout": 0,
     "sale_expired_at": null,
+    "distributor_usd_price": 3,
     "sale_price": 179,
     "price": "249",
     "min_quantity": 5,

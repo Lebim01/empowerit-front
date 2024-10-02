@@ -92,6 +92,7 @@ export default function MartketplaceDigitalService() {
 
   return (
     <div>
+      <img src="/img/empoweritup.png" className="w-[400px]" />
       <p className="text-lg italic my-4">
         Arma tu carrito con nuestros productos digitales
       </p>

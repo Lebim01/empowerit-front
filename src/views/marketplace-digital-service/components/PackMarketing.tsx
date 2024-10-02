@@ -1,7 +1,13 @@
 import { Button, Dialog } from '@/components/ui'
 import { db } from '@/configs/firebaseConfig'
 import { useAppSelector } from '@/store'
-import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  doc,
+  increment,
+  updateDoc,
+} from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { FaStar } from 'react-icons/fa'
 
@@ -38,6 +44,7 @@ export default function PackMarketing() {
     setLoading(true)
     try {
       await createHistoryCreditsDoc(cost)
+      await updateCreditsSpentThisMonth()
     } catch (error) {
       console.log('Error en la compra de Pack Marketing')
     } finally {
@@ -80,6 +87,13 @@ export default function PackMarketing() {
       }
     )
   }
+  const updateCreditsSpentThisMonth = async () => {
+    if (!user.uid) return
+    const userRef = doc(db, 'users', user.uid)
+    await updateDoc(userRef, {
+      credits_spent_this_month: increment(Number(cost)),
+    })
+  }
   return (
     <div className="bg-gray-100 flex flex-col items-center rounded-lg px-4 pb-4">
       <img
@@ -87,7 +101,7 @@ export default function PackMarketing() {
         className="max-w-[250px] max-h-[250px] flex-1 object-contain"
       />
       <div className="flex justify-start w-full text-lg">
-        <span className="font-bold">Acceso a Flow Bot</span>
+        <span className="font-bold">Acceso a Pack Marketing</span>
       </div>
       <div className="flex justify-start w-full space-x-2">
         <span className="font-medium">{cost} créditos</span>
