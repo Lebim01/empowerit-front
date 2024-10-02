@@ -38,6 +38,7 @@ import { MdApartment } from 'react-icons/md'
 import { IoBusiness } from 'react-icons/io5'
 import { LiaCoinsSolid } from 'react-icons/lia'
 import { FaShopLock } from 'react-icons/fa6'
+import { GiBull } from 'react-icons/gi'
 
 export type NavigationIcons = Record<string, JSX.Element>
 
@@ -74,6 +75,7 @@ const navigationIcon: NavigationIcons = {
   participationsAdmin: <IoBusiness />,
   adminCredits: <LiaCoinsSolid />,
   distributorMarketplace: <FaShopLock />,
+  bull: <GiBull />,
 }
 
 export default navigationIcon

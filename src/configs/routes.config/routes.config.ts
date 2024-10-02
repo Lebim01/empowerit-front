@@ -141,6 +141,12 @@ export const protectedRoutes = [
     ),
     authority: ['USER'],
   },
+  {
+    key: 'mr-money-power.history',
+    path: '/mr-money-power/history',
+    component: lazy(() => import('@/views/mr-money-power-admin')),
+    authority: ['ADMIN', 'MR-MONEY-POWER'],
+  },
   // Top Shop
   {
     key: 'shop',

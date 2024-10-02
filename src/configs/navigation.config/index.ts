@@ -202,6 +202,16 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     subMenu: [],
   },
   {
+    key: 'mr-money-power.history',
+    path: `/mr-money-power/history`,
+    title: 'ADMIN: Historial de Mr. Money Power',
+    translateKey: 'nav.order-list',
+    icon: 'bull',
+    type: NAV_ITEM_TYPE_ITEM,
+    authority: ['ADMIN', 'MR-MONEY-POWER'],
+    subMenu: [],
+  },
+  {
     key: 'admin-automatic-franchises',
     path: `/admin-automatic-franchises`,
     title: 'ADMIN: Franquicias Automáticas',
