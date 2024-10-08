@@ -280,7 +280,7 @@ const Rank = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
         <Card onClick={() => openDetails('bond_quick_start', 'bond_founder')}>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
@@ -327,7 +327,7 @@ const Rank = () => {
           </div>
         </Card>
 
-        <Card onClick={() => openDetails('bond_car')}>
+        {/* <Card onClick={() => openDetails('bond_car')}>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
               <FaCar size={30} className="text-red-500" />
@@ -339,8 +339,7 @@ const Rank = () => {
               $ <span className="text-3xl">{data?.bond_car ?? 0}</span> USD
             </span>
           </div>
-        </Card>
-
+        </Card> */}
         <Card>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
