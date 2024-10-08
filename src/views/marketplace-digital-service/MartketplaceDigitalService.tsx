@@ -166,7 +166,6 @@ export default function MartketplaceDigitalService() {
         {/* <AlgorithmMrRangeComponent /> */}
         <MrSportMoney />
         <MrMoneyPower />
-        <CryptoXpertModal />
         <FollowerUp
           img="/img/digital-marketplace/follower-up.png"
           cost={16}
