@@ -112,7 +112,6 @@ export default function MyAutomaticFranchisesModal() {
   }, [user])
 
   useEffect(() => {
-    // Asegurar que tenemos un usuario, una franquicia seleccionada y datos disponibles
     if (
       !user?.uid ||
       !data[selectedFranchise]?.available_pay_date_for_franchise_performance ||
@@ -163,29 +162,32 @@ export default function MyAutomaticFranchisesModal() {
 
       try {
         const userRef = doc(db, 'users', user.uid)
-        const automaticFranchisesPendingProfits = collection(
+        const automaticFranchisesPendingProfitsRef = collection(
           userRef,
           'automatic-franchises-performance-pending-profits'
         )
+
+        const automaticFranchisesPendingProfitsQuery = query(
+          automaticFranchisesPendingProfitsRef,
+          orderBy('created_at', 'desc')
+        )
+
         const pendingProfitsDocs = await getDocs(
-          automaticFranchisesPendingProfits
+          automaticFranchisesPendingProfitsQuery
         )
         const pendingProfitsData: pendingProfitsData[] = []
         let total = 0
 
-        if (!pendingProfitsDocs.empty) {
-          for (const docu of pendingProfitsDocs.docs) {
-            if (doc_id === docu.data().doc_id) {
-              pendingProfitsData.push(docu.data() as pendingProfitsData)
-            }
-            total += Number(docu.data().daily_performance)
+        pendingProfitsDocs.forEach((docu) => {
+          const data = docu.data()
+          if (doc_id === data.doc_id) {
+            pendingProfitsData.push(data as pendingProfitsData)
           }
-          setPendingProfitsData(pendingProfitsData)
-          setTotalPendingProfits(Number(total.toFixed(2)))
-        } else {
-          setPendingProfitsData([])
-          setTotalPendingProfits(0)
-        }
+          total += Number(data.daily_performance)
+        })
+
+        setPendingProfitsData(pendingProfitsData)
+        setTotalPendingProfits(Number(total.toFixed(2)))
       } catch (error) {
         console.log('Error en la función de getPendingProfits', error)
       }
@@ -193,31 +195,34 @@ export default function MyAutomaticFranchisesModal() {
 
     const getCapitalPendingProfits = async (doc_id: string) => {
       if (!user || !user.uid) return
+
       const userRef = doc(db, 'users', user.uid)
-      const automaticFranchisesPendingProfits = collection(
+      const automaticFranchisesPendingProfitsRef = collection(
         userRef,
         'automatic-franchises-capital-performance-pending-profits'
+      )
+      const automaticFranchisesPendingProfitsQuery = query(
+        automaticFranchisesPendingProfitsRef,
+        orderBy('created_at', 'desc')
       )
 
       try {
         const pendingProfitsDocs = await getDocs(
-          automaticFranchisesPendingProfits
+          automaticFranchisesPendingProfitsQuery
         )
         const pendingProfitsData: pendingProfitsData[] = []
         let total = 0
-        if (!pendingProfitsDocs.empty) {
-          for (const docu of pendingProfitsDocs.docs) {
-            if (doc_id === docu.data().doc_id) {
-              pendingProfitsData.push(docu.data() as pendingProfitsData)
-            }
-            total += Number(docu.data().daily_performance)
+
+        pendingProfitsDocs.forEach((docu) => {
+          const data = docu.data()
+          if (doc_id === data.doc_id) {
+            pendingProfitsData.push(data as pendingProfitsData)
           }
-          setCapitalPendingProfitsData(pendingProfitsData)
-          setTotalCapitalPendingProfits(Number(total.toFixed(2)))
-        } else {
-          setCapitalPendingProfitsData([])
-          setTotalCapitalPendingProfits(0)
-        }
+          total += Number(data.daily_performance)
+        })
+
+        setCapitalPendingProfitsData(pendingProfitsData)
+        setTotalCapitalPendingProfits(Number(total.toFixed(2)))
       } catch (error) {
         console.log('Error en la función de getPendingProfits', error)
       }
