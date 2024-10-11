@@ -114,7 +114,7 @@ export default function ParticipationsHistory() {
 
   return (
     <div>
-      <div className="flex justify-between my-4">
+      {/* <div className="flex justify-between my-4">
         <input
           type="number"
           className="border rounded-md"
@@ -123,16 +123,16 @@ export default function ParticipationsHistory() {
         />
         <Button
           variant="solid"
-          onClick={payrollParticipations}
           disabled={
             availableParticipations?.length == 0 || valuePayroll == 0
               ? true
               : false
           }
+          onClick={payrollParticipations}
         >
           Repartir ${valuePayroll}
         </Button>
-      </div>
+      </div> */}
       <Table>
         <THead>
           <Tr>
