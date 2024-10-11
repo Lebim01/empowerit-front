@@ -140,6 +140,7 @@ export default function ParticipationsHistory() {
             <Th>Correo</Th>
             <Th>Fecha Adquisición</Th>
             <Th>Participación</Th>
+            <Th>Ganancia Pendiente</Th>
             <Th>Ganancias</Th>
             <Th>Ganancia Límite</Th>
             <Th>Proximo pago</Th>
@@ -160,6 +161,7 @@ export default function ParticipationsHistory() {
                 <Td>{row.email}</Td>
                 <Td>{row.starts_at.toDate().toLocaleDateString()}</Td>
                 <Td>{row.participation_name}</Td>
+                <Td>{row.pending_amount}</Td>
                 <Td>{row.participation_cap_current}</Td>
                 <Td>{row.participation_cap_limit}</Td>
                 <Td>{row.next_pay.toDate().toLocaleDateString()}</Td>
