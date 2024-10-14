@@ -153,6 +153,10 @@ const MarketplaceList: FC<Props> = (props) => {
           {user.credits_spent_this_month} créditos
         </span>
       </p>
+      <p className="text-lg mb-2">
+        Se activa “marketplace bono distribuidor” al realizar compras dentro del
+        mes de más de 100 créditos
+      </p>
       <p className="text-lg italic mb-2">
         Arma tu carrito y pagalo a precio preferencial
       </p>
