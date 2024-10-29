@@ -59,6 +59,18 @@ export const protectedRoutes = [
     authority: ['USER'],
   },
   {
+    key: 'subscriptions-product',
+    path: '/subscriptions-product',
+    component: lazy(() => import('@/views/memberships-product')),
+    authority: ['USER'],
+  },
+  {
+    key: 'subscriptions-digital',
+    path: '/subscriptions-digital',
+    component: lazy(() => import('@/views/memberships-digital')),
+    authority: ['USER'],
+  },
+  {
     key: 'participations',
     path: '/participations',
     component: lazy(() => import('@/views/participations/index')),
@@ -430,6 +442,12 @@ export const payRoute = [
     key: 'pay',
     path: '/home',
     component: lazy(() => import('@/views/memberships')),
+    authority: [],
+  },
+  {
+    key: 'pay',
+    path: '/subscriptions-automatic',
+    component: lazy(() => import('@/views/memberships-automatic')),
     authority: [],
   },
   {
