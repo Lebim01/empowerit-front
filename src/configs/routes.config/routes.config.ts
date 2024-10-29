@@ -445,7 +445,7 @@ export const payRoute = [
     authority: [],
   },
   {
-    key: 'pay',
+    key: 'subscriptions-automatic',
     path: '/subscriptions-automatic',
     component: lazy(() => import('@/views/memberships-automatic')),
     authority: [],

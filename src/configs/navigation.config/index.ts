@@ -43,9 +43,9 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     translateKey: 'nav.pay-supreme',
     icon: 'memberships',
     type: NAV_ITEM_TYPE_COLLAPSE,
-    authority: ['USER', 'STARTER'],
+    authority: [],
     subMenu: [
-      {
+      /* {
         key: 'subscriptions-manual',
         path: `/subscriptions-manual`,
         title: 'Franquicias Manuales',
@@ -54,7 +54,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         type: NAV_ITEM_TYPE_ITEM,
         authority: ['USER'],
         subMenu: [],
-      },
+      }, */
       {
         key: 'subscriptions-automatic',
         path: `/subscriptions-automatic`,
@@ -62,9 +62,29 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         translateKey: 'nav.subscriptions-automatic',
         icon: 'memberships',
         type: NAV_ITEM_TYPE_ITEM,
+        authority: [],
+        subMenu: [],
+      },
+      /* {
+        key: 'subscriptions-product',
+        path: `/subscriptions-product`,
+        title: 'Franquicias de Producto',
+        translateKey: 'nav.subscriptions-product',
+        icon: 'memberships',
+        type: NAV_ITEM_TYPE_ITEM,
         authority: ['USER'],
         subMenu: [],
       },
+      {
+        key: 'subscriptions-digital',
+        path: `/subscriptions-digital`,
+        title: 'Franquicia Digital',
+        translateKey: 'nav.subscriptions-digital',
+        icon: 'memberships',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['USER'],
+        subMenu: [],
+      }, */
     ],
   },
   {
