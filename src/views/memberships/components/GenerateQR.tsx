@@ -32,7 +32,6 @@ const GenerateQR = ({
     }
   }
 
-
   const _createOpenPay = (coin: 'MXN') => {
     try {
       setDisabled(true)
@@ -59,7 +58,7 @@ const GenerateQR = ({
         )} */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          {import.meta.env.VITE_ENABLE_OPENPAY && type!='3000-pack' &&  (
+          {/* {import.meta.env.VITE_ENABLE_OPENPAY && type!='3000-pack' &&  (
             <Button
               className="h-max"
               disabled={disabled}
@@ -74,7 +73,7 @@ const GenerateQR = ({
                 <span>Fiat (MXN)</span>
               </div>
             </Button>
-          )}
+          )} */}
           <Button
             className="h-max"
             disabled={disabled}

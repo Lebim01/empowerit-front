@@ -71,6 +71,15 @@ const AdminPayroll = () => {
     getPayroll()
   }, [])
 
+  const notAvailableID = [
+    '9CXMbcJt2sNWG40zqWwQSxH8iki2',
+    'BjsuClM1KiUi1FNLdUQ7BfeUHhR2',
+    'Jr4lAN9ocvazunMiCElExb5toUm1',
+    '2X8hQQNuRnUXh26hL0pGY21XCaz2',
+    'Kz63rFBI6ddxISUwKtxqvlgWsvM2',
+    '9OmNdZnvGNYaQEpFvJ9MSSYQe7G2',
+  ]
+
   return (
     <div className="flex flex-col items-end space-y-8">
       <div className="flex space-x-4 items-center">
@@ -184,59 +193,67 @@ const AdminPayroll = () => {
               <Td></Td>
               <Td></Td>
             </Tr>
-            {users.map((user) => (
-              <Tr
-                key={user.id}
-                className={classNames(user.total < 40 && 'bg-gray-200')}
-              >
-                <Td>
-                  <Checkbox
-                    disabled={!user.wallet_bitcoin || user.total < 40}
-                  />
-                </Td>
-                <Td>{user.name}</Td>
-                <Td>
-                  {formatNumberWithCommas(
-                    (user?.bond_quick_start || 0) + (user?.bond_founder || 0),
-                    2
-                  )}{' '}
-                  USD
-                </Td>
-                <Td>{formatNumberWithCommas(user?.bond_mentor || 0, 2)} USD</Td>
-                <Td>
-                  {formatNumberWithCommas(user?.bond_presenter || 0, 2)} USD
-                </Td>
-                <Td>{user?.bond_car || 0} USD</Td>
-                <Td>{formatNumberWithCommas(user?.bond_binary || 0, 2)} USD</Td>
-                <Td>-{user?.fee || 0} USD</Td>
-                <Td>{formatNumberWithCommas(user?.total || 0, 2)} USD</Td>
-                <Td>
-                  {user.wallet_litecoin ? (
-                    <FaCheck className="text-green-400" />
-                  ) : (
-                    <FaTimes className="text-red-400" />
-                  )}
-                </Td>
-                <Td>
-                  <div className="flex items-center">
-                    <span>Bank: </span>
-                    {user.bank_account ? (
-                      <FaCheck className="text-green-400" />
-                    ) : (
-                      <FaTimes className="text-red-400" />
-                    )}
-                  </div>
-                  <div className="flex items-center">
-                    <span>RFC: </span>
-                    {user.rfc ? (
-                      <FaCheck className="text-green-400" />
-                    ) : (
-                      <FaTimes className="text-red-400" />
-                    )}
-                  </div>
-                </Td>
-              </Tr>
-            ))}
+            {users &&
+              users
+                .filter((user) => !notAvailableID.includes(user.id))
+                .map((user) => (
+                  <Tr
+                    key={user.id}
+                    className={classNames(user.total < 40 && 'bg-gray-200')}
+                  >
+                    <Td>
+                      <Checkbox
+                        disabled={!user.wallet_bitcoin || user.total < 40}
+                      />
+                    </Td>
+                    <Td>{user.name}</Td>
+                    <Td>
+                      {formatNumberWithCommas(
+                        (user?.bond_quick_start || 0) +
+                          (user?.bond_founder || 0),
+                        2
+                      )}{' '}
+                      USD
+                    </Td>
+                    <Td>
+                      {formatNumberWithCommas(user?.bond_mentor || 0, 2)} USD
+                    </Td>
+                    <Td>
+                      {formatNumberWithCommas(user?.bond_presenter || 0, 2)} USD
+                    </Td>
+                    <Td>{user?.bond_car || 0} USD</Td>
+                    <Td>
+                      {formatNumberWithCommas(user?.bond_binary || 0, 2)} USD
+                    </Td>
+                    <Td>-{user?.fee || 0} USD</Td>
+                    <Td>{formatNumberWithCommas(user?.total || 0, 2)} USD</Td>
+                    <Td>
+                      {user.wallet_litecoin ? (
+                        <FaCheck className="text-green-400" />
+                      ) : (
+                        <FaTimes className="text-red-400" />
+                      )}
+                    </Td>
+                    <Td>
+                      <div className="flex items-center">
+                        <span>Bank: </span>
+                        {user.bank_account ? (
+                          <FaCheck className="text-green-400" />
+                        ) : (
+                          <FaTimes className="text-red-400" />
+                        )}
+                      </div>
+                      <div className="flex items-center">
+                        <span>RFC: </span>
+                        {user.rfc ? (
+                          <FaCheck className="text-green-400" />
+                        ) : (
+                          <FaTimes className="text-red-400" />
+                        )}
+                      </div>
+                    </Td>
+                  </Tr>
+                ))}
           </TBody>
         </Table>
       </div>
