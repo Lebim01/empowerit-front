@@ -442,13 +442,13 @@ const Rank = () => {
                   </td>
                   <td>{r.side}</td>
                   <td className="text-right">{r.points}</td>
-                  <td className="text-right">
+                  {/* <td className="text-right">
                     {r.expires_at.seconds
                       ? dayjs(r.expires_at.seconds * 1000).format(
                           'DD/MM/YYYY HH:mm:ss'
                         )
                       : null}
-                  </td>
+                  </td> */}
                 </tr>
               ))}
               {binaryPoints.length == 0 && (

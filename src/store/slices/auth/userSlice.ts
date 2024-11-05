@@ -70,12 +70,26 @@ export type UserState = {
   presenter_code: string
 
   payment_link?: {
+    //CoinPayments
+    /* address: string
+    amount: string
+    checkout_url: string
+    confirms_needed: string
+    expires_at: { seconds: number }
+    membership: string
+    qrcode_url: string
+    status: 'pending' | 'confirming' | 'paid'
+    status_url: string
+    timeout: number
+    txn_id: string
+    uid: string
+    updated_at: { seconds: number } */
     [type: string]: {
       amount: string
       expires_at: { seconds: number }
       qr: string
       currency: Coins
-      status: 'pending' | 'confirming'
+      status: 'pending' | 'confirming' | 'paid'
       address: string
       redirect_url?: string
     }

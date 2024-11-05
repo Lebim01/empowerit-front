@@ -1,7 +1,3 @@
-import {
-  MembershipsProductsNames,
-  MembershipsProductsProps,
-} from '../data/MembershipsProductsData'
 import { useState } from 'react'
 import { useAppSelector } from '@/store'
 import { Periods } from '@/views/memberships/membership'
@@ -11,14 +7,15 @@ import {
   createPaymentLink,
   Memberships,
 } from '@/views/memberships/methods'
+import { MembershipsDigitalProps } from '../data/MembershipsDigitalData'
 
-export default function FranchiseProduct({
+export default function FranchiseDigital({
   image,
   name,
   cap,
   binary_points,
   range_points,
-}: MembershipsProductsProps) {
+}: MembershipsDigitalProps) {
   const [loading, setLoading] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
   const [period, setPeriod] = useState<Periods>('monthly')

@@ -65,7 +65,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         authority: [],
         subMenu: [],
       },
-      /* {
+      {
         key: 'subscriptions-product',
         path: `/subscriptions-product`,
         title: 'Franquicias de Producto',
@@ -84,7 +84,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         type: NAV_ITEM_TYPE_ITEM,
         authority: ['USER'],
         subMenu: [],
-      }, */
+      },
     ],
   },
   {

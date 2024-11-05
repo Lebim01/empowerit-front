@@ -39,6 +39,12 @@ export type Memberships =
   | '2000-pack'
   | '3000-pack'
   | '3000-participation'
+  | 'FP200'
+  | 'FP300'
+  | 'FP500'
+  | 'FD200'
+  | 'FD300'
+  | 'FD500'
 
 export type Coins = 'MXN' | 'LTC'
 
