@@ -45,7 +45,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     type: NAV_ITEM_TYPE_COLLAPSE,
     authority: [],
     subMenu: [
-      {
+      /* {
         key: 'subscriptions-manual',
         path: `/subscriptions-manual`,
         title: 'Franquicias Manuales',
@@ -54,7 +54,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         type: NAV_ITEM_TYPE_ITEM,
         authority: [],
         subMenu: [],
-      },
+      }, */
       {
         key: 'subscriptions-automatic',
         path: `/subscriptions-automatic`,
