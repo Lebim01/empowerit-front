@@ -16,6 +16,8 @@ const PayMembership = () => {
   >(null)
   const user = useAppSelector((state) => state.auth.user)
 
+  console.log(user)
+
   useEffect(() => {
     const url = new URL(window.location.href)
     if (url.searchParams.has('transaction')) {

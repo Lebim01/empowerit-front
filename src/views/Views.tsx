@@ -35,11 +35,22 @@ const AllRoutes = (props: AllRoutesProps) => {
   const expires = useAppSelector(
     (state) => state.auth.user.membership_expires_at || null
   )
-  const Franchises = ['49-pack', '100-pack', '300-pack', '500-pack', '1000-pack', '2000-pack']
+  const Franchises = [
+    '49-pack',
+    '100-pack',
+    '300-pack',
+    '500-pack',
+    '1000-pack',
+    '2000-pack',
+    'FD200',
+    'FD300',
+    'FD500',
+    'FP200',
+    'FP300',
+    'FP500',
+  ]
 
-  const franchise = useAppSelector(
-    (state) => state.auth.user.membership
-  )
+  const franchise = useAppSelector((state) => state.auth.user.membership)
 
   const isAdmin = useAppSelector((state) =>
     state.auth.user.authority?.includes('ADMIN')
@@ -66,10 +77,8 @@ const AllRoutes = (props: AllRoutesProps) => {
     if (user.uid) {
       const unsubs = onSnapshot(doc(db, 'users/' + user.uid), (snap) => {
         const data: any = snap.data()
-        getCustomToken(user.uid!).then(customToken => {
-          dispatch(
-            setUser({ uid: user.uid, customToken, ...data })
-          )
+        getCustomToken(user.uid!).then((customToken) => {
+          dispatch(setUser({ uid: user.uid, customToken, ...data }))
         })
       })
       return () => {
