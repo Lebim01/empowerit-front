@@ -269,7 +269,7 @@ const userSlice = createSlice({
         if (payload.has_participations) {
           roles.push('PARTICIPATIONS')
         }
-        if (payload.membership) {
+        if (payload.membership || payload.has_automatic_franchises) {
           roles.push('USER')
         }
         if (payload.has_automatic_franchises) {

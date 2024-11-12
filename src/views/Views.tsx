@@ -60,7 +60,10 @@ const AllRoutes = (props: AllRoutesProps) => {
 
   useEffect(() => {
     if (!isAdmin) {
-      if (Franchises.includes(user?.membership || '')) {
+      if (
+        Franchises.includes(user?.membership || '') ||
+        user.has_automatic_franchises
+      ) {
         setRedirectToPay(false)
       } else if (!expires || dayjs().isAfter(dayjs(expires))) {
         // ya vencio la membresia

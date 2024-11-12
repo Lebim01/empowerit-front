@@ -441,13 +441,25 @@ export const payRoute = [
   {
     key: 'pay',
     path: '/home',
-    component: lazy(() => import('@/views/memberships')),
+    component: lazy(() => import('@/views/memberships-automatic')),
     authority: [],
   },
   {
     key: 'subscriptions-automatic',
     path: '/subscriptions-automatic',
     component: lazy(() => import('@/views/memberships-automatic')),
+    authority: [],
+  },
+  {
+    key: 'subscriptions-product',
+    path: 'subscriptions-product',
+    component: lazy(() => import('@/views/memberships-product')),
+    authority: [],
+  },
+  {
+    key: 'subscriptions-digital',
+    path: '/subscriptions-digital',
+    component: lazy(() => import('@/views/memberships-digital')),
     authority: [],
   },
   {

@@ -72,7 +72,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         translateKey: 'nav.subscriptions-product',
         icon: 'memberships',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: ['USER'],
+        authority: [],
         subMenu: [],
       },
       {
@@ -82,7 +82,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         translateKey: 'nav.subscriptions-digital',
         icon: 'memberships',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: ['USER'],
+        authority: [],
         subMenu: [],
       },
     ],
