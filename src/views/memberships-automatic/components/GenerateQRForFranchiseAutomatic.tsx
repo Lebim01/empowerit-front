@@ -81,7 +81,7 @@ const GenerateQRForFranchiseAutomatic = ({
                 </div>
               </Button>
             )}
-          <Button
+          {/* <Button
             className="h-max"
             disabled={disabled}
             onClick={() => _create('LTC')}
@@ -95,7 +95,7 @@ const GenerateQRForFranchiseAutomatic = ({
               />
               <span>Litecoin (LTC)</span>
             </div>
-          </Button>
+          </Button> */}
         </div>
       </div>
     )

@@ -54,7 +54,7 @@ const GenerateQRForCredits = ({
               </div>
             </Button>
           )}
-          <Button
+          {/* <Button
             className="h-max"
             disabled={disabled}
             onClick={() => _create('LTC')}
@@ -68,7 +68,7 @@ const GenerateQRForCredits = ({
               />
               <span>Litecoin (LTC)</span>
             </div>
-          </Button>
+          </Button> */}
         </div>
       </div>
     )

@@ -74,7 +74,7 @@ const GenerateQR = ({
               </div>
             </Button>
           )}
-          <Button
+          {/* <Button
             className="h-max"
             disabled={disabled}
             onClick={() => _create('LTC')}
@@ -88,7 +88,7 @@ const GenerateQR = ({
               />
               <span>Litecoin (LTC)</span>
             </div>
-          </Button>
+          </Button> */}
         </div>
       </div>
     )
