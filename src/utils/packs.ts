@@ -88,19 +88,19 @@ export const OPTIONS2 = [
     image: '/img/Franchises/FD500.png',
   },
   {
-    label: 'FA200',
-    value: 'FA200',
-    image: '/img/Franchises/FA200.png',
+    label: 'FP200',
+    value: 'FP200',
+    image: '/img/Franchises/FP200.png',
   },
   {
-    label: 'FA300',
-    value: 'FA300',
-    image: '/img/Franchises/FA300.png',
+    label: 'FP300',
+    value: 'FP300',
+    image: '/img/Franchises/FP300.png',
   },
   {
-    label: 'FA500',
-    value: 'FA500',
-    image: '/img/Franchises/FA500.png',
+    label: 'FP500',
+    value: 'FP500',
+    image: '/img/Franchises/FP500.png',
   },
 ]
 
