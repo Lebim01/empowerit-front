@@ -72,6 +72,36 @@ export const OPTIONS2 = [
     value: '3000-pack',
     image: '/img/Franchises/3000-pack.png',
   },
+  {
+    label: 'FD200',
+    value: 'FD200',
+    image: '/img/Franchises/FD200.png',
+  },
+  {
+    label: 'FD300',
+    value: 'FD300',
+    image: '/img/Franchises/FD300.png',
+  },
+  {
+    label: 'FD500',
+    value: 'FD500',
+    image: '/img/Franchises/FD500.png',
+  },
+  {
+    label: 'FA200',
+    value: 'FA200',
+    image: '/img/Franchises/FA200.png',
+  },
+  {
+    label: 'FA300',
+    value: 'FA300',
+    image: '/img/Franchises/FA300.png',
+  },
+  {
+    label: 'FA500',
+    value: 'FA500',
+    image: '/img/Franchises/FA500.png',
+  },
 ]
 
 export const OPTIONS_PARTICIPATIONS = [
@@ -79,6 +109,6 @@ export const OPTIONS_PARTICIPATIONS = [
     label: 'Participación 3000',
     value: '3000-participation',
     image: '/img/memberships/p300.png',
-    name: 'participation_name'
+    name: 'participation_name',
   },
 ]
