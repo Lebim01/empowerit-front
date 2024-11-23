@@ -88,10 +88,14 @@ export type UserState = {
       amount: string
       expires_at: { seconds: number }
       qr: string
+      qrcode_url: string
       currency: Coins
       status: 'pending' | 'confirming' | 'paid'
       address: string
       redirect_url?: string
+      openpay?: {
+        
+      }
     }
   }
   payment_link_credits?: {
@@ -121,6 +125,7 @@ export type UserState = {
       amount: string
       expires_at: { seconds: number }
       qr: string
+      qrcode_url: string
       currency: Coins
       status: 'pending' | 'confirming'
       address: string

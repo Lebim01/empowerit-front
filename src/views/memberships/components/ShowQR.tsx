@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { Memberships, Coins } from '../methods'
+import { Memberships, Coins, Method } from '../methods'
 import { useAppSelector } from '@/store'
 import { Spinner } from '@/components/ui'
 import GenerateQR from './GenerateQR'
@@ -16,13 +16,16 @@ const ShowQR = ({
   options,
   period,
   founder,
+  method,
 }: {
   type: Memberships
   loading: boolean
-  createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
+  createPaymentLink: (type: Memberships, coin: Coins, period: Periods, method: Method, buyer_email: string) => void
   options: { value: Periods; label: string }[]
   period: Periods
   founder?: boolean
+  method: Method
+ 
 }) => {
   // Se obtiene el usuario
   const user = useAppSelector((state) => state.auth.user)
@@ -49,6 +52,7 @@ const ShowQR = ({
           createPaymentLink={createPaymentLink}
           options={options}
           founder={founder}
+    
         />
       </>
     )
@@ -69,6 +73,7 @@ const ShowQR = ({
           openModal={() => {
             window.open(user.payment_link![type].redirect_url)
           }}
+          method={method}
         />
       </>
     )
@@ -91,6 +96,7 @@ const ShowQR = ({
           createPaymentLink={createPaymentLink}
           options={options}
           founder={founder}
+      
         />
       </>
     )
@@ -106,6 +112,7 @@ const ShowQR = ({
           createPaymentLink={createPaymentLink}
           options={options}
           founder={founder}
+       
         />
       </>
     )

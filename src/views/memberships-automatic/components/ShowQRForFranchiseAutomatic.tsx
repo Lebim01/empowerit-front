@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { AutomaticFranchises, Coins } from '@/views/memberships/methods'
+import { AutomaticFranchises, Coins, Method } from '@/views/memberships/methods'
 import { useAppSelector } from '@/store'
 import { Spinner } from '@/components/ui'
 import GenerateQRForFranchiseAutomatic from './GenerateQRForFranchiseAutomatic'
@@ -13,6 +13,7 @@ const ShowQRForFranchiseAutomatic = ({
   createPaymentLink,
   options,
   period,
+  
   founder,
 }: {
   type: AutomaticFranchises
@@ -20,7 +21,9 @@ const ShowQRForFranchiseAutomatic = ({
   createPaymentLink: (
     type: AutomaticFranchises,
     coin: Coins,
-    period: Periods
+    period: Periods,
+    method: Method,
+    buyer_email: string
   ) => void
   options: { value: Periods; label: string }[]
   period: Periods
@@ -73,6 +76,8 @@ const ShowQRForFranchiseAutomatic = ({
               user.payment_link_automatic_franchises?.[type].redirect_url
             )
           }}
+  
+          buyer_email={user.email as string}
         />
       </>
     )

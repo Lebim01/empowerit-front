@@ -10,6 +10,7 @@ import {
   Coins,
   createPaymentLink,
   Memberships,
+  Method,
 } from '@/views/memberships/methods'
 
 export default function FranchiseProduct({
@@ -22,17 +23,19 @@ export default function FranchiseProduct({
   const [loading, setLoading] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
   const [period, setPeriod] = useState<Periods>('monthly')
-
+  const [method, setMethod] = useState<Method>('Fiat')
   const _createPaymentLink = async (
     type: Memberships,
     currency: Coins,
-    period: Periods
+    period: Periods,
+    method: Method
   ) => {
     try {
       if (loading) return
       setLoading(true)
       setPeriod(period)
-      await createPaymentLink(user.uid!, type, currency, period)
+      setMethod(user.payment_link ? user.payment_link[type]?.openpay ? 'Fiat' : 'Coinpayments' : 'Coinpayments')
+      await createPaymentLink(user.uid!, type, currency, period, method, user.email as string)
     } catch (err) {
       console.error(err)
     } finally {
@@ -60,6 +63,7 @@ export default function FranchiseProduct({
         createPaymentLink={_createPaymentLink}
         period={period}
         options={[{ label: 'Mensual', value: 'monthly' }]}
+        method={method}
       />
     </div>
   )

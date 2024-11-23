@@ -1,6 +1,7 @@
 import { Button, Select } from '@/components/ui'
+import { useAppSelector } from '@/store'
 import { Periods } from '@/views/memberships/membership'
-import { Coins, AutomaticFranchises } from '@/views/memberships/methods'
+import { Coins, AutomaticFranchises, Method } from '@/views/memberships/methods'
 import { useState } from 'react'
 import { SiCashapp } from 'react-icons/si'
 
@@ -18,7 +19,9 @@ const GenerateQRForFranchiseAutomatic = ({
   createPaymentLink: (
     type: AutomaticFranchises,
     coin: Coins,
-    period: Periods
+    period: Periods,
+    method: Method,
+    buyer_email: string
   ) => void
   options: { value: Periods; label: string }[]
   founder?: boolean
@@ -26,11 +29,11 @@ const GenerateQRForFranchiseAutomatic = ({
   const [period, setPeriod] = useState<Periods>('monthly')
   const [showCoin, setShowCoin] = useState(false)
   const [disabled, setDisabled] = useState(false)
-
-  const _create = (coin: Coins) => {
+  const user = useAppSelector(state => state.auth.user)
+  const _create = (coin: Coins, method: Method) => {
     try {
       setDisabled(true)
-      createPaymentLink(type, coin, period)
+      createPaymentLink(type, coin, period, method, user.email as string)
     } catch (err) {
       console.error(err)
     } finally {
@@ -69,7 +72,7 @@ const GenerateQRForFranchiseAutomatic = ({
               <Button
                 className="h-max"
                 disabled={disabled}
-                onClick={() => _create('MXN')}
+                onClick={() => _create('MXN', 'Fiat')}
               >
                 <div className="flex flex-col items-center space-y-4">
                   <SiCashapp
@@ -78,6 +81,20 @@ const GenerateQRForFranchiseAutomatic = ({
                     className="h-[50px] w-[50px]"
                   />
                   <span>Fiat (MXN)</span>
+                </div>
+              </Button>
+            )}
+
+          {import.meta.env.VITE_ENABLE_OPENPAY &&
+            !notValidType.includes(type) && (
+              <Button
+                className="h-max"
+                disabled={disabled}
+                onClick={() => _create('MXN', 'Coinpayments')}
+              >
+                <div className="flex flex-col items-center space-y-4">
+                  <img src='/img/insignias/USDT.svg' className='w-[50px] h-[50px]' />
+                  <span>Tether (USDT)</span>
                 </div>
               </Button>
             )}

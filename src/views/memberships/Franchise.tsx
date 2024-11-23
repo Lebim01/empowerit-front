@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useAppSelector } from '../sales/SalesDashboard/store'
 import dayjs from 'dayjs'
 import ShowQR from './components/ShowQR'
-import { Coins, Memberships, createPaymentLink } from './methods'
+import { Coins, Memberships, Method, createPaymentLink } from './methods'
 
 interface FranchiseProps {
   image: string
@@ -19,6 +19,7 @@ interface FranchiseProps {
   year_price?: number
   days_label?: string
   credits?: number
+  method: Method
 }
 
 export type Periods = 'monthly' | 'yearly'
@@ -37,6 +38,7 @@ export default function Franchise({
   cap,
   year_price,
   days_label = 'Mensual',
+  method
 }: FranchiseProps) {
   const [loading, setLoading] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
@@ -45,13 +47,15 @@ export default function Franchise({
   const _createPaymentLink = async (
     type: Memberships,
     currency: Coins,
-    period: Periods
+    period: Periods,
+    method: Method,
+    buyer_email: string
   ) => {
     try {
       if (loading) return
       setLoading(true)
       setPeriod(period)
-      await createPaymentLink(user.uid!, type, currency, period)
+      await createPaymentLink(user.uid!, type, currency, period, method, buyer_email)
     } catch (err) {
       console.error(err)
     } finally {
@@ -182,12 +186,13 @@ export default function Franchise({
         loading={loading}
         createPaymentLink={_createPaymentLink}
         period={period}
+        method={method}
         options={
           year_price
             ? [
-                { label: days_label, value: 'monthly' },
-                { label: 'Anual', value: 'yearly' },
-              ]
+              { label: days_label, value: 'monthly' },
+              { label: 'Anual', value: 'yearly' },
+            ]
             : [{ label: days_label, value: 'monthly' }]
         }
       />

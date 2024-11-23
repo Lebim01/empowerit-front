@@ -4,6 +4,7 @@ import {
   AutomaticFranchises,
   Coins,
   createPaymentLinkForFranchiseAutomatic,
+  Method,
 } from '../memberships/methods'
 import { Periods } from '../memberships/membership'
 import { useAppSelector } from '@/store'
@@ -32,13 +33,15 @@ export default function FranchiseAutomatic({
   const _createPaymentLink = async (
     type: AutomaticFranchises,
     currency: Coins,
-    period: Periods
+    period: Periods,
+    method: Method,
+    buyer_email: string
   ) => {
     try {
       if (loading) return
       setLoading(true)
       setPeriod(period)
-      await createPaymentLinkForFranchiseAutomatic(user.uid!, type, currency)
+      await createPaymentLinkForFranchiseAutomatic(user.uid!, type, currency, method, buyer_email)
     } catch (err) {
       console.error(err)
     } finally {

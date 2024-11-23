@@ -48,6 +48,8 @@ export type Memberships =
 
 export type Coins = 'MXN' | 'LTC'
 
+export type Method = 'Fiat' | 'Coinpayments'
+
 export type Participations = '3000-participation'
 
 export enum PAYMENT_LINK_TYPE {
@@ -65,27 +67,53 @@ export const createPaymentLink = async (
   user_id: string,
   type: Memberships,
   coin: Coins,
-  period: Periods
+  period: Periods,
+  method: Method,
+  buyer_email: string
 ) => {
+  console.log("el method", method)
   try {
     // Crear dirección de pago
-    await fetch(
-      `${
-        import.meta.env.VITE_API_URL
-      }/subscriptions/createPaymentAddress/${type}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user_id,
-          type,
-          coin,
-          period,
-        }),
-      }
-    )
+    if (method == 'Fiat') {
+      await fetch(
+        `${import.meta.env.VITE_API_URL
+        }/subscriptions/createPaymentAddress/${type}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: user_id,
+            type,
+            coin,
+            period,
+          }),
+        }
+      )
+    }
+
+    if (method == 'Coinpayments') {
+      await fetch(
+        `${import.meta.env.VITE_API_URL
+        }/coinpayments/create-transaction/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            uid: user_id,
+            type,
+            buyer_email,
+            currency1: 'USDT',
+            currency2: 'LTCT',
+            period,
+            cmd: 'create_transaction'
+          }),
+        }
+      )
+    }
   } catch (err) {
     console.error(err)
   }
@@ -94,26 +122,49 @@ export const createPaymentLink = async (
 export const createPaymentLinkForParticipations = async (
   user_id: string,
   type: Participations,
-  coin: Coins
+  coin: Coins,
+  method: Method,
+  buyer_email: string
 ) => {
   try {
     // Crear dirección de pago
-    await fetch(
-      `${
-        import.meta.env.VITE_API_URL
-      }/subscriptions/createPaymentAddressForParticipations/${type}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user_id,
-          type,
-          coin,
-        }),
-      }
-    )
+    if (method == 'Fiat') {
+      await fetch(
+        `${import.meta.env.VITE_API_URL
+        }/subscriptions/createPaymentAddressForParticipations/${type}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: user_id,
+            type,
+            coin,
+          }),
+        }
+      )
+    }
+    if (method == 'Coinpayments') {
+      await fetch(
+        `${import.meta.env.VITE_API_URL
+        }/coinpayments/create-transaction/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            uid: user_id,
+            type,
+            buyer_email,
+            currency1: 'USDT',
+            currency2: 'LTCT',
+            cmd: 'create_transaction'
+          }),
+        }
+      )
+    }
   } catch (err) {
     console.error(err)
   }
@@ -122,25 +173,48 @@ export const createPaymentLinkForParticipations = async (
 export const createPaymentLinkForCredits = async (
   user_id: string,
   type: PackCredits,
-  coin: Coins
+  coin: Coins,
+  method: Method,
+  buyer_email: string
 ) => {
   try {
     // Crear dirección de pago
-    await fetch(
-      `${
-        import.meta.env.VITE_API_URL
-      }/subscriptions/createPaymentAddressForCredits/${type}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user_id,
-          coin,
-        }),
-      }
-    )
+    if (method == 'Fiat') {
+      await fetch(
+        `${import.meta.env.VITE_API_URL
+        }/subscriptions/createPaymentAddressForCredits/${type}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: user_id,
+            coin,
+          }),
+        }
+      )
+    }
+    if (method == 'Coinpayments') {
+      await fetch(
+        `${import.meta.env.VITE_API_URL
+        }/coinpayments/create-transaction/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            uid: user_id,
+            type,
+            buyer_email,
+            currency1: 'USDT',
+            currency2: 'LTCT',
+            cmd: 'create_transaction'
+          }),
+        }
+      )
+    }
   } catch (err) {
     console.error(err)
   }
@@ -149,25 +223,48 @@ export const createPaymentLinkForCredits = async (
 export const createPaymentLinkForFranchiseAutomatic = async (
   user_id: string,
   type: AutomaticFranchises,
-  coin: Coins
+  coin: Coins,
+  method: Method,
+  buyer_email: string
 ) => {
   try {
     // Crear dirección de pago
-    await fetch(
-      `${
-        import.meta.env.VITE_API_URL
-      }/subscriptions/createPaymentAddressForAutomaticFranchises/${type}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user_id,
-          coin,
-        }),
-      }
-    )
+    if(method == "Fiat") {
+      await fetch(
+        `${import.meta.env.VITE_API_URL
+        }/subscriptions/createPaymentAddressForAutomaticFranchises/${type}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: user_id,
+            coin,
+          }),
+        }
+      )
+    }
+    if (method == 'Coinpayments') {
+      await fetch(
+        `${import.meta.env.VITE_API_URL
+        }/coinpayments/create-transaction/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            uid: user_id,
+            type,
+            buyer_email,
+            currency1: 'USDT',
+            currency2: 'LTCT',
+            cmd: 'create_transaction'
+          }),
+        }
+      )
+    }
   } catch (err) {
     console.error(err)
   }

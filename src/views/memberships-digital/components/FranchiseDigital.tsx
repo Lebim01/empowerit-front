@@ -6,6 +6,7 @@ import {
   Coins,
   createPaymentLink,
   Memberships,
+  Method,
 } from '@/views/memberships/methods'
 import { MembershipsDigitalProps } from '../data/MembershipsDigitalData'
 
@@ -19,17 +20,20 @@ export default function FranchiseDigital({
   const [loading, setLoading] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
   const [period, setPeriod] = useState<Periods>('monthly')
-
+  const [method, setMethod] = useState<Method>('Fiat')
   const _createPaymentLink = async (
     type: Memberships,
     currency: Coins,
-    period: Periods
+    period: Periods,
+    method: Method,
+    buyer_email: string
   ) => {
     try {
       if (loading) return
       setLoading(true)
       setPeriod(period)
-      await createPaymentLink(user.uid!, type, currency, period)
+      setMethod(user.payment_link ? user.payment_link[type]?.openpay ? 'Fiat' : 'Coinpayments' : 'Coinpayments')
+      await createPaymentLink(user.uid!, type, currency, period, method, buyer_email)
     } catch (err) {
       console.error(err)
     } finally {
@@ -57,6 +61,7 @@ export default function FranchiseDigital({
         createPaymentLink={_createPaymentLink}
         period={period}
         options={[{ label: 'Mensual', value: 'monthly' }]}
+        method={method}
       />
     </div>
   )

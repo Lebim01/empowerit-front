@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { onSnapshot, collection, doc, updateDoc } from 'firebase/firestore'
 import { BsClock, BsWallet } from 'react-icons/bs'
 import { FiCopy } from 'react-icons/fi'
-import { Coins, Memberships } from '../methods'
+import { Coins, Memberships, Method } from '../methods'
 import { useAppSelector } from '@/store'
 import useClipboard from '@/utils/hooks/useClipboard'
 import { getPaidAmount } from '@/services/Memberships'
@@ -21,13 +21,15 @@ const FormPay = ({
   period,
   founder,
   openModal,
+  method
 }: {
   type: Memberships
-  createPaymentLink: (type: Memberships, coin: Coins, period: Periods) => void
+  createPaymentLink: (type: Memberships, coin: Coins, period: Periods, method: Method, buyer_email: string) => void
   loading: boolean
   period: Periods
   founder?: boolean
   openModal: () => void
+  method: Method
 }) => {
   const user = useAppSelector((state) => state.auth.user)
   const { copy } = useClipboard()
@@ -47,7 +49,7 @@ const FormPay = ({
     user.payment_link[type] &&
     user.payment_link[type]?.expires_at
   const qr =
-    user.payment_link && user.payment_link[type] && user.payment_link[type]?.qr
+    user.payment_link && user.payment_link[type] && user.payment_link[type]?.qrcode_url
 
   const isExpired = dayjs(
     expires_at?.seconds ? expires_at?.seconds * 1000 : null
@@ -248,7 +250,7 @@ const FormPay = ({
             loading={loading}
             disabled={!isExpired}
             onClick={() =>
-              createPaymentLink(type, user.payment_link![type].currency, period)
+              createPaymentLink(type, user.payment_link![type].currency, period, method, user.email as string)
             }
           >
             Calcular de nuevo

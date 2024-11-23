@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { onSnapshot, collection, doc, updateDoc } from 'firebase/firestore'
 import { BsClock, BsWallet } from 'react-icons/bs'
 import { FiCopy } from 'react-icons/fi'
-import { Coins, AutomaticFranchises } from '@/views/memberships/methods'
+import { Coins, AutomaticFranchises, Method } from '@/views/memberships/methods'
 import { useAppSelector } from '@/store'
 import useClipboard from '@/utils/hooks/useClipboard'
 import { getPaidAmount } from '@/services/Memberships'
@@ -19,6 +19,8 @@ const FormPayForFranchiseAutomatic = ({
   createPaymentLink,
   loading,
   period,
+
+  buyer_email,
   founder,
   openModal,
 }: {
@@ -26,10 +28,14 @@ const FormPayForFranchiseAutomatic = ({
   createPaymentLink: (
     type: AutomaticFranchises,
     coin: Coins,
-    period: Periods
+    period: Periods,
+    method: Method,
+    buyer_email: string
   ) => void
   loading: boolean
   period: Periods
+
+  buyer_email: string
   founder?: boolean
   openModal: () => void
 }) => {
@@ -53,7 +59,7 @@ const FormPayForFranchiseAutomatic = ({
   const qr =
     user.payment_link_automatic_franchises &&
     user.payment_link_automatic_franchises[type] &&
-    user.payment_link_automatic_franchises[type]?.qr
+    user.payment_link_automatic_franchises[type]?.qrcode_url
 
   const isExpired = dayjs(
     expires_at?.seconds ? expires_at?.seconds * 1000 : null
@@ -146,7 +152,7 @@ const FormPayForFranchiseAutomatic = ({
               className={classNames(
                 'h-[150px] w-[150px]',
                 user.payment_link_automatic_franchises![type].currency ==
-                  'MXN' && 'hidden'
+                'MXN' && 'hidden'
               )}
             />
           </div>
@@ -158,7 +164,7 @@ const FormPayForFranchiseAutomatic = ({
           value={isExpired && !amountChanged ? '' : address}
           className={classNames(
             user.payment_link_automatic_franchises![type].currency == 'MXN' &&
-              'hidden'
+            'hidden'
           )}
           suffix={
             <div
@@ -184,7 +190,7 @@ const FormPayForFranchiseAutomatic = ({
             readOnly
             prefix={
               currencyIcon[
-                user.payment_link_automatic_franchises![type].currency || 'BTC'
+              user.payment_link_automatic_franchises![type].currency || 'BTC'
               ]
             }
             value={isExpired && !amountChanged ? '' : amount.toFixed(8)}
@@ -274,7 +280,9 @@ const FormPayForFranchiseAutomatic = ({
               createPaymentLink(
                 type,
                 user.payment_link_automatic_franchises![type].currency,
-                period
+                period,
+                'Coinpayments',
+                buyer_email
               )
             }
           >
