@@ -16,6 +16,7 @@ export default function AddCreditsComponent() {
   })
 
   const handleSubmit = async (e: FormEvent) => {
+    setLoading(true)
     e.preventDefault();
     let valid = true
     //Verificar que el correo si sea un correo
@@ -69,6 +70,10 @@ export default function AddCreditsComponent() {
           }
         }catch(err){
             console.error(err)
+            setLoading(false)
+            toast.push(
+              <Notification title='Ocurrio un error al agregar los creditos' type='danger'/>
+            )
         }finally{
             setLoading(false)
             setForm({
@@ -134,7 +139,7 @@ export default function AddCreditsComponent() {
             />
             {formErrors.credits && <span className="text-red-500">{formErrors.credits}</span>}
           </div>
-          <Button loading={loading}>
+          <Button loading={loading} disabled={loading}>
             Agregar
           </Button>
         </div>
