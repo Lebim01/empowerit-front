@@ -37,39 +37,69 @@ export const OPTIONS = [
 ]
 
 export const OPTIONS2 = [
+  // {
+  //   label: 'F49',
+  //   value: '49-pack',
+  //   image: '/img/Franchises/49-pack.png',
+  // },
+  // {
+  //   label: 'F100',
+  //   value: '100-pack',
+  //   image: '/img/Franchises/100-pack.png',
+  // },
+  // {
+  //   label: 'F300',
+  //   value: '300-pack',
+  //   image: '/img/Franchises/300-pack.png',
+  // },
+  // {
+  //   label: 'F500',
+  //   value: '500-pack',
+  //   image: '/img/Franchises/500-pack.png',
+  // },
+  // {
+  //   label: 'F1000',
+  //   value: '1000-pack',
+  //   image: '/img/Franchises/1000-pack.png',
+  // },
+  // {
+  //   label: 'F2000',
+  //   value: '2000-pack',
+  //   image: '/img/Franchises/2000-pack.png',
+  // },
+  // {
+  //   label: 'F3000',
+  //   value: '3000-pack',
+  //   image: '/img/Franchises/3000-pack.png',
+  // },
   {
-    label: 'F49',
-    value: '49-pack',
-    image: '/img/Franchises/49-pack.png',
-  },
-  {
-    label: 'F100',
-    value: '100-pack',
-    image: '/img/Franchises/100-pack.png',
-  },
-  {
-    label: 'F300',
-    value: '300-pack',
-    image: '/img/Franchises/300-pack.png',
-  },
-  {
-    label: 'F500',
-    value: '500-pack',
-    image: '/img/Franchises/500-pack.png',
-  },
-  {
-    label: 'F1000',
-    value: '1000-pack',
+    label: 'FA500',
+    value: 'FA500',
     image: '/img/Franchises/1000-pack.png',
   },
   {
-    label: 'F2000',
-    value: '2000-pack',
+    label: 'FA1000',
+    value: 'FA1000',
     image: '/img/Franchises/2000-pack.png',
   },
   {
-    label: 'F3000',
-    value: '3000-pack',
+    label: 'FA2000',
+    value: 'FA2000',
+    image: '/img/Franchises/3000-pack.png',
+  },
+  {
+    label: 'FA5000',
+    value: 'FA5000',
+    image: '/img/Franchises/1000-pack.png',
+  },
+  {
+    label: 'FA10000',
+    value: 'FA10000',
+    image: '/img/Franchises/2000-pack.png',
+  },
+  {
+    label: 'FA20000',
+    value: 'FA20000',
     image: '/img/Franchises/3000-pack.png',
   },
   {
