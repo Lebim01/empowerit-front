@@ -1,14 +1,14 @@
 import { Button, Input, Notification, Radio, Select, toast } from "@/components/ui"
 import { db } from "@/configs/firebaseConfig"
 import { OPTIONS, OPTIONS2 } from "@/utils/packs"
-import { Franchises, Memberships } from "@/views/memberships/methods"
+import { AutomaticFranchises, Franchises, Memberships } from "@/views/memberships/methods"
 import { collection, getDocs, query, where } from "firebase/firestore"
 import { useState } from "react"
 
 
 const ActiveWithVolume = () => {
     const [email, setEmail] = useState("")
-    const [membership, setMembership] = useState<Franchises>('100-pack')
+    const [membership, setMembership] = useState<Memberships | AutomaticFranchises>('FA500')
     const [loading, setLoading] = useState(false)
 
     const enter = async () => {
