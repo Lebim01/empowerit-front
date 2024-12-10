@@ -118,6 +118,7 @@ export const protectedRoutes = [
     authority: ['USER'],
   },
   // Historial de Pagos
+ 
   {
     key: 'user-payroll-history',
     path: '/payroll/history',
@@ -223,6 +224,12 @@ export const protectedRoutes = [
     authority: ['ADMIN'],
   },
   // ADMIN: Pagos
+  {
+    key: 'admin-payroll-history-leaders',
+    path: '/admin-payroll/history-leaders',
+    component: lazy(() => import('@/views/admin/leader-history')),
+    authority: ['ADMIN'],
+  },
   {
     key: 'admin-payroll',
     path: '/admin-payroll/pays',
