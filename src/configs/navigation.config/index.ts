@@ -384,6 +384,16 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         authority: ['ADMIN'],
         subMenu: [],
       },
+      {
+        key: 'admin-payroll.history-leaders',
+        path: `/admin-payroll/history-leaders`,
+        title: 'Desempeños Líderes',
+        translateKey: 'nav.order-list.history-leaders',
+        icon: 'payroll',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+      },
     ],
   },
   {
