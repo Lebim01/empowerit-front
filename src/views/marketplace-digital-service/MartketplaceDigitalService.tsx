@@ -166,7 +166,7 @@ export default function MartketplaceDigitalService() {
         {/* <AlgorithmMrRangeComponent /> */}
         <MrSportMoney />
         <MrMoneyPower />
-        <FollowerUp
+        {/* <FollowerUp
           img="/img/digital-marketplace/follower-up.png"
           cost={16}
           name="1K"
@@ -180,7 +180,7 @@ export default function MartketplaceDigitalService() {
           img="/img/digital-marketplace/follower-up-10k.png"
           cost={72}
           name="10K"
-        />
+        /> */}
         <ProFunnelModal />
         <InstaAdsModal />
         <FlowBotModal />

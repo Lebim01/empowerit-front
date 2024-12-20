@@ -19,7 +19,7 @@ export default function RechargeCreditsCard() {
     try {
       if (loading) return
       setLoading(true)
-      await createPaymentLinkForCredits(user.uid!, type, currency)
+      await createPaymentLinkForCredits(user.uid!, type, currency, "Fiat", user.email!)
     } catch (err) {
       console.error(err)
     } finally {
