@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { onSnapshot, collection, doc, updateDoc } from 'firebase/firestore'
 import { BsClock, BsWallet } from 'react-icons/bs'
 import { FiCopy } from 'react-icons/fi'
-import { Coins, Memberships, PackCredits } from '../methods'
+import { Coins, Memberships, Method, PackCredits } from '../methods'
 import { useAppSelector } from '@/store'
 import useClipboard from '@/utils/hooks/useClipboard'
 import { getPaidAmount } from '@/services/Memberships'
@@ -21,7 +21,7 @@ const FormPayForCredits = ({
   openModal,
 }: {
   type: PackCredits
-  createPaymentLink: (type: PackCredits, coin: Coins) => void
+  createPaymentLink: (type: PackCredits, coin: Coins, method: Method, email: string) => void
   loading: boolean
   founder?: boolean
   openModal: () => void
@@ -46,7 +46,7 @@ const FormPayForCredits = ({
   const qr =
     user.payment_link_credits &&
     user.payment_link_credits[type] &&
-    user.payment_link_credits[type]?.qr
+    user.payment_link_credits[type]?.qrcode_url
 
   const isExpired = dayjs(
     expires_at?.seconds ? expires_at?.seconds * 1000 : null

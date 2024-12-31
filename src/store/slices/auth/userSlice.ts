@@ -103,6 +103,7 @@ export type UserState = {
       amount: string
       expires_at: { seconds: number }
       qr: string
+      qrcode_url: string;
       currency: Coins
       status: 'pending' | 'confirming'
       address: string

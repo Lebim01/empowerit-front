@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui"
-import { Coins, PackCredits, createPaymentLinkForCredits } from "@/views/memberships/methods"
+import { Coins, Method, PackCredits, createPaymentLinkForCredits } from "@/views/memberships/methods"
 import { useEffect, useState } from "react"
 import { useAppSelector } from "@/store"
 import ShowQRForCredits from "@/views/memberships/components/ShowQRForCredits"
@@ -15,11 +15,13 @@ export default function RechargeCreditsCard() {
   const _createPaymentLink = async (
     type: PackCredits,
     currency: Coins,
+    method: Method,
+    email: string
   ) => {
     try {
       if (loading) return
       setLoading(true)
-      await createPaymentLinkForCredits(user.uid!, type, currency, "Fiat", user.email!)
+      await createPaymentLinkForCredits(user.uid!, type, currency, method, user.email!)
     } catch (err) {
       console.error(err)
     } finally {
