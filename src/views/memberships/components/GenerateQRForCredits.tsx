@@ -1,8 +1,9 @@
 import { Button, Select } from '@/components/ui'
-import { Coins, Memberships, PackCredits } from '../methods'
+import { Coins, Memberships, Method, PackCredits } from '../methods'
 import { useState } from 'react'
 import { SiCashapp } from 'react-icons/si'
 import { Periods } from '../membership'
+import { useAppSelector } from '@/store'
 
 const GenerateQRForCredits = ({
   type,
@@ -12,17 +13,17 @@ const GenerateQRForCredits = ({
 }: {
   type: PackCredits
   loading: boolean
-  createPaymentLink: (type: PackCredits, coin: Coins) => void
+  createPaymentLink: (type: PackCredits, coin: Coins, method: Method, email: string) => void
   founder?: boolean
 }) => {
   const [period, setPeriod] = useState<Periods>('monthly')
   const [showCoin, setShowCoin] = useState(false)
   const [disabled, setDisabled] = useState(false)
-
-  const _create = (coin: Coins) => {
+  const user = useAppSelector((state) => state.auth.user)
+  const _create = (coin: Coins, method: Method) => {
     try {
       setDisabled(true)
-      createPaymentLink(type, coin)
+      createPaymentLink(type, coin, method, user.email as string)
     } catch (err) {
       console.error(err)
     } finally {
@@ -42,7 +43,7 @@ const GenerateQRForCredits = ({
             <Button
               className="h-max"
               disabled={disabled}
-              onClick={() => _create('MXN')}
+              onClick={() => _create('MXN', 'Fiat')}
             >
               <div className="flex flex-col items-center space-y-4">
                 <SiCashapp
@@ -51,6 +52,19 @@ const GenerateQRForCredits = ({
                   className="h-[50px] w-[50px]"
                 />
                 <span>Fiat (MXN)</span>
+              </div>
+            </Button>
+          )}
+
+          {import.meta.env.VITE_ENABLE_OPENPAY && (
+            <Button
+              className="h-max"
+              disabled={disabled}
+              onClick={() => _create('MXN', 'Coinpayments')}
+            >
+              <div className="flex flex-col items-center space-y-4">
+                <img src='/img/insignias/USDT.svg' className='w-[50px] h-[50px]' />
+                <span>Tether (USDT)</span>
               </div>
             </Button>
           )}

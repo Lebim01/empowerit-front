@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { Memberships, Coins, PackCredits } from '../methods'
+import { Memberships, Coins, PackCredits, Method } from '../methods'
 import { useAppSelector } from '@/store'
 import { Spinner } from '@/components/ui'
 import GenerateQR from './GenerateQR'
@@ -18,7 +18,7 @@ const ShowQRForCredits = ({
 }: {
   type: PackCredits
   loading: boolean
-  createPaymentLink: (type: PackCredits, coin: Coins) => void
+  createPaymentLink: (type: PackCredits, coin: Coins, method: Method, email: string) => void
   founder?: boolean
 }) => {
   // Se obtiene el usuario

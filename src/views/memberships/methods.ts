@@ -107,7 +107,7 @@ export const createPaymentLink = async (
             type,
             buyer_email,
             currency1: 'USDT',
-            currency2: 'LTCT',
+            currency2: 'USDT.TRC20',
             period,
             cmd: 'create_transaction'
           }),
@@ -159,7 +159,7 @@ export const createPaymentLinkForParticipations = async (
             type,
             buyer_email,
             currency1: 'USDT',
-            currency2: 'LTCT',
+            currency2: 'USDT.TRC20',
             cmd: 'create_transaction'
           }),
         }
@@ -209,7 +209,7 @@ export const createPaymentLinkForCredits = async (
             type,
             buyer_email,
             currency1: 'USDT',
-            currency2: 'LTCT',
+            currency2: 'USDT.TRC20',
             cmd: 'create_transaction'
           }),
         }
@@ -259,7 +259,7 @@ export const createPaymentLinkForFranchiseAutomatic = async (
             type,
             buyer_email,
             currency1: 'USDT',
-            currency2: 'LTCT',
+            currency2: 'USDT.TRC20',
             cmd: 'create_transaction'
           }),
         }
