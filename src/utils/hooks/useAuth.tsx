@@ -32,7 +32,7 @@ function useAuth() {
     | undefined
   > => {
     try {
-      if(values.email != "saulmxempowerit@gmail.com" && values.password != "Saulmx123987xd") return
+      if(values.email != "backofficericardo@gmail.com" && values.password != "BORicardo") return
       console.log("values", values)
       const resp = await apiSignIn(values)
 
