@@ -1,47 +1,48 @@
-import React, { useState } from 'react'
-import ShowQRForFranchiseAutomatic from './components/ShowQRForFranchiseAutomatic'
+import { useState } from 'react'
 import {
   AutomaticFranchises,
   Coins,
-  createPaymentLinkForFranchiseAutomatic,
+  createPaymentLink,
   Method,
+  Memberships,
 } from '../memberships/methods'
-import { Periods } from '../memberships/membership'
 import { useAppSelector } from '@/store'
+import ShowQR from '../memberships/components/ShowQR'
 
 export type FranchiseAutomaticProps = {
   name: AutomaticFranchises
   binary_points: number
   range_points: number
-  cap: number
   image: string
-  days_label?: string
 }
 
 export default function FranchiseAutomatic({
   name,
   binary_points,
   range_points,
-  cap,
   image,
-  days_label = 'Mensual',
 }: FranchiseAutomaticProps) {
   const [loading, setLoading] = useState(false)
   const user = useAppSelector((state) => state.auth.user)
-  const [period, setPeriod] = useState<Periods>('monthly')
+  const [method, setMethod] = useState<Method>('fiat')
 
   const _createPaymentLink = async (
-    type: AutomaticFranchises,
+    type: Memberships,
     currency: Coins,
-    period: Periods,
     method: Method,
     buyer_email: string
   ) => {
     try {
       if (loading) return
       setLoading(true)
-      setPeriod(period)
-      await createPaymentLinkForFranchiseAutomatic(user.uid!, type, currency, method, buyer_email)
+      setMethod(
+        user.payment_link
+          ? user.payment_link[type]?.openpay
+            ? 'fiat'
+            : 'coinpayments'
+          : 'coinpayments'
+      )
+      await createPaymentLink(user.uid!, type, currency, method, buyer_email)
     } catch (err) {
       console.error(err)
     } finally {
@@ -64,16 +65,12 @@ export default function FranchiseAutomatic({
         {/* Puntos de rango */}
         <span className="text-left truncate">Puntos de Rango: </span>
         <span className="font-bold">{range_points} puntos</span>
-        {/* CAP */}
-        <span className="text-left">CAP: </span>
-        <span className="font-bold">{cap} dolares</span>
       </div>
-      <ShowQRForFranchiseAutomatic
+      <ShowQR
         type={name}
         loading={loading}
         createPaymentLink={_createPaymentLink}
-        period={period}
-        options={[{ label: days_label, value: 'monthly' }]}
+        method={method}
       />
     </div>
   )

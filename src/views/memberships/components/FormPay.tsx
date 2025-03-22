@@ -10,24 +10,24 @@ import { useAppSelector } from '@/store'
 import useClipboard from '@/utils/hooks/useClipboard'
 import { getPaidAmount } from '@/services/Memberships'
 import { db } from '@/configs/firebaseConfig'
-import ButtonSwapCurrency, { currencyIcon } from './ButtonSwapCurrency'
-import { Periods } from '../membership'
+import { currencyIcon } from './ButtonSwapCurrency'
 import classNames from 'classnames'
 
 const FormPay = ({
   type,
   createPaymentLink,
   loading,
-  period,
-  founder,
   openModal,
-  method
+  method,
 }: {
   type: Memberships
-  createPaymentLink: (type: Memberships, coin: Coins, period: Periods, method: Method, buyer_email: string) => void
+  createPaymentLink: (
+    type: Memberships,
+    coin: Coins,
+    method: Method,
+    buyer_email: string
+  ) => void
   loading: boolean
-  period: Periods
-  founder?: boolean
   openModal: () => void
   method: Method
 }) => {
@@ -49,7 +49,9 @@ const FormPay = ({
     user.payment_link[type] &&
     user.payment_link[type]?.expires_at
   const qr =
-    user.payment_link && user.payment_link[type] && user.payment_link[type]?.qrcode_url
+    user.payment_link &&
+    user.payment_link[type] &&
+    user.payment_link[type]?.qrcode_url
 
   const isExpired = dayjs(
     expires_at?.seconds ? expires_at?.seconds * 1000 : null
@@ -168,7 +170,7 @@ const FormPay = ({
           ) : null}
           <Input
             readOnly
-            prefix={currencyIcon[user.payment_link![type].currency || 'BTC']}
+            prefix={currencyIcon[user.payment_link![type].currency || 'USDT']}
             value={isExpired && !amountChanged ? '' : amount.toFixed(8)}
             suffix={
               <div className="flex items-center space-x-2">
@@ -250,7 +252,12 @@ const FormPay = ({
             loading={loading}
             disabled={!isExpired}
             onClick={() =>
-              createPaymentLink(type, user.payment_link![type].currency, period, method, user.email as string)
+              createPaymentLink(
+                type,
+                user.payment_link![type].currency,
+                method,
+                user.email as string
+              )
             }
           >
             Calcular de nuevo

@@ -253,6 +253,7 @@ text-freedom-pack
 text-business-pack
 text-vip-pack
 text-elite-pack
+text-success
 bg-inherit
 bg-current
 bg-transparent
@@ -508,6 +509,7 @@ bg-freedom-pack
 bg-business-pack
 bg-vip-pack
 bg-elite-pack
+bg-success
 dark:bg-inherit
 dark:bg-current
 dark:bg-transparent
@@ -763,6 +765,7 @@ dark:bg-freedom-pack
 dark:bg-business-pack
 dark:bg-vip-pack
 dark:bg-elite-pack
+dark:bg-success
 dark:hover:bg-inherit
 dark:hover:bg-current
 dark:hover:bg-transparent
@@ -1018,6 +1021,7 @@ dark:hover:bg-freedom-pack
 dark:hover:bg-business-pack
 dark:hover:bg-vip-pack
 dark:hover:bg-elite-pack
+dark:hover:bg-success
 dark:active:bg-inherit
 dark:active:bg-current
 dark:active:bg-transparent
@@ -1273,6 +1277,7 @@ dark:active:bg-freedom-pack
 dark:active:bg-business-pack
 dark:active:bg-vip-pack
 dark:active:bg-elite-pack
+dark:active:bg-success
 hover:text-inherit
 hover:text-current
 hover:text-transparent
@@ -1528,6 +1533,7 @@ hover:text-freedom-pack
 hover:text-business-pack
 hover:text-vip-pack
 hover:text-elite-pack
+hover:text-success
 hover:bg-inherit
 hover:bg-current
 hover:bg-transparent
@@ -1783,6 +1789,7 @@ hover:bg-freedom-pack
 hover:bg-business-pack
 hover:bg-vip-pack
 hover:bg-elite-pack
+hover:bg-success
 active:bg-inherit
 active:bg-current
 active:bg-transparent
@@ -2038,6 +2045,7 @@ active:bg-freedom-pack
 active:bg-business-pack
 active:bg-vip-pack
 active:bg-elite-pack
+active:bg-success
 ring-inherit
 ring-current
 ring-transparent
@@ -2293,6 +2301,7 @@ ring-freedom-pack
 ring-business-pack
 ring-vip-pack
 ring-elite-pack
+ring-success
 hover:ring-inherit
 hover:ring-current
 hover:ring-transparent
@@ -2548,6 +2557,7 @@ hover:ring-freedom-pack
 hover:ring-business-pack
 hover:ring-vip-pack
 hover:ring-elite-pack
+hover:ring-success
 focus:ring-inherit
 focus:ring-current
 focus:ring-transparent
@@ -2803,6 +2813,7 @@ focus:ring-freedom-pack
 focus:ring-business-pack
 focus:ring-vip-pack
 focus:ring-elite-pack
+focus:ring-success
 focus-within:ring-inherit
 focus-within:ring-current
 focus-within:ring-transparent
@@ -3058,6 +3069,7 @@ focus-within:ring-freedom-pack
 focus-within:ring-business-pack
 focus-within:ring-vip-pack
 focus-within:ring-elite-pack
+focus-within:ring-success
 border-inherit
 border-current
 border-transparent
@@ -3313,6 +3325,7 @@ border-freedom-pack
 border-business-pack
 border-vip-pack
 border-elite-pack
+border-success
 focus:border-inherit
 focus:border-current
 focus:border-transparent
@@ -3568,6 +3581,7 @@ focus:border-freedom-pack
 focus:border-business-pack
 focus:border-vip-pack
 focus:border-elite-pack
+focus:border-success
 focus-within:border-inherit
 focus-within:border-current
 focus-within:border-transparent
@@ -3823,6 +3837,7 @@ focus-within:border-freedom-pack
 focus-within:border-business-pack
 focus-within:border-vip-pack
 focus-within:border-elite-pack
+focus-within:border-success
 dark:text-inherit
 dark:text-current
 dark:text-transparent
@@ -4078,6 +4093,7 @@ dark:text-freedom-pack
 dark:text-business-pack
 dark:text-vip-pack
 dark:text-elite-pack
+dark:text-success
 dark:hover:text-inherit
 dark:hover:text-current
 dark:hover:text-transparent
@@ -4333,6 +4349,7 @@ dark:hover:text-freedom-pack
 dark:hover:text-business-pack
 dark:hover:text-vip-pack
 dark:hover:text-elite-pack
+dark:hover:text-success
 h-0
 h-1
 h-2

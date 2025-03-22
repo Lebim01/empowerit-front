@@ -1,123 +1,83 @@
-import dayjs from 'dayjs'
 import { Memberships, Coins, Method } from '../methods'
 import { useAppSelector } from '@/store'
-import { Spinner } from '@/components/ui'
 import GenerateQR from './GenerateQR'
-import ConfirmMessage from './ConfirmMessage'
-import FormPay from './FormPay'
-import { Periods } from '../membership'
-import { useState } from 'react'
-import OpenPayCheckout from '@/components/OpenpayCheckout/Checkout'
+import { useEffect, useState } from 'react'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { db } from '@/configs/firebaseConfig'
+import FormPayOpenpay from './FormPayOpenpay'
 
 const ShowQR = ({
   type,
   loading,
   createPaymentLink,
-  options,
-  period,
-  founder,
   method,
 }: {
   type: Memberships
   loading: boolean
-  createPaymentLink: (type: Memberships, coin: Coins, period: Periods, method: Method, buyer_email: string) => void
-  options: { value: Periods; label: string }[]
-  period: Periods
-  founder?: boolean
+  createPaymentLink: (
+    type: Memberships,
+    coin: Coins,
+    method: Method,
+    buyer_email: string
+  ) => void
   method: Method
- 
 }) => {
   // Se obtiene el usuario
   const user = useAppSelector((state) => state.auth.user)
-
-  // Obtener fecha de expiración
-  const expires_at = user?.membership_expires_at
-  const expiredDate = expires_at ? dayjs(expires_at) : null
-  // Obtener fecha de mañana
-  const tomorrowDate = dayjs().add(1, 'days')
-
-  // Sí la fecha de expiración es el siguiente día
-  if (
-    (expires_at &&
-      expiredDate &&
-      expiredDate.isBefore(tomorrowDate.toDate()) &&
-      !user.payment_link) ||
-    (founder && !user.founder_pack && !user.payment_link)
+  const [linkType, setLinkType] = useState<null | 'openpay' | 'coinpayments'>(
+    null
   )
-    return (
-      <>
-        <GenerateQR
-          type={type}
-          loading={loading}
-          createPaymentLink={createPaymentLink}
-          options={options}
-          founder={founder}
-    
-        />
-      </>
-    )
+  const [qr, setQR] = useState<any>(null)
 
-  // Sí el pago sigue pendiente
-  if (
-    user.payment_link &&
-    user.payment_link[type] &&
-    user.payment_link[type].status == 'pending'
-  )
-    return (
-      <>
-        <FormPay
-          type={type}
-          loading={loading}
-          createPaymentLink={createPaymentLink}
-          period={period}
-          openModal={() => {
-            window.open(user.payment_link![type].redirect_url)
-          }}
-          method={method}
-        />
-      </>
-    )
-
-  // Sí el pago fue completado
-  if (
-    user.payment_link &&
-    user.payment_link[type] &&
-    user.payment_link[type].status == 'confirming'
-  )
-    return <ConfirmMessage />
-
-  // Sí el pago se completo...
-  if (user.membership_status == 'paid') {
-    return (
-      <>
-        <GenerateQR
-          type={type}
-          loading={loading}
-          createPaymentLink={createPaymentLink}
-          options={options}
-          founder={founder}
-      
-        />
-      </>
-    )
+  const removeQR = async () => {
+    await updateDoc(doc(db, `users/${user?.uid}`), {
+      openpay_link: null,
+    })
   }
 
-  // Sí no se a creado la dirección de pago...
-  if (!user.payment_link || !user.payment_link[type])
-    return (
-      <>
-        <GenerateQR
-          type={type}
-          loading={loading}
-          createPaymentLink={createPaymentLink}
-          options={options}
-          founder={founder}
-       
-        />
-      </>
-    )
+  const getOpenpayQR = async () => {
+    const transaction = await getDoc(doc(db, `openpay/${user?.openpay_link}`))
+    if (transaction.exists()) {
+      const isexpired = null
+      if (transaction.get('status') == 'pending') {
+        setQR(transaction.data())
+        setLinkType('openpay')
+      } else {
+        await removeQR()
+        setQR(null)
+      }
+    } else {
+      await removeQR()
+      setQR(null)
+    }
+  }
 
-  return <Spinner />
+  useEffect(() => {
+    if (user.openpay_link) getOpenpayQR()
+    else setQR(null)
+  }, [user.openpay_link])
+
+  if (user.openpay_link && !qr) {
+    return null
+  }
+
+  if (qr && qr.type != 'membership') return null
+
+  if (qr && qr.membership_type != type) return null
+
+  if (qr && linkType == 'openpay') {
+    return <FormPayOpenpay qr={qr} />
+  }
+
+  return (
+    <>
+      <GenerateQR
+        type={type}
+        loading={loading}
+        createPaymentLink={createPaymentLink}
+      />
+    </>
+  )
 }
 
 export default ShowQR

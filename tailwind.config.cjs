@@ -68,6 +68,7 @@ module.exports = {
         'business-pack': '#6822a3',
         'vip-pack': '#bd9c3a',
         'elite-pack': '#959595',
+        success: '#28a745',
       },
       typography: (theme) => ({
         DEFAULT: {

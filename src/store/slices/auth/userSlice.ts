@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { SLICE_BASE_NAME } from './constants'
-import { Coins } from '@/views/memberships/methods'
+import { Coins, Memberships } from '@/views/memberships/methods'
 import dayjs from 'dayjs'
 import { Timestamp } from 'firebase/firestore'
 
@@ -55,7 +55,7 @@ export type UserState = {
   has_bought_mr_money_power?: boolean
   has_automatic_franchises?: boolean
 
-  membership: string | null
+  membership: Memberships | null
   membership_status: 'paid' | 'expired' | null
   membership_expires_at: string | null
   membership_cap_current?: number
@@ -68,78 +68,9 @@ export type UserState = {
   bond_presenter: number
   bond_quick_start: number
   presenter_code: string
-
-  payment_link?: {
-    //CoinPayments
-    /* address: string
-    amount: string
-    checkout_url: string
-    confirms_needed: string
-    expires_at: { seconds: number }
-    membership: string
-    qrcode_url: string
-    status: 'pending' | 'confirming' | 'paid'
-    status_url: string
-    timeout: number
-    txn_id: string
-    uid: string
-    updated_at: { seconds: number } */
-    [type: string]: {
-      amount: string
-      expires_at: { seconds: number }
-      qr: string
-      qrcode_url: string
-      currency: Coins
-      status: 'pending' | 'confirming' | 'paid'
-      address: string
-      redirect_url?: string
-      openpay?: {
-        
-      }
-    }
-  }
-  payment_link_credits?: {
-    [type: string]: {
-      amount: string
-      expires_at: { seconds: number }
-      qr: string
-      qrcode_url: string;
-      currency: Coins
-      status: 'pending' | 'confirming'
-      address: string
-      redirect_url?: string
-    }
-  }
-  payment_link_participations?: {
-    [type: string]: {
-      amount: string
-      expires_at: { seconds: number }
-      qr: string
-      currency: Coins
-      status: 'pending' | 'confirming'
-      address: string
-      redirect_url?: string
-    }
-  }
-  payment_link_automatic_franchises?: {
-    [type: string]: {
-      amount: string
-      expires_at: { seconds: number }
-      qr: string
-      qrcode_url: string
-      currency: Coins
-      status: 'pending' | 'confirming'
-      address: string
-      redirect_url?: string
-    }
-  }
+  openpay_link?: string
 
   is_pending_complete_personal_info: boolean
-  founder_pack?: {
-    status: 'paid'
-    created_at: Date
-    price: number
-  }
   has_participations: boolean
 }
 
@@ -300,11 +231,6 @@ const userSlice = createSlice({
         state.rank = payload.rank
         state.position = payload.position ?? 'right'
         state.is_new = payload.is_new ?? false
-        state.payment_link = payload.payment_link
-        state.payment_link_credits = payload.payment_link_credits
-        state.payment_link_participations = payload.payment_link_participations
-        state.payment_link_automatic_franchises =
-          payload.payment_link_automatic_franchises
 
         state.membership_status = payload.membership_status
         state.membership = payload.membership
@@ -314,6 +240,7 @@ const userSlice = createSlice({
         state.bond_quick_start = payload.bond_quick_start
         state.bond_presenter = payload.bond_presenter
         state.algorithmId = payload.algorithmId
+        state.openpay_link = payload.openpay_link
 
         state.membership_expires_at = payload.membership_expires_at
           ? typeof payload.membership_expires_at == 'string'

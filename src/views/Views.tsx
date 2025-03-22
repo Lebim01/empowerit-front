@@ -16,6 +16,7 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { db } from '@/configs/firebaseConfig'
 import GlobalComponents from './GlobalComponents'
 import { getCustomToken } from '@/services/AuthService'
+import { AutomaticFranchises, Memberships } from './memberships/methods'
 
 interface ViewsProps {
   pageContainerType?: 'default' | 'gutterless' | 'contained'
@@ -26,6 +27,12 @@ type AllRoutesProps = ViewsProps
 
 const { authenticatedEntryPath } = appConfig
 
+const automaticFranchises: AutomaticFranchises[] = [
+  'FA1000',
+  'FA2000',
+  'FA5000',
+]
+
 const AllRoutes = (props: AllRoutesProps) => {
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.auth.user)
@@ -35,22 +42,6 @@ const AllRoutes = (props: AllRoutesProps) => {
   const expires = useAppSelector(
     (state) => state.auth.user.membership_expires_at || null
   )
-  const Franchises = [
-    '49-pack',
-    '100-pack',
-    '300-pack',
-    '500-pack',
-    '1000-pack',
-    '2000-pack',
-    'FD200',
-    'FD300',
-    'FD500',
-    'FP200',
-    'FP300',
-    'FP500',
-  ]
-
-  const franchise = useAppSelector((state) => state.auth.user.membership)
 
   const isAdmin = useAppSelector((state) =>
     state.auth.user.authority?.includes('ADMIN')
@@ -61,8 +52,8 @@ const AllRoutes = (props: AllRoutesProps) => {
   useEffect(() => {
     if (!isAdmin) {
       if (
-        Franchises.includes(user?.membership || '') ||
-        user.has_automatic_franchises
+        user?.membership &&
+        automaticFranchises.includes(user.membership as any)
       ) {
         setRedirectToPay(false)
       } else if (!expires || dayjs().isAfter(dayjs(expires))) {
@@ -74,15 +65,13 @@ const AllRoutes = (props: AllRoutesProps) => {
     } else {
       setRedirectToPay(false)
     }
-  }, [expires, isAdmin, franchise])
+  }, [expires, isAdmin, user?.membership])
 
   useEffect(() => {
     if (user.uid) {
       const unsubs = onSnapshot(doc(db, 'users/' + user.uid), (snap) => {
         const data: any = snap.data()
-        getCustomToken(user.uid!).then((customToken) => {
-          dispatch(setUser({ uid: user.uid, customToken, ...data }))
-        })
+        dispatch(setUser({ uid: user.uid, ...data }))
       })
       return () => {
         unsubs()

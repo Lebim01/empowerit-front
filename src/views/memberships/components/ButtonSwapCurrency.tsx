@@ -1,13 +1,11 @@
 import { GoArrowSwitch } from 'react-icons/go'
 import { Coins } from '../methods'
-import { FaBitcoin } from 'react-icons/fa'
 import { SiCashapp } from 'react-icons/si'
 
 export const currencyIcon = {
-  BTC: <FaBitcoin />,
-  LTC: (
+  USDT: (
     <img
-      src="/img/ltc-logo.svg"
+      src="/img/usdt-logo.png"
       height={12}
       width={12}
       className="h-[12px] w-[12px]"

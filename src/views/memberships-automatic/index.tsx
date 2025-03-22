@@ -16,7 +16,6 @@ export default function PayMembershipAutomatic() {
               name={franchise.name}
               binary_points={franchise.binary_points}
               range_points={franchise.range_points}
-              cap={franchise.cap}
               image={franchise.image}
             />
           ))}

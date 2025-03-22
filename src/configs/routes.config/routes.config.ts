@@ -59,15 +59,15 @@ export const protectedRoutes = [
     authority: ['USER'],
   },
   {
-    key: 'subscriptions-product',
-    path: '/subscriptions-product',
-    component: lazy(() => import('@/views/memberships-product')),
+    key: 'subscriptions-business',
+    path: '/subscriptions-business',
+    component: lazy(() => import('@/views/memberships-business')),
     authority: ['USER'],
   },
   {
-    key: 'subscriptions-digital',
-    path: '/subscriptions-digital',
-    component: lazy(() => import('@/views/memberships-digital')),
+    key: 'subscriptions-travel',
+    path: '/subscriptions-travel',
+    component: lazy(() => import('@/views/memberships-travel')),
     authority: ['USER'],
   },
   {
@@ -118,7 +118,7 @@ export const protectedRoutes = [
     authority: ['USER'],
   },
   // Historial de Pagos
- 
+
   {
     key: 'user-payroll-history',
     path: '/payroll/history',
@@ -464,15 +464,15 @@ export const payRoute = [
     authority: [],
   },
   {
-    key: 'subscriptions-product',
-    path: 'subscriptions-product',
-    component: lazy(() => import('@/views/memberships-product')),
+    key: 'subscriptions-business',
+    path: 'subscriptions-business',
+    component: lazy(() => import('@/views/memberships-business')),
     authority: [],
   },
   {
-    key: 'subscriptions-digital',
-    path: '/subscriptions-digital',
-    component: lazy(() => import('@/views/memberships-digital')),
+    key: 'subscriptions-travel',
+    path: '/subscriptions-travel',
+    component: lazy(() => import('@/views/memberships-travel')),
     authority: [],
   },
   {

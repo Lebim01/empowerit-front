@@ -32,8 +32,6 @@ function useAuth() {
     | undefined
   > => {
     try {
-      if(values.email != "backofficericardo@gmail.com" && values.password != "BORicardo") return
-      console.log("values", values)
       const resp = await apiSignIn(values)
 
       if (resp.status === 'success' && resp.data) {
