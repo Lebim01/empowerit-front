@@ -1,16 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { SLICE_BASE_NAME } from './constants'
-import { Coins, Memberships } from '@/views/memberships/methods'
+import { Memberships } from '@/views/memberships/methods'
 import dayjs from 'dayjs'
-import { Timestamp } from 'firebase/firestore'
 
 export type UserState = {
   credits?: number
   is_admin?: boolean
   academy_access_expires_at?: string | null
   algorithm_mr_range_access_expires_at?: string | null
-  mr_sport_money_expires_at?: string | null
-  mr_money_power_expires_at?: Timestamp | null
+  mr_sport_money_expires_at: { seconds: number } | null
+  mr_money_power_expires_at: { seconds: number } | null
+  is_mr_sport_active: boolean
+  is_mr_money_active: boolean
   crypto_xpert_expires_at?: string | null
   pro_funnel_expires_at?: string | null
   insta_ads_expires_at?: string | null
@@ -122,6 +123,8 @@ const initialState: UserState = {
   algorithm_mr_range_access_expires_at: null,
   mr_sport_money_expires_at: null,
   mr_money_power_expires_at: null,
+  is_mr_money_active: false,
+  is_mr_sport_active: false,
   algorithmId: 0,
   has_participations: false,
   has_bought_mr_sport: false,
@@ -176,6 +179,8 @@ const userSlice = createSlice({
         state.mr_money_power_expires_at = payload.mr_money_power_expires_at
         state.has_bought_mr_sport = payload.has_bought_mr_sport
         state.credits_spent_this_month = payload.credits_spent_this_month
+        state.is_mr_money_active = payload.is_mr_money_active
+        state.is_mr_sport_active = payload.is_mr_sport_active
 
         const roles = []
         if (payload.uid == '5V5fwO7U48RHll0PLM5lK1g3gGa2') {

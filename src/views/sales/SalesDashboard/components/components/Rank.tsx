@@ -12,16 +12,15 @@ import {
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '@/store'
 import { db } from '@/configs/firebaseConfig'
-import { FaPeopleArrows, FaCar } from 'react-icons/fa'
+import { FaPeopleArrows } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { Dialog, Spinner } from '@/components/ui'
 import dayjs from 'dayjs'
 import useUserModalStore from '@/zustand/userModal'
-
 import { FaRegMoneyBill1, FaNetworkWired, FaPeopleLine } from 'react-icons/fa6'
 import { RiPresentationFill } from 'react-icons/ri'
 import { formatNumberWithCommas } from '@/utils/format'
-import { usersIndex } from '@/algolia'
+import Card from './Card'
 
 const Rank = () => {
   const userModal = useUserModalStore((state) => state)
@@ -37,9 +36,6 @@ const Rank = () => {
   const [modalDetails, setModalDetails] = useState<any[]>([])
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isOpenModalBinary, setIsOpenModalBinary] = useState(false)
-  const [isTopDollarsDisplayed, setIsTopDollarsDisplayed] = useState(false)
-  const [totalAutomaticFranchisesProfits, setTotalAutomaticFranchisesProfits] =
-    useState<number>(0)
 
   useEffect(() => {
     if (user.uid) {
@@ -52,9 +48,6 @@ const Rank = () => {
     }
   }, [user.uid])
 
-  useEffect(() => {
-    displayTopDollars()
-  }, [data])
   useEffect(() => {
     if (typeof user.max_rank == 'string') {
       getRank(user.max_rank)
@@ -85,41 +78,6 @@ const Rank = () => {
       )
     }
   }, [user.uid])
-
-  useEffect(() => {
-    const getAutomaticFranchisesTotalProfits = () => {
-      const automaticFranchisesRef = collection(
-        db,
-        `users/${user.uid}/automatic-franchises`
-      )
-      const unsubscribe = onSnapshot(
-        automaticFranchisesRef,
-        (snapshot) => {
-          let totalProfit = 0
-          snapshot.forEach((docu) => {
-            const profit = Number(docu.data().automatic_franchise_cap_current)
-            totalProfit += profit
-          })
-          setTotalAutomaticFranchisesProfits(totalProfit)
-        },
-        (error) => {
-          console.log(
-            'Error en la función getAutomaticFranchisesTotalProfits',
-            error
-          )
-        }
-      )
-      return () => unsubscribe()
-    }
-
-    if (user && user.uid) {
-      if (!user.has_automatic_franchises) {
-        setTotalAutomaticFranchisesProfits(0)
-      } else {
-        getAutomaticFranchisesTotalProfits()
-      }
-    }
-  }, [user])
 
   useEffect(() => {
     if (user.uid) {
@@ -178,14 +136,6 @@ const Rank = () => {
       setLoading(false)
 
       return { status: 'error', error }
-    }
-  }
-
-  const displayTopDollars = () => {
-    if (data && data.created_at) {
-      const userCreatedAt = data.created_at?.toDate()
-      const validTopDollarsDate = new Date('2023-12-05T00:00:00')
-      setIsTopDollarsDisplayed(userCreatedAt >= validTopDollarsDate)
     }
   }
 
@@ -322,7 +272,10 @@ const Rank = () => {
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
-              <span className="text-3xl">{rank?.mentor_percent * 100}</span> %
+              <span className="text-3xl">
+                {(rank?.mentor_percent || 0) * 100}
+              </span>{' '}
+              %
             </span>
           </div>
         </Card>
@@ -349,13 +302,7 @@ const Rank = () => {
           </div>
           <div className="grid grid-cols-[max-content_1fr] gap-x-4 pl-2 text-xl">
             <span className="font-bold text-right">
-              ${' '}
-              <span className="text-3xl">
-                {formatNumberWithCommas(
-                  totalAutomaticFranchisesProfits ?? 0,
-                  2
-                )}
-              </span>{' '}
+              $ <span className="text-3xl">{formatNumberWithCommas(0, 2)}</span>{' '}
               USD
             </span>
           </div>
@@ -463,17 +410,6 @@ const Rank = () => {
         </div>
       </Dialog>
     </>
-  )
-}
-
-const Card = ({ children, onClick }: any) => {
-  return (
-    <div
-      className="bg-slate-100 rounded-[10px] p-4 card-border cursor-pointer user-select-none hover:shadow-lg flex flex-col space-y-2"
-      onClick={onClick}
-    >
-      {children}
-    </div>
   )
 }
 

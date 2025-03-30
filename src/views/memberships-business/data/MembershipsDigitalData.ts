@@ -10,7 +10,7 @@ export interface MembershipsBusinessProps {
 export const MEMBERSHIPS_BUSINESS: MembershipsBusinessProps[] = [
   {
     name: 'FB79',
-    binary_points: Math.floor(79 / 2),
+    binary_points: 40,
     range_points: 79,
     image: '/img/memberships/FD79.png',
   },

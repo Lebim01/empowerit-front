@@ -45,16 +45,6 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
     type: NAV_ITEM_TYPE_COLLAPSE,
     authority: [],
     subMenu: [
-      /* {
-        key: 'subscriptions-manual',
-        path: `/subscriptions-manual`,
-        title: 'Franquicias Manuales',
-        translateKey: 'nav.subscriptions-manual',
-        icon: 'memberships',
-        type: NAV_ITEM_TYPE_ITEM,
-        authority: [],
-        subMenu: [],
-      }, */
       {
         key: 'subscriptions-automatic',
         path: `/subscriptions-automatic`,
@@ -136,28 +126,8 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         authority: ['USER'],
         subMenu: [],
       },
-      /* {
-        key: 'binary.active',
-        path: `/binary-active`,
-        title: 'Binario Activo',
-        translateKey: 'nav.order-list.binary-active',
-        icon: 'binary',
-        type: NAV_ITEM_TYPE_ITEM,
-        authority: ['USER'],
-        subMenu: [],
-      }, */
     ],
   },
-  /*{
-    key: 'sanguine-map',
-    path: `/report-sanguine-map`,
-    title: 'Mapa',
-    translateKey: 'nav.order-list',
-    icon: 'map',
-    type: NAV_ITEM_TYPE_ITEM,
-    authority: ['USER'],
-    subMenu: [],
-  },*/
   {
     key: 'rank',
     path: `/rank`,
@@ -374,7 +344,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         authority: ['ADMIN'],
         subMenu: [],
       },
-      {
+      /*{
         key: 'admin-payroll.7-levels',
         path: `/admin-payroll/7-levels`,
         title: '7 niveles',
@@ -383,7 +353,7 @@ const navigationConfig = (user: UserState): NavigationTree[] => [
         type: NAV_ITEM_TYPE_ITEM,
         authority: ['ADMIN'],
         subMenu: [],
-      },
+      },*/
       {
         key: 'admin-payroll.history-leaders',
         path: `/admin-payroll/history-leaders`,
