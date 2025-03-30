@@ -47,11 +47,11 @@ export default function FranchiseTravel({
     }
   }
   return (
-    <div className="flex flex-col rounded-md w-full p-4 space-y-4 transition-all duration-75 ring-gray-200 border">
+    <div className="flex flex-col rounded-md w-full space-y-4 transition-all duration-75 ring-gray-200 border">
       <div className="flex justify-center">
-        <img src={image} alt={image} className="max-h-[250px] max-w-[300px]" />
+        <img src={image} alt={image} className="w-full" />
       </div>
-      <div className="grid grid-cols-[min-content_1fr] w-max gap-x-4 ">
+      <div className="grid grid-cols-[min-content_1fr] w-max gap-x-4 p-4">
         <span className="text-left">Franquicia: </span>
         <span className="font-bold">{name}</span>
         <span className="text-left truncate">Puntos de Binario: </span>

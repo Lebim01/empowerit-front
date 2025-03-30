@@ -42,24 +42,26 @@ export default function FranchiseDigital({
     }
   }
   return (
-    <div className="flex flex-col rounded-md w-full p-4 space-y-4 transition-all duration-75 ring-gray-200 border">
-      <div className="flex justify-center flex-1">
-        <img src={image} alt={image} className="max-h-[250px] max-w-[300px]" />
+    <div className="flex flex-col rounded-md w-full space-y-4 transition-all duration-75 ring-gray-200 border">
+      <div className="flex justify-center">
+        <img src={image} alt={image} className="w-full object-contain" />
       </div>
-      <div className="grid grid-cols-[min-content_1fr] w-max gap-x-4 ">
-        <span className="text-left">Franquicia: </span>
-        <span className="font-bold">{name}</span>
-        <span className="text-left truncate">Puntos de Binario: </span>
-        <span className="font-bold">{binary_points} puntos</span>
-        <span className="text-left truncate">Puntos de Rango: </span>
-        <span className="font-bold">{range_points} puntos</span>
+      <div className='p-4'>
+        <div className="grid grid-cols-[min-content_1fr] w-max gap-x-4">
+          <span className="text-left">Franquicia: </span>
+          <span className="font-bold">{name}</span>
+          <span className="text-left truncate">Puntos de Binario: </span>
+          <span className="font-bold">{binary_points} puntos</span>
+          <span className="text-left truncate">Puntos de Rango: </span>
+          <span className="font-bold">{range_points} puntos</span>
+        </div>
+        <ShowQR
+          type={name}
+          loading={loading}
+          createPaymentLink={_createPaymentLink}
+          method={method}
+        />
       </div>
-      <ShowQR
-        type={name}
-        loading={loading}
-        createPaymentLink={_createPaymentLink}
-        method={method}
-      />
     </div>
   )
 }
