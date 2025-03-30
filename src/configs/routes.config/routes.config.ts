@@ -47,12 +47,6 @@ export const protectedRoutes = [
   },
   // Membership
   {
-    key: 'subscriptions-manual',
-    path: '/subscriptions-manual',
-    component: lazy(() => import('@/views/memberships')),
-    authority: ['USER', 'STARTER'],
-  },
-  {
     key: 'subscriptions-automatic',
     path: '/subscriptions-automatic',
     component: lazy(() => import('@/views/memberships-automatic')),
