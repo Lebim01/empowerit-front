@@ -231,7 +231,7 @@ const Rank = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-        <Card onClick={() => openDetails('bond_quick_start', 'bond_founder')}>
+        <Card onClick={() => openDetails('bond_direct_sale', 'bond_founder')}>
           <div className="flex space-x-2 items-center">
             <div className="rounded-full h-[40px] w-[40px] p-2 flex items-center justify-center bg-gray-300">
               <FaRegMoneyBill1 size={30} className="text-yellow-600" />
@@ -242,7 +242,7 @@ const Rank = () => {
             <span className="font-bold text-right">
               ${' '}
               <span className="text-3xl">
-                {(data?.bond_quick_start ?? 0) + (data?.bond_founder ?? 0)}
+                {(data?.bond_direct_sale ?? 0) + (data?.bond_founder ?? 0)}
               </span>{' '}
               USD
             </span>

@@ -122,7 +122,7 @@ const AdminPayroll = () => {
                   {formatNumberWithCommas(
                     users.reduce(
                       (a, b) =>
-                        a + (b?.bond_quick_start || 0) + (b?.bond_founder || 0),
+                        a + (b?.bond_direct_sale || 0) + (b?.bond_founder || 0),
                       0
                     ),
                     2
@@ -209,7 +209,7 @@ const AdminPayroll = () => {
                     <Td>{user.name}</Td>
                     <Td>
                       {formatNumberWithCommas(
-                        (user?.bond_quick_start || 0) +
+                        (user?.bond_direct_sale || 0) +
                           (user?.bond_founder || 0),
                         2
                       )}{' '}

@@ -116,7 +116,7 @@ const AdminPayroll = () => {
                   {payroll?.btc_amount || 0} BTC
                 </Td>
                 <Td className="whitespace-nowrap">
-                  {payroll?.bond_quick_start} USD
+                  {payroll?.bond_direct_sale} USD
                 </Td>
                 <Td className="whitespace-nowrap">
                   {payroll?.bond_binary} USD

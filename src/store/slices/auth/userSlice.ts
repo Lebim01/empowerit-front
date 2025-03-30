@@ -67,7 +67,7 @@ export type UserState = {
   colony: string
 
   bond_presenter: number
-  bond_quick_start: number
+  bond_direct_sale: number
   presenter_code: string
   openpay_link?: string
 
@@ -111,7 +111,7 @@ const initialState: UserState = {
   is_pending_complete_personal_info: true,
   customToken: '',
   bond_presenter: 0,
-  bond_quick_start: 0,
+  bond_direct_sale: 0,
   presenter_code: '',
   street: '',
   num_ext: '',
@@ -242,7 +242,7 @@ const userSlice = createSlice({
         state.membership_cap_current = payload.membership_cap_current
         state.membership_cap_limit = payload.membership_cap_limit
 
-        state.bond_quick_start = payload.bond_quick_start
+        state.bond_direct_sale = payload.bond_direct_sale
         state.bond_presenter = payload.bond_presenter
         state.algorithmId = payload.algorithmId
         state.openpay_link = payload.openpay_link

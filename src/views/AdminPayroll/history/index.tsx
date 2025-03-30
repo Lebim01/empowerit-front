@@ -117,7 +117,7 @@ const AdminPayroll = () => {
                       <Td>{detail?.crypto_amount}</Td>
                       <Td>
                         {formatNumberWithCommas(
-                          detail?.bond_quick_start + detail?.bond_founder,
+                          detail?.bond_direct_sale + detail?.bond_founder,
                           2
                         )}{' '}
                         USD
