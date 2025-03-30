@@ -46,10 +46,10 @@ export default function FranchiseDigital({
       <div className="flex justify-center">
         <img src={image} alt={image} className="w-full object-contain" />
       </div>
-      <div className='p-4'>
+      <div className='p-4 flex flex-col gap-4'>
         <div className="grid grid-cols-[min-content_1fr] w-max gap-x-4">
-          <span className="text-left">Franquicia: </span>
-          <span className="font-bold">{name}</span>
+          {/*<span className="text-left">Franquicia: </span>
+          <span className="font-bold">{name}</span>*/}
           <span className="text-left truncate">Puntos de Binario: </span>
           <span className="font-bold">{binary_points} puntos</span>
           <span className="text-left truncate">Puntos de Rango: </span>

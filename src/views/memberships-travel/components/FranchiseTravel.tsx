@@ -52,8 +52,8 @@ export default function FranchiseTravel({
         <img src={image} alt={image} className="w-full" />
       </div>
       <div className="grid grid-cols-[min-content_1fr] w-max gap-x-4 p-4">
-        <span className="text-left">Franquicia: </span>
-        <span className="font-bold">{name}</span>
+        {/*<span className="text-left">Franquicia: </span>
+        <span className="font-bold">{name}</span>*/}
         <span className="text-left truncate">Puntos de Binario: </span>
         <span className="font-bold">{binary_points} puntos</span>
         <span className="text-left truncate">Puntos de Rango: </span>
